@@ -1,23 +1,19 @@
-FROM node
+FROM node:boron
 
 ENV NPM_CONFIG_LOGLEVEL warn
 ARG app_env
 ENV APP_ENV $app_env
 
-RUN mkdir -p /frontend
-WORKDIR /frontend
-COPY ./frontend ./
-
+RUN mkdir -p /reactApp
+WORKDIR /reactApp
 RUN npm install
 
 CMD if [ ${APP_ENV} = production ]; \
 	then \
-	npm install -g http-server && \
-	npm run build && \
-	cd build && \
-	hs -p 3000; \
+	npm run build; \
 	else \
 	npm run start; \
 	fi
 
+COPY  . ./reactApp
 EXPOSE 3000
