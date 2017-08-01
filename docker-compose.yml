@@ -1,8 +1,16 @@
 version: "3"
 services:
+
   web:
-    build: .
+    build: ./webserver
     volumes:
-      - .:/web/app
+      - ./webserver:/myserver
     ports:
       - "8080:8080"
+
+  frontend:
+    build: ./front
+    volumes:
+      - ./front:/reactApp
+    ports:
+      - "3000:3000"
