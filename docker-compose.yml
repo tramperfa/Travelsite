@@ -1,16 +1,20 @@
 version: "3"
 services:
-
-  web:
+  webserver:
     build: ./webserver
     volumes:
       - ./webserver:/myserver
     ports:
       - "8080:8080"
-
   frontend:
     build: ./front
     volumes:
       - ./front:/reactApp
     ports:
       - "3000:3000"
+    links:
+      - mongodb
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
