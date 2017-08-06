@@ -1,9 +1,15 @@
 FROM node:boron
+ENV NPM_CONFIG_LOGLEVEL warn
 
 RUN mkdir /myserver
+
 WORKDIR /myserver
-COPY package.json /myserver
+
+
+COPY package.json ./
+COPY ./src  ./
+
 RUN npm install
-COPY . /myserver
+
 EXPOSE 8080
 CMD ["npm", "start"]

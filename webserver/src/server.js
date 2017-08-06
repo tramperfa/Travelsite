@@ -10,7 +10,7 @@ MongoClient.connect('mongodb://mongodb:27017', function (err, db) {
 
 
 app.get('/', function(req, res){
-  res.send("Hello Boyang, Start Coding Now !");
+  res.send("Hello Li and Boyang, Start Coding Now !");
 });
 
 app.listen(8080, function(){

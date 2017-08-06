@@ -3,13 +3,14 @@ services:
   webserver:
     build: ./webserver
     volumes:
-      - ./webserver:/myserver
+      - ./webserver/src:/myserver/src
     ports:
       - "8080:8080"
   frontend:
     build: ./front
     volumes:
-      - ./front:/reactApp
+      - ./front/src:/reactApp/src
+      - ./front/public:/reactApp/public
     ports:
       - "3000:3000"
     links:

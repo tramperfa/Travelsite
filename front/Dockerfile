@@ -8,16 +8,19 @@ ENV APP_ENV $app_env
 RUN mkdir /reactApp
 WORKDIR /reactApp
 
-COPY package.json /reactApp
+
+COPY package.json ./
+COPY ./src  ./
+COPY ./public  ./
 
 RUN npm install
-COPY . /reactApp
+
 
 CMD if [ ${APP_ENV} = production ]; \
 	then \
-	npm run build; \
+ 	npm run build; \
 	else \
-	npm run start; \
+ 	npm run start; \
 	fi
 
 
