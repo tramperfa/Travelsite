@@ -1,19 +1,54 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Homepage from './components/Homepage';
+import NotFound from './components/NotFound';
+import Editor from './components/Editor';
+import StoryReader from './components/StoryReader';
+
+import {
+  ApolloClient,
+  ApolloProvider,
+  createNetworkInterface,
+} from 'react-apollo';
+
+import {
+  BrowserRouter,
+  Link,
+  Route,
+  Switch,
+} from 'react-router-dom';
+
+
+// Create GraphQL client to setup Connection with GraphQL server
+const networkInterface = createNetworkInterface({ uri: 'http://webserver:4000/graphql' });
+// networkInterface.use([{
+//   applyMiddleware(req, next) {
+//     setTimeout(next, 500);
+//   },
+// }]);
+
+const client = new ApolloClient({
+  networkInterface,
+});
+
+
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome Boyang & Li, Start Coding!</h2>
+    <ApolloProvider client={client}>
+      <BrowserRouter>
+        <div className="App">
+          <Link to="/" className="navbar">Travel Site Building Underway</Link>
+          <Switch>
+            <Route exact path="/" component={Homepage}/>
+            <Route path="/editor" component={Editor}/>
+            <Route path="/story/:storyID" component={StoryReader}/>
+            <Route component={ NotFound }/>
+          </Switch>
         </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
+      </BrowserRouter>
+    </ApolloProvider>
     );
   }
 }

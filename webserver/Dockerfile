@@ -7,6 +7,7 @@ WORKDIR /myserver
 
 
 COPY package.json ./
+COPY .babelrc ./
 COPY ./src  ./
 
 RUN npm install

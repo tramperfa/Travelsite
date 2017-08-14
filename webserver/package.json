@@ -4,14 +4,23 @@
   "description": "express server with GraphQL",
   "main": "server.js",
   "private": true,
+  "devDependencies": {
+    "babel-cli": "^6.24.0",
+    "babel-preset-es2015": "^6.24.0",
+    "babel-preset-stage-0": "^6.22.0",
+    "nodemon": "^1.11.0"
+  },
   "dependencies": {
     "express": "^4.15.3",
     "flow-bin": "^0.52.0",
     "mongodb": "^2.2.30",
-    "nodemon": "^1.11.0"
+    "body-parser": "^1.17.1",
+    "graphql": "^0.10.5",
+    "graphql-server-express": "^1.1.0",
+    "graphql-tools": "^1.1.0"
   },
   "scripts": {
-    "start": "nodemon src/server.js",
+    "start": "nodemon src/server.js --exec babel-node -e js",
     "flow": "flow"
   }
 }

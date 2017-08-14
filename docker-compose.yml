@@ -1,20 +1,26 @@
 version: "3"
 services:
-  webserver:
-    build: ./webserver
-    volumes:
-      - ./webserver/src:/myserver/src
-    ports:
-      - "8080:8080"
   frontend:
     build: ./front
     volumes:
       - ./front/src:/reactApp/src
       - ./front/public:/reactApp/public
+      - ./front/package.json:/reactApp/package.json
     ports:
       - "3000:3000"
     links:
+      - webserver
+
+  webserver:
+    build: ./webserver
+    volumes:
+      - ./webserver/src:/myserver/src
+      - ./webserver/package.json:/myserver/package.json
+    ports:
+      - "8080:8080"
+    links:
       - mongodb
+
   mongodb:
     image: mongo:latest
     ports:

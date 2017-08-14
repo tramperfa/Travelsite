@@ -1,5 +1,12 @@
+import {
+  makeExecutableSchema,
+  addMockFunctionsToSchema,
+} from 'graphql-tools';
+
+import { resolvers } from './resolvers';
 
 export const typeDefs = `
+
 scalar Url
 scalar Content
 scalar Date
@@ -40,4 +47,8 @@ type Query {
 type Mutation {
   addStory(storyName: String!): Story
 }
+
 `;
+
+const schema = makeExecutableSchema({ typeDefs, resolvers });
+export { schema };
