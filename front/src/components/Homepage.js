@@ -47,6 +47,7 @@ export const storiesListQuery = gql`
       viewCount
       replyCout
       likeCount
+      
     }
   }
 `;

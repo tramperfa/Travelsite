@@ -5,10 +5,11 @@ import {
 
 import { resolvers } from './resolvers';
 
-export const typeDefs = `
 
+
+export const typeDefs = `
+scalar JSON
 scalar Url
-scalar Content
 scalar Date
 
 type Story{
@@ -25,7 +26,7 @@ type Story{
   viewCount: Int
   replyCout: Int
   likeCount: Int
-  content: Content
+  content: JSON
 }
 
 
@@ -50,5 +51,7 @@ type Mutation {
 
 `;
 
-const schema = makeExecutableSchema({ typeDefs, resolvers });
+
+
+const schema = makeExecutableSchema({ typeDefs, resolvers});
 export { schema };

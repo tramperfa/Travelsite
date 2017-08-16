@@ -13,8 +13,7 @@ const PORT = 8080;
 const server = express();
 const MongoClient = mongodb.MongoClient;
 
- server.use('*', cors({ origin: 'http://localhost:3000' }));
-
+server.use('*', cors({ origin: 'http://localhost:3000' }));
 
 server.use('/graphql', bodyParser.json(), graphqlExpress({
   schema
@@ -29,10 +28,10 @@ server.get('/', function (req, res) {
 })
 
 
-
-server.listen(PORT, () =>
+server.listen(PORT, () => {
   console.log(`GraphQL Server is now running on http://localhost:${PORT}`)
-);
+  console.log(`GraphiQL UI is now up on http://localhost:${PORT}/graphiql`)
+});
 
 
 
