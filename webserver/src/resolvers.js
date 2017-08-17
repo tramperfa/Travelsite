@@ -1,4 +1,7 @@
 import GraphQLJSON from 'graphql-type-json';
+import mongoose from 'mongoose';
+const Schema = mongoose.Schema,
+      ObjectId = Schema.ObjectId;
 
 
 const Content = {
@@ -90,3 +93,38 @@ export const resolvers = {
   },
   JSON: GraphQLJSON
 };
+
+
+mongoose.connect('mongodb://mongodb:27017/my_database', { config: { autoIndex: false } });
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'Mongoose connection error:'));
+db.once('open', function() {
+  // we're connected!
+  console.log('Mongoose connected to MongoDB!');
+});
+
+
+var storySchema = new Schema({
+  ID: {
+    type: ObjectId,
+    required: true,
+    index: {
+      unique: true
+    }
+  },
+  name: { type: String, required: true},
+  snapshotContent: String,
+  content: JSON,
+  author: String,
+  authorID: { type: ObjectId, index: true } ,
+  body:   String,
+  date: Date,
+  hidden: Boolean,
+  viewCount: Number
+});
+
+var Story = mongoose.model('Story', storySchema);
+
+var storyA = new Story ({
+  
+});

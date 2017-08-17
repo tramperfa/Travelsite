@@ -20,12 +20,13 @@ type Story{
   authorID: ID
   authorName: String
   authorAvatar(size: PhotoSize): Url
-  publishTime: Date
+  date: Date
   destinationID: ID
   destinationName: String
   viewCount: Int
   replyCout: Int
   likeCount: Int
+  hidden: Boolean
   content: JSON
 }
 
