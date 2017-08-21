@@ -12,22 +12,35 @@ scalar JSON
 scalar Url
 scalar Date
 
-type Story{
-  storyID: ID!
-  storyName: String!
+
+
+type User {
+  _id: ID!
+  name: String
+  avatar(size: PhotoSize): Url
+}
+
+input UserInput {
+  name: String
+}
+
+type POI {
+  _id: ID!
+  name: String
+}
+
+type Story {
+  _id: ID!
+  title: String!
   snapshotContent: String
-  coverPhoto(size: PhotoSize): Url
-  authorID: ID
-  authorName: String
-  authorAvatar(size: PhotoSize): Url
-  date: Date
-  destinationID: ID
-  destinationName: String
-  viewCount: Int
-  replyCout: Int
-  likeCount: Int
-  hidden: Boolean
   content: JSON
+  coverPhoto(size: PhotoSize): Url
+  user: User
+  lastUpdate: Date
+  viewCount: Int
+  likeCount: Int
+  commentCount: Int
+  hidden: Boolean
 }
 
 
@@ -41,18 +54,18 @@ enum PhotoSize {
 }
 
 type Query {
-  story(storyID: ID!): Story
+  story(_id: ID!): Story
   stories: [Story]
   #storyList(type: $type, offset: $offset, limit: Int = 10) [Story]
 }
 
 type Mutation {
-  addStory(storyName: String!): Story
+  createStory(user_id: String): Story
 }
 
 `;
 
-
+//  createStory(user: UserInput): Story
 
 const schema = makeExecutableSchema({ typeDefs, resolvers});
 export { schema };

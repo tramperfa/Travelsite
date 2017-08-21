@@ -1,9 +1,16 @@
 import GraphQLJSON from 'graphql-type-json';
 import mongoose from 'mongoose';
-const Schema = mongoose.Schema,
-      ObjectId = Schema.ObjectId;
+import Story from './models/story.js'
+mongoose.connect('mongodb://mongodb:27017/my_database', { useMongoClient: true, config: { autoIndex: false } });
+mongoose.Promise = global.Promise; // USE ES6 native promises, since Mongoose promise is depreciated.
 
 
+// var db = mongoose.connection;
+// db.on('error', console.error.bind(console, 'Mongoose connection error:'));
+// db.once('open', function() {
+//   // we're connected!
+//   console.log('Mongoose connected to MongoDB!');
+// });
 const Content = {
   "entityMap": {},
   "blocks": [
@@ -24,107 +31,70 @@ const Content = {
       "inlineStyleRanges": [],
       "entityRanges": [],
       "data": {}
-    },
-    {
-      "key": "8571o",
-      "text": "fhaihug",
-      "type": "unstyled",
-      "depth": 0,
-      "inlineStyleRanges": [],
-      "entityRanges": [],
-      "data": {}
-    },
-    {
-      "key": "95rai",
-      "text": "",
-      "type": "unstyled",
-      "depth": 0,
-      "inlineStyleRanges": [],
-      "entityRanges": [],
-      "data": {}
     }
   ]
 };
-
-
-const stories = [{
-  storyID: '1',
-  storyName: 'My Trip in Austin I',
+const localStoryList = [{
+  _id: '1',
+  title: 'My Trip in Austin I',
   snapshotContent: 'This is the snapshot of the test story a. The use case is to display the beginning text of the story',
   authorID: 'test-user-a',
   authorName: 'Test A',
   destinationID: 'test-dest-a',
   destinationName: 'Test city A',
   viewCount: 3,
-  replyCout: 1,
   likeCount: 2,
   content: Content
   },{
-  storyID: '2',
-  storyName: 'My Trip in Austin II',
+  _id: '2',
+  title: 'My Trip in Austin II',
   snapshotContent: 'This is the snapshot of the test story B. The use case is to display the beginning text of the story',
   authorID: 'test-user-a',
   authorName: 'Test A',
   destinationID: 'test-dest-a',
   destinationName: 'Test city A',
   viewCount: 2,
-  replyCout: 0,
   likeCount: 1,
   content: Content
 }];
 
-let nextId = 3;
+
+
 
 export const resolvers = {
   Query: {
-    story: (root, { storyID }) => {
-      return stories.find(story => story.storyID === storyID);
+    story: (root, { _id }) => {
+      return new Promise((resolve, reject) => {
+        Story.findOne({ _id: _id }).exec((err, res) => {
+          err ? reject(err) : resolve(res);
+        })
+      });
+      //stories.find(story => story._id === _id);
     },
-    stories: () => {
-      return stories;
+    stories: (root, options) => {
+      //return localStoryList  // LOCAL version
+
+      // Second version: local DB function call
+      // return new Promise((resolve, reject) => {
+      //   Story.find({}).exec((err, res) => {
+      //     err ? reject(err) : resolve(res);
+      //   })
+      // });
+
+      return Story.list(options)
     },
   },
   Mutation: {
-    addStory: (root, args) => {
-      const newStory = { storyID: String(nextId++), storyName: args.storyName, snapshotContent: args.snapshotContent};
-      stories.push(newStory);
-      return newStory;
+    createStory: (root, args) => {
+      const newStory = new Story({
+        title: "Unnamed Draft",
+        user: args.user_id
+      });
+      newStory.save(function (err, newStory) {
+        if (err) return console.error(err);
+        return newStory
+      });
     },
   },
   JSON: GraphQLJSON
 };
-
-
-mongoose.connect('mongodb://mongodb:27017/my_database', { config: { autoIndex: false } });
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'Mongoose connection error:'));
-db.once('open', function() {
-  // we're connected!
-  console.log('Mongoose connected to MongoDB!');
-});
-
-
-var storySchema = new Schema({
-  ID: {
-    type: ObjectId,
-    required: true,
-    index: {
-      unique: true
-    }
-  },
-  name: { type: String, required: true},
-  snapshotContent: String,
-  content: JSON,
-  author: String,
-  authorID: { type: ObjectId, index: true } ,
-  body:   String,
-  date: Date,
-  hidden: Boolean,
-  viewCount: Number
-});
-
-var Story = mongoose.model('Story', storySchema);
-
-var storyA = new Story ({
-  
-});

@@ -21,7 +21,7 @@ const StoryDetails = ({ data: {loading, error, story }, match }) => {
   return (
     <div>
       <div className="channelName">
-        {story.storyName}
+        {story.title}
         {story.snapshotContent}
         {story.likeCount + "Likes"}, {story.viewCount + "Views"}
       </div>
@@ -29,24 +29,21 @@ const StoryDetails = ({ data: {loading, error, story }, match }) => {
 }
 
 export const StoryDetailQuery = gql`
-  query StoryDetailsQuery($storyID : ID!) {
-    story(storyID: $storyID) {
-      storyID
-      storyName
+  query StoryDetailsQuery($_id : ID!) {
+    story(_id: $_id) {
+      _id
+      title
       snapshotContent
-      authorID
-      authorName
-      destinationID
-      destinationName
       viewCount
-      replyCout
+      commentCount
       likeCount
+      content
     }
   }
 `;
 
 export default (graphql(StoryDetailQuery, {
   options: (props) => ({
-    variables: { storyID: props.match.params.storyID },
+    variables: { _id: props.match.params._id },
   }),
 })(StoryDetails));

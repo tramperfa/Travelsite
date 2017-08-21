@@ -46,7 +46,7 @@ class App extends Component {
           <Switch>
             <Route exact path="/" component={Homepage}/>
             <Route path="/editor" component={Editor}/>
-            <Route path="/story/:storyID" component={StoryReader}/>
+            <Route path="/story/:_id" component={StoryReader}/>
             <Route component={ NotFound }/>
           </Switch>
         </div>

@@ -12,6 +12,7 @@ import Editor from './Editor';
 
 
 const storiesList = ({ data: {loading, error, stories }}) => {
+  console.log(stories);
   if (loading) {
     return <p>Loading ...</p>;
   }
@@ -23,9 +24,10 @@ const storiesList = ({ data: {loading, error, stories }}) => {
     <div className="storiesList">
       <Editor />
       { stories.map( story =>
-        (<div key={story.storyID} className={'story ' + (story.storyID < 0 ? 'optimistic' : '')}>
-          <Link to={story.storyID < 0 ? `/` : `story/${story.storyID}`}>
-            {story.storyName}
+        (<div key={story._id} className={'story ' + (story._id < 0 ? 'optimistic' : '')}>
+          <Link to={story._id < 0 ? `/` : `story/${story._id}`}>
+            {story.title}
+            {story._id}
             {story.snapshotContent}
           </Link>
         </div>)
@@ -37,17 +39,12 @@ const storiesList = ({ data: {loading, error, stories }}) => {
 export const storiesListQuery = gql`
   query poularStoryQuery {
     stories {
-      storyID
-      storyName
+      _id
+      title
       snapshotContent
-      authorID
-      authorName
-      destinationID
-      destinationName
       viewCount
-      replyCout
       likeCount
-      
+      commentCount
     }
   }
 `;
