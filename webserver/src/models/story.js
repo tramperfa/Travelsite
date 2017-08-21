@@ -79,12 +79,21 @@ imager.upload(images, function (err, cdnUri, files) {
 }, 'Story');
 */
 
+  createDraft: function() {
+    return new Promise((resolve, reject) => {
+      this.save((err, res) => {
+        err ? reject(err): resolve(res)
+      });
+    });
+  },
+
   updateDraft: function () {
     if (!this.adminDelete) {
       return this.save();
     }
   },
 
+  // Additional Authitacition than updateDraft
   modifyStory: function () {
     if (!this.adminDelete) {
       return this.save();
@@ -171,10 +180,14 @@ StorySchema.statics = {
    */
 
   load: function (_id) {
-    return this.findOne({ _id })
-      .populate('user')
-      .populate('comments')
-      .exec();
+    return new Promise((resolve, reject) => {
+      this.findOne({ _id: _id })
+           //.populate('user')
+           .populate('comments')
+           .exec((err, res) => {
+              err ? reject(err) : resolve(res)
+           })
+    });
   },
 
   /**
@@ -187,7 +200,7 @@ StorySchema.statics = {
   list: function (options) {
     const criteria = options.criteria || {};
     const page = options.page || 0;
-    const limit = options.limit || 10;
+    const limit = options.limit || 30;
     return new Promise((resolve, reject) => {
       this.find(criteria)
     //  .populate('user')  // User model hasn't been defined in Mongoose
@@ -195,11 +208,11 @@ StorySchema.statics = {
       .limit(limit)
       .skip(limit * page)
       .exec((err, res)  => {
-          err ? reject(err) : resolve(res);
+          err ? reject(err) : resolve(res)
       })
     });
   },
 }
 
-var Story = mongoose.model('Story', StorySchema);
-module.exports = Story;
+var Story = mongoose.model('Story', StorySchema)
+module.exports = Story

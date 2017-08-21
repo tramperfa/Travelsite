@@ -35,7 +35,7 @@ type Story {
   snapshotContent: String
   content: JSON
   coverPhoto(size: PhotoSize): Url
-  user: User
+  user_id: ID
   lastUpdate: Date
   viewCount: Int
   likeCount: Int
@@ -60,7 +60,7 @@ type Query {
 }
 
 type Mutation {
-  createStory(user_id: String): Story
+  createDraft(user_id: ID!): Story
 }
 
 `;

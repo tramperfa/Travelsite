@@ -34,14 +34,3 @@ server.listen(PORT, () => {
   console.log(`GraphQL Server is now running on http://localhost:${PORT}`)
   console.log(`GraphiQL UI is now up on http://localhost:${PORT}/graphiql`)
 });
-
-
-
-
-// Talk to Mongo
-//import mongodb from 'mongodb';
-//const MongoClient = mongodb.MongoClient;
-// MongoClient.connect('mongodb://mongodb:27017', function (err, db) {
-//   if (err) throw err
-//   console.log('Connected to MongoDB at port 27017!');
-// });
