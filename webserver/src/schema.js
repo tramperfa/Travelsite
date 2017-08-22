@@ -1,3 +1,4 @@
+
 import {
   makeExecutableSchema,
   addMockFunctionsToSchema,
@@ -20,13 +21,18 @@ type User {
   avatar(size: PhotoSize): Url
 }
 
-input UserInput {
-  name: String
-}
-
 type POI {
   _id: ID!
   name: String
+}
+
+type Image {
+  _id: ID!
+  size: PhotoSize
+}
+
+type Commnet {
+  text: String
 }
 
 type Story {
@@ -34,8 +40,8 @@ type Story {
   title: String!
   snapshotContent: String
   content: JSON
-  coverPhoto(size: PhotoSize): Url
-  user_id: ID
+  cover: Image
+  user: ID
   lastUpdate: Date
   viewCount: Int
   likeCount: Int
@@ -59,13 +65,35 @@ type Query {
   #storyList(type: $type, offset: $offset, limit: Int = 10) [Story]
 }
 
+
+
 type Mutation {
-  createDraft(user_id: ID!): Story
+  createDraft(input: createDraftInput!): Story
+  updateTitle(input: updateTitleInput!): Story
+
+}
+
+input createDraftInput {
+  user_id: ID!
+}
+
+input updateTitleInput {
+  storyID: ID!
+  newTitle: String!
 }
 
 `;
 
-//  createStory(user: UserInput): Story
+
+
+// updateCover(input: updateCoverInput!): updateCoverPayload
+// updateContent(input: updateContentInput!): updateContentPayload
+// publishStory(input: publishStoryInput!): publishStoryPayload
+// addComment(input: addCommentInput!): addCommentPayload
+// removeComment(input: removeCommentInput!): removeCommentPayload
+// toggleLike(input: toggleLikeInput!): toggleLikePayload
+// uploadImage(input: uploadImageInput!): uploadImagePayload
+
 
 const schema = makeExecutableSchema({ typeDefs, resolvers});
 export { schema };

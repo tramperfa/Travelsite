@@ -40,6 +40,7 @@ export const storiesListQuery = gql`
   query poularStoryQuery {
     stories {
       _id
+      user
       title
       snapshotContent
       viewCount

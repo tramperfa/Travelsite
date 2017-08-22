@@ -68,7 +68,7 @@ export const resolvers = {
     createDraft: (root, args) => {
       var newStory = new Story({
         title: "Unnamed Draft new",
-        user: args.user_id
+        user: args.input.user_id
       });
       return newStory.createDraft()
     },

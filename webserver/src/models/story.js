@@ -9,7 +9,6 @@ var StorySchema = new Schema({
   //_id
   title: { type: String, trim : true },
   snapshotContent: { type : String, default : '', trim : true },
-  // TBD initial content
   content: { type : JSON },
   user: { type: ObjectId, index: true, ref : 'User' },
   poi: { type: ObjectId, index: true, ref : 'User' },
