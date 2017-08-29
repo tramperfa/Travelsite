@@ -20,7 +20,12 @@ import {
 
 
 // Create GraphQL client to setup Connection with GraphQL server
-const networkInterface = createNetworkInterface({ uri: 'http://localhost:8080/graphql' });
+const networkInterface = createNetworkInterface({
+  uri: 'http://localhost:8080/graphql',
+  opts: {
+  credentials: 'same-origin',
+  }, 
+});
 
 networkInterface.use([{
   applyMiddleware(req, next) {

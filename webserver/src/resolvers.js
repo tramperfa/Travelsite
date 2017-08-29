@@ -1,9 +1,9 @@
 import GraphQLJSON from 'graphql-type-json';
-import mongoose from 'mongoose';
 import Story from './models/story.js'
-mongoose.connect('mongodb://mongodb:27017/my_database', { useMongoClient: true, config: { autoIndex: false } });
-mongoose.Promise = global.Promise; // USE ES6 native promises, since Mongoose promise is depreciated.
+import User from './models/user.js'
 
+//mongoose.connect('mongodb://mongodb:27017/my_database', { useMongoClient: true, config: { autoIndex: false } });
+//mongoose.Promise = global.Promise; // USE ES6 native promises, since Mongoose promise is depreciated.
 
 // const Content = {
 //   "entityMap": {},

@@ -24,7 +24,7 @@ const storiesList = ({ data: {loading, error, stories }}) => {
     <div className="storiesList">
       <Editor />
       { stories.map( story =>
-        (<div key={story._id} className={'story ' + (story._id < 0 ? 'optimistic' : '')}>
+        (<div key={story._id} className='story'>
           <Link to={story._id < 0 ? `/` : `story/${story._id}`}>
             {story.title}
             {story._id}
@@ -42,6 +42,7 @@ export const storiesListQuery = gql`
       _id
       user
       title
+    
       snapshotContent
       viewCount
       likeCount

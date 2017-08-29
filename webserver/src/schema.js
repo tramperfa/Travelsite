@@ -23,6 +23,7 @@ type User {
 
 type POI {
   _id: ID!
+  catergory: String
   name: String
 }
 
@@ -42,7 +43,7 @@ type Story {
   content: JSON
   cover: Image
   user: ID
-  lastUpdate: Date
+  lastUpdate: String
   viewCount: Int
   likeCount: Int
   commentCount: Int

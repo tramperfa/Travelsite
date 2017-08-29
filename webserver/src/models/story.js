@@ -10,7 +10,7 @@ var StorySchema = new Schema({
   title: { type: String, trim : true },
   snapshotContent: { type : String, default : '', trim : true },
   content: { type : JSON },
-  user: { type: ObjectId, index: true, ref : 'User' },
+  author: { type: ObjectId, index: true, ref : 'User' },
   poi: { type: ObjectId, index: true, ref : 'User' },
   image: [{
       cdnUri: { type : String },
@@ -23,10 +23,13 @@ var StorySchema = new Schema({
   hidden: { type : Boolean, default : true },
   viewCount: { type : Number, default : 0 },
   likeCount: { type : Number, default : 0 },
+  likersToday: [{
+    liker: { type : Schema.ObjectId, ref : 'User' },
+  }], // user can only like a story once a day
   commentCount: { type : Number, default : 0 },
   comments: [{
-    body: { type : String, default : '' },
-    user: { type : Schema.ObjectId, ref : 'User' },
+    body: { type : JSON },
+    author: { type : Schema.ObjectId, ref : 'User' },
     createdAt: { type : Date, default : Date.now }
   }]
 });
