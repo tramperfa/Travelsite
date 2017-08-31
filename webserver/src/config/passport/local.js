@@ -7,7 +7,6 @@ import User from '../../models/user.js'
 import passport from 'passport';
 const LocalStrategy = require('passport-local').Strategy;
 
-
 /**
  * Expose
  */

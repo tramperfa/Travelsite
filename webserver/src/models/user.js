@@ -68,19 +68,11 @@ const UserSchema = new Schema({
 		facebook: { type: String, unique: true, sparse: true },
 		google: { type: String, unique: true, sparse: true }
 	},
-	roles: {
-		type: [
-			{
-				type: String,
-				"enum": [
-					C.ROLE_ADMIN,
-					C.ROLE_USER,
-					C.ROLE_GUEST
-				]
-			}
-		],
-		"default": [C.ROLE_USER]
+  role: {
+		type: String,
+		"default": 'user'
 	},
+  
 	resetPasswordToken: String,
 	resetPasswordExpires: Date,
 

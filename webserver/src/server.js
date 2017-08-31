@@ -12,12 +12,13 @@ import {
   graphiqlExpress,
 } from 'graphql-server-express';
 
+import { schema } from './schema';
+
 let db          = require('./mongo.js')();
 let config 			= require('./config');
-let schema      = require('./schema');
+
 
 const app = express();
-
 
 /**
  * Initialize middlewares
@@ -28,31 +29,35 @@ const app = express();
    credentials: true
  }));
 
+ app.use(bodyParser.json());
  app.use(bodyParser.urlencoded({
  		extended: true,
  		limit: config.contentMaxLength * 2
  	}));
 
- app.use(bodyParser.json());
- app.use(cookieParser());
- app.use(cookieSession({ secret: 'ufoufo' }));
+ app.use(cookieParser(config.sessions.secret));
+
 
 
  /**
-  * Initialize session (mongo-store)
+  * Initialize session with MongoDB session store
   */
-app.use(session({
-  resave: false,
+var sessionStore = new mongoStore({
+  url: config.sessions.uri,
+  collection: config.sessions.collection,
+  autoReconnect: true
+});
+
+var sessionOpts = {
   saveUninitialized: true,
+  resave: false,
   secret: config.sessions.secret,
-  store: new mongoStore({
-    url: 'mongodb://mongodb:27017/my_database',
-    collection: config.sessions.collection,
-    autoReconnect: true
-  }),
+  store: sessionStore,
   cookie: config.sessions.cookie,
   name: config.sessions.name
-}));
+}
+
+app.use(session(sessionOpts));
 
 
 /**
@@ -62,14 +67,42 @@ app.use(session({
 require('./auth/passport')(app);
 
 
+/**
+ * Load Routes
+ * @param {any} app
+ */
+
 // To be replaced with routes loading
+
 app.get('/', function (req, res) {
   res.send('Hello Boyang!')
 })
 
-app.use('/graphql', bodyParser.json(), graphqlExpress({
-  schema
+app.use("/graphql", graphqlExpress( (req) => {
+  const query = req.query.query || req.body.query;
+  if (query && query.length > 2000) {
+    // None of our app's queries are this long
+    // Probably indicates someone trying to send an overly expensive query
+    throw new Error("Query too large.");
+  }
+  // logger.debug("GraphQL request:", query);
+
+  return {
+    schema: schema,
+    context: { session: req.session.passport },
+    formatError(e) {
+      return {
+        status: e.originalError ? e.originalError.status : 400,
+        type: e.originalError ? e.originalError.type : null,
+        message: e.message,
+        locations: e.locations,
+        path: e.path
+      };
+    }
+  };
+
 }));
+
 app.use('/graphiql', graphiqlExpress({
   endpointURL: '/graphql'
 }));

@@ -12,32 +12,30 @@ import facebook from './passport/facebook';
 import passport from 'passport';
 
 module.exports = function(app) {
-  // use passport session
-  app.use(passport.initialize());
-  app.use(passport.session());
+
 
   passport.serializeUser(function(user, done) {
-    return done(null, user.id);
-  });
-
-  passport.deserializeUser(function(id, done) {
-  User.findOne({
-    _id: id
-  }, "-password", function(err, user) {
-    if (err)
-      return done(err);
-
     // Check that the user is not disabled or deleted
     if (user.status !== 1)
-      return done(null, false);
+    done(null, false);
 
-    return done(null, user);
-    });
+    var sessionUser = { _id: user._id, role: user.role }
+    done(null, sessionUser)
+  });
+
+  passport.deserializeUser(function(sessionUser, done) {
+    // The sessionUser object is different from the user mongoose collection
+    // it's actually req.session.passport.user and comes from the session collection
+    done(null, sessionUser);
   });
 
   // use these strategies
   passport.use(local);
   //passport.use(google);
   //passport.use(facebook);
+
+  // use passport session
+  app.use(passport.initialize());
+  app.use(passport.session());
 
 };

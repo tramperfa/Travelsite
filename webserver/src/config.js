@@ -23,7 +23,7 @@ module.exports = {
 
   // Mongo store collection name
     collection: "sessions",
-
+    uri: "mongodb://mongodb:27017/my_sessions",
     secret: 'ufoufoufo'
   },
 
