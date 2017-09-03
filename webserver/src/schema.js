@@ -7,7 +7,6 @@ import {
 import { resolvers } from './resolvers';
 
 
-
 export const typeDefs = `
 scalar JSON
 scalar Url
@@ -71,6 +70,7 @@ type Query {
 type Mutation {
   createDraft(input: createDraftInput!): Story
   updateTitle(input: updateTitleInput!): Story
+  createDraft(input: createDraftInput!): Story
 
 }
 

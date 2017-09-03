@@ -1,18 +1,12 @@
 import express from 'express';
 import session from 'express-session';
-import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import cookieSession from 'cookie-session';
+import bodyParser from 'body-parser';
 import cors from 'cors';
 import passport from 'passport';
 import mongoose from 'mongoose';
 const mongoStore = require('connect-mongo')(session);
-import {
-  graphqlExpress,
-  graphiqlExpress,
-} from 'graphql-server-express';
-
-import { schema } from './schema';
 
 let db          = require('./mongo.js')();
 let config 			= require('./config');
@@ -38,7 +32,6 @@ const app = express();
  app.use(cookieParser(config.sessions.secret));
 
 
-
  /**
   * Initialize session with MongoDB session store
   */
@@ -60,53 +53,20 @@ var sessionOpts = {
 app.use(session(sessionOpts));
 
 
+// Add message way from DB to frontend
+//app.use(flash());
+
 /**
  * Initialize authentication
- * @param {any} app
  */
 require('./auth/passport')(app);
+require('./auth/routes')(app, db);
 
 
 /**
- * Load Routes
- * @param {any} app
+ * Setup GraphQL
  */
-
-// To be replaced with routes loading
-
-app.get('/', function (req, res) {
-  res.send('Hello Boyang!')
-})
-
-app.use("/graphql", graphqlExpress( (req) => {
-  const query = req.query.query || req.body.query;
-  if (query && query.length > 2000) {
-    // None of our app's queries are this long
-    // Probably indicates someone trying to send an overly expensive query
-    throw new Error("Query too large.");
-  }
-  // logger.debug("GraphQL request:", query);
-
-  return {
-    schema: schema,
-    context: { session: req.session.passport },
-    formatError(e) {
-      return {
-        status: e.originalError ? e.originalError.status : 400,
-        type: e.originalError ? e.originalError.type : null,
-        message: e.message,
-        locations: e.locations,
-        path: e.path
-      };
-    }
-  };
-
-}));
-
-app.use('/graphiql', graphiqlExpress({
-  endpointURL: '/graphql'
-}));
-
+require("./graphql")(app, db);
 
 
 /**

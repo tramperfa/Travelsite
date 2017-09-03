@@ -3,7 +3,7 @@
  * Module dependencies.
  */
 
-import User from '../../models/user.js'
+import User from '../../models/user'
 import passport from 'passport';
 const LocalStrategy = require('passport-local').Strategy;
 

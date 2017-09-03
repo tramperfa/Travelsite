@@ -1,6 +1,8 @@
 import GraphQLJSON from 'graphql-type-json';
-import Story from './models/story.js'
-import User from './models/user.js'
+import Story from './models/story'
+import User from './models/user'
+
+
 
 //mongoose.connect('mongodb://mongodb:27017/my_database', { useMongoClient: true, config: { autoIndex: false } });
 //mongoose.Promise = global.Promise; // USE ES6 native promises, since Mongoose promise is depreciated.
@@ -58,6 +60,7 @@ import User from './models/user.js'
 export const resolvers = {
   Query: {
     story: (root, { _id }) => {
+      //console.log(root.context);
       return Story.load(_id)
     },
     stories: (root, options) => {

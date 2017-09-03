@@ -4,7 +4,6 @@ const ObjectId = Schema.ObjectId;
 import uniqueValidator from 'mongoose-unique-validator';
 import bcrypt from 'bcrypt';
 
-import C from '../constants.js';
 
 let validateLocalStrategyProperty = function(property) {
 	return (this.provider !== "local" && !this.updated) || property.length;
@@ -46,13 +45,6 @@ const UserSchema = new Schema({
     default: '',
     validate: [validateLocalStrategyPassword, "Password should be longer"]
   },
-  passwordLess: {
-    type: Boolean,
-    default: false
-  },
-  passwordLessToken: {
-    type: String
-  },
   provider: {
     type: String,
     default: 'local'
@@ -72,7 +64,7 @@ const UserSchema = new Schema({
 		type: String,
 		"default": 'user'
 	},
-  
+
 	resetPasswordToken: String,
 	resetPasswordExpires: Date,
 

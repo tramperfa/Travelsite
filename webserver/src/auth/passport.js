@@ -4,8 +4,6 @@
  * Module dependencies.
  */
 
-import mongoose from 'mongoose';
-import User from '../models/user.js';
 import local from './passport/local';
 import google from './passport/google';
 import facebook from './passport/facebook';

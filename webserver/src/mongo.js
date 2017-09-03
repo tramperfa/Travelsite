@@ -1,5 +1,6 @@
 "use strict";
 
+import mongoose from 'mongoose';
 //let logger 			= require("./logger");
 let config 			= require("./config");
 
@@ -7,7 +8,7 @@ let config 			= require("./config");
 //let mongoose 		= require("mongoose");
 //let autoIncrement 	= require("mongoose-auto-increment");
 
-import mongoose from 'mongoose';
+
 
 module.exports = function() {
 	let db;
