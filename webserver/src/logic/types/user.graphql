@@ -1,0 +1,38 @@
+
+type User {
+  _id: ID!
+  fullName: String
+  email: String
+  username: String
+  provider: String
+  profile: JSON
+  facebook: String
+  google: String
+  #avatar(size: PhotoSize): Image
+}
+
+
+type Query {
+  me: User
+  user(_id: ID!): User
+  #storyList(type: $type, offset: $offset, limit: Int = 10) [Story]
+}
+
+type Mutation {
+  registerUser(input: registerUserInput!): User
+  localLogin(input: localLoginInput!): User
+  #googleLogin(input: googleLoginInput!): User
+}
+
+input registerUserInput {
+  fullName: String
+  email: String
+  username: String
+  password: String
+}
+
+input localLoginInput {
+  email: String
+  username: String
+  password: String
+}

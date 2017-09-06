@@ -4,9 +4,9 @@
  * Module dependencies.
  */
 
-import local from './passport/local';
-import google from './passport/google';
-import facebook from './passport/facebook';
+import local from './strategy/local';
+//import google from './passport/google';
+//import facebook from './passport/facebook';
 import passport from 'passport';
 
 module.exports = function(app) {

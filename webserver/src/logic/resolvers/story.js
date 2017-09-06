@@ -1,11 +1,33 @@
 import GraphQLJSON from 'graphql-type-json';
-import Story from './models/story'
-import User from './models/user'
+import Story from '../models/story'
 
 
+module.exports = {
+  Query: {
+    story: (parent, _id, context) => {
+      console.log(context);
+      console.log("passport.sessionUser: " + context.passport);
+      //console.log(context.passport);
 
-//mongoose.connect('mongodb://mongodb:27017/my_database', { useMongoClient: true, config: { autoIndex: false } });
-//mongoose.Promise = global.Promise; // USE ES6 native promises, since Mongoose promise is depreciated.
+      return Story.load(_id)
+    },
+    stories: (root, options) => {
+      return Story.list(options)
+    },
+  },
+  Mutation: {
+    createDraft: (parent, args, context) => {
+      var newStory = new Story({
+        title: "Unnamed Draft new",
+        user: args.input.user_id
+      });
+      return newStory.createDraft()
+    },
+  },
+  JSON: GraphQLJSON
+}
+
+
 
 // const Content = {
 //   "entityMap": {},
@@ -53,28 +75,3 @@ import User from './models/user'
 //   likeCount: 1,
 //   content: Content
 // }];
-
-
-
-
-export const resolvers = {
-  Query: {
-    story: (root, { _id }) => {
-      //console.log(root.context);
-      return Story.load(_id)
-    },
-    stories: (root, options) => {
-      return Story.list(options)
-    },
-  },
-  Mutation: {
-    createDraft: (root, args) => {
-      var newStory = new Story({
-        title: "Unnamed Draft new",
-        user: args.input.user_id
-      });
-      return newStory.createDraft()
-    },
-  },
-  JSON: GraphQLJSON
-}

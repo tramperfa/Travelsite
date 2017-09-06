@@ -56,23 +56,19 @@ const UserSchema = new Schema({
 		//picture: { type: ObjectID, ref "Image"},
 		location: { type: String }
 	},
-	socialLinks: {
-		facebook: { type: String, unique: true, sparse: true },
-		google: { type: String, unique: true, sparse: true }
-	},
+
+	facebook: { type: String, unique: true, sparse: true },
+	google: { type: String, unique: true, sparse: true },
   role: {
 		type: String,
 		"default": 'user'
 	},
-
 	resetPasswordToken: String,
 	resetPasswordExpires: Date,
-
 	verified: {
 		type: Boolean,
 		default: false
 	},
-
 	verifyToken: {
 		type: String
 	},

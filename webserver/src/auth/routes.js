@@ -10,7 +10,8 @@ module.exports = function(app, db) {
 
   // Server Heath Check
   app.get('/', function (req, res) {
-    res.send('Hello Boyang, Let\'s start coding!')
+    //console.log(req.sessionID);
+    res.send('Hi Boyang, Let\'s start coding!')
   })
 
   app.post('/local-login',

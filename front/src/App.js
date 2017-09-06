@@ -23,8 +23,8 @@ import {
 const networkInterface = createNetworkInterface({
   uri: 'http://localhost:8080/graphql',
   opts: {
-  credentials: 'same-origin',
-  }, 
+  credentials: 'include',
+  },
 });
 
 networkInterface.use([{

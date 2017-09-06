@@ -8,8 +8,8 @@ import passport from 'passport';
 import mongoose from 'mongoose';
 const mongoStore = require('connect-mongo')(session);
 
-let db          = require('./mongo.js')();
-let config 			= require('./config');
+let db          = require('./lib/mongo.js')();
+let config 			= require('./lib/config');
 
 
 const app = express();
@@ -52,7 +52,6 @@ var sessionOpts = {
 
 app.use(session(sessionOpts));
 
-
 // Add message way from DB to frontend
 //app.use(flash());
 
@@ -66,7 +65,7 @@ require('./auth/routes')(app, db);
 /**
  * Setup GraphQL
  */
-require("./graphql")(app, db);
+require("./logic/graphql")(app, db);
 
 
 /**

@@ -1,0 +1,46 @@
+type Story {
+  _id: ID!
+  title: String!
+  snapshotContent: String
+  content: JSON
+  #cover: Image
+  user: ID
+  lastUpdate: String
+  viewCount: Int
+  likeCount: Int
+  commentCount: Int
+  hidden: Boolean
+}
+
+type Commnet {
+  text: String
+}
+
+type Query {
+  story(_id: ID!): Story
+  stories: [Story]
+  #storyList(type: $type, offset: $offset, limit: Int = 10) [Story]
+}
+
+
+
+type Mutation {
+  createDraft(input: createDraftInput!): Story
+  updateTitle(input: updateTitleInput!): Story
+  createDraft(input: createDraftInput!): Story
+}
+
+input createDraftInput {
+  user_id: ID!
+}
+
+input updateTitleInput {
+  storyID: ID!
+  newTitle: String!
+}
+
+# updateCover(input: updateCoverInput!): updateCoverPayload
+# updateContent(input: updateContentInput!): updateContentPayload
+# publishStory(input: publishStoryInput!): publishStoryPayload
+# addComment(input: addCommentInput!): addCommentPayload
+# removeComment(input: removeCommentInput!): removeCommentPayload
