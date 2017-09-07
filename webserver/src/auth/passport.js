@@ -13,6 +13,9 @@ module.exports = function(app) {
 
 
   passport.serializeUser(function(user, done) {
+
+    console.log("reach C")
+
     // Check that the user is not disabled or deleted
     if (user.status !== 1)
     done(null, false);
@@ -22,6 +25,7 @@ module.exports = function(app) {
   });
 
   passport.deserializeUser(function(sessionUser, done) {
+      console.log("reach D")
     // The sessionUser object is different from the user mongoose collection
     // it's actually req.session.passport.user and comes from the session collection
     done(null, sessionUser);

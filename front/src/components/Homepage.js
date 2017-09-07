@@ -1,14 +1,10 @@
-import React from 'react';
+import React from 'react'
 import {
   Link
 } from 'react-router-dom'
 
-import {
-    gql,
-    graphql,
-} from 'react-apollo';
-
-import Editor from './Editor';
+import { gql, graphql } from 'react-apollo'
+import Editor from './Editor'
 
 
 const storiesList = ({ data: {loading, error, stories }}) => {
@@ -21,7 +17,7 @@ const storiesList = ({ data: {loading, error, stories }}) => {
   }
 
   return (
-    <div className="storiesList">
+    <div>
       <Editor />
       { stories.map( story =>
         (<div key={story._id} className='story'>
@@ -42,7 +38,7 @@ export const storiesListQuery = gql`
       _id
       user
       title
-    
+
       snapshotContent
       viewCount
       likeCount

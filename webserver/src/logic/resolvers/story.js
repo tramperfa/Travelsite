@@ -5,8 +5,7 @@ import Story from '../models/story'
 module.exports = {
   Query: {
     story: (parent, _id, context) => {
-      console.log(context);
-      console.log("passport.sessionUser: " + context.passport);
+      //console.log("passport.sessionUser: " + context.passport);
       //console.log(context.passport);
 
       return Story.load(_id)

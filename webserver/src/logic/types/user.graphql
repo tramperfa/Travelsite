@@ -32,7 +32,6 @@ input registerUserInput {
 }
 
 input localLoginInput {
-  email: String
-  username: String
+  emailorusername: String
   password: String
 }
