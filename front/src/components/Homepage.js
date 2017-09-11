@@ -4,7 +4,10 @@ import {
 } from 'react-router-dom'
 
 import { gql, graphql } from 'react-apollo'
-import Editor from './Editor'
+
+//import Editor from './Editor'
+import Header from './Header'
+import Login from './Login'
 
 
 const storiesList = ({ data: {loading, error, stories }}) => {
@@ -18,7 +21,7 @@ const storiesList = ({ data: {loading, error, stories }}) => {
 
   return (
     <div>
-      <Editor />
+      <Header/>
       { stories.map( story =>
         (<div key={story._id} className='story'>
           <Link to={story._id < 0 ? `/` : `story/${story._id}`}>
@@ -28,6 +31,7 @@ const storiesList = ({ data: {loading, error, stories }}) => {
           </Link>
         </div>)
       )}
+      <Login />
     </div>
   );
 };
@@ -48,5 +52,5 @@ export const storiesListQuery = gql`
 `;
 
 export default graphql(storiesListQuery, {
-  options: { pollInterval: 5000 },
+  //options: { pollInterval: 5000 },
 })(storiesList);

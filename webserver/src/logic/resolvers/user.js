@@ -24,71 +24,65 @@ module.exports = {
       return User.create(user)
     },
     localLogin: (parent, args, context) => {
-      //console.log(args);
-      const user = willLogin(context.req, args.input.emailorusername, args.input.password).catch(err => err)
+      // Prevent Logged in user keeps hiting login GraphQL mutation
+      if (context.sessionUser != null) {
+        console.log("Error: User already logged in")
+        return
+      }
+      const user = mylocal(context.req, args.input.emailorusername, args.input.password)
       //.catch(onError(context))
     }
   }
 }
 
+function mylocal(req, usernameoremail, password) {
 
-const willLogin = async (req, username, password) => {
   // To let passport-local consume
-  req.body.username = username
+  req.body.username = usernameoremail
   req.body.password = password
 
-  // return await willAuthenWithPassport('local', req).catch(err => err)
-  // //.catch(onError(req))
   passport.authenticate('local',
   function (err, user) {
-    // req.logIn(user, function (err) { // <-- Log user in
-    // });
-
-    //console.log("user:  " + user)
-    console.log("req.session.passport:  " + req.session.passport)
-    req.logIn(user, function(err) {
-      if (err) { return next(err); }
-
-       //var  = req.session; // {user: 1}
-       console.log("req.session:   " + JSON.stringify(req.session));
-       //console.log("session.passport: " + session.passport);
-      // req.session.regenerate(function(err){
-      //     //req.session.passport is now undefined
-      //     req.session.passport = temp;
-      //     req.session.save(function(err){
-      //
-      //     });
-      // });
-
-
-    });
+    if (err) {
+      return console.log(err)
+    }
+    if (!user) {
+      console.log("local authenticate failed")
+    } else {
+      req.logIn(user, function(err) {
+        if (err) { console.log(err) }
+        //console.log('The new session :'+ JSON.stringify(req.session) );
+        req.session.save(function(err){
+        });
+        return user
+      });
+    }
   })(req);
 }
 
-var session = function (req, res) {
-    var temp = req.session.passport; // {user: 1}
-    req.session.regenerate(function(err){
-        //req.session.passport is now undefined
-        req.session.passport = temp;
-        req.session.save(function(err){
 
-        });
-    });
-};
-
-
-
-const willAuthenWithPassport = (strategy, req) => new Promise((resolve, reject) => {
-  const passport = require('passport')
-  passport.authenticate(strategy, (err, user) => {
-    // Error?
-    if (err) { return reject(err) }
-
-    // User?
-    return user ? resolve(user) : reject(new Error('Authentication failed.'))
-  })(req)
-
-})
+// const willLogin = async (req, usernameoremail, password) => {
+//   // To let passport-local consume
+//   req.body.username = usernameoremail
+//   req.body.password = password
+//
+//    return await willAuthenWithPassport('local', req).catch(err => err)
+//   // //.catch(onError(req))
+// }
+//
+//
+//
+// const willAuthenWithPassport = (strategy, req) => new Promise((resolve, reject) => {
+//   const passport = require('passport')
+//   passport.authenticate(strategy, (err, user) => {
+//     // Error?
+//     if (err) { return reject(err) }
+//
+//     // User?
+//     return user ? resolve(user) : reject(new Error('Authentication failed.'))
+//   })(req)
+//
+// })
 
 
 

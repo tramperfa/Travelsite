@@ -8,7 +8,6 @@ class Login extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-
     }
     this.login = props.login
   }
@@ -17,18 +16,18 @@ class Login extends React.Component {
     e.preventDefault()
 
 
-    const emailORusername = e.target.elements.emailORusername.value
+    const emailorusername = e.target.elements.emailorusername.value
     const password = e.target.elements.password.value
 
-    if (emailORusername === '' || password === '') {
+    if (emailorusername === '' || password === '') {
       window.alert('All fields are required.')
       return false
     }
 
-    this.login(emailORusername, password)
+    this.login(emailorusername, password)
 
     // reset form
-    e.target.elements.emailORusername.value = ''
+    e.target.elements.emailorusername.value = ''
     e.target.elements.password.value = ''
   }
 
@@ -40,11 +39,10 @@ class Login extends React.Component {
     return (
       <form onSubmit={this.handleSubmit.bind(this)}>
         <h1>Login (GraphQL)</h1>
-        <input placeholder='deviceInfo' name='deviceInfo' value={this.state.deviceInfo} />
-        <input placeholder='emailORusername' name='emailORusername' defaultValue='katopz@gmail.com' />
+        <input placeholder='emailorusername' name='emailorusername' defaultValue='katopz@gmail.com' />
         <input placeholder='password' name='password' defaultValue='foobar' />
         <button type='submit'>Login</button>
-        <style jsx>{`
+        {/* <style jsx>{`
           form {
             border-bottom: 1px solid #ececec;
             padding-bottom: 20px;
@@ -57,67 +55,63 @@ class Login extends React.Component {
             display: block;
             margin-bottom: 10px;
           }
-        `}</style>
+        `}</style> */}
       </form>
     )
   }
 }
 
-const login = gql`
-mutation login($emailORusername: String!, $password: String!) {
-  login(deviceInfo: $deviceInfo, emailORusername: $emailORusername, password: $password) {
-    isLoggedIn
-    sessionToken
-    user {
+const LoginMutation = gql`
+  mutation login($input: localLoginInput!) {
+    localLogin(input: $input) {
       _id
-      name
-      status
-    }
-    installation {
-      _id
-      deviceInfo
+      username
+      provider
     }
   }
-  errors {
-    code
-    message
-  }
-}
-`
+ `;
 
 Login.propTypes = () => ({
   login: PropTypes.func.isRequired
 })
 
-export default graphql(login, {
+
+
+
+export default graphql(LoginMutation, {
   props: ({ mutate }) => ({
-    login: (deviceInfo, emailORusername, password) => mutate({
-      variables: { deviceInfo, emailORusername, password },
-      update: (proxy, { data }) => {
-        // Keep session
-        data.login && persist.willSetSessionToken(data.login.sessionToken)
-
-        // Read the data from our cache for this query.
-        let cached = proxy.readQuery({ query: userProfile })
-
-        // Errors
-        cached.errors = data.errors
-
-        // User
-        if (data.login) {
-          cached.user = data.login.user
-
-          // Authen
-          cached.authen = {
-            isLoggedIn: data.login.isLoggedIn,
-            sessionToken: data.login.sessionToken,
-            __typename: 'Authen'
-          }
+    login: (emailorusername, password) => mutate({
+      variables: {
+        input: {
+          emailorusername: emailorusername,
+          password: password
         }
-
-        // Write our data back to the cache.
-        proxy.writeQuery({ query: userProfile, data: cached })
       }
+      // update: (proxy, { data }) => {
+      //   // Keep session
+      //   data.login && persist.willSetSessionToken(data.login.sessionToken)
+      //
+      //   // Read the data from our cache for this query.
+      //   let cached = proxy.readQuery({ query: me })
+      //
+      //   // Errors
+      //   cached.errors = data.errors
+      //
+      //   // User
+      //   if (data.login) {
+      //     cached.user = data.login.user
+      //
+      //     // Authen
+      //     cached.authen = {
+      //       isLoggedIn: data.login.isLoggedIn,
+      //       sessionToken: data.login.sessionToken,
+      //       __typename: 'Authen'
+      //     }
+      //   }
+      //
+      //   // Write our data back to the cache.
+      //   proxy.writeQuery({ data: cached })
+      // }
     })
   })
 })(Login)
