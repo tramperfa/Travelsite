@@ -35,3 +35,13 @@ input localLoginInput {
   emailorusername: String
   password: String
 }
+
+type LocalLoginPayload {
+  me: User
+  auth: Auth
+}
+
+type Auth {
+  success: Boolean
+  message: String
+}

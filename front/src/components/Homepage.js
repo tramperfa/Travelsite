@@ -11,7 +11,7 @@ import Login from './Login'
 
 
 const storiesList = ({ data: {loading, error, stories }}) => {
-  console.log(stories);
+  //console.log(stories);
   if (loading) {
     return <p>Loading ...</p>;
   }

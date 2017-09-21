@@ -1,7 +1,6 @@
 import React from 'react'
 import { gql, graphql } from 'react-apollo'
-//import persist from '../../lib/persist'
-//import userProfile from '../userProfile.gql'
+import persist from '../lib/persist'
 import PropTypes from 'prop-types'
 
 class Login extends React.Component {
@@ -10,6 +9,7 @@ class Login extends React.Component {
     this.state = {
     }
     this.login = props.login
+    console.log(props);
   }
 
   handleSubmit(e) {
@@ -26,6 +26,7 @@ class Login extends React.Component {
 
     this.login(emailorusername, password)
 
+    console.log(this.localLogin);
     // reset form
     e.target.elements.emailorusername.value = ''
     e.target.elements.password.value = ''
@@ -37,44 +38,39 @@ class Login extends React.Component {
 
   render() {
     return (
+      <div>
       <form onSubmit={this.handleSubmit.bind(this)}>
         <h1>Login (GraphQL)</h1>
-        <input placeholder='emailorusername' name='emailorusername' defaultValue='katopz@gmail.com' />
-        <input placeholder='password' name='password' defaultValue='foobar' />
+        <input placeholder='email or username' name='emailorusername' defaultValue='' />
+        <input placeholder='password' name='password' defaultValue='' />
         <button type='submit'>Login</button>
-        {/* <style jsx>{`
-          form {
-            border-bottom: 1px solid #ececec;
-            padding-bottom: 20px;
-            margin-bottom: 20px;
-          }
-          h1 {
-            font-size: 20px;
-          }
-          input {
-            display: block;
-            margin-bottom: 10px;
-          }
-        `}</style> */}
       </form>
+      <div className="channelName">
+        {this.localLogin}
+      </div>
+      </div>
     )
   }
 }
 
+
+
+
+
 const LoginMutation = gql`
   mutation login($input: localLoginInput!) {
     localLogin(input: $input) {
-      _id
-      username
-      provider
+          fullName
+          #avatar
+
     }
   }
  `;
 
 Login.propTypes = () => ({
-  login: PropTypes.func.isRequired
+  login: PropTypes.func.isRequired,
+  //fullName: PropTypes.string.isRequired
 })
-
 
 
 
@@ -86,32 +82,41 @@ export default graphql(LoginMutation, {
           emailorusername: emailorusername,
           password: password
         }
+      },
+      update: (proxy, { data : {localLogin} }) => {
+        console.log("reaching update");
+        console.log("data:  "  + localLogin);
+
+        if (localLogin) {
+          console.log("adding local storage")
+          persist.willSetSessionUser(localLogin.fullName)
+          // Write our data back to the cache.
+          //proxy.writeQuery({data: localLogin })
+        } else {
+          console.log("NOT adding local storage")
+
+        }
+
       }
-      // update: (proxy, { data }) => {
-      //   // Keep session
-      //   data.login && persist.willSetSessionToken(data.login.sessionToken)
-      //
-      //   // Read the data from our cache for this query.
-      //   let cached = proxy.readQuery({ query: me })
-      //
-      //   // Errors
-      //   cached.errors = data.errors
-      //
-      //   // User
-      //   if (data.login) {
-      //     cached.user = data.login.user
-      //
-      //     // Authen
-      //     cached.authen = {
-      //       isLoggedIn: data.login.isLoggedIn,
-      //       sessionToken: data.login.sessionToken,
-      //       __typename: 'Authen'
-      //     }
-      //   }
-      //
-      //   // Write our data back to the cache.
-      //   proxy.writeQuery({ data: cached })
-      // }
+
     })
   })
-})(Login)
+}
+)(Login)
+
+
+// update: (proxy, { data : {localLogin} }) => {
+//   console.log("reaching update");
+//   console.log("data:  "  + localLogin);
+//
+//   if (localLogin) {
+//     console.log("adding local storage")
+//     persist.willSetSessionUser(localLogin.fullName)
+//     // Write our data back to the cache.
+//     proxy.writeQuery({data: localLogin })
+//   } else {
+//     console.log("NOT adding local storage")
+//
+//   }
+//
+// }

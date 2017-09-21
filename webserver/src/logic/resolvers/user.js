@@ -16,73 +16,81 @@ module.exports = {
   Mutation: {
     registerUser: (parent, args, context) => {
       // TODO check faliled login context.passport value
-      if (context.passport && context.passport.sessionUser) {
+      if (context.sessionUser) {
         console.log("user already has an account and logged in!")
         return null
       }
       const user = args.input
       return User.create(user)
     },
-    localLogin: (parent, args, context) => {
-      // Prevent Logged in user keeps hiting login GraphQL mutation
-      if (context.sessionUser != null) {
-        console.log("Error: User already logged in")
-        return
-      }
-      const user = mylocal(context.req, args.input.emailorusername, args.input.password)
-      //.catch(onError(context))
+    localLogin: async (parent, args, context) => {
+      // // Prevent Logged in user keeps hiting login GraphQL mutation
+      // if (context.sessionUser != null) {
+      //   console.log("Error: User already logged in")
+      //   return null
+      // }
+
+      const user = await willLogin(context.req, args.input.emailorusername, args.input.password)
+      await creatSession(context.req, user)
+      //console.log(user);
+      return user
     }
   }
 }
 
-function mylocal(req, usernameoremail, password) {
 
+
+async function creatSession(req, user) {
+
+  if (!user) {
+    throw new Error('Authen error')
+  } else {
+    req.logIn(user, function(err) {
+      if (err) {return console.log(err) }
+      req.session.save(function(err) {
+        if (err) {return console.log(err) }
+      })
+   //console.log('The new session :'+ JSON.stringify(req.session) );
+    });
+  }
+
+  // if (user) {
+  //   req.logIn(user, function(err) {
+  //     if (err) {return console.log(err) }
+  //     req.session.save(function(err) {
+  //       if (err) {return console.log(err) }
+  //     })
+  //  //console.log('The new session :'+ JSON.stringify(req.session) );
+  //   });
+  //
+  // }
+
+}
+
+const willLogin = async (req, usernameoremail, password) => {
   // To let passport-local consume
   req.body.username = usernameoremail
   req.body.password = password
 
-  passport.authenticate('local',
-  function (err, user) {
-    if (err) {
-      return console.log(err)
-    }
-    if (!user) {
-      console.log("local authenticate failed")
-    } else {
-      req.logIn(user, function(err) {
-        if (err) { console.log(err) }
-        //console.log('The new session :'+ JSON.stringify(req.session) );
-        req.session.save(function(err){
-        });
-        return user
-      });
-    }
-  })(req);
+   return await willAuthenWithPassport('local', req).catch(err => err)
+  // //.catch(onError(req))
 }
 
 
-// const willLogin = async (req, usernameoremail, password) => {
-//   // To let passport-local consume
-//   req.body.username = usernameoremail
-//   req.body.password = password
-//
-//    return await willAuthenWithPassport('local', req).catch(err => err)
-//   // //.catch(onError(req))
-// }
-//
-//
-//
-// const willAuthenWithPassport = (strategy, req) => new Promise((resolve, reject) => {
-//   const passport = require('passport')
-//   passport.authenticate(strategy, (err, user) => {
-//     // Error?
-//     if (err) { return reject(err) }
-//
-//     // User?
-//     return user ? resolve(user) : reject(new Error('Authentication failed.'))
-//   })(req)
-//
-// })
+
+const willAuthenWithPassport = (strategy, req) => new Promise((resolve, reject) => {
+  const passport = require('passport')
+  passport.authenticate(strategy, (err, user) => {
+    // Error?
+    if (err) { return reject(err) }
+
+    // User?
+    //return user ? resolve(user) : reject(new Error('Authentication failed.'))
+
+    return user ? resolve(user) : reject(false)
+  })(req)
+
+})
 
 
 

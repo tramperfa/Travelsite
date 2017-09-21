@@ -15,7 +15,7 @@ module.exports = function(app) {
   passport.serializeUser(function(user, done) {
 
     console.log("reach serialize user step")
-    console.log("serializing user :  " + user );
+    //console.log("serializing user :  " + user );
 
     // Check that the user is not disabled or deleted
     // if (user.status !== 1)
