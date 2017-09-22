@@ -80,17 +80,23 @@ const willLogin = async (req, usernameoremail, password) => {
 
 const willAuthenWithPassport = (strategy, req) => new Promise((resolve, reject) => {
   const passport = require('passport')
-  passport.authenticate(strategy, (err, user) => {
+  passport.authenticate(strategy, (err, user, info) => {
+
+    //console.log("INFOOO :  " + info.message);
     // Error?
-    if (err) { return reject(err) }
+    if (err) { return reject(new Error(err)) }
+    return user ? resolve(user) : reject(new Error(info.message))
 
     // User?
     //return user ? resolve(user) : reject(new Error('Authentication failed.'))
 
-    return user ? resolve(user) : reject(false)
+
   })(req)
 
 })
+
+
+
 
 
 

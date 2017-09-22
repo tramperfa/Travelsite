@@ -1,6 +1,6 @@
 import React from 'react'
 import { gql, graphql } from 'react-apollo'
-import persist from '../lib/persist'
+//import persist from '../lib/persist'
 import PropTypes from 'prop-types'
 
 class Login extends React.Component {
@@ -9,7 +9,6 @@ class Login extends React.Component {
     this.state = {
     }
     this.login = props.login
-    console.log(props);
   }
 
   handleSubmit(e) {
@@ -25,16 +24,22 @@ class Login extends React.Component {
     }
 
     this.login(emailorusername, password)
+    .then(({ data }) => {
+      console.log('GOT DATAAAAA', data);
 
-    console.log(this.localLogin);
+    })
+    .catch((err) => {
+      console.log('there was an error during login', err);
+    });
+
+
+
     // reset form
     e.target.elements.emailorusername.value = ''
     e.target.elements.password.value = ''
   }
 
-  // componentDidMount() {
-  //   this.setState({ deviceInfo: device.info() })
-  // }
+
 
   render() {
     return (
@@ -82,27 +87,12 @@ export default graphql(LoginMutation, {
           emailorusername: emailorusername,
           password: password
         }
-      },
-      update: (proxy, { data : {localLogin} }) => {
-        console.log("reaching update");
-        console.log("data:  "  + localLogin);
-
-        if (localLogin) {
-          console.log("adding local storage")
-          persist.willSetSessionUser(localLogin.fullName)
-          // Write our data back to the cache.
-          //proxy.writeQuery({data: localLogin })
-        } else {
-          console.log("NOT adding local storage")
-
-        }
-
       }
-
     })
   })
 }
 )(Login)
+
 
 
 // update: (proxy, { data : {localLogin} }) => {
@@ -113,10 +103,9 @@ export default graphql(LoginMutation, {
 //     console.log("adding local storage")
 //     persist.willSetSessionUser(localLogin.fullName)
 //     // Write our data back to the cache.
-//     proxy.writeQuery({data: localLogin })
+//     //proxy.writeQuery({data: localLogin })
 //   } else {
 //     console.log("NOT adding local storage")
 //
 //   }
-//
 // }

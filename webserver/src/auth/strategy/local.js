@@ -23,40 +23,38 @@ module.exports = new LocalStrategy({
 				{ "email": username}
 			]
 		}, function(err, user) {
-			if (err)
-				 return done(err);
+			if (err) {
+        return done(err);
+      }
 
-			if (!user)
-				 return done(null, false, {
-					message: console.log("UnknowUsernameOrEmail")
-				});
+			if (!user) {
+        return done(null, false, { message: "UnknowUsernameOrEmail" });
+      }
 
-			// if (!user.verified)
-			// 	 done(null, false, {
-			// 		message: console.log("PleaseActivateAccount")
-			// 	});
+
+			// if (!user.verified) {
+      //  return done(null, false, { message: "PleaseActivateAccount" });
+      //}
+
 
 			// Check that the user is not disabled or deleted
-			if (user.status !== 1)
-				 return done(null, false, {
-					message: console.log("UserDisabledOrDeleted")
-				});
-
+			if (user.status !== 1) {
+        return done(null, false, { message: "UserDisabledOrDeleted" });
+      }
+				 
 			user.comparePassword(password, function(err, isMatch) {
-				if (err)
-					 return done(err);
+				if (err) {
+          return done(err);
+        }
 
-				if (isMatch !== true)
-					 return done(null, false, {
-						message: console.log("InvalidPassword")
-					});
+				if (isMatch !== true) {
+          return done(null, false, { message: "InvalidPassword" });
+        }
 
-        console.log("successful login user");
-        //console.log(user);
-        return done(null, user)
-
-
+        return done(null, user);
+        //return done(null, user, { message: "successful login via local strategy" });
 
 			});
+
 		});
 	});
