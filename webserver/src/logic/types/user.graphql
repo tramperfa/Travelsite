@@ -8,6 +8,7 @@ type User {
   profile: JSON
   facebook: String
   google: String
+  #role: String
   #avatar(size: PhotoSize): Image
 }
 

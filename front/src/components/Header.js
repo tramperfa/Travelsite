@@ -5,8 +5,15 @@ import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
-import IconButton from 'material-ui/IconButton';
-//import MenuIcon from 'material-ui-icons/Menu';
+//import IconButton from 'material-ui/IconButton';
+
+
+import {
+  Link
+} from 'react-router-dom';
+
+import persist from '../lib/persist';
+
 
 const styles = theme => ({
   root: {
@@ -16,24 +23,45 @@ const styles = theme => ({
   flex: {
     flex: 1,
   },
-  menuButton: {
-    marginLeft: -12,
-    marginRight: 20,
-  },
+
 });
 
+
+
+
+
 function ButtonAppBar(props) {
+
+
   const classes = props.classes;
+  // var loginSate = false;
+  // if (localforage.getItem("me")) {
+  //   loginSate = true;
+  // }
+//   var me;
+// localforage.getItem("me")
+// .then(function(value) {
+//    me = value;
+// })
+//   console.log(me.fullName);
+
+// {
+//   me
+//   ? <Button color="contrast">Hello, {me.fullName}</Button>
+//   : <Link to="/login"><Button color="contrast">Login</Button></Link>
+// }
+
+
   return (
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton className={classes.menuButton} color="contrast" aria-label="Menu">
-          </IconButton>
           <Typography type="title" color="inherit" className={classes.flex}>
-            Title
+            <Link to="/">
+            Travel Site Building In process
+            </Link>
           </Typography>
-          <Button color="contrast">Login</Button>
+          <Link to="/login"><Button color="contrast">Login</Button></Link>
         </Toolbar>
       </AppBar>
     </div>

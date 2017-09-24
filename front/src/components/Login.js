@@ -1,7 +1,8 @@
-import React from 'react'
-import { gql, graphql } from 'react-apollo'
-//import persist from '../lib/persist'
-import PropTypes from 'prop-types'
+import React from 'react';
+import { gql, graphql } from 'react-apollo';
+import persist from '../lib/persist';
+import PropTypes from 'prop-types';
+
 
 class Login extends React.Component {
   constructor(props) {
@@ -19,17 +20,24 @@ class Login extends React.Component {
     const password = e.target.elements.password.value
 
     if (emailorusername === '' || password === '') {
-      window.alert('All fields are required.')
       return false
     }
 
     this.login(emailorusername, password)
     .then(({ data }) => {
       console.log('GOT DATAAAAA', data);
-
+      return persist.willSetSessionUser(data.localLogin)
+    })
+    .then(() => {
+      return  persist.willGetSessionUser()
+      //console.log("local storage value :  " );
+    })
+    .then((localvalue) => {
+      console.log("local storage value :  "  + JSON.stringify(localvalue) );
     })
     .catch((err) => {
       console.log('there was an error during login', err);
+      console.log(JSON.stringify(err));
     });
 
 

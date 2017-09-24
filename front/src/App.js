@@ -4,6 +4,8 @@ import Homepage from './components/Homepage';
 import NotFound from './components/NotFound';
 import Editor from './components/Editor';
 import StoryReader from './components/StoryReader';
+import Login from './components/Login';
+import Header from './components/Header';
 
 
 import {
@@ -14,7 +16,7 @@ import {
 
 import {
   BrowserRouter,
-  Link,
+  //Link,
   Route,
   Switch,
 } from 'react-router-dom';
@@ -41,6 +43,7 @@ const client = new ApolloClient({
 });
 
 
+//<Link to="/" className="navbar">Travel Site Building Underway</Link>
 
 class App extends Component {
   render() {
@@ -48,10 +51,11 @@ class App extends Component {
     <ApolloProvider client={client}>
       <BrowserRouter>
         <div className="App">
-          <Link to="/" className="navbar">Travel Site Building Underway</Link>
+          <Header/>
           <Switch>
             <Route exact path="/" component={Homepage}/>
             <Route path="/editor" component={Editor}/>
+            <Route path="/login" component={Login}/>
             <Route path="/story/:_id" component={StoryReader}/>
             <Route component={ NotFound }/>
           </Switch>

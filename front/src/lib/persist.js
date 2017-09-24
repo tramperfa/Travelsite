@@ -1,6 +1,3 @@
-
-
-
 // Decide NOT use local storage, since there is no way to synchronize
 // between server session expire and client local storage remove
 // client may suffer false login state
@@ -8,8 +5,8 @@
 // WHICH IS OK.  AMAZON.COM DOES IT
 // EnsureLoggedInContainer will be needed anyway
 
-
 import localforage from 'localforage';
+
 
 const key = 'me';
 
@@ -19,11 +16,16 @@ export default {
  },
 
    willSetSessionUser: async function(value) {
-     if (localforage.getItem(key)) {
-       localforage.removeItem(key).catch(err => err)
-       console.log("removing me in local storage")
-     }
      return localforage.setItem(key, value).catch(err => err)
- }
+ },
+
+ willRomveSessionUser: async function(value) {
+   if (localforage.getItem(key)) {
+      //console.log("removing me in local storage")
+      return  localforage.removeItem(key).catch(err => err)
+   }
+}
+
+
 
 }

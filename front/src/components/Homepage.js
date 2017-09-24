@@ -6,8 +6,8 @@ import {
 import { gql, graphql } from 'react-apollo'
 
 //import Editor from './Editor'
-import Header from './Header'
-import Login from './Login'
+//import Header from './Header'
+
 
 
 const storiesList = ({ data: {loading, error, stories }}) => {
@@ -21,7 +21,6 @@ const storiesList = ({ data: {loading, error, stories }}) => {
 
   return (
     <div>
-      <Header/>
       { stories.map( story =>
         (<div key={story._id} className='story'>
           <Link to={story._id < 0 ? `/` : `story/${story._id}`}>
@@ -31,7 +30,6 @@ const storiesList = ({ data: {loading, error, stories }}) => {
           </Link>
         </div>)
       )}
-      <Login />
     </div>
   );
 };
