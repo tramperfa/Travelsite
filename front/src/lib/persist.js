@@ -24,8 +24,6 @@ export default {
       //console.log("removing me in local storage")
       return  localforage.removeItem(key).catch(err => err)
    }
-}
-
-
+  }
 
 }

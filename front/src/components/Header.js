@@ -4,16 +4,13 @@ import { withStyles } from 'material-ui/styles';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
-import Button from 'material-ui/Button';
-//import IconButton from 'material-ui/IconButton';
-
-
+//import Button from 'material-ui/Button';
 import {
   Link
 } from 'react-router-dom';
 
-import persist from '../lib/persist';
-
+import Me from './Me';
+//var Me = require("./Me");
 
 const styles = theme => ({
   root: {
@@ -29,28 +26,10 @@ const styles = theme => ({
 
 
 
-
 function ButtonAppBar(props) {
 
 
   const classes = props.classes;
-  // var loginSate = false;
-  // if (localforage.getItem("me")) {
-  //   loginSate = true;
-  // }
-//   var me;
-// localforage.getItem("me")
-// .then(function(value) {
-//    me = value;
-// })
-//   console.log(me.fullName);
-
-// {
-//   me
-//   ? <Button color="contrast">Hello, {me.fullName}</Button>
-//   : <Link to="/login"><Button color="contrast">Login</Button></Link>
-// }
-
 
   return (
     <div className={classes.root}>
@@ -61,7 +40,7 @@ function ButtonAppBar(props) {
             Travel Site Building In process
             </Link>
           </Typography>
-          <Link to="/login"><Button color="contrast">Login</Button></Link>
+        <Me />
         </Toolbar>
       </AppBar>
     </div>

@@ -28,13 +28,13 @@ class Login extends React.Component {
       console.log('GOT DATAAAAA', data);
       return persist.willSetSessionUser(data.localLogin)
     })
-    .then(() => {
-      return  persist.willGetSessionUser()
-      //console.log("local storage value :  " );
-    })
-    .then((localvalue) => {
-      console.log("local storage value :  "  + JSON.stringify(localvalue) );
-    })
+    // .then(() => {
+    //   return  persist.willGetSessionUser()
+    //   //console.log("local storage value :  " );
+    // })
+    // .then((localvalue) => {
+    //   console.log("local storage value :  "  + JSON.stringify(localvalue) );
+    // })
     .catch((err) => {
       console.log('there was an error during login', err);
       console.log(JSON.stringify(err));
