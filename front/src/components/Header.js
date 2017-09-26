@@ -40,7 +40,7 @@ function ButtonAppBar(props) {
             Travel Site Building In process
             </Link>
           </Typography>
-        <Me />
+        <Me me = {props.me} onLogout={props.onLogout}/>
         </Toolbar>
       </AppBar>
     </div>
@@ -49,6 +49,8 @@ function ButtonAppBar(props) {
 
 ButtonAppBar.propTypes = {
   classes: PropTypes.object.isRequired,
+  me: PropTypes.object.isRequired,
+  onLogout: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(ButtonAppBar);

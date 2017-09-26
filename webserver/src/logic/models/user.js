@@ -133,6 +133,39 @@ UserSchema.virtual("avatar").get(function() {
 
 
 
+//methods are defined on the document (instance).
+//statics are the methods defined on the Model.
+
+/**
+ * Statics
+ */
+
+UserSchema.statics = {
+
+  /**
+   * Find User by id
+   *
+   * @param {ObjectId} id
+   * @api private
+   */
+
+  load: function (_id) {
+    return new Promise((resolve, reject) => {
+      this.findOne({ _id: _id })
+           //.populate('user')
+           .populate('comments')
+           .exec((err, res) => {
+              err ? reject(err) : resolve(res)
+           })
+    });
+  },
+
+
+}
+
+
+
+
 
 var User = mongoose.model('User', UserSchema)
 module.exports = User

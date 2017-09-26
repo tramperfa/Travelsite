@@ -2,23 +2,28 @@ import User from '../models/user';
 import passport from 'passport';
 
 
-
 module.exports = {
   Query: {
-    user: (root, { _id }) => {
-        return models.User.findOne({
-          where: {
-            id: user.id,
-          },
-        });
+    user: async (parent, _id, context) => {
+      return User.load(_id)
+    },
+    me: async (parent, args, context) => {
+      if (context.sessionUser) {
+        return User.load(context.sessionUser.user._id)
+      }
+      return undefined
+    },
+    logout: async(parent, args, context) => {
+        const result = await willDestroySession(context.req)
+        return result
     }
   },
   Mutation: {
     registerUser: async (parent, args, context) => {
-      // if (context.sessionUser) {
-      //   console.log("user already has an account and logged in!")
-      //   return null
-      // }
+      if (context.sessionUser) {
+        console.log("user already has an account and logged in!")
+        return null
+      }
       const user = args.input
       return User.create(user)
     },
@@ -31,9 +36,11 @@ module.exports = {
 
       const user = await willLogin(context.req, args.input.emailorusername, args.input.password)
       await willCreateSession(context.req, user)
-      console.log("telling user login complete");
-      return user
+      var result = { me: user }
+      return result
     }
+
+
   }
 }
 
@@ -45,7 +52,7 @@ const willCreateSession = (req, user) => new Promise ((resolve, reject) => {
       if (err) { return reject(new Error(err)) }
       req.session.save(function(err) {
         if (err) { return reject(new Error(err)) }
-        console.log('Finish session create');
+        //console.log('Finish session create');
         return resolve("session create successful")
       })
     });
@@ -53,14 +60,12 @@ const willCreateSession = (req, user) => new Promise ((resolve, reject) => {
 })
 
 
-
-
 const willLogin = async (req, usernameoremail, password) => {
   // To let passport-local consume
   req.body.username = usernameoremail
   req.body.password = password
 
-   return await willAuthenWithPassport('local', req).catch(err => err)
+  return await willAuthenWithPassport('local', req).catch(err => err)
   // //.catch(onError(req))
 }
 
@@ -69,14 +74,17 @@ const willLogin = async (req, usernameoremail, password) => {
 const willAuthenWithPassport = (strategy, req) => new Promise((resolve, reject) => {
 
   passport.authenticate(strategy, (err, user, info) => {
-
-    // Error?
     if (err) { return reject(new Error(err)) }
     return user ? resolve(user) : reject(new Error(info.message))
-
-    // User?
-    //return user ? resolve(user) : reject(new Error('Authentication failed.'))
-
   })(req)
 
+})
+
+
+const willDestroySession = (req) => new Promise ((resolve, reject) => {
+  req.session.destroy(function(err) {
+    if (err) { return reject(new Error(err)) }
+
+    return resolve({success: true})
+  })
 })

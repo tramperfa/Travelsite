@@ -1,47 +1,80 @@
 import React from 'react';
-//import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import Button from 'material-ui/Button';
 import {
   Link
 } from 'react-router-dom';
-
-import persist from '../lib/persist';
-
+import Logout from './Logout';
 
 
-class Me extends React.Component {
-  constructor(props) {
-    super(props);
 
-    this.state = {
-      me: null,
-      loggedIn: false
-    }
+function Me(props) {
 
-
-  }
-
-  componentDidMount() {
-    persist.willGetSessionUser().then(function(value) {
-      this.setState({
-        me: value,
-        loggedIn: (value != null)
-      })
-    }.bind(this))
-  }
-
-
-  render() {
     return (
       <div>
         {
-          this.state.loggedIn
-          ? <Button color="contrast">Hello, {this.state.me.fullName}</Button>
+          props.me.fullName
+          ? <Button color="contrast">Hello, {props.me.fullName} <Logout onLoginLogout={props.onLogout}/></Button>
           : <Link to="/login"><Button color="contrast">Login</Button></Link>
         }
       </div>
     );
-  }
+
 }
 
+Me.propTypes = () => ({
+  me: PropTypes.object.isRequired,
+  onLogout: PropTypes.func.isRequired
+})
+
 export default Me;
+
+
+
+
+
+
+
+
+
+
+// class Me extends React.Component {
+//
+//
+//   constructor(props) {
+//     super(props);
+//
+//     this.state = {
+//       me: this.props.me,
+//     }
+//
+//   }
+
+  // componentDidMount() {
+  //   if (!this.state.me) {
+  //     persist.willGetSessionUser().then(function(value) {
+  //       this.setState({
+  //         me: value,
+  //       })
+  //     }.bind(this))
+  //   }
+  // }
+
+  // componentDidUpdate(prevProps) {
+  //   if (prevProps.params.me != this.state.input) {
+  //
+  //   }
+  // }
+
+
+
+// export const whoamIQuery = gql`
+//   query WhoAmIQuery {
+//     me {
+//       fullName
+//     }
+//   }
+// `;
+//
+// export default graphql(whoamIQuery, {
+// })(Myself);

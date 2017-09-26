@@ -19,7 +19,7 @@ export default {
      return localforage.setItem(key, value).catch(err => err)
  },
 
- willRomveSessionUser: async function(value) {
+ willRomveSessionUser: async function() {
    if (localforage.getItem(key)) {
       //console.log("removing me in local storage")
       return  localforage.removeItem(key).catch(err => err)

@@ -5,8 +5,10 @@ module.exports = {
 
   sessions: {
     cookie: {
-    // session expiration is set by default to one week
-      maxAge: 7 * 24 * (60 * 60 * 1000),
+    // session expiration is set to 30 days
+    // NO SESSION AUTO RENEWAL
+    //WHAT IF USER FORGET TO LOGOUT ON PUBLIC COMPUTER?
+      maxAge: 30 * 24 * (60 * 60 * 1000),
 
     // httpOnly flag makes sure the cookie is only accessed
     // through the HTTP protocol and not JS/browser

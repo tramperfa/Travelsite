@@ -181,7 +181,7 @@ StorySchema.statics = {
    * @api private
    */
 
-  load: function (_id) {
+  load: async function (_id) {
     return new Promise((resolve, reject) => {
       this.findOne({ _id: _id })
            //.populate('user')

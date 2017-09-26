@@ -3,13 +3,19 @@ import { gql, graphql } from 'react-apollo';
 import persist from '../lib/persist';
 import PropTypes from 'prop-types';
 
+import {
+  //BrowserRouter,
+  //Link,
+  Route,
+} from 'react-router-dom';
 
 class Login extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
     }
-    this.login = props.login
+    this.localLogin = props.localLogin
+    this.onLoginLogout = props.onLoginLogout
   }
 
   handleSubmit(e) {
@@ -23,22 +29,18 @@ class Login extends React.Component {
       return false
     }
 
-    this.login(emailorusername, password)
+    this.localLogin(emailorusername, password)
     .then(({ data }) => {
-      console.log('GOT DATAAAAA', data);
-      return persist.willSetSessionUser(data.localLogin)
+      //console.log('GOT DATA', data);
+      return persist.willSetSessionUser(data.localLogin.me)
     })
-    // .then(() => {
-    //   return  persist.willGetSessionUser()
-    //   //console.log("local storage value :  " );
-    // })
-    // .then((localvalue) => {
-    //   console.log("local storage value :  "  + JSON.stringify(localvalue) );
-    // })
+    .then((me) => {
+      return this.onLoginLogout(me)
+    })
     .catch((err) => {
       console.log('there was an error during login', err);
       console.log(JSON.stringify(err));
-    });
+    })
 
 
 
@@ -51,17 +53,20 @@ class Login extends React.Component {
 
   render() {
     return (
-      <div>
-      <form onSubmit={this.handleSubmit.bind(this)}>
-        <h1>Login (GraphQL)</h1>
-        <input placeholder='email or username' name='emailorusername' defaultValue='' />
-        <input placeholder='password' name='password' defaultValue='' />
-        <button type='submit'>Login</button>
-      </form>
-      <div className="channelName">
-        {this.localLogin}
-      </div>
-      </div>
+      <Route path="/login">
+        <div>
+          <form onSubmit={this.handleSubmit.bind(this)}>
+            <h1>Login (GraphQL)</h1>
+            <input placeholder='email or username' name='emailorusername' defaultValue='' />
+            <input placeholder='password' name='password' defaultValue='' />
+            <button type='submit'>Login</button>
+          </form>
+          <div className="channelName">
+            {this.localLogin}
+          </div>
+        </div>
+      </Route>
+
     )
   }
 }
@@ -71,25 +76,26 @@ class Login extends React.Component {
 
 
 const LoginMutation = gql`
-  mutation login($input: localLoginInput!) {
+  mutation localLogin($input: localLoginInput!) {
     localLogin(input: $input) {
+      me {
           fullName
           #avatar
-
+      }
     }
   }
  `;
 
 Login.propTypes = () => ({
-  login: PropTypes.func.isRequired,
-  //fullName: PropTypes.string.isRequired
+  localLogin: PropTypes.func.isRequired,
+  onLoginLogout: PropTypes.func.isRequired
 })
 
 
 
 export default graphql(LoginMutation, {
   props: ({ mutate }) => ({
-    login: (emailorusername, password) => mutate({
+    localLogin: (emailorusername, password) => mutate({
       variables: {
         input: {
           emailorusername: emailorusername,
@@ -100,20 +106,3 @@ export default graphql(LoginMutation, {
   })
 }
 )(Login)
-
-
-
-// update: (proxy, { data : {localLogin} }) => {
-//   console.log("reaching update");
-//   console.log("data:  "  + localLogin);
-//
-//   if (localLogin) {
-//     console.log("adding local storage")
-//     persist.willSetSessionUser(localLogin.fullName)
-//     // Write our data back to the cache.
-//     //proxy.writeQuery({data: localLogin })
-//   } else {
-//     console.log("NOT adding local storage")
-//
-//   }
-// }

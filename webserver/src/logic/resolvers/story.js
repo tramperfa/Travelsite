@@ -4,11 +4,11 @@ import Story from '../models/story'
 
 module.exports = {
   Query: {
-    story: (parent, _id, context) => {
-      console.log(context.sessionUser);
+    story: async (parent, _id, context) => {
+      //console.log(context.sessionUser);
       return Story.load(_id)
     },
-    stories: (root, options) => {
+    stories: async (root, options) => {
       return Story.list(options)
     },
   },
@@ -23,7 +23,6 @@ module.exports = {
   },
   JSON: GraphQLJSON
 }
-
 
 
 // const Content = {

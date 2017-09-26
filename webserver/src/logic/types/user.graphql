@@ -16,13 +16,19 @@ type User {
 type Query {
   me: User
   user(_id: ID!): User
+  logout: LogoutPayload
   #storyList(type: $type, offset: $offset, limit: Int = 10) [Story]
 }
 
 type Mutation {
   registerUser(input: registerUserInput!): User
-  localLogin(input: localLoginInput!): User
+  localLogin(input: localLoginInput!): LocalLoginPayload
+
   #googleLogin(input: googleLoginInput!): User
+}
+
+type LogoutPayload{
+  success: Boolean
 }
 
 input registerUserInput {
@@ -39,10 +45,4 @@ input localLoginInput {
 
 type LocalLoginPayload {
   me: User
-  auth: Auth
-}
-
-type Auth {
-  success: Boolean
-  message: String
 }
