@@ -3,21 +3,29 @@ import { gql, graphql } from 'react-apollo';
 import persist from '../lib/persist';
 import PropTypes from 'prop-types';
 import Button from 'material-ui/Button';
+import Typography from 'material-ui/Typography';
 
 
 
-const Logout = ({ data: {loading, error, logout}}, onLoginLogout) => {
-  if (loading) {
-  return <p>Log Out in Process...</p>;
+
+class Logout extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+    }
+    this.logout = props.logout
+    this.onLogout = props.onLogout
+    this.me = props.me
   }
-  if (error) {
-  return <p>{error.message}</p>;
-  }
-  if (logout.success) {
-    persist.willRomveSessionUser()
+
+  handleLogout() {
+
+    this.logout("name")
+    .then((success) => {
+      return persist.willRomveSessionUser()
+    })
     .then(() => {
-      console.log("REACHING HERE");
-      onLoginLogout();
+      return this.onLogout()
     })
     .catch((err) => {
       console.log('there was an error during logout', err);
@@ -25,27 +33,44 @@ const Logout = ({ data: {loading, error, logout}}, onLoginLogout) => {
     })
   }
 
+render() {
   return (
-    <Button color="contrast">Logout</Button>
-  );
+    <div>
+      <Typography color="accent">
+        Hello, {this.me.fullName}
+      </Typography>
+      <Button color="contrast" onClick={this.handleLogout.bind(this)}>Logout</Button>
+    </div>
+  )
+}
 
-};
+}
+
+
+
 
 
 Logout.propTypes = () => ({
-  onLoginLogout: PropTypes.func.isRequired
+  logout: PropTypes.func.isRequired,
+  onLogout: PropTypes.func.isRequired,
+  me: PropTypes.object.isRequired
 })
 
 
 
-const logoutQuery = gql`
-  query logout {
-    logout {
-      success
-    }
+
+const LogoutMutation = gql`
+mutation logout($name: String){
+  logout(fullName: $name) {
+    success
   }
+}
 `;
 
 
-export default graphql(logoutQuery
+export default  graphql(LogoutMutation, {
+  props: ({ mutate }) => ({
+    logout:() => mutate()
+  })
+}
 )(Logout)

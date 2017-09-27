@@ -14,7 +14,7 @@ function Me(props) {
       <div>
         {
           props.me.fullName
-          ? <Button color="contrast">Hello, {props.me.fullName} <Logout onLoginLogout={props.onLogout}/></Button>
+          ? <Logout me={props.me} onLogout={props.onLogout}/>
           : <Link to="/login"><Button color="contrast">Login</Button></Link>
         }
       </div>

@@ -54,6 +54,7 @@ class App extends Component {
      me: {}
    }
    this.onLoginLogout = this.onLoginLogout.bind(this)
+   this.onLogout = this.onLogout.bind(this)
 
   }
 

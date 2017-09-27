@@ -12,11 +12,8 @@ module.exports = {
         return User.load(context.sessionUser.user._id)
       }
       return undefined
-    },
-    logout: async(parent, args, context) => {
-        const result = await willDestroySession(context.req)
-        return result
     }
+
   },
   Mutation: {
     registerUser: async (parent, args, context) => {
@@ -28,18 +25,20 @@ module.exports = {
       return User.create(user)
     },
     localLogin: async (parent, args, context) => {
-      // // Prevent Logged in user keeps hiting login GraphQL mutation
-      // if (context.sessionUser != null) {
-      //   console.log("Error: User already logged in")
-      //   return null
-      // }
+      // Prevent Logged in user keeps hiting login GraphQL mutation
+      if (context.sessionUser != null) {
+        return new Error("User already logged in")
+      }
 
       const user = await willLogin(context.req, args.input.emailorusername, args.input.password)
       await willCreateSession(context.req, user)
       var result = { me: user }
       return result
+    },
+    logout: async(parent, args, context) => {
+        const result = await willDestroySession(context.req)
+        return result
     }
-
 
   }
 }

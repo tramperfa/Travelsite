@@ -16,14 +16,14 @@ type User {
 type Query {
   me: User
   user(_id: ID!): User
-  logout: LogoutPayload
+
   #storyList(type: $type, offset: $offset, limit: Int = 10) [Story]
 }
 
 type Mutation {
   registerUser(input: registerUserInput!): User
   localLogin(input: localLoginInput!): LocalLoginPayload
-
+  logout(fullName: String): LogoutPayload
   #googleLogin(input: googleLoginInput!): User
 }
 

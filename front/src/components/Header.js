@@ -28,14 +28,11 @@ const styles = theme => ({
 
 function ButtonAppBar(props) {
 
-
-  const classes = props.classes;
-
   return (
-    <div className={classes.root}>
+    <div className={props.classes.root}>
       <AppBar position="static">
         <Toolbar>
-          <Typography type="title" color="inherit" className={classes.flex}>
+          <Typography type="title" color="inherit" className={props.classes.flex}>
             <Link to="/">
             Travel Site Building In process
             </Link>
