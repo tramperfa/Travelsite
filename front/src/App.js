@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import './App.css';
 import Homepage from './components/Homepage';
 import NotFound from './components/NotFound';
@@ -7,20 +7,14 @@ import StoryReader from './components/StoryReader';
 import Login from './components/Login';
 import Header from './components/Header';
 
-
-import {
-  ApolloClient,
-  ApolloProvider,
-  createNetworkInterface,
-} from 'react-apollo';
+import {ApolloClient, ApolloProvider, createNetworkInterface} from 'react-apollo';
 
 import {
   BrowserRouter,
   //Link,
   Route,
-  Switch,
+  Switch
 } from 'react-router-dom';
-
 
 import persist from './lib/persist';
 
@@ -28,79 +22,66 @@ import persist from './lib/persist';
 const networkInterface = createNetworkInterface({
   uri: 'http://localhost:8080/graphql',
   opts: {
-  credentials: 'include',
-  },
+    credentials: 'include'
+  }
 });
 
-networkInterface.use([{
-  applyMiddleware(req, next) {
-    setTimeout(next, 500);
-  },
-}]);
+networkInterface.use([
+  {
+    applyMiddleware(req, next) {
+      setTimeout(next, 500);
+    }
+  }
+]);
 
-
-
-const client = new ApolloClient({
-  networkInterface,
-});
-
-
+const client = new ApolloClient({networkInterface});
 
 class App extends Component {
   constructor(props) {
-   super(props);
+    super(props);
 
-   this.state = {
-     me: {}
-   }
-   this.onLoginLogout = this.onLoginLogout.bind(this)
-   this.onLogout = this.onLogout.bind(this)
+    this.state = {
+      me: {}
+    }
+    this.onLoginLogout = this.onLoginLogout.bind(this)
+    this.onLogout = this.onLogout.bind(this)
 
   }
 
   componentDidMount() {
-      persist.willGetSessionUser().then(function(value) {
-        if (value) {
-          this.setState({
-            me: value
-          })
-        }
-      }.bind(this))
+    persist.willGetSessionUser().then(function(value) {
+      if (value) {
+        this.setState({me: value})
+      }
+    }.bind(this))
   }
 
-
   onLoginLogout(me) {
-      this.setState({
-        me: me
-      })
+    this.setState({me: me})
   }
 
   onLogout() {
-      this.setState({
-        me: {}
-      })
+    this.setState({me: {}})
   }
 
-
-//<Login> Must be after all <Route>, because it takes additional props
+  //<Login> Must be after all <Route>, because it takes additional props
 
   render() {
     return (
-    <ApolloProvider client={client}>
-      <BrowserRouter>
-        <div className="App">
-          <Header me={this.state.me} onLogout={this.onLogout}/>
-          <Switch>
-            <Route exact path="/" component={Homepage}/>
-            <Route path="/editor" component={Editor}/>
-            <Route path="/story/:_id" component={StoryReader}/>
-
+      <ApolloProvider client={client}>
+        <BrowserRouter>
+          <div className="App">
+            <Header me={this.state.me} onLogout={this.onLogout}/>
             <Login onLoginLogout={this.onLoginLogout}/>
-            <Route component={ NotFound }/>
-          </Switch>
-        </div>
-      </BrowserRouter>
-    </ApolloProvider>
+            <Switch>
+              <Route exact path="/" component={Homepage}/>
+              <Route path="/editor" component={Editor}/>
+              <Route path="/story/:_id" component={StoryReader}/>
+              <Route component={NotFound}/>
+            </Switch>
+          </div>
+        </BrowserRouter>
+      </ApolloProvider>
     );
   }
 }

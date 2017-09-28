@@ -1,30 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
+import {withStyles} from 'material-ui/styles';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 //import Button from 'material-ui/Button';
-import {
-  Link
-} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 import Me from './Me';
+import Login from './Login';
 //var Me = require("./Me");
 
 const styles = theme => ({
   root: {
     marginTop: theme.spacing.unit * 3,
-    width: '100%',
+    width: '100%'
   },
   flex: {
-    flex: 1,
-  },
-
+    flex: 1
+  }
 });
-
-
-
 
 function ButtonAppBar(props) {
 
@@ -34,10 +29,10 @@ function ButtonAppBar(props) {
         <Toolbar>
           <Typography type="title" color="inherit" className={props.classes.flex}>
             <Link to="/">
-            Travel Site Building In process
+              Travel Site Building In process
             </Link>
           </Typography>
-        <Me me = {props.me} onLogout={props.onLogout}/>
+          <Me me={props.me} onLogout={props.onLogout}/>
         </Toolbar>
       </AppBar>
     </div>

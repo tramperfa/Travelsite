@@ -1,81 +1,109 @@
 import React from 'react';
-import { gql, graphql } from 'react-apollo';
+import {gql, graphql} from 'react-apollo';
 import persist from '../lib/persist';
 import PropTypes from 'prop-types';
+import Button from 'material-ui/Button';
+import Dialog, {DialogActions, DialogContent, DialogContentText, DialogTitle} from 'material-ui/Dialog';
+import Slide from 'material-ui/transitions/Slide';
+import {withStyles} from 'material-ui/styles';
+import TextField from 'material-ui/TextField';
+import {Route} from 'react-router-dom';
 
-import {
-  //BrowserRouter,
-  //Link,
-  Route,
-} from 'react-router-dom';
+const styles = theme => ({
+  container: {
+    display: 'flex',
+    flexWrap: 'wrap'
+  },
+  textField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    width: 200
+  },
+  menu: {
+    width: 200
+  }
+});
 
 class Login extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      open: false,
+      name: '',
+      password: ''
     }
+
     this.localLogin = props.localLogin
     this.onLoginLogout = props.onLoginLogout
+    this.classes = props.classes
   }
 
-  handleSubmit(e) {
-    e.preventDefault()
+  handleClick = () => {
 
+    const emailorusername = this.state.name
+    const password = this.state.password
 
-    const emailorusername = e.target.elements.emailorusername.value
-    const password = e.target.elements.password.value
+    console.log("CLICK STATE :  " + JSON.stringify(this.state));
+    //console.log("CLICK PW :  " + password);
 
-    if (emailorusername === '' || password === '') {
-      return false
-    }
-
-    this.localLogin(emailorusername, password)
-    .then(({ data }) => {
+    this.localLogin(emailorusername, password).then(({data}) => {
       //console.log('GOT DATA', data);
       return persist.willSetSessionUser(data.localLogin.me)
-    })
-    .then((me) => {
+    }).then((me) => {
       return this.onLoginLogout(me)
-    })
-    .catch((err) => {
+    }).catch((err) => {
       console.log('there was an error during login', err);
       console.log(JSON.stringify(err));
     })
-
-
-
     // reset form
-    e.target.elements.emailorusername.value = ''
-    e.target.elements.password.value = ''
+    // e.target.elements.emailorusername.value = ''
+    // e.target.elements.password.value = ''
   }
 
+  handleChange = name => event => {
+    this.setState({[name]: event.target.value});
+  };
 
+  handleClickOpen = () => {
+    this.setState({open: true});
+  };
+
+  handleRequestClose = () => {
+    this.setState({open: false});
+  };
+
+  //            <form className={this.classes.container} noValidate autoComplete="off">
+  //      </form>
 
   render() {
-    return (
-      <Route path="/login">
-        <div>
-          <form onSubmit={this.handleSubmit.bind(this)}>
-            <h1>Login (GraphQL)</h1>
-            <input placeholder='email or username' name='emailorusername' defaultValue='' />
-            <input placeholder='password' name='password' defaultValue='' />
-            <button type='submit'>Login</button>
-          </form>
-          <div className="channelName">
-            {this.localLogin}
-          </div>
-        </div>
-      </Route>
 
+    return (
+      <div>
+        <Button onClick={this.handleClickOpen}>Login</Button>
+        <Dialog open={this.state.open} transition={Slide} onRequestClose={this.handleRequestClose}>
+          <DialogTitle>{"Login"}</DialogTitle>
+          <form className={this.classes.container} noValidate autoComplete="off">
+            <DialogContent>
+              <TextField id="name" label="Name" className={this.classes.textField} value={this.state.name} onChange={this.handleChange('name')} margin="normal"/>
+              <TextField id="password" label="Password" className={this.classes.textField} type="password" autoComplete="current-password" value={this.state.password} onChange={this.handleChange('password')} margin="normal"/>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={this.handleClick} color="primary">
+                SUBMIT
+              </Button>
+              <Button onClick={this.handleRequestClose} color="primary">
+                CANCEL
+              </Button>
+            </DialogActions>
+          </form>
+
+        </Dialog>
+      </div>
     )
   }
 }
 
-
-
-
-
-const LoginMutation = gql`
+const LoginMutation = gql `
   mutation localLogin($input: localLoginInput!) {
     localLogin(input: $input) {
       me {
@@ -86,15 +114,14 @@ const LoginMutation = gql`
   }
  `;
 
-Login.propTypes = () => ({
+Login.propTypes = {
   localLogin: PropTypes.func.isRequired,
-  onLoginLogout: PropTypes.func.isRequired
-})
+  onLoginLogout: PropTypes.func.isRequired,
+  classes: PropTypes.object.isRequired
+}
 
-
-
-export default graphql(LoginMutation, {
-  props: ({ mutate }) => ({
+const LoginWithMuation = graphql(LoginMutation, {
+  props: ({mutate}) => ({
     localLogin: (emailorusername, password) => mutate({
       variables: {
         input: {
@@ -104,5 +131,6 @@ export default graphql(LoginMutation, {
       }
     })
   })
-}
-)(Login)
+})(Login)
+
+export default withStyles(styles)(LoginWithMuation);
