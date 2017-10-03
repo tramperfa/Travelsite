@@ -3,11 +3,10 @@ import {gql, graphql} from 'react-apollo';
 import persist from '../lib/persist';
 import PropTypes from 'prop-types';
 import Button from 'material-ui/Button';
-import Dialog, {DialogActions, DialogContent, DialogContentText, DialogTitle} from 'material-ui/Dialog';
+import Dialog, {DialogActions, DialogContent, DialogTitle} from 'material-ui/Dialog';
 import Slide from 'material-ui/transitions/Slide';
 import {withStyles} from 'material-ui/styles';
 import TextField from 'material-ui/TextField';
-import {Route} from 'react-router-dom';
 
 const styles = theme => ({
   container: {
@@ -25,17 +24,10 @@ const styles = theme => ({
 });
 
 class Login extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      open: false,
-      name: '',
-      password: ''
-    }
 
-    this.localLogin = props.localLogin
-    this.onLoginLogout = props.onLoginLogout
-    this.classes = props.classes
+  state = {
+    name: '',
+    password: ''
   }
 
   handleClick = () => {
@@ -43,49 +35,38 @@ class Login extends React.Component {
     const emailorusername = this.state.name
     const password = this.state.password
 
-    console.log("CLICK STATE :  " + JSON.stringify(this.state));
-    //console.log("CLICK PW :  " + password);
+    //console.log("CLICK STATE :  " + JSON.stringify(this.state));
 
-    this.localLogin(emailorusername, password).then(({data}) => {
-      //console.log('GOT DATA', data);
+    this.props.localLogin(emailorusername, password).then(({data}) => {
       return persist.willSetSessionUser(data.localLogin.me)
     }).then((me) => {
-      return this.onLoginLogout(me)
+      return this.props.onLogin(me)
+    }).then((me) => {
+      return this.props.handleRequestClose()
+      // }).then(() => {
+      //   this.setState({name: '', password: ''})
     }).catch((err) => {
       console.log('there was an error during login', err);
       console.log(JSON.stringify(err));
     })
-    // reset form
-    // e.target.elements.emailorusername.value = ''
-    // e.target.elements.password.value = ''
+
   }
 
   handleChange = name => event => {
     this.setState({[name]: event.target.value});
   };
 
-  handleClickOpen = () => {
-    this.setState({open: true});
-  };
-
-  handleRequestClose = () => {
-    this.setState({open: false});
-  };
-
-  //            <form className={this.classes.container} noValidate autoComplete="off">
-  //      </form>
-
   render() {
 
     return (
       <div>
-        <Button onClick={this.handleClickOpen}>Login</Button>
-        <Dialog open={this.state.open} transition={Slide} onRequestClose={this.handleRequestClose}>
+
+        <Dialog open={this.props.openLogin} transition={Slide} onRequestClose={this.handleRequestClose}>
           <DialogTitle>{"Login"}</DialogTitle>
-          <form className={this.classes.container} noValidate autoComplete="off">
+          <form className={this.props.classes.container} noValidate autoComplete="off">
             <DialogContent>
-              <TextField id="name" label="Name" className={this.classes.textField} value={this.state.name} onChange={this.handleChange('name')} margin="normal"/>
-              <TextField id="password" label="Password" className={this.classes.textField} type="password" autoComplete="current-password" value={this.state.password} onChange={this.handleChange('password')} margin="normal"/>
+              <TextField id="name" label="Name" className={this.props.classes.textField} value={this.state.name} onChange={this.handleChange('name')} margin="normal"/>
+              <TextField id="password" label="Password" className={this.props.classes.textField} type="password" autoComplete="current-password" value={this.state.password} onChange={this.handleChange('password')} margin="normal"/>
             </DialogContent>
             <DialogActions>
               <Button onClick={this.handleClick} color="primary">
@@ -116,8 +97,10 @@ const LoginMutation = gql `
 
 Login.propTypes = {
   localLogin: PropTypes.func.isRequired,
-  onLoginLogout: PropTypes.func.isRequired,
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  onLogin: PropTypes.func.isRequired,
+  openLogin: PropTypes.bool.isRequired,
+  handleRequestClose: PropTypes.func.isRequired
 }
 
 const LoginWithMuation = graphql(LoginMutation, {

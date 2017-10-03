@@ -4,12 +4,11 @@ import {withStyles} from 'material-ui/styles';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
-//import Button from 'material-ui/Button';
+import Button from 'material-ui/Button';
 import {Link} from 'react-router-dom';
 
-import Me from './Me';
-import Login from './Login';
-//var Me = require("./Me");
+//import Me from './Me';
+import Logout from './Logout';
 
 const styles = theme => ({
   root: {
@@ -21,8 +20,9 @@ const styles = theme => ({
   }
 });
 
-function ButtonAppBar(props) {
+//<Me me={props.me} onLogout={props.onLogout}/>
 
+function ButtonAppBar(props) {
   return (
     <div className={props.classes.root}>
       <AppBar position="static">
@@ -32,7 +32,11 @@ function ButtonAppBar(props) {
               Travel Site Building In process
             </Link>
           </Typography>
-          <Me me={props.me} onLogout={props.onLogout}/>
+          <div>
+            {props.me.fullName
+              ? <Logout me={props.me} onLogout={props.onLogout}/>
+              : <Button onClick={props.handleClickOpen}>Login</Button>}
+          </div>
         </Toolbar>
       </AppBar>
     </div>
@@ -42,7 +46,8 @@ function ButtonAppBar(props) {
 ButtonAppBar.propTypes = {
   classes: PropTypes.object.isRequired,
   me: PropTypes.object.isRequired,
-  onLogout: PropTypes.func.isRequired
+  onLogout: PropTypes.func.isRequired,
+  handleClickOpen: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(ButtonAppBar);

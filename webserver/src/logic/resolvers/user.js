@@ -54,7 +54,6 @@ const willCreateSession = (req, user) => new Promise((resolve, reject) => {
         if (err) {
           return reject(new Error(err))
         }
-        //console.log('Finish session create');
         return resolve("session create successful")
       })
     });

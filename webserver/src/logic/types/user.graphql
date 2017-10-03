@@ -16,7 +16,6 @@ type User {
 type Query {
   me: User
   user(_id: ID!): User
-
   #storyList(type: $type, offset: $offset, limit: Int = 10) [Story]
 }
 

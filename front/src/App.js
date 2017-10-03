@@ -37,15 +37,10 @@ networkInterface.use([
 const client = new ApolloClient({networkInterface});
 
 class App extends Component {
-  constructor(props) {
-    super(props);
 
-    this.state = {
-      me: {}
-    }
-    this.onLoginLogout = this.onLoginLogout.bind(this)
-    this.onLogout = this.onLogout.bind(this)
-
+  state = {
+    me: {},
+    openLogin: false
   }
 
   componentDidMount() {
@@ -56,23 +51,29 @@ class App extends Component {
     }.bind(this))
   }
 
-  onLoginLogout(me) {
+  onLogin = (me) => {
     this.setState({me: me})
   }
 
-  onLogout() {
+  onLogout = () => {
     this.setState({me: {}})
   }
 
-  //<Login> Must be after all <Route>, because it takes additional props
+  handleClickOpen = () => {
+    this.setState({openLogin: true});
+  }
+
+  handleRequestClose = () => {
+    this.setState({openLogin: false});
+  }
 
   render() {
     return (
       <ApolloProvider client={client}>
         <BrowserRouter>
           <div className="App">
-            <Header me={this.state.me} onLogout={this.onLogout}/>
-            <Login onLoginLogout={this.onLoginLogout}/>
+            <Header me={this.state.me} onLogout={this.onLogout} handleClickOpen={this.handleClickOpen}/>
+            <Login onLogin={this.onLogin} openLogin={this.state.openLogin} handleRequestClose={this.handleRequestClose}/>
             <Switch>
               <Route exact path="/" component={Homepage}/>
               <Route path="/editor" component={Editor}/>

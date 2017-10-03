@@ -6,20 +6,12 @@ import Button from 'material-ui/Button';
 import Typography from 'material-ui/Typography';
 
 class Logout extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {}
-    this.logout = props.logout
-    this.onLogout = props.onLogout
-    this.me = props.me
-  }
 
   handleLogout() {
-
-    this.logout("name").then((success) => {
+    this.props.logout("name").then((success) => {
       return persist.willRomveSessionUser()
     }).then(() => {
-      return this.onLogout()
+      return this.props.onLogout()
     }).catch((err) => {
       console.log('there was an error during logout', err);
       console.log(JSON.stringify(err));
@@ -30,7 +22,7 @@ class Logout extends React.Component {
     return (
       <div>
         <Typography color="accent">
-          Hello, {this.me.fullName}
+          Hello, {this.props.me.fullName}
         </Typography>
         <Button color="contrast" onClick={this.handleLogout.bind(this)}>Logout</Button>
       </div>
@@ -39,7 +31,11 @@ class Logout extends React.Component {
 
 }
 
-Logout.propTypes = () => ({logout: PropTypes.func.isRequired, onLogout: PropTypes.func.isRequired, me: PropTypes.object.isRequired})
+Logout.propTypes = {
+  logout: PropTypes.func.isRequired,
+  onLogout: PropTypes.func.isRequired,
+  me: PropTypes.object.isRequired
+}
 
 const LogoutMutation = gql `
 mutation logout($name: String){
