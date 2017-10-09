@@ -1,7 +1,8 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
-
 import {gql, graphql} from 'react-apollo'
+
+//import Highlight from './Hignlight';
 
 const storiesList = ({
   data: {
@@ -20,13 +21,16 @@ const storiesList = ({
 
   return (
     <div>
+      <div>
+        {/* <Highlight></Highlight> */}
+      </div>
       {stories.map(story => (
         <div key={story._id} className='story'>
           <Link to={story._id < 0
             ? `/`
             : `story/${story._id}`}>
             {story.title}
-            {story._id}
+            {"  ID:   " + story._id}
             {story.snapshotContent}
           </Link>
         </div>
@@ -39,7 +43,7 @@ export const storiesListQuery = gql `
   query poularStoryQuery {
     stories {
       _id
-      user
+      author
       title
 
       snapshotContent

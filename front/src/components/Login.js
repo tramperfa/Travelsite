@@ -27,15 +27,14 @@ class Login extends React.Component {
 
   state = {
     name: '',
-    password: ''
+    password: '',
+    errorMessage: null
   }
 
-  handleClick = () => {
+  handleSubmit = () => {
 
     const emailorusername = this.state.name
     const password = this.state.password
-
-    //console.log("CLICK STATE :  " + JSON.stringify(this.state));
 
     this.props.localLogin(emailorusername, password).then(({data}) => {
       return persist.willSetSessionUser(data.localLogin.me)
@@ -43,11 +42,11 @@ class Login extends React.Component {
       return this.props.onLogin(me)
     }).then((me) => {
       return this.props.handleRequestClose()
-      // }).then(() => {
-      //   this.setState({name: '', password: ''})
-    }).catch((err) => {
-      console.log('there was an error during login', err);
-      console.log(JSON.stringify(err));
+    }).catch((error) => {
+      //console.log('there was an error during login', error);
+      console.log(JSON.stringify(error))
+      this.setState({name: '', password: '', errorMessage: error.graphQLErrors[0].message})
+      //this.setState({errorMessage: error.graphQLErrors[0].message})
     })
 
   }
@@ -56,27 +55,45 @@ class Login extends React.Component {
     this.setState({[name]: event.target.value});
   };
 
+  onKeyPress = (event) => {
+    if (event.charCode === 13) { // enter key pressed
+      event.preventDefault()
+      // do something here
+      this.handleSubmit()
+    }
+  }
+
+  handleClose = () => {
+    this.setState({name: '', password: '', errorMessage: null})
+    this.props.handleRequestClose()
+  }
+
   render() {
 
     return (
       <div>
 
-        <Dialog open={this.props.openLogin} transition={Slide} onRequestClose={this.handleRequestClose}>
+        <Dialog open={this.props.openLogin} transition={Slide} onRequestClose={this.handleClose} onKeyPress={this.onKeyPress}>
           <DialogTitle>{"Login"}</DialogTitle>
           <form className={this.props.classes.container} noValidate autoComplete="off">
             <DialogContent>
               <TextField id="name" label="Name" className={this.props.classes.textField} value={this.state.name} onChange={this.handleChange('name')} margin="normal"/>
               <TextField id="password" label="Password" className={this.props.classes.textField} type="password" autoComplete="current-password" value={this.state.password} onChange={this.handleChange('password')} margin="normal"/>
             </DialogContent>
-            <DialogActions>
-              <Button onClick={this.handleClick} color="primary">
-                SUBMIT
-              </Button>
-              <Button onClick={this.handleRequestClose} color="primary">
-                CANCEL
-              </Button>
-            </DialogActions>
+            <div style={{
+              color: 'red'
+            }}>
+              {this.state.errorMessage}
+            </div>
           </form>
+          <DialogActions>
+            <Button onClick={this.handleSubmit} color="primary">
+              SUBMIT
+            </Button>
+            <Button onClick={this.handleClose} color="primary">
+              CANCEL
+            </Button>
+          </DialogActions>
 
         </Dialog>
       </div>
@@ -89,6 +106,7 @@ const LoginMutation = gql `
     localLogin(input: $input) {
       me {
           fullName
+          _id
           #avatar
       }
     }

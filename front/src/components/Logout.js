@@ -2,13 +2,14 @@ import React from 'react';
 import {gql, graphql} from 'react-apollo';
 import persist from '../lib/persist';
 import PropTypes from 'prop-types';
-import Button from 'material-ui/Button';
-import Typography from 'material-ui/Typography';
+//import Button from 'material-ui/Button';
+//import Typography from 'material-ui/Typography';
+import {MenuItem} from 'material-ui/Menu';
 
 class Logout extends React.Component {
 
   handleLogout() {
-    this.props.logout("name").then((success) => {
+    this.props.logout().then((success) => {
       return persist.willRomveSessionUser()
     }).then(() => {
       return this.props.onLogout()
@@ -21,11 +22,13 @@ class Logout extends React.Component {
   render() {
     return (
       <div>
-        <Typography color="accent">
+        {/* <Typography color="accent">
           Hello, {this.props.me.fullName}
-        </Typography>
-        <Button color="contrast" onClick={this.handleLogout.bind(this)}>Logout</Button>
+        </Typography> */}
+        <MenuItem onClick={this.handleLogout.bind(this)}>Logout</MenuItem>
+
       </div>
+
     )
   }
 
@@ -33,8 +36,7 @@ class Logout extends React.Component {
 
 Logout.propTypes = {
   logout: PropTypes.func.isRequired,
-  onLogout: PropTypes.func.isRequired,
-  me: PropTypes.object.isRequired
+  onLogout: PropTypes.func.isRequired
 }
 
 const LogoutMutation = gql `

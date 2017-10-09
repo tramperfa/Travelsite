@@ -1,29 +1,37 @@
 import GraphQLJSON from 'graphql-type-json';
 import Story from '../models/story'
 
-
 module.exports = {
   Query: {
-    story: async (parent, _id, context) => {
+    story: async(parent, _id, context) => {
       //console.log(context.sessionUser);
       return Story.load(_id)
     },
-    stories: async (root, options) => {
+    stories: async(root, options) => {
       return Story.list(options)
     },
+    myDrafts: async(parent, args, context) => {
+      if (context.sessionUser) {
+        const options = {
+          criteria: {
+            'author': context.sessionUser.user._id,
+            'hidden': true
+          }
+        }
+        return Story.list(options)
+      }
+      return new Error('You must login to publish a story')
+    }
   },
+
   Mutation: {
     createDraft: (parent, args, context) => {
-      var newStory = new Story({
-        title: "Unnamed Draft new",
-        user: args.input.user_id
-      });
+      var newStory = new Story({title: "Unnamed Draft new", author: context.sessionUser.user._id});
       return newStory.createDraft()
-    },
+    }
   },
   JSON: GraphQLJSON
 }
-
 
 // const Content = {
 //   "entityMap": {},

@@ -2,7 +2,7 @@
 type User {
   _id: ID!
   fullName: String
-  email: String
+  # email: String
   username: String
   provider: String
   profile: JSON
@@ -12,9 +12,22 @@ type User {
   #avatar(size: PhotoSize): Image
 }
 
+type Me {
+  _id: ID!
+  fullName: String
+  email: String
+  username: String
+  provider: String
+  profile: JSON
+  facebook: String
+  google: String
+  role: String
+  #avatar(size: PhotoSize): Image
+}
+
 
 type Query {
-  me: User
+  me: Me
   user(_id: ID!): User
   #storyList(type: $type, offset: $offset, limit: Int = 10) [Story]
 }

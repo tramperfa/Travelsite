@@ -23,18 +23,8 @@ module.exports = function(app, db) {
         sessionUser: req.session.passport,
         req: req
       },
-      formatError(e) {
-        return {
-          status: e.originalError
-            ? e.originalError.status
-            : 400,
-          type: e.originalError
-            ? e.originalError.type
-            : null,
-          message: e.message,
-          locations: e.locations,
-          path: e.path
-        };
+      formatError(error) {
+        return {message: error.message, path: error.path};
       }
     };
 

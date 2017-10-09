@@ -3,39 +3,57 @@ import PropTypes from 'prop-types';
 import {withStyles} from 'material-ui/styles';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
-import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
-import {Link} from 'react-router-dom';
+//import {Link} from 'react-router-dom';
 
-//import Me from './Me';
-import Logout from './Logout';
+// import IconButton from 'material-ui/IconButton';
+// import MenuIcon from 'material-ui-icons/Menu';
+
+//import Logout from './Logout';
+import Me from './Me';
 
 const styles = theme => ({
   root: {
-    marginTop: theme.spacing.unit * 3,
+    //marginTop: theme.spacing.unit * 3,
     width: '100%'
   },
-  flex: {
-    flex: 1
+  appbar: {
+    height: '44px',
+    backgroundColor: '#333333'
+  },
+  toolbar: {
+    flex: 1,
+    justifyContent: 'space-between',
+    minHeight: '44px',
+    backgroundColor: '#333333'
+  },
+  navsection: {
+    flex: 'auto',
+    justifyContent: 'flex-start'
+  },
+  login: {
+    flex: 'none',
+    justifyContent: 'flex-end'
   }
 });
-
-//<Me me={props.me} onLogout={props.onLogout}/>
 
 function ButtonAppBar(props) {
   return (
     <div className={props.classes.root}>
-      <AppBar position="static">
-        <Toolbar>
-          <Typography type="title" color="inherit" className={props.classes.flex}>
-            <Link to="/">
-              Travel Site Building In process
-            </Link>
-          </Typography>
-          <div>
+      <AppBar position="static" className={props.classes.appbar}>
+        <Toolbar className={props.classes.toolbar}>
+          <div className={props.classes.navsection}>
+            <Button color="contrast" href="/">Home</Button>
+            <Button color="contrast" href="/destination">Destination</Button>
+            <Button color="contrast" href="/hotel">Hotel</Button>
+            <Button color="contrast" href="/hotel">Community</Button>
+            <Button color="contrast" href="/hotel">Book</Button>
+
+          </div>
+          <div className={props.classes.login}>
             {props.me.fullName
-              ? <Logout me={props.me} onLogout={props.onLogout}/>
-              : <Button onClick={props.handleClickOpen}>Login</Button>}
+              ? <Me me={props.me} onLogout={props.onLogout}/>
+              : <Button className="login" color="contrast" onClick={props.handleClickOpen}>Login</Button>}
           </div>
         </Toolbar>
       </AppBar>

@@ -4,7 +4,7 @@ type Story {
   snapshotContent: String
   content: JSON
   #cover: Image
-  user: ID
+  author: ID
   lastUpdate: String
   viewCount: Int
   likeCount: Int
@@ -19,20 +19,20 @@ type Commnet {
 type Query {
   story(_id: ID!): Story
   stories: [Story]
+  myDrafts: [Story]
   #storyList(type: $type, offset: $offset, limit: Int = 10) [Story]
 }
 
 
 
 type Mutation {
-  createDraft(input: createDraftInput!): Story
+  createDraft(user_id: ID): Story
   updateTitle(input: updateTitleInput!): Story
-  createDraft(input: createDraftInput!): Story
 }
 
-input createDraftInput {
-  user_id: ID!
-}
+# input createDraftInput {
+#   user_id: ID
+# }
 
 input updateTitleInput {
   storyID: ID!

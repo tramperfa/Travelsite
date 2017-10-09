@@ -10,7 +10,7 @@ module.exports = {
       if (context.sessionUser) {
         return User.load(context.sessionUser.user._id)
       }
-      return undefined
+      return new Error('You must login to continue')
     }
 
   },
@@ -28,13 +28,13 @@ module.exports = {
       // if (context.sessionUser != null) {
       //   return new Error("User already logged in")
       // }
-
       const user = await willLogin(context.req, args.input.emailorusername, args.input.password)
       await willCreateSession(context.req, user)
       var result = {
         me: user
       }
       return result
+
     },
     logout: async(parent, args, context) => {
       const result = await willDestroySession(context.req)
