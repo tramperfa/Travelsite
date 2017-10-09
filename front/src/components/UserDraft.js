@@ -13,8 +13,8 @@ class UserDraft extends React.Component {
 
   handleCreate = () => {
     this.props.createDraft().then((data) => {
-      console.log(JSON.stringify(data));
-      this.setState(({newDraftID: data.data.createDraft._id}))
+      //console.log(JSON.stringify(data));
+      this.setState({newDraftID: data.data.createDraft._id})
     })
   }
 
@@ -25,10 +25,10 @@ class UserDraft extends React.Component {
 
     return (
       <div>
-        <Button onClick={this.handleCreate} color="primary">
+        <DraftList/>
+        <Button raised color="primary" onClick={this.handleCreate}>
           CREATE NEW DRAFT
         </Button>
-        <DraftList/>
       </div>
     )
   }

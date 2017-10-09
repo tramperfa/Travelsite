@@ -25,10 +25,16 @@ module.exports = {
   },
 
   Mutation: {
-    createDraft: (parent, args, context) => {
+    createDraft: async(parent, args, context) => {
       var newStory = new Story({title: "Unnamed Draft new", author: context.sessionUser.user._id});
       return newStory.createDraft()
+    },
+    updateTitle: async(parent, args, context) => {
+      //console.log("REACHING UPDATE");
+      //console.log(JSON.stringify(args.input));
+      return Story.findByIdAndUpdate(args.input.storyID, {title: args.input.newTitle})
     }
+
   },
   JSON: GraphQLJSON
 }

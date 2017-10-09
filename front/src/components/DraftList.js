@@ -22,7 +22,7 @@ const draftsList = ({
         <div key={draft._id} className='draft'>
           <Link to={draft._id < 0
             ? `/`
-            : `draft/${draft._id}`}>
+            : `/edit/${draft._id}`}>
             {draft.title}
             {"   author:  " + draft.author}
             {/* {draft.snapshotContent} */}

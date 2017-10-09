@@ -18,6 +18,7 @@ import Header from './components/Header';
 import UserHome from './components/UserHome';
 import UserDraft from './components/UserDraft';
 import persist from './lib/persist';
+//import {Redirect} from 'react-router-dom';
 
 // Create GraphQL client to setup Connection with GraphQL server
 const networkInterface = createNetworkInterface({
@@ -41,7 +42,8 @@ class App extends Component {
 
   state = {
     me: {},
-    openLogin: false
+    openLogin: false,
+    //redirect: false
   }
 
   componentDidMount() {
@@ -87,6 +89,7 @@ class App extends Component {
   }
 
   render() {
+
     return (
       <ApolloProvider client={client}>
         <BrowserRouter>

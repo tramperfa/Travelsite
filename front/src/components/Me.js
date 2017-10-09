@@ -26,6 +26,10 @@ class Me extends React.Component {
     this.setState({open: false});
   };
 
+  handleRedirect = () => {
+    this.setState({redirect: true});
+  };
+
   render() {
     return (
       <div>
@@ -45,7 +49,9 @@ class Me extends React.Component {
               Write a Story
             </Link>
           </MenuItem>
-          <Logout onLogout={this.props.onLogout}/>
+          <Link className={this.props.classes.textField} to="/">
+            <Logout onLogout={this.props.onLogout} handleRedirect={this.handleRedirect}/>
+          </Link>
         </Menu>
       </div>
     );
