@@ -144,7 +144,7 @@ imager.upload(images, function (err, cdnUri, files) {
 }, 'Story');
 */
 
-  createDraft: function() {
+  newDraft: function() {
     return new Promise((resolve, reject) => {
       this.save((err, res) => {
         err

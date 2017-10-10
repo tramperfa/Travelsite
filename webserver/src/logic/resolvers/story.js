@@ -27,16 +27,37 @@ module.exports = {
   Mutation: {
     createDraft: async(parent, args, context) => {
       var newStory = new Story({title: "Unnamed Draft new", author: context.sessionUser.user._id});
-      return newStory.createDraft()
+      return newStory.newDraft()
     },
     updateTitle: async(parent, args, context) => {
-      //console.log("REACHING UPDATE");
-      //console.log(JSON.stringify(args.input));
-      return Story.findByIdAndUpdate(args.input.storyID, {title: args.input.newTitle})
+      return willUpdateDraft(args.input.storyID, 'title', args.input.newTitle, true, context)
     }
 
   },
   JSON: GraphQLJSON
+}
+
+const willUpdateDraft = async(storyID, updateField, updateValue, ownerEnforce, context) => {
+  if (!context.sessionUser) {
+    return new Error('You must login to continue')
+  }
+
+  try {
+    const story = await Story.findById(storyID)
+    if (ownerEnforce) {
+      if (!story.author.equals(context.sessionUser.user._id)) {
+        throw new Error('Reqested story edit is not authorized')
+      }
+      story.lastUpdate = new Date().toISOString()
+    }
+    story[updateField] = updateValue
+    await story.save()
+    return story
+
+  } catch (e) {
+    return e
+  } finally {}
+
 }
 
 // const Content = {
