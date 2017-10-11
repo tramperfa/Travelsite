@@ -28,19 +28,21 @@ type Query {
 type Mutation {
   createDraft(user_id: ID): Story
   updateTitle(input: updateTitleInput!): Story
-}
+  updateContent(input: updateContentInput!): Story
+  updateCover(input: updateCoverInput!): Story
+  publishStory(input: publishStoryInput!): Story
+  likeStory(input: likeStoryInput!): Story
 
-# input createDraftInput {
-#   user_id: ID
-# }
+}
 
 input updateTitleInput {
   storyID: ID!
   newTitle: String!
 }
 
-# updateCover(input: updateCoverInput!): updateCoverPayload
-# updateContent(input: updateContentInput!): updateContentPayload
-# publishStory(input: publishStoryInput!): publishStoryPayload
 # addComment(input: addCommentInput!): addCommentPayload
 # removeComment(input: removeCommentInput!): removeCommentPayload
+
+# input createDraftInput {
+#   user_id: ID
+# }

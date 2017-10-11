@@ -7,9 +7,8 @@ import Button from 'material-ui/Button';
 //import {Link} from 'react-router-dom';
 
 // import IconButton from 'material-ui/IconButton';
-// import MenuIcon from 'material-ui-icons/Menu';
+//import Drafts from "material-ui-icons/Drafts";
 
-//import Logout from './Logout';
 import Me from './Me';
 
 const styles = theme => ({

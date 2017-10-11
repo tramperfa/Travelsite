@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-//import './App.css';
+import './App.css';
 import Homepage from './components/Homepage';
 import {ApolloClient, ApolloProvider, createNetworkInterface} from 'react-apollo';
 import {

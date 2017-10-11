@@ -1,8 +1,9 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
+//import {Link} from 'react-router-dom'
 import {gql, graphql} from 'react-apollo'
 
-//import Highlight from './Hignlight';
+import StoryCard from './StoryCard';
+//import Highlight from './Highlight';
 
 const storiesList = ({
   data: {
@@ -11,28 +12,21 @@ const storiesList = ({
     stories
   }
 }) => {
-  //console.log(stories);
+
+  // TODO Refactor loading animation
   if (loading) {
     return <p>Loading ...</p>;
   }
+
   if (error) {
     return <p>{error.message}</p>;
   }
 
   return (
     <div>
-      <div>
-        {/* <Highlight></Highlight> */}
-      </div>
       {stories.map(story => (
-        <div key={story._id} className='story'>
-          <Link to={story._id < 0
-            ? `/`
-            : `story/${story._id}`}>
-            {story.title}
-            {"  ID:   " + story._id}
-            {story.snapshotContent}
-          </Link>
+        <div className="storyList" key={story._id}>
+          <StoryCard story={story}/>
         </div>
       ))}
     </div>
@@ -45,7 +39,6 @@ export const storiesListQuery = gql `
       _id
       author
       title
-
       snapshotContent
       viewCount
       likeCount

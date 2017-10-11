@@ -1,6 +1,7 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
+//import {Link} from 'react-router-dom'
 import {gql, graphql} from 'react-apollo'
+import DraftCard from './DraftCard'
 
 const draftsList = ({
   data: {
@@ -20,13 +21,7 @@ const draftsList = ({
     <div>
       {myDrafts.map(draft => (
         <div key={draft._id} className='draft'>
-          <Link to={draft._id < 0
-            ? `/`
-            : `/edit/${draft._id}`}>
-            {draft.title}
-            {"   author:  " + draft.author}
-            {/* {draft.snapshotContent} */}
-          </Link>
+          <DraftCard draft={draft}/>
         </div>
       ))}
     </div>
@@ -40,6 +35,7 @@ export const draftsListQuery = gql `
       author
       title
       snapshotContent
+      lastUpdate
     }
   }
 `;
