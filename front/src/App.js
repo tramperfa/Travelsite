@@ -11,7 +11,7 @@ import {
 import {MuiThemeProvider, createMuiTheme} from 'material-ui/styles';
 
 import NotFound from './components/NotFound';
-import Editor from './components/Editor';
+import EditPage from './components/EditPage';
 import StoryReader from './components/StoryReader';
 import Login from './components/Login';
 import Header from './components/Header';
@@ -102,7 +102,7 @@ class App extends Component {
                 <Route path="/story/:_id" component={StoryReader}/>
                 <Route path="/user/:_id" component={UserHome}/>
                 <Route path="/userdraft/:_id" component={UserDraft}/>
-                <Route path="/edit/:_id" component={Editor}/>
+                <Route path="/edit/:_id" component={EditPage}/>
                 <Route component={NotFound}/>
               </Switch>
             </div>

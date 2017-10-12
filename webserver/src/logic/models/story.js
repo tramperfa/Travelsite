@@ -27,6 +27,14 @@ var StorySchema = new Schema({
     index: true,
     ref: 'User'
   },
+  coverImage: {
+    type: ObjectId,
+    ref: 'coverImage'
+  },
+  headlineImage: {
+    type: ObjectId,
+    ref: 'headlineImage'
+  },
   image: [
     {
       cdnUri: {
@@ -43,6 +51,10 @@ var StorySchema = new Schema({
       uploadAt: {
         type: Date,
         default: Date.now
+      },
+      takenAt: {
+        type: Date,
+        default: undefined
       }
     }
   ],
@@ -154,19 +166,6 @@ imager.upload(images, function (err, cdnUri, files) {
     });
   },
 
-  updateDraft: function() {
-    if (!this.adminDelete) {
-      return this.save();
-    }
-  },
-
-  // Additional Authitacition than updateDraft
-  modifyStory: function() {
-    if (!this.adminDelete) {
-      return this.save();
-    }
-  },
-
   publish: function() {
     // validate required fields all exist
     const err = this.validateSync();
@@ -242,7 +241,7 @@ StorySchema.statics = {
 
   load: async function(_id) {
     return new Promise((resolve, reject) => {
-      this.findOne({_id: _id})
+      this.findOne({_id: _id, adminDelete: false})
       //.populate('user')
         .populate('comments').exec((err, res) => {
         err

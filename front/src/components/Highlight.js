@@ -1,37 +1,37 @@
-import React, {Component} from 'react';
+import React from 'react';
 import SwipeableViews from 'react-swipeable-views';
 import {autoPlay} from 'react-swipeable-views-utils';
-import Pagination from './Pagination';
+import PropTypes from 'prop-types';
+import Card, {CardContent, CardMedia, CardTitle} from 'material-ui/Card';
+import {withStyles} from 'material-ui/styles';
+import IconButton from 'material-ui/IconButton';
+import Comment from "material-ui-icons/Comment"
+import Typography from 'material-ui/Typography';
 
-import imageA from '../images/a.jpg';
+import imageB from '../images/b.jpg';
+import imageC from '../images/c.jpg';
+import Pagination from './Pagination';
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
+// const styles = theme => ({
 const styles = {
   root: {
-    position: 'relative'
+    position: 'absolute'
   },
-  slide: {
-    // padding: 15,
-    height: '400px',
-    width: 'auto'
-    // color: '#fff'
+  card: {
+    display: 'flex',
+    width: 1500,
+    height: 900
   },
-  slide1: {
-    backgroundColor: '#FEA900'
-  },
-  slide2: {
-    backgroundColor: '#B3DC4A'
-  },
-  slide3: {
-    backgroundColor: '#6AC0FF'
-  },
-  slide4: {
-    backgroundColor: '#6AC000'
+  backgroud: {
+    width: 1500,
+    height: 900
   }
-};
+}
+// });
 
-class DemoAutoPlay extends Component {
+class Highlight extends React.Component {
   state = {
     index: 0
   };
@@ -46,12 +46,27 @@ class DemoAutoPlay extends Component {
     return (
       <div style={styles.root}>
         <AutoPlaySwipeableViews index={index} onChangeIndex={this.handleChangeIndex}>
-          <div style={styles.slide}>
-            <img src={imageA} alt="imageA"/>
+          <div>
+            <Card style={styles.card}>
+              <CardMedia style={styles.backgroud} image={imageB}/>
+              <IconButton aria-label="Comment">
+                <Comment/>
+              </IconButton>
+              <CardContent >
+                <Typography type="headline">
+                  The Title Goes Here
+                </Typography>
+              </CardContent>
+            </Card>
           </div>
-          <div style={Object.assign({}, styles.slide, styles.slide2)}>slide n°2</div>
-          {/* <div style={Object.assign({}, styles.slide, styles.slide3)}>slide n°3</div>
-          <div style={Object.assign({}, styles.slide, styles.slide4)}>slide n°4</div> */}
+          <div>
+            <Card style={styles.card}>
+              <CardMedia style={styles.backgroud} image={imageC}/>
+              <IconButton aria-label="Comment">
+                <Comment/>
+              </IconButton>
+            </Card>
+          </div>
         </AutoPlaySwipeableViews>
         <Pagination dots={2} index={index} onChangeIndex={this.handleChangeIndex}/>
       </div>
@@ -59,4 +74,10 @@ class DemoAutoPlay extends Component {
   }
 }
 
-export default DemoAutoPlay;
+export default Highlight;
+
+// Highlight.propTypes = {
+//   classes: PropTypes.object.isRequired
+// }
+//
+// export default withStyles(styles)(Highlight);

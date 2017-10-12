@@ -24,6 +24,7 @@ const storiesList = ({
 
   return (
     <div>
+      {/* <div><Highlight/></div> */}
       {stories.map(story => (
         <div className="storyList" key={story._id}>
           <StoryCard story={story}/>

@@ -4,10 +4,15 @@ import Story from '../models/story'
 module.exports = {
   Query: {
     story: async(parent, _id, context) => {
-      //console.log(context.sessionUser);
       return Story.load(_id)
     },
-    stories: async(root, options) => {
+    stories: async(parent, args, context) => {
+      const options = {
+        criteria: {
+          'hidden': false,
+          'adminDelete': false
+        }
+      }
       return Story.list(options)
     },
     myDrafts: async(parent, args, context) => {
@@ -15,15 +20,15 @@ module.exports = {
         const options = {
           criteria: {
             'author': context.sessionUser.user._id,
-            'hidden': true
+            'hidden': true,
+            'adminDelete': false
           }
         }
         return Story.list(options)
       }
-      return new Error('You must login to publish a story')
+      return new Error('You must login to write a story')
     }
   },
-
   Mutation: {
     createDraft: async(parent, args, context) => {
       var newStory = new Story({title: "Unnamed Draft new", author: context.sessionUser.user._id});
@@ -44,6 +49,9 @@ const willUpdateDraft = async(storyID, updateField, updateValue, ownerEnforce, c
 
   try {
     const story = await Story.findById(storyID)
+    if (!story || story.adminDelete) {
+      throw new Error('Reqested story does not exist')
+    }
     if (ownerEnforce) {
       if (!story.author.equals(context.sessionUser.user._id)) {
         throw new Error('Reqested story edit is not authorized')

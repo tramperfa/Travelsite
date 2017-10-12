@@ -28,10 +28,10 @@ type Query {
 type Mutation {
   createDraft(user_id: ID): Story
   updateTitle(input: updateTitleInput!): Story
-  updateContent(input: updateContentInput!): Story
-  updateCover(input: updateCoverInput!): Story
-  publishStory(input: publishStoryInput!): Story
-  likeStory(input: likeStoryInput!): Story
+  # updateContent(input: updateContentInput!): Story
+  # updateCover(input: updateCoverInput!): Story
+  # publishStory(input: publishStoryInput!): Story
+  # likeStory(input: likeStoryInput!): Story
 
 }
 
@@ -42,7 +42,3 @@ input updateTitleInput {
 
 # addComment(input: addCommentInput!): addCommentPayload
 # removeComment(input: removeCommentInput!): removeCommentPayload
-
-# input createDraftInput {
-#   user_id: ID
-# }
