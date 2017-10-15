@@ -67,6 +67,22 @@ const UserSchema = new Schema({
       type: String
     }
   },
+  archivedStories: [
+    {
+      archivedStory: {
+        type: Schema.ObjectId,
+        ref: 'User'
+      }
+    }
+  ],
+  likeredStories: [
+    {
+      likedStory: {
+        type: Schema.ObjectId,
+        ref: 'User'
+      }
+    }
+  ],
 
   facebook: {
     type: String,

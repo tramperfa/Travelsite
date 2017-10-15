@@ -1,5 +1,6 @@
 import GraphQLJSON from 'graphql-type-json';
 import Story from '../models/story'
+import User from '../models/user'
 
 module.exports = {
   Query: {
@@ -36,6 +37,22 @@ module.exports = {
     },
     updateTitle: async(parent, args, context) => {
       return willUpdateDraft(args.input.storyID, 'title', args.input.newTitle, true, context)
+    },
+    updateContent: async(parent, args, context) => {
+      return willUpdateDraft(args.input.storyID, 'content', args.input.newContent, true, context)
+    },
+    updateCover: async(parent, args, context) => {
+      return willUpdateDraft(args.input.storyID, 'coverImage', args.input.newCover, true, context)
+    },
+    updateHeadline: async(parent, args, context) => {
+      return willUpdateDraft(args.input.storyID, 'headlineImage', args.input.newHeadline, true, context)
+    },
+    publishStory: async(parent, args, context) => {
+      return willUpdateDraft(args.storyID, 'hidden', false, false, context)
+    },
+    likeStory: async(parent, args, context) => {
+      await willUpdateDraft(args.input.storyID, 'likeCount', 1, false, context)
+      return willUpdateDraft(args.input.storyID, 'likersToday', 0, false, context)
     }
 
   },
@@ -58,7 +75,17 @@ const willUpdateDraft = async(storyID, updateField, updateValue, ownerEnforce, c
       }
       story.lastUpdate = new Date().toISOString()
     }
-    story[updateField] = updateValue
+
+    if (updateField == 'likeCount' || updateField == 'archiveStory') {
+      story[updateField] = story[updateField] + 1
+      // } else if(updateField=='likersToday') {
+      //   if (story.likersToday.includes(context.sessionUser.user._id)) {
+      //     throw new Error('You can only ')
+      //   }
+      //   story.likersToday.push()
+    } else {
+      story[updateField] = updateValue
+    }
     await story.save()
     return story
 

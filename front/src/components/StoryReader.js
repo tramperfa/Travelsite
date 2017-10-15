@@ -1,9 +1,8 @@
 import React from 'react';
 import moment from 'moment';
 
-import {gql, graphql,} from 'react-apollo';
-
-import NotFound from './NotFound';
+import {graphql} from 'react-apollo';
+import gql from 'graphql-tag';
 
 const StoryDetails = ({
   data: {
@@ -18,9 +17,6 @@ const StoryDetails = ({
   }
   if (error) {
     return <p>{error.graphQLErrors[0].message}</p>;
-  }
-  if (story === null) {
-    return <NotFound/>
   }
 
   return (
@@ -38,23 +34,24 @@ const StoryDetails = ({
   );
 }
 
-export const StoryDetailQuery = gql `
-  query StoryDetailsQuery($_id : ID!) {
+export const StoryDetailsQuery = gql `
+  query StoryQuery($_id : ID!) {
     story(_id: $_id) {
       _id
       title
-      author
+      author{
+        fullName
+      }
       lastUpdate
-      snapshotContent
       viewCount
       commentCount
       likeCount
       content
     }
   }
-`;
+`
 
-export default(graphql(StoryDetailQuery, {
+export default(graphql(StoryDetailsQuery, {
   options: (props) => ({
     variables: {
       _id: props.match.params._id

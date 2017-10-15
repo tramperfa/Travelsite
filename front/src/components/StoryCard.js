@@ -53,7 +53,7 @@ function StoryCard(props) {
                 {story.title}
               </Typography>
               <Typography type="subheading" color="secondary">
-                {story.author}
+                {story.author.fullName}
               </Typography>
               <div>{story.viewCount}
                 Views {story.likeCount}

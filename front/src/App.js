@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import './App.css';
 import Homepage from './components/Homepage';
-import {ApolloClient, ApolloProvider, createNetworkInterface} from 'react-apollo';
+import {ApolloProvider, createNetworkInterface} from 'react-apollo';
+import ApolloClient from 'apollo-client';
 import {
   BrowserRouter,
   //Link,
@@ -18,7 +19,6 @@ import Header from './components/Header';
 import UserHome from './components/UserHome';
 import UserDraft from './components/UserDraft';
 import persist from './lib/persist';
-//import {Redirect} from 'react-router-dom';
 
 // Create GraphQL client to setup Connection with GraphQL server
 const networkInterface = createNetworkInterface({

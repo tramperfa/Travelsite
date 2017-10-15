@@ -25,15 +25,15 @@ var StorySchema = new Schema({
   poi: {
     type: ObjectId,
     index: true,
-    ref: 'User'
+    ref: 'POI'
   },
   coverImage: {
     type: ObjectId,
-    ref: 'coverImage'
+    ref: 'Image'
   },
   headlineImage: {
     type: ObjectId,
-    ref: 'headlineImage'
+    ref: 'Image'
   },
   image: [
     {
@@ -82,14 +82,22 @@ var StorySchema = new Schema({
     type: Number,
     default: 0
   },
-  likersToday: [
+  archivers: [
+    {
+      archiver: {
+        type: Schema.ObjectId,
+        ref: 'User'
+      }
+    }
+  ],
+  likers: [
     {
       liker: {
         type: Schema.ObjectId,
         ref: 'User'
       }
     }
-  ], // user can only like a story once a day
+  ],
   commentCount: {
     type: Number,
     default: 0
@@ -241,9 +249,7 @@ StorySchema.statics = {
 
   load: async function(_id) {
     return new Promise((resolve, reject) => {
-      this.findOne({_id: _id, adminDelete: false})
-      //.populate('user')
-        .populate('comments').exec((err, res) => {
+      this.findOne({_id: _id, adminDelete: false}).populate('author').populate('comments').exec((err, res) => {
         err
           ? reject(new Error("Cannot find requested story"))
           : resolve(res)
@@ -264,9 +270,8 @@ StorySchema.statics = {
     const page = options.page || 0;
     const limit = options.limit || 30;
     return new Promise((resolve, reject) => {
-      this.find(criteria)
-      //  .populate('user')  // User model hasn't been defined in Mongoose
-        .sort({lastUpdate: -1}).limit(limit).skip(limit * page).exec((err, res) => {
+      this.find(criteria).populate('author'). // User model hasn't been defined in Mongoose
+      sort({lastUpdate: -1}).limit(limit).skip(limit * page).exec((err, res) => {
         err
           ? reject(err)
           : resolve(res)

@@ -38,12 +38,14 @@ export const storiesListQuery = gql `
   query poularStoryQuery {
     stories {
       _id
-      author
       title
       snapshotContent
       viewCount
       likeCount
       commentCount
+      author{
+        fullName
+      }
     }
   }
 `;

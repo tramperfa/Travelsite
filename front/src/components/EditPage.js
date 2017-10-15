@@ -1,50 +1,74 @@
 import React from 'react';
 import moment from 'moment';
-
+import PropTypes from 'prop-types';
 import {gql, graphql} from 'react-apollo';
+import Button from 'material-ui/Button';
+import {Redirect} from 'react-router-dom';
 
-import NotFound from './NotFound';
+//import Editor from './Editor';
 
-const StoryDetails = ({
-  data: {
-    loading,
-    error,
-    story
-  },
-  match
-}) => {
-  if (loading) {
-    return <p>Loading ...</p>;
-  }
-  if (error) {
-    return <p>{error.graphQLErrors[0].message}</p>;
-  }
-  if (story === null) {
-    return <NotFound/>
+class Draft extends React.Component {
+  state = {
+    publishRedirect: false,
+    errorMessage: null
   }
 
-  return (
-    <div>
+  handlePublish = () => {
+    try {
+      var storyID = this.props.match.params._id
+      this.props.publishStory(storyID).then(() => {
+        this.setState({publishRedirect: true})
+      })
+    } catch (e) {
+      this.setState({errorMessage: e.graphQLErrors[0].message})
+    } finally {}
+
+  }
+
+  render() {
+    //console.log(this.props.match.params._id);
+    if (this.state.publishRedirect) {
+      return <Redirect push to={`/story/${this.props.match.params._id}`}/>;
+    }
+
+    if (this.props.data.loading) {
+      return (
+        <div>Loading</div>
+      )
+    }
+
+    return (
       <div>
-        <div>{"Tiltle: " + story.title}</div>
-        <div>{"Author: " + story.author}</div>
-
         <div>
-          {moment(new Date(story.lastUpdate)).utc().local().format("YYYY-MM-DD HH:mm")}
+          <div>{"Tiltle: " + this.props.data.story.title}</div>
+          <div>{"Author: " + this.props.data.story.author.fullName}</div>
+          <div>
+            {moment(new Date(this.props.data.story.lastUpdate)).utc().local().format("YYYY-MM-DD HH:mm")}
+          </div>
         </div>
+        <Button raised color="primary" onClick={this.handlePublish}>
+          Publish Travel Story
+        </Button>
       </div>
-    </div>
-  );
+    )
+  }
 }
 
-export const StoryDetailQuery = gql `
-  query StoryDetailsQuery($_id : ID!) {
+Draft.propTypes = {
+  publishStory: PropTypes.func.isRequired,
+  match: PropTypes.object.isRequired,
+  data: PropTypes.object.isRequired
+}
+
+export const StoryDetailsQuery = gql `
+  query StoryDraftQuery($_id : ID!) {
     story(_id: $_id) {
       _id
       title
-      author
+      author{
+        fullName
+      }
       lastUpdate
-      snapshotContent
       viewCount
       commentCount
       likeCount
@@ -53,12 +77,28 @@ export const StoryDetailQuery = gql `
   }
 `;
 
-export default(graphql(StoryDetailQuery, {
+export const PublishStoryMutation = gql `
+  mutation publishStory($storyID : ID!) {
+    publishStory(storyID: $storyID) {
+      hidden
+    }
+  }
+`;
+
+const DraftWithData = (graphql(StoryDetailsQuery, {
   options: (props) => ({
     variables: {
       _id: props.match.params._id
     }
   })
-})(StoryDetails));
+})(Draft));
 
-//import Editor from './Editor';
+export default(graphql(PublishStoryMutation, {
+  props: ({mutate}) => ({
+    publishStory: (storyID) => mutate({
+      variables: {
+        storyID: storyID
+      }
+    })
+  })
+})(DraftWithData))
