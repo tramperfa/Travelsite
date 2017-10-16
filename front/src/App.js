@@ -66,6 +66,12 @@ class App extends Component {
     this.setState({openLogin: true});
   }
 
+  handleTriggerOpen = () => {
+    persist.willRomveSessionUser().then(() => {
+      this.setState({openLogin: true});
+    })
+  }
+
   handleRequestClose = () => {
     this.setState({openLogin: false});
   }

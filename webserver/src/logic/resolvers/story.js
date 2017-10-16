@@ -51,8 +51,12 @@ module.exports = {
       return willUpdateDraft(args.storyID, 'hidden', false, false, context)
     },
     likeStory: async(parent, args, context) => {
-      await willUpdateDraft(args.input.storyID, 'likeCount', 1, false, context)
-      return willUpdateDraft(args.input.storyID, 'likersToday', 0, false, context)
+      await willUpdateDraft(args.storyID, 'likeCount', 1, false, context)
+      return willUpdateDraft(args.storyID, 'like', 0, false, context)
+    },
+    archiveStory: async(parent, args, context) => {
+      await willUpdateDraft(args.storyID, 'archiveCount', 1, false, context)
+      return willUpdateDraft(args.storyID, 'archive', 0, false, context)
     }
 
   },
@@ -60,11 +64,11 @@ module.exports = {
 }
 
 const willUpdateDraft = async(storyID, updateField, updateValue, ownerEnforce, context) => {
-  if (!context.sessionUser) {
-    return new Error('You must login to continue')
-  }
-
   try {
+    if (!context.sessionUser) {
+      throw new Error('User Not Logged In')
+    }
+
     const story = await Story.findById(storyID)
     if (!story || story.adminDelete) {
       throw new Error('Reqested story does not exist')
@@ -76,13 +80,19 @@ const willUpdateDraft = async(storyID, updateField, updateValue, ownerEnforce, c
       story.lastUpdate = new Date().toISOString()
     }
 
-    if (updateField == 'likeCount' || updateField == 'archiveStory') {
+    if (updateField == 'likeCount' || updateField == 'archiveCount') {
       story[updateField] = story[updateField] + 1
-      // } else if(updateField=='likersToday') {
-      //   if (story.likersToday.includes(context.sessionUser.user._id)) {
-      //     throw new Error('You can only ')
-      //   }
-      //   story.likersToday.push()
+    } else if (updateField == 'like' || updateField == 'archive') {
+      const user = await User.findById(context.sessionUser.user._id)
+      if (user[updateField].includes(storyID)) {
+        throw new Error('You have already ' + {
+          updateField
+        } + 'd the story')
+      }
+      story[updateField].push()
+      user[updateField].push()
+      await user.save()
+
     } else {
       story[updateField] = updateValue
     }

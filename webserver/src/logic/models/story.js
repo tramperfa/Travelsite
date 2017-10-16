@@ -35,26 +35,11 @@ var StorySchema = new Schema({
     type: ObjectId,
     ref: 'Image'
   },
-  image: [
+  images: [
     {
-      cdnUri: {
-        type: String
-      },
-      user: {
+      image: {
         type: Schema.ObjectId,
-        ref: 'User'
-      },
-      poi: {
-        type: Schema.ObjectId,
-        ref: 'POI'
-      },
-      uploadAt: {
-        type: Date,
-        default: Date.now
-      },
-      takenAt: {
-        type: Date,
-        default: undefined
+        ref: 'Image'
       }
     }
   ],
@@ -82,7 +67,7 @@ var StorySchema = new Schema({
     type: Number,
     default: 0
   },
-  archivers: [
+  archive: [
     {
       archiver: {
         type: Schema.ObjectId,
@@ -90,7 +75,7 @@ var StorySchema = new Schema({
       }
     }
   ],
-  likers: [
+  like: [
     {
       liker: {
         type: Schema.ObjectId,

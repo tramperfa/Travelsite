@@ -67,19 +67,19 @@ const UserSchema = new Schema({
       type: String
     }
   },
-  archivedStories: [
+  archive: [
     {
       archivedStory: {
         type: Schema.ObjectId,
-        ref: 'User'
+        ref: 'Story'
       }
     }
   ],
-  likeredStories: [
+  like: [
     {
       likedStory: {
         type: Schema.ObjectId,
-        ref: 'User'
+        ref: 'Story'
       }
     }
   ],

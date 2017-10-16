@@ -25,7 +25,7 @@ const styles = {
     height: 900
   },
   backgroud: {
-    width: 1500,
+    minWidth: 1500,
     height: 900
   }
 }
@@ -59,14 +59,19 @@ class Highlight extends React.Component {
               </CardContent>
             </Card>
           </div>
-          <div>
+          {/* <div>
             <Card style={styles.card}>
               <CardMedia style={styles.backgroud} image={imageC}/>
               <IconButton aria-label="Comment">
                 <Comment/>
               </IconButton>
+              <CardContent >
+                <Typography type="headline">
+                  The Title Goes Here
+                </Typography>
+              </CardContent>
             </Card>
-          </div>
+          </div> */}
         </AutoPlaySwipeableViews>
         <Pagination dots={2} index={index} onChangeIndex={this.handleChangeIndex}/>
       </div>

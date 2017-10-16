@@ -8,6 +8,7 @@ type Story {
   lastUpdate: String
   viewCount: Int
   likeCount: Int
+  archiveCount: Int
   commentCount: Int
   hidden: Boolean
 }
