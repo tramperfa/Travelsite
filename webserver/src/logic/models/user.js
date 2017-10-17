@@ -69,18 +69,14 @@ const UserSchema = new Schema({
   },
   archive: [
     {
-      archivedStory: {
-        type: Schema.ObjectId,
-        ref: 'Story'
-      }
+      type: Schema.ObjectId,
+      ref: 'Story'
     }
   ],
   like: [
     {
-      likedStory: {
-        type: Schema.ObjectId,
-        ref: 'Story'
-      }
+      type: Schema.ObjectId,
+      ref: 'Story'
     }
   ],
 

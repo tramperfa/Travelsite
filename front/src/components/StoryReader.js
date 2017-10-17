@@ -7,6 +7,8 @@ import FavoriteBorder from "material-ui-icons/FavoriteBorder";
 import StarBorder from "material-ui-icons/StarBorder";
 import Favorite from "material-ui-icons/Favorite";
 import Star from "material-ui-icons/Star";
+import Comment from "material-ui-icons/Comment";
+//import Reply from "material-ui-icons/Reply";
 
 class Story extends React.Component {
   state = {
@@ -16,20 +18,19 @@ class Story extends React.Component {
     archived: false
   }
 
-  handleLike = () => {
+  componentDidMount() {}
 
+  handleLike = () => {
     var storyID = this.props.match.params._id
-    //console.log("LIKE TRIGGER with ID : " + storyID);
     this.props.likeStory(storyID).then(() => {
       this.setState({liked: true})
     }).catch((e) => {
-      console.log(JSON.stringify(e));
-      if (e.graphQLErrors[0].message == "User Not Logged In") {
-        console.log("TRIGGER LOGIN");
+      if (e.graphQLErrors[0].message === "User Not Logged In") {
+        //console.log("TRIGGER LOGIN");
+        this.props.handleTriggerOpen()
       }
       this.setState({errorMessage: e.graphQLErrors[0].message})
     })
-
   }
 
   handleArchive = () => {
@@ -38,6 +39,10 @@ class Story extends React.Component {
     this.props.archiveStory(storyID).then(() => {
       this.setState({archived: true})
     }).catch((e) => {
+      if (e.graphQLErrors[0].message === "User Not Logged In") {
+        //console.log("TRIGGER LOGIN");
+        this.props.handleTriggerOpen()
+      }
       this.setState({errorMessage: e.graphQLErrors[0].message})
     })
 
@@ -70,10 +75,18 @@ class Story extends React.Component {
 
         </div>
         <IconButton aria-label="Like" onClick={this.handleLike}>
-          <FavoriteBorder/>
+          {this.state.liked
+            ? <Favorite/>
+            : <FavoriteBorder/>}
+
         </IconButton>
         <IconButton aria-label="Archive" onClick={this.handleArchive}>
-          <StarBorder/>
+          {this.state.archived
+            ? <Star/>
+            : <StarBorder/>}
+        </IconButton>
+        <IconButton aria-label="Comment">
+          <Comment/>
         </IconButton>
       </div>
     )
@@ -84,7 +97,8 @@ Story.propTypes = {
   likeStory: PropTypes.func.isRequired,
   archiveStory: PropTypes.func.isRequired,
   match: PropTypes.object.isRequired,
-  data: PropTypes.object.isRequired
+  data: PropTypes.object.isRequired,
+  handleTriggerOpen: PropTypes.func.isRequired
 }
 
 export const StoryDetailsQuery = gql `
@@ -103,6 +117,18 @@ export const StoryDetailsQuery = gql `
       archiveCount
       # comments
 
+    }
+  }
+`;
+
+export const meQuery = gql `
+  query userDetailsQuery($_id : ID!) {
+    user(_id: $_id) {
+      _id
+      fullName
+      username
+      provider
+      profile
     }
   }
 `;

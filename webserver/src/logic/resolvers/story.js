@@ -84,13 +84,14 @@ const willUpdateDraft = async(storyID, updateField, updateValue, ownerEnforce, c
       story[updateField] = story[updateField] + 1
     } else if (updateField == 'like' || updateField == 'archive') {
       const user = await User.findById(context.sessionUser.user._id)
-      if (user[updateField].includes(storyID)) {
-        throw new Error('You have already ' + {
-          updateField
-        } + 'd the story')
+      if (user[updateField].indexOf(story._id) >= 0) {
+        throw new Error('You already ' + JSON.stringify(updateField) + ' the story')
       }
-      story[updateField].push()
-      user[updateField].push()
+      story[updateField].push(story._id)
+      user[updateField].push(story._id)
+      console.log("NEW USER FIELD" + JSON.stringify(user[updateField]));
+      //user[updateField] = []
+
       await user.save()
 
     } else {

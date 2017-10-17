@@ -68,7 +68,7 @@ class App extends Component {
 
   handleTriggerOpen = () => {
     persist.willRomveSessionUser().then(() => {
-      this.setState({openLogin: true});
+      this.setState({openLogin: true, me: {}});
     })
   }
 
@@ -105,7 +105,7 @@ class App extends Component {
               <Login onLogin={this.onLogin} openLogin={this.state.openLogin} handleRequestClose={this.handleRequestClose}/>
               <Switch>
                 <Route exact path="/" component={Homepage}/>
-                <Route path="/story/:_id" component={StoryReader}/>
+                <Route path='/story/:_id' render={(props) => (<StoryReader {...props} handleTriggerOpen={this.handleTriggerOpen}/>)}/>
                 <Route path="/user/:_id" component={UserHome}/>
                 <Route path="/userdraft/:_id" component={UserDraft}/>
                 <Route path="/edit/:_id" component={EditPage}/>

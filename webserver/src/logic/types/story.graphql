@@ -10,7 +10,6 @@ type Story {
   likeCount: Int
   archiveCount: Int
   commentCount: Int
-  hidden: Boolean
 }
 
 type Commnet {

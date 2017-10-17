@@ -2,13 +2,11 @@
 type User {
   _id: ID!
   fullName: String
-  # email: String
   username: String
   provider: String
   profile: JSON
-  facebook: String
-  google: String
-  #role: String
+  # facebook: String
+  # google: String
   #avatar(size: PhotoSize): Image
 }
 
@@ -22,6 +20,10 @@ type Me {
   facebook: String
   google: String
   role: String
+  like: [ID]
+  likedStory:[Story]
+  archive: [ID]
+  archivedStory:[Story]
   #avatar(size: PhotoSize): Image
 }
 

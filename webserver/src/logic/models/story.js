@@ -69,18 +69,14 @@ var StorySchema = new Schema({
   },
   archive: [
     {
-      archiver: {
-        type: Schema.ObjectId,
-        ref: 'User'
-      }
+      type: Schema.ObjectId,
+      ref: 'User'
     }
   ],
   like: [
     {
-      liker: {
-        type: Schema.ObjectId,
-        ref: 'User'
-      }
+      type: Schema.ObjectId,
+      ref: 'User'
     }
   ],
   commentCount: {

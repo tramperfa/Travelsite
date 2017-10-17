@@ -6,10 +6,8 @@ import Card, {CardContent, CardMedia} from 'material-ui/Card';
 import IconButton from 'material-ui/IconButton';
 import Typography from 'material-ui/Typography';
 
-import FavoriteBorder from "material-ui-icons/FavoriteBorder";
-import StarBorder from "material-ui-icons/StarBorder";
 import Share from "material-ui-icons/Share";
-//import Reply from "material-ui-icons/Reply";
+
 import Comment from "material-ui-icons/Comment"
 
 import imageTest from '../images/cardtest.jpeg';
@@ -61,12 +59,6 @@ function StoryCard(props) {
             </CardContent>
           </Link>
           <div className={classes.controls}>
-            <IconButton aria-label="Like">
-              <FavoriteBorder/>
-            </IconButton>
-            <IconButton aria-label="Archive">
-              <StarBorder/>
-            </IconButton>
             <IconButton aria-label="Share">
               <Share/>
             </IconButton>
