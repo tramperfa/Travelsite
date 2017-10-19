@@ -4,13 +4,15 @@ import PropTypes from 'prop-types';
 import {gql, graphql} from 'react-apollo';
 import Button from 'material-ui/Button';
 import {Redirect} from 'react-router-dom';
+import TextField from 'material-ui/TextField';
 
 //import Editor from './Editor';
 
 class Draft extends React.Component {
   state = {
     publishRedirect: false,
-    errorMessage: null
+    errorMessage: null,
+    title: ''
   }
 
   handlePublish = () => {
@@ -22,7 +24,10 @@ class Draft extends React.Component {
     } catch (e) {
       this.setState({errorMessage: e.graphQLErrors[0].message})
     } finally {}
+  }
 
+  handleChange = name => event => {
+    this.setState({[name]: event.target.value});
   }
 
   render() {
@@ -37,8 +42,14 @@ class Draft extends React.Component {
       )
     }
 
+    //className={classes.textField}
+
     return (
       <div>
+
+        <TextField id="title" placeholder="Add Title Here" //label="Name"
+          value={this.state.title} onChange={this.handleChange('title')} margin="normal"/>
+
         <div>
           <div>{"Tiltle: " + this.props.data.story.title}</div>
           <div>{"Author: " + this.props.data.story.author.fullName}</div>

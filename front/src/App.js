@@ -103,7 +103,7 @@ class App extends Component {
         <BrowserRouter>
           <MuiThemeProvider theme={this.theme}>
             <div>
-              <Header me={this.state.me} onLogout={this.onLogout} handleClickOpen={this.handleClickOpen}/>
+              <Header client={client} me={this.state.me} onLogout={this.onLogout} handleClickOpen={this.handleClickOpen}/>
               <Login client={client} onLogin={this.onLogin} openLogin={this.state.openLogin} handleRequestClose={this.handleRequestClose}/>
               <Switch>
                 <Route exact path="/" component={Homepage}/>

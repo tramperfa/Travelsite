@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 //import Button from 'material-ui/Button';
 //import Typography from 'material-ui/Typography';
 import {MenuItem} from 'material-ui/Menu';
+import {ApolloClient} from 'react-apollo';
 
 class Logout extends React.Component {
 
@@ -13,6 +14,9 @@ class Logout extends React.Component {
       return persist.willRomveSessionUser()
     }).then(() => {
       return this.props.onLogout()
+    }).then(() => {
+      console.log("RESET STORE");
+      this.props.client.resetStore()
     }).catch((err) => {
       console.log('there was an error during logout', err);
       console.log(JSON.stringify(err));
@@ -36,7 +40,8 @@ class Logout extends React.Component {
 
 Logout.propTypes = {
   logout: PropTypes.func.isRequired,
-  onLogout: PropTypes.func.isRequired
+  onLogout: PropTypes.func.isRequired,
+  client: PropTypes.instanceOf(ApolloClient).isRequired
 }
 
 const LogoutMutation = gql `

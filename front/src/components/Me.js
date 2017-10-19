@@ -46,7 +46,7 @@ class Me extends React.Component {
             </Link>
           </MenuItem>
           <Link className={this.props.classes.textField} to="/">
-            <Logout onLogout={this.props.onLogout} handleRedirect={this.handleRedirect}/>
+            <Logout client={this.props.client} onLogout={this.props.onLogout} handleRedirect={this.handleRedirect}/>
           </Link>
         </Menu>
       </div>

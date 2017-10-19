@@ -51,7 +51,7 @@ function ButtonAppBar(props) {
           </div>
           <div className={props.classes.login}>
             {props.me.fullName
-              ? <Me me={props.me} onLogout={props.onLogout}/>
+              ? <Me client={props.client} me={props.me} onLogout={props.onLogout}/>
               : <Button className="login" color="contrast" onClick={props.handleClickOpen}>Login</Button>}
           </div>
         </Toolbar>
