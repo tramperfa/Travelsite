@@ -12,8 +12,6 @@ class Logout extends React.Component {
     this.props.logout().then((success) => {
       return persist.willRomveSessionUser()
     }).then(() => {
-      return this.props.handleRedirect()
-    }).then(() => {
       return this.props.onLogout()
     }).catch((err) => {
       console.log('there was an error during logout', err);

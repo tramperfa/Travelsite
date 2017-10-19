@@ -10,9 +10,10 @@ module.exports = {
       if (context.sessionUser) {
         return User.load(context.sessionUser.user._id)
       }
-      return new Error('You must login to continue')
-    }
+      // return new Error('You must login to continue')
 
+      return null
+    }
   },
   Mutation: {
     registerUser: async(parent, args, context) => {

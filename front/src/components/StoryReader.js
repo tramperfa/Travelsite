@@ -9,6 +9,8 @@ import Favorite from "material-ui-icons/Favorite";
 import Star from "material-ui-icons/Star";
 import Comment from "material-ui-icons/Comment";
 //import Reply from "material-ui-icons/Reply";
+//import {createBrowserHistory} from 'history';
+//const history = createBrowserHistory()
 
 class Story extends React.Component {
   state = {
@@ -18,7 +20,20 @@ class Story extends React.Component {
     archived: false
   }
 
-  componentDidMount() {}
+  componentDidUpdate(prevProps) {
+    console.log(this.props);
+
+    if (this.props.MeData.me && (prevProps.MeData.me !== this.props.MeData.me)) {
+      console.log("NEW BB");
+      console.log(this.props);
+      if (this.props.MeData.me.like.indexOf(this.props.match.params._id) >= 0) {
+        this.setState({liked: true})
+      }
+      if (this.props.MeData.me.archive.indexOf(this.props.match.params._id) >= 0) {
+        this.setState({archived: true})
+      }
+    }
+  }
 
   handleLike = () => {
     var storyID = this.props.match.params._id
@@ -34,7 +49,6 @@ class Story extends React.Component {
   }
 
   handleArchive = () => {
-
     var storyID = this.props.match.params._id
     this.props.archiveStory(storyID).then(() => {
       this.setState({archived: true})
@@ -45,11 +59,21 @@ class Story extends React.Component {
       }
       this.setState({errorMessage: e.graphQLErrors[0].message})
     })
-
   }
+
+  // handleRefresh = () => {
+  //   // Not sure
+  //   const savedRoute = this.props.location.pathname
+  //   history.push({pathname: "/empty"})
+  //   setTimeout(() => {
+  //     history.replace({pathname: savedRoute});
+  //   });
+  // }
+
   render() {
-    const story = this.props.data.story;
-    if (this.props.data.loading) {
+    //  console.log(this.props.MeData);
+    const story = this.props.storyData.story;
+    if (this.props.storyData.loading) {
       return (
         <div>Loading</div>
       )
@@ -97,12 +121,14 @@ Story.propTypes = {
   likeStory: PropTypes.func.isRequired,
   archiveStory: PropTypes.func.isRequired,
   match: PropTypes.object.isRequired,
-  data: PropTypes.object.isRequired,
-  handleTriggerOpen: PropTypes.func.isRequired
+  location: PropTypes.object.isRequired,
+  storyData: PropTypes.object.isRequired,
+  handleTriggerOpen: PropTypes.func.isRequired,
+  MeData: PropTypes.object.isRequired
 }
 
 export const StoryDetailsQuery = gql `
-  query StoryStoryQuery($_id : ID!) {
+  query StoryQuery($_id : ID!) {
     story(_id: $_id) {
       _id
       title
@@ -121,25 +147,26 @@ export const StoryDetailsQuery = gql `
   }
 `;
 
-export const meQuery = gql `
-  query userDetailsQuery($_id : ID!) {
-    user(_id: $_id) {
-      _id
-      fullName
-      username
-      provider
-      profile
-    }
-  }
-`;
-
 export const WithData = graphql(StoryDetailsQuery, {
   options: (props) => ({
     variables: {
       _id: props.match.params._id
     }
-  })
+  }),
+  name: 'storyData'
 })
+
+export const meQuery = gql `
+  query meQuery {
+    me {
+      _id
+      like
+      archive
+    }
+  }
+`;
+
+export const WithMeData = graphql(meQuery, {name: 'MeData'})
 
 export const LikeStoryMutation = gql `
   mutation likeStory($storyID : ID!) {
@@ -181,4 +208,4 @@ export const WithArchive = graphql(ArchiveStoryMutation, {
   })
 })
 
-export default WithArchive(WithLike(WithData(Story)))
+export default WithArchive(WithLike(WithData(WithMeData(Story))))

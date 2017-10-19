@@ -21,9 +21,9 @@ type Me {
   google: String
   role: String
   like: [ID]
-  likedStory:[Story]
   archive: [ID]
-  archivedStory:[Story]
+  # likedStory:[Story]
+  # archivedStory:[Story]
   #avatar(size: PhotoSize): Image
 }
 
@@ -58,5 +58,5 @@ input localLoginInput {
 }
 
 type LocalLoginPayload {
-  me: User
+  me: Me
 }

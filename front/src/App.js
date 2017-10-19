@@ -10,6 +10,7 @@ import {
   Switch
 } from 'react-router-dom';
 import {MuiThemeProvider, createMuiTheme} from 'material-ui/styles';
+// import {createBrowserHistory} from 'history';
 
 import NotFound from './components/NotFound';
 import EditPage from './components/EditPage';
@@ -37,6 +38,7 @@ networkInterface.use([
 ]);
 
 const client = new ApolloClient({networkInterface});
+// const history = createBrowserHistory()
 
 class App extends Component {
 
@@ -102,13 +104,14 @@ class App extends Component {
           <MuiThemeProvider theme={this.theme}>
             <div>
               <Header me={this.state.me} onLogout={this.onLogout} handleClickOpen={this.handleClickOpen}/>
-              <Login onLogin={this.onLogin} openLogin={this.state.openLogin} handleRequestClose={this.handleRequestClose}/>
+              <Login client={client} onLogin={this.onLogin} openLogin={this.state.openLogin} handleRequestClose={this.handleRequestClose}/>
               <Switch>
                 <Route exact path="/" component={Homepage}/>
-                <Route path='/story/:_id' render={(props) => (<StoryReader {...props} handleTriggerOpen={this.handleTriggerOpen}/>)}/>
+                <Route path='/story/:_id' render={(props) => (<StoryReader {...props} handleTriggerOpen={this.handleTriggerOpen} me={this.state.me}/>)}/>
                 <Route path="/user/:_id" component={UserHome}/>
                 <Route path="/userdraft/:_id" component={UserDraft}/>
                 <Route path="/edit/:_id" component={EditPage}/>
+                <Route path="/empty" component={null} key="empty"/>
                 <Route component={NotFound}/>
               </Switch>
             </div>

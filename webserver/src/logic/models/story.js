@@ -37,10 +37,8 @@ var StorySchema = new Schema({
   },
   images: [
     {
-      image: {
-        type: Schema.ObjectId,
-        ref: 'Image'
-      }
+      type: Schema.ObjectId,
+      ref: 'Image'
     }
   ],
   lastUpdate: {

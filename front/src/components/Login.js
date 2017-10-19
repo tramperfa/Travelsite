@@ -7,6 +7,7 @@ import Dialog, {DialogActions, DialogContent, DialogTitle} from 'material-ui/Dia
 import Slide from 'material-ui/transitions/Slide';
 import {withStyles} from 'material-ui/styles';
 import TextField from 'material-ui/TextField';
+import {ApolloClient} from 'react-apollo';
 
 const styles = theme => ({
   container: {
@@ -42,13 +43,16 @@ class Login extends React.Component {
       return this.props.onLogin(me)
     }).then((me) => {
       return this.props.handleRequestClose()
+    }).then(() => {
+      console.log("RESET STORE");
+      console.log(this.props.client);
+      this.props.client.resetStore()
     }).catch((error) => {
-      //console.log('there was an error during login', error);
-      console.log(JSON.stringify(error))
-      this.setState({name: '', password: '', errorMessage: error.graphQLErrors[0].message})
-      //this.setState({errorMessage: error.graphQLErrors[0].message})
-    })
-
+      console.log('there was an error during login', error);
+      //console.log(JSON.stringify(error))
+      //, errorMessage: error.graphQLErrors[0].message
+    });
+    this.setState({name: '', password: ''})
   }
 
   handleChange = name => event => {
@@ -118,7 +122,8 @@ Login.propTypes = {
   classes: PropTypes.object.isRequired,
   onLogin: PropTypes.func.isRequired,
   openLogin: PropTypes.bool.isRequired,
-  handleRequestClose: PropTypes.func.isRequired
+  handleRequestClose: PropTypes.func.isRequired,
+  client: PropTypes.instanceOf(ApolloClient).isRequired
 }
 
 const LoginWithMuation = graphql(LoginMutation, {

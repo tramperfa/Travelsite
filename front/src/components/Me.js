@@ -26,10 +26,6 @@ class Me extends React.Component {
     this.setState({open: false});
   };
 
-  handleRedirect = () => {
-    this.setState({redirect: true});
-  };
-
   render() {
     return (
       <div>
