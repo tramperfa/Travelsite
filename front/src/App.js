@@ -111,7 +111,7 @@ class App extends Component {
                 <Route path="/user/:_id" component={UserHome}/>
                 <Route path="/userdraft/:_id" component={UserDraft}/>
                 <Route path="/edit/:_id" component={EditPage}/>
-                <Route path="/empty" component={null} key="empty"/>
+                <Route path="/signup" component={null} key="signup"/>
                 <Route component={NotFound}/>
               </Switch>
             </div>

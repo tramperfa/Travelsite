@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "apollo-client": "^1.9.1",
+    "apollo-client": "^1.8.1",
     "flow-bin": "^0.52.0",
     "graphql-tools": "^1.1.0",
     "react": "^15.6.1",

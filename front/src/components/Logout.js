@@ -15,8 +15,8 @@ class Logout extends React.Component {
     }).then(() => {
       return this.props.onLogout()
     }).then(() => {
-      console.log("RESET STORE");
-      this.props.client.resetStore()
+      // console.log("RESET STORE");
+      return this.props.client.resetStore()
     }).catch((err) => {
       console.log('there was an error during logout', err);
       console.log(JSON.stringify(err));

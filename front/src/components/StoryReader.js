@@ -21,11 +21,11 @@ class Story extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    console.log(this.props);
+    //console.log(this.props);
 
     if (this.props.MeData.me && (prevProps.MeData.me !== this.props.MeData.me)) {
-      console.log("NEW BB");
-      console.log(this.props);
+      // console.log("NEW BB");
+      // console.log(this.props);
       if (this.props.MeData.me.like.indexOf(this.props.match.params._id) >= 0) {
         this.setState({liked: true})
       }
@@ -60,15 +60,6 @@ class Story extends React.Component {
       this.setState({errorMessage: e.graphQLErrors[0].message})
     })
   }
-
-  // handleRefresh = () => {
-  //   // Not sure
-  //   const savedRoute = this.props.location.pathname
-  //   history.push({pathname: "/empty"})
-  //   setTimeout(() => {
-  //     history.replace({pathname: savedRoute});
-  //   });
-  // }
 
   render() {
     //  console.log(this.props.MeData);
@@ -151,7 +142,9 @@ export const WithData = graphql(StoryDetailsQuery, {
   options: (props) => ({
     variables: {
       _id: props.match.params._id
-    }
+    },
+
+    notifyOnNetworkStatusChange: true
   }),
   name: 'storyData'
 })
@@ -166,7 +159,12 @@ export const meQuery = gql `
   }
 `;
 
-export const WithMeData = graphql(meQuery, {name: 'MeData'})
+export const WithMeData = graphql(meQuery, {
+  options: {
+    notifyOnNetworkStatusChange: true
+  },
+  name: 'MeData'
+})
 
 export const LikeStoryMutation = gql `
   mutation likeStory($storyID : ID!) {

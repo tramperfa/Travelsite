@@ -43,6 +43,7 @@ const createDraftMutation = gql `
   mutation createDraft($ID: ID){
     createDraft(user_id: $ID) {
       _id
+      title
   }
 }
 `;

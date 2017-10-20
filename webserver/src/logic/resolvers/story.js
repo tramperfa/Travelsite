@@ -32,7 +32,7 @@ module.exports = {
   },
   Mutation: {
     createDraft: async(parent, args, context) => {
-      var newStory = new Story({title: "Unnamed Draft new", author: context.sessionUser.user._id});
+      var newStory = new Story({title: "", author: context.sessionUser.user._id});
       return newStory.newDraft()
     },
     updateTitle: async(parent, args, context) => {

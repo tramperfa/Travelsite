@@ -59,10 +59,10 @@ function DraftCard(props) {
           </Link>
           <div className={classes.controls}>
 
-            <IconButton aria-label="Like">
+            <IconButton aria-label="Edit" href={`/edit/${draft._id}`}>
               <Edit/>
             </IconButton>
-            <IconButton aria-label="Archive">
+            <IconButton aria-label="Delete">
               <Delete/>
             </IconButton>
 

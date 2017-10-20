@@ -5,6 +5,7 @@ import {gql, graphql} from 'react-apollo';
 import Button from 'material-ui/Button';
 import {Redirect} from 'react-router-dom';
 import TextField from 'material-ui/TextField';
+//import StoryDetailsQuery from './StoryQuery.graphql'
 
 //import Editor from './Editor';
 
@@ -13,6 +14,12 @@ class Draft extends React.Component {
     publishRedirect: false,
     errorMessage: null,
     title: ''
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.draftData.story && prevProps.draftData.story !== this.props.draftData.story) {
+      this.setState({title: this.props.draftData.story.title})
+    }
   }
 
   handlePublish = () => {
@@ -30,31 +37,41 @@ class Draft extends React.Component {
     this.setState({[name]: event.target.value});
   }
 
+  handleTitleUpdate = () => {
+    console.log("TRIGGER");
+    try {
+      this.props.updateTitle(this.props.match.params._id, this.state.title)
+    } catch (e) {
+      this.setState({errorMessage: e.graphQLErrors[0].message})
+    } finally {}
+
+  }
+
   render() {
     //console.log(this.props.match.params._id);
+
     if (this.state.publishRedirect) {
       return <Redirect push to={`/story/${this.props.match.params._id}`}/>;
     }
 
-    if (this.props.data.loading) {
+    if (this.props.draftData.loading) {
       return (
         <div>Loading</div>
       )
     }
 
-    //className={classes.textField}
-
     return (
       <div>
 
-        <TextField id="title" placeholder="Add Title Here" //label="Name"
-          value={this.state.title} onChange={this.handleChange('title')} margin="normal"/>
+        <TextField inputProps={{
+          maxLength: 60
+        }} id="title" helperText={60 - this.state.title.length + " letters avaliable"} onBlur={this.handleTitleUpdate} fullWidth={true} placeholder="Title contains up to 60 letters" label="Title" value={this.state.title} onChange={this.handleChange('title')}/>
 
         <div>
-          <div>{"Tiltle: " + this.props.data.story.title}</div>
-          <div>{"Author: " + this.props.data.story.author.fullName}</div>
+          {/* <div>{"Tiltle: " + this.props.draftData.story.title}</div>
+          <div>{"Author: " + this.props.draftData.story.author.fullName}</div> */}
           <div>
-            {moment(new Date(this.props.data.story.lastUpdate)).utc().local().format("YYYY-MM-DD HH:mm")}
+            {moment(new Date(this.props.draftData.story.lastUpdate)).utc().local().format("YYYY-MM-DD HH:mm")}
           </div>
         </div>
         <Button raised color="primary" onClick={this.handlePublish}>
@@ -67,8 +84,9 @@ class Draft extends React.Component {
 
 Draft.propTypes = {
   publishStory: PropTypes.func.isRequired,
+  updateTitle: PropTypes.func.isRequired,
   match: PropTypes.object.isRequired,
-  data: PropTypes.object.isRequired
+  draftData: PropTypes.object.isRequired
 }
 
 export const StoryDetailsQuery = gql `
@@ -91,20 +109,30 @@ export const StoryDetailsQuery = gql `
 export const PublishStoryMutation = gql `
   mutation publishStory($storyID : ID!) {
     publishStory(storyID: $storyID) {
-      hidden
+      _id
     }
   }
 `;
 
-const DraftWithData = (graphql(StoryDetailsQuery, {
+export const UpdateTiltleMutation = gql `
+mutation updateTitle($input: updateTitleInput!) {
+  updateTitle(input: $input) {
+      _id
+      title
+    }
+  }
+`;
+
+export const WithDraftData = graphql(StoryDetailsQuery, {
   options: (props) => ({
     variables: {
       _id: props.match.params._id
     }
-  })
-})(Draft));
+  }),
+  name: 'draftData'
+})
 
-export default(graphql(PublishStoryMutation, {
+export const WithPublish = graphql(PublishStoryMutation, {
   props: ({mutate}) => ({
     publishStory: (storyID) => mutate({
       variables: {
@@ -112,4 +140,19 @@ export default(graphql(PublishStoryMutation, {
       }
     })
   })
-})(DraftWithData))
+})
+
+export const WithTitleMuation = graphql(UpdateTiltleMutation, {
+  props: ({mutate}) => ({
+    updateTitle: (storyID, newTitle) => mutate({
+      variables: {
+        input: {
+          storyID: storyID,
+          newTitle: newTitle
+        }
+      }
+    })
+  })
+})
+
+export default WithTitleMuation((WithPublish(WithDraftData(Draft))))
