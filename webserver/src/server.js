@@ -8,38 +8,31 @@ import passport from 'passport';
 import mongoose from 'mongoose';
 const mongoStore = require('connect-mongo')(session);
 
-let db          = require('./lib/mongo.js')();
-let config 			= require('./lib/config');
-
+let db = require('./lib/mongo.js')();
+let config = require('./lib/config');
 
 const app = express();
 
 /**
  * Initialize middlewares
  */
- app.use(cors({
-   origin: 'http://localhost:3000',
-   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
-   credentials: true
- }));
+app.use(cors({
+  origin: 'http://localhost:3000', optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+  credentials: true
+}));
 
- app.use(bodyParser.json());
- app.use(bodyParser.urlencoded({
- 		extended: true,
- 		limit: config.contentMaxLength * 2
- 	}));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+  extended: true,
+  limit: config.contentMaxLength * 2
+}));
 
- app.use(cookieParser(config.sessions.secret));
+app.use(cookieParser(config.sessions.secret));
 
-
- /**
+/**
   * Initialize session with MongoDB session store
   */
-var sessionStore = new mongoStore({
-  url: config.sessions.uri,
-  collection: config.sessions.collection,
-  autoReconnect: true
-});
+var sessionStore = new mongoStore({url: config.sessions.uri, collection: config.sessions.collection, autoReconnect: true});
 
 var sessionOpts = {
   saveUninitialized: true,
@@ -61,12 +54,15 @@ app.use(session(sessionOpts));
 require('./auth/passport')(app);
 require('./auth/routes')(app, db);
 
-
 /**
  * Setup GraphQL
  */
 require("./logic/graphql")(app, db);
 
+/**
+ * Setup Image Upload
+ */
+require("./lib/image")(app, db);
 
 /**
  * Start Server
