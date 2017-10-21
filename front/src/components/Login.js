@@ -1,95 +1,134 @@
 import React from 'react';
-import { gql, graphql } from 'react-apollo';
+import {gql, graphql} from 'react-apollo';
 import persist from '../lib/persist';
 import PropTypes from 'prop-types';
+import Button from 'material-ui/Button';
+import Dialog, {DialogActions, DialogContent, DialogTitle} from 'material-ui/Dialog';
+import Slide from 'material-ui/transitions/Slide';
+import {withStyles} from 'material-ui/styles';
+import TextField from 'material-ui/TextField';
+import {ApolloClient} from 'react-apollo';
 
+const styles = theme => ({
+  container: {
+    display: 'flex',
+    flexWrap: 'wrap'
+  },
+  textField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    width: 200
+  },
+  menu: {
+    width: 200
+  }
+});
 
 class Login extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-    }
-    this.login = props.login
+
+  state = {
+    name: '',
+    password: '',
+    errorMessage: null
   }
 
-  handleSubmit(e) {
-    e.preventDefault()
+  handleSubmit = () => {
 
+    const emailorusername = this.state.name
+    const password = this.state.password
 
-    const emailorusername = e.target.elements.emailorusername.value
-    const password = e.target.elements.password.value
-
-    if (emailorusername === '' || password === '') {
-      return false
-    }
-
-    this.login(emailorusername, password)
-    .then(({ data }) => {
-      console.log('GOT DATAAAAA', data);
-      return persist.willSetSessionUser(data.localLogin)
-    })
-    // .then(() => {
-    //   return  persist.willGetSessionUser()
-    //   //console.log("local storage value :  " );
-    // })
-    // .then((localvalue) => {
-    //   console.log("local storage value :  "  + JSON.stringify(localvalue) );
-    // })
-    .catch((err) => {
-      console.log('there was an error during login', err);
-      console.log(JSON.stringify(err));
+    this.props.localLogin(emailorusername, password).then(({data}) => {
+      return persist.willSetSessionUser(data.localLogin.me)
+    }).then((me) => {
+      return this.props.onLogin(me)
+    }).then((me) => {
+      return this.props.handleRequestClose()
+    }).then(() => {
+      // console.log("RESET STORE");
+      // console.log(this.props.client);
+      return this.props.client.resetStore()
+    }).catch((error) => {
+      console.log('there was an error during login', error);
+      //console.log(JSON.stringify(error))
+      //, errorMessage: error.graphQLErrors[0].message
     });
-
-
-
-    // reset form
-    e.target.elements.emailorusername.value = ''
-    e.target.elements.password.value = ''
+    this.setState({name: '', password: ''})
   }
 
+  handleChange = name => event => {
+    this.setState({[name]: event.target.value});
+  };
 
+  onKeyPress = (event) => {
+    if (event.charCode === 13) { // enter key pressed
+      event.preventDefault()
+      // do something here
+      this.handleSubmit()
+    }
+  }
+
+  handleClose = () => {
+    this.setState({name: '', password: '', errorMessage: null})
+    this.props.handleRequestClose()
+  }
 
   render() {
+
     return (
       <div>
-      <form onSubmit={this.handleSubmit.bind(this)}>
-        <h1>Login (GraphQL)</h1>
-        <input placeholder='email or username' name='emailorusername' defaultValue='' />
-        <input placeholder='password' name='password' defaultValue='' />
-        <button type='submit'>Login</button>
-      </form>
-      <div className="channelName">
-        {this.localLogin}
-      </div>
+
+        <Dialog open={this.props.openLogin} transition={Slide} onRequestClose={this.handleClose} onKeyPress={this.onKeyPress}>
+          <DialogTitle>{"Login"}</DialogTitle>
+          <form className={this.props.classes.container} noValidate autoComplete="off">
+            <DialogContent>
+              <TextField id="name" label="Name" className={this.props.classes.textField} value={this.state.name} onChange={this.handleChange('name')} margin="normal"/>
+              <TextField id="password" label="Password" className={this.props.classes.textField} type="password" autoComplete="current-password" value={this.state.password} onChange={this.handleChange('password')} margin="normal"/>
+            </DialogContent>
+            <div style={{
+              color: 'red'
+            }}>
+              {this.state.errorMessage}
+            </div>
+          </form>
+          <DialogActions>
+            <Button onClick={this.handleSubmit} color="primary">
+              SUBMIT
+            </Button>
+            <Button onClick={this.handleClose} color="primary">
+              CANCEL
+            </Button>
+          </DialogActions>
+
+        </Dialog>
       </div>
     )
   }
 }
 
-
-
-
-
-const LoginMutation = gql`
-  mutation login($input: localLoginInput!) {
+const LoginMutation = gql `
+  mutation localLogin($input: localLoginInput!) {
     localLogin(input: $input) {
+      me {
           fullName
+          _id
           #avatar
-
+      }
     }
   }
  `;
 
-Login.propTypes = () => ({
-  login: PropTypes.func.isRequired,
-  //fullName: PropTypes.string.isRequired
-})
+Login.propTypes = {
+  localLogin: PropTypes.func.isRequired,
+  classes: PropTypes.object.isRequired,
+  onLogin: PropTypes.func.isRequired,
+  openLogin: PropTypes.bool.isRequired,
+  handleRequestClose: PropTypes.func.isRequired,
+  client: PropTypes.instanceOf(ApolloClient).isRequired
+}
 
-
-
-export default graphql(LoginMutation, {
-  props: ({ mutate }) => ({
-    login: (emailorusername, password) => mutate({
+const LoginWithMuation = graphql(LoginMutation, {
+  props: ({mutate}) => ({
+    localLogin: (emailorusername, password) => mutate({
       variables: {
         input: {
           emailorusername: emailorusername,
@@ -98,22 +137,6 @@ export default graphql(LoginMutation, {
       }
     })
   })
-}
-)(Login)
+})(Login)
 
-
-
-// update: (proxy, { data : {localLogin} }) => {
-//   console.log("reaching update");
-//   console.log("data:  "  + localLogin);
-//
-//   if (localLogin) {
-//     console.log("adding local storage")
-//     persist.willSetSessionUser(localLogin.fullName)
-//     // Write our data back to the cache.
-//     //proxy.writeQuery({data: localLogin })
-//   } else {
-//     console.log("NOT adding local storage")
-//
-//   }
-// }
+export default withStyles(styles)(LoginWithMuation);

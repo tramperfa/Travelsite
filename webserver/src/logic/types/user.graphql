@@ -2,27 +2,47 @@
 type User {
   _id: ID!
   fullName: String
+  username: String
+  provider: String
+  profile: JSON
+  # facebook: String
+  # google: String
+  #avatar(size: PhotoSize): Image
+}
+
+type Me {
+  _id: ID!
+  fullName: String
   email: String
   username: String
   provider: String
   profile: JSON
   facebook: String
   google: String
-  #role: String
+  role: String
+  like: [ID]
+  archive: [ID]
+  # likedStory:[Story]
+  # archivedStory:[Story]
   #avatar(size: PhotoSize): Image
 }
 
 
 type Query {
-  me: User
+  me: Me
   user(_id: ID!): User
   #storyList(type: $type, offset: $offset, limit: Int = 10) [Story]
 }
 
 type Mutation {
   registerUser(input: registerUserInput!): User
-  localLogin(input: localLoginInput!): User
+  localLogin(input: localLoginInput!): LocalLoginPayload
+  logout(fullName: String): LogoutPayload
   #googleLogin(input: googleLoginInput!): User
+}
+
+type LogoutPayload{
+  success: Boolean
 }
 
 input registerUserInput {
@@ -38,11 +58,5 @@ input localLoginInput {
 }
 
 type LocalLoginPayload {
-  me: User
-  auth: Auth
-}
-
-type Auth {
-  success: Boolean
-  message: String
+  me: Me
 }

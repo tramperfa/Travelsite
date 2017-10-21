@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "apollo-client": "^1.9.1",
+    "apollo-client": "^1.8.1",
     "draft-js": "^0.10.2",
     "draft-js-drag-n-drop-plugin": "^2.0.0-rc8",
     "draft-js-emoji-plugin": "^2.0.0-rc8",
@@ -20,9 +20,17 @@
     "react-apollo": "^1.4.12",
     "react-dom": "^15.6.1",
     "react-router-dom": "^4.1.2",
-    "react-scripts": "1.0.10",
-    "react-sticky": "^6.0.1",
-    "styled-components": "2.1.2"
+    "react-scripts": "^1.0.10",
+    "styled-components": "^2.1.2",
+    "localforage": "^1.5.0",
+    "material-ui": "^1.0.0-beta.13",
+    "material-ui-icons": "^1.0.0-beta.15",
+    "react-motion": "^0.5.2",
+    "react-swipeable-views": "^0.12.8",
+    "history": "^4.7.2",
+    "react-dropzone": "^4.2.1",
+    "superagent": "^3.7.0",
+    "moment": "^2.18.1"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -3,46 +3,109 @@ const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 import uniqueValidator from 'mongoose-unique-validator';
 
-
-
 var StorySchema = new Schema({
   //_id
-  title: { type: String, trim : true },
-  snapshotContent: { type : String, default : '', trim : true },
-  content: { type : JSON },
-  author: { type: ObjectId, index: true, ref : 'User' },
-  poi: { type: ObjectId, index: true, ref : 'User' },
-  image: [{
-      cdnUri: { type : String },
-      user: { type : Schema.ObjectId, ref : 'User' },
-      poi: { type : Schema.ObjectId, ref : 'POI' },
-      uploadAt: { type : Date, default : Date.now }
-    }],
-  lastUpdate: { type : Date, default : Date.now },
-  adminDelete: { type : Boolean, default : false },
-  hidden: { type : Boolean, default : true },
-  viewCount: { type : Number, default : 0 },
-  likeCount: { type : Number, default : 0 },
-  likersToday: [{
-    liker: { type : Schema.ObjectId, ref : 'User' },
-  }], // user can only like a story once a day
-  commentCount: { type : Number, default : 0 },
-  comments: [{
-    body: { type : JSON },
-    author: { type : Schema.ObjectId, ref : 'User' },
-    createdAt: { type : Date, default : Date.now }
-  }]
+  title: {
+    type: String,
+    trim: true
+  },
+  snapshotContent: {
+    type: String,
+    default: '',
+    trim: true
+  },
+  content: {
+    type: JSON
+  },
+  author: {
+    type: ObjectId,
+    index: true,
+    ref: 'User'
+  },
+  poi: {
+    type: ObjectId,
+    index: true,
+    ref: 'POI'
+  },
+  coverImage: {
+    type: ObjectId,
+    ref: 'Image'
+  },
+  headlineImage: {
+    type: ObjectId,
+    ref: 'Image'
+  },
+  images: [
+    {
+      type: Schema.ObjectId,
+      ref: 'Image'
+    }
+  ],
+  lastUpdate: {
+    type: Date,
+    default: Date.now
+  },
+  adminDelete: {
+    type: Boolean,
+    default: false
+  },
+  hidden: {
+    type: Boolean,
+    default: true
+  },
+  viewCount: {
+    type: Number,
+    default: 0
+  },
+  likeCount: {
+    type: Number,
+    default: 0
+  },
+  archiveCount: {
+    type: Number,
+    default: 0
+  },
+  archive: [
+    {
+      type: Schema.ObjectId,
+      ref: 'User'
+    }
+  ],
+  like: [
+    {
+      type: Schema.ObjectId,
+      ref: 'User'
+    }
+  ],
+  commentCount: {
+    type: Number,
+    default: 0
+  },
+  comments: [
+    {
+      body: {
+        type: JSON
+      },
+      author: {
+        type: Schema.ObjectId,
+        ref: 'User'
+      },
+      createdAt: {
+        type: Date,
+        default: Date.now
+      }
+    }
+  ]
 });
 
 //Add detailed error log info
 StorySchema.plugin(uniqueValidator);
 
-
 /**
  * Pre-remove hook. Used for Admin Remove, User remove only flip "hidden" field
  */
 
-StorySchema.pre('remove', function (next) {
+StorySchema.pre('remove', function(next) {
   // const imager = new Imager(imagerConfig, 'S3');
   // const files = this.image.files;
 
@@ -53,7 +116,6 @@ StorySchema.pre('remove', function (next) {
 
   next();
 });
-
 
 /**
  * Methods
@@ -67,8 +129,8 @@ StorySchema.methods = {
    * @api private
    */
 
-// TODO ADD IMAGE UPLOAD
-/*
+  // TODO ADD IMAGE UPLOAD
+  /*
 if (images && !images.length) return this.save();
 const imager = new Imager(imagerConfig, 'S3');
 
@@ -81,32 +143,21 @@ imager.upload(images, function (err, cdnUri, files) {
 }, 'Story');
 */
 
-  createDraft: function() {
+  newDraft: function() {
     return new Promise((resolve, reject) => {
       this.save((err, res) => {
-        err ? reject(err): resolve(res)
+        err
+          ? reject(err)
+          : resolve(res)
       });
     });
   },
 
-  updateDraft: function () {
-    if (!this.adminDelete) {
-      return this.save();
-    }
-  },
-
-  // Additional Authitacition than updateDraft
-  modifyStory: function () {
-    if (!this.adminDelete) {
-      return this.save();
-    }
-  },
-
-
-  publish: function () {
+  publish: function() {
     // validate required fields all exist
     const err = this.validateSync();
-    if (err && err.toString()) throw new Error(err.toString());
+    if (err && err.toString())
+      throw new Error(err.toString());
     if (this.adminDelete) {
       console.log("ERROR: Cannot publish due to admin reason");
       return;
@@ -128,11 +179,8 @@ imager.upload(images, function (err, cdnUri, files) {
    * @api private
    */
 
-  addComment: function (user, comment) {
-    this.comments.push({
-      body: comment.body,
-      user: user._id
-    });
+  addComment: function(user, comment) {
+    this.comments.push({body: comment.body, user: user._id});
 
     // TODO  refactor notify into internal MSG
     // notify.comment({
@@ -144,7 +192,6 @@ imager.upload(images, function (err, cdnUri, files) {
     return this.save();
   },
 
-
   /**
    * Remove comment
    *
@@ -152,18 +199,16 @@ imager.upload(images, function (err, cdnUri, files) {
    * @api private
    */
 
-  removeComment: function (commentId) {
-    const index = this.comments
-      .map(comment => comment.id)
-      .indexOf(commentId);
+  removeComment: function(commentId) {
+    const index = this.comments.map(comment => comment.id).indexOf(commentId);
 
-    if (~index) this.comments.splice(index, 1);
-    else throw new Error('Comment not found');
+    if (~ index)
+      this.comments.splice(index, 1);
+    else
+      throw new Error('Comment not found');
     return this.save();
   }
 };
-
-
 
 //methods are defined on the document (instance).
 //statics are the methods defined on the Model.
@@ -181,14 +226,13 @@ StorySchema.statics = {
    * @api private
    */
 
-  load: function (_id) {
+  load: async function(_id) {
     return new Promise((resolve, reject) => {
-      this.findOne({ _id: _id })
-           //.populate('user')
-           .populate('comments')
-           .exec((err, res) => {
-              err ? reject(err) : resolve(res)
-           })
+      this.findOne({_id: _id, adminDelete: false}).populate('author').populate('comments').exec((err, res) => {
+        err
+          ? reject(new Error("Cannot find requested story"))
+          : resolve(res)
+      })
     });
   },
 
@@ -199,21 +243,20 @@ StorySchema.statics = {
    * @api private
    */
 
-  list: function (options) {
+  list: function(options) {
+    //console.log("reaching HERE with options : " + JSON.stringify(options));
     const criteria = options.criteria || {};
     const page = options.page || 0;
     const limit = options.limit || 30;
     return new Promise((resolve, reject) => {
-      this.find(criteria)
-    //  .populate('user')  // User model hasn't been defined in Mongoose
-      .sort({ createdAt: -1 })
-      .limit(limit)
-      .skip(limit * page)
-      .exec((err, res)  => {
-          err ? reject(err) : resolve(res)
+      this.find(criteria).populate('author'). // User model hasn't been defined in Mongoose
+      sort({lastUpdate: -1}).limit(limit).skip(limit * page).exec((err, res) => {
+        err
+          ? reject(err)
+          : resolve(res)
       })
     });
-  },
+  }
 }
 
 var Story = mongoose.model('Story', StorySchema)

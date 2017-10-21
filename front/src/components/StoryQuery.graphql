@@ -1,0 +1,14 @@
+query StoryDetailsQuery($_id : ID!) {
+  story(_id: $_id) {
+    _id
+    title
+    author{
+      fullName
+    }
+    lastUpdate
+    viewCount
+    commentCount
+    likeCount
+    content
+  }
+}

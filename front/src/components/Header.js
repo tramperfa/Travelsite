@@ -1,46 +1,59 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from 'material-ui/styles';
+import {withStyles} from 'material-ui/styles';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
-import Typography from 'material-ui/Typography';
-//import Button from 'material-ui/Button';
-import {
-  Link
-} from 'react-router-dom';
+import Button from 'material-ui/Button';
+//import {Link} from 'react-router-dom';
+
+// import IconButton from 'material-ui/IconButton';
+//import Drafts from "material-ui-icons/Drafts";
 
 import Me from './Me';
-//var Me = require("./Me");
 
 const styles = theme => ({
   root: {
-    marginTop: theme.spacing.unit * 3,
-    width: '100%',
+    //marginTop: theme.spacing.unit * 3,
+    width: '100%'
   },
-  flex: {
+  appbar: {
+    height: '44px',
+    backgroundColor: '#333333'
+  },
+  toolbar: {
     flex: 1,
+    justifyContent: 'space-between',
+    minHeight: '44px',
+    backgroundColor: '#333333'
   },
-
+  navsection: {
+    flex: 'auto',
+    justifyContent: 'flex-start'
+  },
+  login: {
+    flex: 'none',
+    justifyContent: 'flex-end'
+  }
 });
 
-
-
-
 function ButtonAppBar(props) {
-
-
-  const classes = props.classes;
-
   return (
-    <div className={classes.root}>
-      <AppBar position="static">
-        <Toolbar>
-          <Typography type="title" color="inherit" className={classes.flex}>
-            <Link to="/">
-            Travel Site Building In process
-            </Link>
-          </Typography>
-        <Me />
+    <div className={props.classes.root}>
+      <AppBar position="static" className={props.classes.appbar}>
+        <Toolbar className={props.classes.toolbar}>
+          <div className={props.classes.navsection}>
+            <Button color="contrast" href="/">Home</Button>
+            <Button color="contrast" href="/destination">Destination</Button>
+            <Button color="contrast" href="/hotel">Hotel</Button>
+            <Button color="contrast" href="/hotel">Community</Button>
+            <Button color="contrast" href="/hotel">Book</Button>
+
+          </div>
+          <div className={props.classes.login}>
+            {props.me.fullName
+              ? <Me client={props.client} me={props.me} onLogout={props.onLogout}/>
+              : <Button className="login" color="contrast" onClick={props.handleClickOpen}>Login</Button>}
+          </div>
         </Toolbar>
       </AppBar>
     </div>
@@ -49,6 +62,9 @@ function ButtonAppBar(props) {
 
 ButtonAppBar.propTypes = {
   classes: PropTypes.object.isRequired,
+  me: PropTypes.object.isRequired,
+  onLogout: PropTypes.func.isRequired,
+  handleClickOpen: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(ButtonAppBar);

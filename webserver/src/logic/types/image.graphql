@@ -1,0 +1,5 @@
+type Image{
+    _id: ID!
+    user: User
+    
+}

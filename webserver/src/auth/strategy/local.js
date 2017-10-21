@@ -7,54 +7,54 @@ import User from '../../logic/models/user'
 import passport from 'passport'
 const LocalStrategy = require('passport-local').Strategy
 
-
 /**
  * Expose
  */
 
 module.exports = new LocalStrategy({
-    usernameField: "username",
-    passwordField: "password",
-    passReqToCallback : true
-  }, function(req, username, password, done) {
-		return User.findOne({
-			$or: [
-				{ "username": username},
-				{ "email": username}
-			]
-		}, function(err, user) {
-			if (err) {
+  usernameField: "username",
+  passwordField: "password",
+  passReqToCallback: true,
+}, function(req, username, password, done) {
+  return User.findOne({
+    $or: [
+      {
+        "username": username
+      }, {
+        "email": username
+      },
+    ]
+  }, function(err, user) {
+    if (err) {
+      return done(err);
+    }
+
+    if (!user) {
+      return done(null, false, {message: "The username or email does not match password"});
+    }
+
+    // if (!user.verified) {
+    //  return done(null, false, { message: "PleaseActivateAccount" });
+    //}
+
+    // Check that the user is not disabled or deleted
+    if (user.status !== 1) {
+      return done(null, false, {message: "This user has been disabled"});
+    }
+
+    user.comparePassword(password, function(err, isMatch) {
+      if (err) {
         return done(err);
       }
 
-			if (!user) {
-        return done(null, false, { message: "UnknowUsernameOrEmail" });
+      if (isMatch !== true) {
+        return done(null, false, {message: "The username or email does not match password"});
       }
 
+      return done(null, user);
+      //return done(null, user, { message: "successful login via local strategy" });
 
-			// if (!user.verified) {
-      //  return done(null, false, { message: "PleaseActivateAccount" });
-      //}
+    });
 
-
-			// Check that the user is not disabled or deleted
-			if (user.status !== 1) {
-        return done(null, false, { message: "UserDisabledOrDeleted" });
-      }
-				 
-			user.comparePassword(password, function(err, isMatch) {
-				if (err) {
-          return done(err);
-        }
-
-				if (isMatch !== true) {
-          return done(null, false, { message: "InvalidPassword" });
-        }
-
-        return done(null, user);
-        //return done(null, user, { message: "successful login via local strategy" });
-
-			});
-
-		});
-	});
+  });
+});
