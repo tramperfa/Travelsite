@@ -39,8 +39,6 @@ module.exports = {
   },
 
   s3: {
-    accessKeyId: 'AKIAI3WJWVHVQM4B7LMA',
-    secretAccessKey: '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'
     //subregion: 'us-east-1'
   }
 
