@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import Homepage from './components/Homepage';
 import NotFound from './components/NotFound';
-import Editor from './components/Editor';
+import Editor from './components/StoryEditor/Editor';
 import StoryReader from './components/StoryReader';
 import Login from './components/Login';
 import Header from './components/Header';
