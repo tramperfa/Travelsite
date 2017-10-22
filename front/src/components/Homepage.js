@@ -3,6 +3,7 @@ import React from 'react'
 import {gql, graphql} from 'react-apollo'
 
 import StoryCard from './StoryCard';
+
 //import Highlight from './Highlight';
 
 const storiesList = ({
@@ -25,6 +26,7 @@ const storiesList = ({
   return (
     <div>
       {/* <div><Highlight/></div> */}
+
       {stories.map(story => (
         <div className="storyList" key={story._id}>
           <StoryCard story={story}/>

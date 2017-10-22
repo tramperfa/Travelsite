@@ -3,7 +3,7 @@ import Dropzone from 'react-dropzone';
 import upload from 'superagent';
 //import superagent from 'superagent';
 
-class FileUpload extends React.Component {
+class HeadlineUpload extends React.Component {
 
   onDrop = (files) => {
     upload.post('http://localhost:8080/upload').attach('theseNamesMustMatch', files[0]).end((err, res) => {
@@ -26,4 +26,4 @@ class FileUpload extends React.Component {
   }
 }
 
-export default FileUpload;
+export default HeadlineUpload;

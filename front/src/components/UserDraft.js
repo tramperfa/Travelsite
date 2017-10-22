@@ -11,7 +11,7 @@ class UserDraft extends React.Component {
     newDraftID: null
   }
 
-  handleCreate = () => {
+  handleCreate = async() => {
     this.props.createDraft().then((data) => {
       //console.log(JSON.stringify(data));
       this.setState({newDraftID: data.data.createDraft._id})

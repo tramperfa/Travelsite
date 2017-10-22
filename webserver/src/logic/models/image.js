@@ -4,9 +4,11 @@ const ObjectId = Schema.ObjectId;
 import uniqueValidator from 'mongoose-unique-validator';
 
 var ImageSchema = new Schema({
-
-  cdnUri: {
-    type: String
+  //_id
+  story: {
+    type: Schema.ObjectId,
+    ref: 'Story',
+    index: true
   },
   user: {
     type: Schema.ObjectId,
@@ -14,7 +16,8 @@ var ImageSchema = new Schema({
   },
   poi: {
     type: Schema.ObjectId,
-    ref: 'POI'
+    ref: 'POI',
+    index: true
   },
   uploadAt: {
     type: Date,
@@ -23,6 +26,14 @@ var ImageSchema = new Schema({
   takenAt: {
     type: Date,
     default: undefined
+  },
+  isAvatar: {
+    type: Boolean,
+    default: false
+  },
+  isCover: {
+    type: Boolean,
+    default: false
   }
 
 });

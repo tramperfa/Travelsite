@@ -1,5 +1,20 @@
-type Image{
+type Image {
     _id: ID!
+    story: Story
     user: User
-    
+    #poi: POI
+    uploadAt: String
+}
+
+type Query {
+  image(_id: ID!): Image
+}
+
+type Mutation {
+  createImage(input: createImageInput!): Image
+  updateImagePOI(POI: ID!): Image
+}
+
+input createImageInput {
+  storyID: ID
 }

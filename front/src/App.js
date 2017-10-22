@@ -20,7 +20,6 @@ import Header from './components/Header';
 import UserHome from './components/UserHome';
 import UserDraft from './components/UserDraft';
 import persist from './lib/persist';
-import FileUpload from './components/FileUpload';
 
 // Create GraphQL client to setup Connection with GraphQL server
 const networkInterface = createNetworkInterface({
@@ -106,7 +105,6 @@ class App extends Component {
             <div>
               <Header client={client} me={this.state.me} onLogout={this.onLogout} handleClickOpen={this.handleClickOpen}/>
               <Login client={client} onLogin={this.onLogin} openLogin={this.state.openLogin} handleRequestClose={this.handleRequestClose}/>
-              <FileUpload/>
               <Switch>
                 <Route exact path="/" component={Homepage}/>
                 <Route path='/story/:_id' render={(props) => (<StoryReader {...props} handleTriggerOpen={this.handleTriggerOpen} me={this.state.me}/>)}/>

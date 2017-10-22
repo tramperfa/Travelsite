@@ -36,67 +36,44 @@ module.exports = {
       return newStory.newDraft()
     },
     updateTitle: async(parent, args, context) => {
-      return willUpdateDraft(args.input.storyID, 'title', args.input.newTitle, true, context)
+      return willUpdateDraft(args.input.storyID, 'title', args.input.newTitle, context)
     },
     updateContent: async(parent, args, context) => {
-      return willUpdateDraft(args.input.storyID, 'content', args.input.newContent, true, context)
+      return willUpdateDraft(args.input.storyID, 'content', args.input.newContent, context)
     },
     updateCover: async(parent, args, context) => {
-      return willUpdateDraft(args.input.storyID, 'coverImage', args.input.newCover, true, context)
+      return willUpdateDraft(args.input.storyID, 'coverImage', args.input.newCover, context)
     },
     updateHeadline: async(parent, args, context) => {
-      return willUpdateDraft(args.input.storyID, 'headlineImage', args.input.newHeadline, true, context)
+      return willUpdateDraft(args.input.storyID, 'headlineImage', args.input.newHeadline, context)
     },
     publishStory: async(parent, args, context) => {
-      return willUpdateDraft(args.storyID, 'hidden', false, false, context)
+      return willUpdateDraft(args.storyID, 'hidden', false, context)
     },
+
     likeStory: async(parent, args, context) => {
-      await willUpdateDraft(args.storyID, 'likeCount', 1, false, context)
-      return willUpdateDraft(args.storyID, 'like', 0, false, context)
+      return willInteractStory(args.storyID, 'like', context)
     },
     archiveStory: async(parent, args, context) => {
-      await willUpdateDraft(args.storyID, 'archiveCount', 1, false, context)
-      return willUpdateDraft(args.storyID, 'archive', 0, false, context)
+      return willInteractStory(args.storyID, 'archive', context)
     }
 
   },
   JSON: GraphQLJSON
 }
 
-const willUpdateDraft = async(storyID, updateField, updateValue, ownerEnforce, context) => {
+const willUpdateDraft = async(storyID, updateField, updateValue, context) => {
   try {
     if (!context.sessionUser) {
       throw new Error('User Not Logged In')
     }
 
     const story = await Story.findById(storyID)
-    if (!story || story.adminDelete) {
-      throw new Error('Reqested story does not exist')
+    if (!story || story.adminDelete || !story.author.equals(context.sessionUser.user._id)) {
+      throw new Error('Reqested draft does not exist')
     }
-    if (ownerEnforce) {
-      if (!story.author.equals(context.sessionUser.user._id)) {
-        throw new Error('Reqested story edit is not authorized')
-      }
-      story.lastUpdate = new Date().toISOString()
-    }
-
-    if (updateField == 'likeCount' || updateField == 'archiveCount') {
-      story[updateField] = story[updateField] + 1
-    } else if (updateField == 'like' || updateField == 'archive') {
-      const user = await User.findById(context.sessionUser.user._id)
-      if (user[updateField].indexOf(story._id) >= 0) {
-        throw new Error('You already ' + JSON.stringify(updateField) + ' the story')
-      }
-      story[updateField].push(story._id)
-      user[updateField].push(story._id)
-      console.log("NEW USER FIELD" + JSON.stringify(user[updateField]));
-      //user[updateField] = []
-
-      await user.save()
-
-    } else {
-      story[updateField] = updateValue
-    }
+    story.lastUpdate = new Date().toISOString()
+    story[updateField] = updateValue
     await story.save()
     return story
 
@@ -106,49 +83,29 @@ const willUpdateDraft = async(storyID, updateField, updateValue, ownerEnforce, c
 
 }
 
-// const Content = {
-//   "entityMap": {},
-//   "blocks": [
-//     {
-//       "key": "fcv05",
-//       "text": "dafoihg",
-//       "type": "unstyled",
-//       "depth": 0,
-//       "inlineStyleRanges": [],
-//       "entityRanges": [],
-//       "data": {}
-//     },
-//     {
-//       "key": "iulj",
-//       "text": "dafhiuahg",
-//       "type": "unstyled",
-//       "depth": 0,
-//       "inlineStyleRanges": [],
-//       "entityRanges": [],
-//       "data": {}
-//     }
-//   ]
-// };
-// const localStoryList = [{
-//   _id: '1',
-//   title: 'My Trip in Austin I',
-//   snapshotContent: 'This is the snapshot of the test story a. The use case is to display the beginning text of the story',
-//   authorID: 'test-user-a',
-//   authorName: 'Test A',
-//   destinationID: 'test-dest-a',
-//   destinationName: 'Test city A',
-//   viewCount: 3,
-//   likeCount: 2,
-//   content: Content
-//   },{
-//   _id: '2',
-//   title: 'My Trip in Austin II',
-//   snapshotContent: 'This is the snapshot of the test story B. The use case is to display the beginning text of the story',
-//   authorID: 'test-user-a',
-//   authorName: 'Test A',
-//   destinationID: 'test-dest-a',
-//   destinationName: 'Test city A',
-//   viewCount: 2,
-//   likeCount: 1,
-//   content: Content
-// }];
+const willInteractStory = async(storyID, interactField, context) => {
+  try {
+    if (!context.sessionUser) {
+      throw new Error('User Not Logged In')
+    }
+    const story = await Story.findById(storyID)
+    if (!story || story.adminDelete) {
+      throw new Error('Reqested story does not exist')
+    }
+    const user = await User.findById(context.sessionUser.user._id)
+    if (user[interactField].indexOf(story._id) >= 0) {
+      throw new Error('You already ' + JSON.stringify(interactField) + ' the story')
+    }
+    const countField = interactField + 'Count'
+    //console.log("COUNT FIELD : " + countField)
+    story[countField] = story[countField] + 1
+    story[interactField].push(story._id)
+    user[interactField].push(story._id)
+    //console.log("NEW USER FIELD" + JSON.stringify(user[interactField]));
+    await user.save()
+    await story.save()
+    return story
+  } catch (e) {
+    return e
+  } finally {}
+}

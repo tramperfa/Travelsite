@@ -50,6 +50,10 @@ const UserSchema = new Schema({
     type: String,
     default: 'local'
   },
+  avatar: {
+    type: ObjectId,
+    ref: "Image"
+  },
   profile: {
     description: {
       type: String
@@ -62,20 +66,19 @@ const UserSchema = new Schema({
       type: Boolean,
       default: false
     },
-    //picture: { type: ObjectID, ref "Image"},
     location: {
       type: String
     }
   },
   archive: [
     {
-      type: Schema.ObjectId,
+      type: ObjectId,
       ref: 'Story'
     }
   ],
   like: [
     {
-      type: Schema.ObjectId,
+      type: ObjectId,
       ref: 'Story'
     }
   ],
@@ -145,13 +148,13 @@ UserSchema.methods = {
 
 };
 
-UserSchema.virtual("avatar").get(function() {
+UserSchema.virtual("Image").get(function() {
   // Load picture from profile
-  if (this.profile && this.profile.picture)
-    return this.profile.picture;
+  if (this.avatar)
+    return this.avatar;
 
   // Use default picture
-  return "Default avatar url";
+  return "Default Image ID";
 });
 
 //methods are defined on the document (instance).

@@ -7,6 +7,8 @@ import {Redirect} from 'react-router-dom';
 import TextField from 'material-ui/TextField';
 //import StoryDetailsQuery from './StoryQuery.graphql'
 
+import HeadlineUpload from './HeadlineUpload';
+import Editor from './StoryEditor/Editor';
 //import Editor from './Editor';
 
 class Draft extends React.Component {
@@ -62,7 +64,7 @@ class Draft extends React.Component {
 
     return (
       <div>
-
+        <HeadlineUpload/>
         <TextField inputProps={{
           maxLength: 60
         }} id="title" helperText={60 - this.state.title.length + " letters avaliable"} onBlur={this.handleTitleUpdate} fullWidth={true} placeholder="Title contains up to 60 letters" label="Title" value={this.state.title} onChange={this.handleChange('title')}/>
@@ -73,6 +75,9 @@ class Draft extends React.Component {
           <div>
             {moment(new Date(this.props.draftData.story.lastUpdate)).utc().local().format("YYYY-MM-DD HH:mm")}
           </div>
+        </div>
+        <div>
+          <Editor/>
         </div>
         <Button raised color="primary" onClick={this.handlePublish}>
           Publish Travel Story

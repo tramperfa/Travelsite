@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import { StickyContainer, Sticky } from 'react-sticky';
-import { EditorState, AtomicBlockUtils, convertFromRaw, convertToRaw } from 'draft-js';
+//import { StickyContainer, Sticky } from 'react-sticky';
+import {EditorState, AtomicBlockUtils, convertFromRaw, convertToRaw} from 'draft-js';
 import debounce from 'lodash/debounce';
 
-import Editor, { createEditorStateWithText, composeDecorators } from 'draft-js-plugins-editor';
+import Editor, {createEditorStateWithText, composeDecorators} from 'draft-js-plugins-editor';
 import createEmojiPlugin from 'draft-js-emoji-plugin';
 import createVideoPlugin from 'draft-js-video-plugin';
 import createImagePlugin from 'draft-js-image-plugin';
@@ -19,106 +19,114 @@ import 'draft-js/dist/Draft.css'
 import './imageStyles.css'
 
 const emojiPlugin = createEmojiPlugin();
-const { EmojiSuggestions, EmojiSelect } = emojiPlugin;
+const {EmojiSuggestions, EmojiSelect} = emojiPlugin;
 const videoPlugin = createVideoPlugin();
 
 const blockDndPlugin = createBlockDndPlugin();
-const decorator = composeDecorators(
-  blockDndPlugin.decorator
-);
+const decorator = composeDecorators(blockDndPlugin.decorator);
 
-const imagePlugin = createImagePlugin({theme: {image: "image"}, decorator: decorator});
+const imagePlugin = createImagePlugin({
+  theme: {
+    image: "image"
+  },
+  decorator: decorator
+});
 
 const plugins = [emojiPlugin, videoPlugin, blockDndPlugin, imagePlugin];
 
-const { types } = videoPlugin;
-
+const {types} = videoPlugin;
 
 const initialState = {
-    "entityMap": {
-        "0": {
-          "type": "emoji",
-          "mutability": "IMMUTABLE",
-          "data": {
-              "emojiUnicode": "🎊"
-          }
-        },
-        "1": {
-          "type": "image",
-          "mutability": "IMMUTABLE",
-          "data": {
-              "src": "https://wallpaperscraft.com/image/japan_osaka_city_park_lake_light_lights_night_blue_sky_trees_cherries_cherry_flowering_81979_1920x1080.jpg"
-          }
-        },
-        "2": {
-          "type": types.VIDEOTYPE,
-          "mutability": "IMMUTABLE",
-          "data": {
-            "src": "https://www.youtube.com/watch?v=9I7H2qspqo8"
-          }
-        }
+  "entityMap": {
+    "0": {
+      "type": "emoji",
+      "mutability": "IMMUTABLE",
+      "data": {
+        "emojiUnicode": "🎊"
+      }
     },
-    "blocks": [{
-        "key": "9gm3s",
-        "text": "Hello World! 🎊 ",
-        "type": "unstyled",
-        "depth": 0,
-        "inlineStyleRanges": [],
-        "entityRanges": [{
-            "offset": 13,
-            "length": 1,
-            "key": 0
-        }],
-        "data": {}
+    "1": {
+      "type": "image",
+      "mutability": "IMMUTABLE",
+      "data": {
+        "src": "https://wallpaperscraft.com/image/japan_osaka_city_park_lake_light_lights_night_blue_sky_trees_cherries_cherry_flowering_81979_1920x1080.jpg"
+      }
+    },
+    "2": {
+      "type": types.VIDEOTYPE,
+      "mutability": "IMMUTABLE",
+      "data": {
+        "src": "https://www.youtube.com/watch?v=9I7H2qspqo8"
+      }
+    }
+  },
+  "blocks": [
+    {
+      "key": "9gm3s",
+      "text": "Hello World! 🎊 ",
+      "type": "unstyled",
+      "depth": 0,
+      "inlineStyleRanges": [],
+      "entityRanges": [
+        {
+          "offset": 13,
+          "length": 1,
+          "key": 0
+        }
+      ],
+      "data": {}
     }, {
-        "key": "ov7r",
-        "text": " ",
-        "type": "atomic",
-        "depth": 0,
-        "inlineStyleRanges": [],
-        "entityRanges": [{
-            "offset": 0,
-            "length": 1,
-            "key": 1
-        }],
-        "data": {}
+      "key": "ov7r",
+      "text": " ",
+      "type": "atomic",
+      "depth": 0,
+      "inlineStyleRanges": [],
+      "entityRanges": [
+        {
+          "offset": 0,
+          "length": 1,
+          "key": 1
+        }
+      ],
+      "data": {}
     }, {
-        "key": "e23a8",
-        "text": "......",
-        "type": "unstyled",
-        "depth": 0,
-        "inlineStyleRanges": [],
-        "entityRanges": [],
-        "data": {}
+      "key": "e23a8",
+      "text": "......",
+      "type": "unstyled",
+      "depth": 0,
+      "inlineStyleRanges": [],
+      "entityRanges": [],
+      "data": {}
     }, {
-        "key": "ov8r",
-        "text": " ",
-        "type": "atomic",
-        "depth": 0,
-        "inlineStyleRanges": [],
-        "entityRanges": [{
+      "key": "ov8r",
+      "text": " ",
+      "type": "atomic",
+      "depth": 0,
+      "inlineStyleRanges": [],
+      "entityRanges": [
+        {
           "offset": 0,
           "length": 1,
           "key": 2
-        }],
-        "data": {}
+        }
+      ],
+      "data": {}
     }, {
-        "key": "e23a9",
-        "text": "......",
-        "type": "unstyled",
-        "depth": 0,
-        "inlineStyleRanges": [],
-        "entityRanges": [],
-        "data": {}
-    }]
+      "key": "e23a9",
+      "text": "......",
+      "type": "unstyled",
+      "depth": 0,
+      "inlineStyleRanges": [],
+      "entityRanges": [],
+      "data": {}
+    }
+  ]
 };
 const placeholderText = "Your story starts here"
-
 
 var containerStyle = {
   height: 200
 };
-
 
 export default class extends Component {
 
@@ -127,8 +135,8 @@ export default class extends Component {
     uploading: false
   }
 
-//EditorState.createWithContent(convertFromRaw(initialState))
-//createEditorStateWithText(initialText)
+  //EditorState.createWithContent(convertFromRaw(initialState))
+  //createEditorStateWithText(initialText)
 
   onChange = (editorState) => {
     // console.log(editorState.getSelection())
@@ -137,9 +145,7 @@ export default class extends Component {
     if (currentContent !== newContent) {
       this.saveContent(newContent)
     }
-    this.setState({
-      editorState: editorState
-    })
+    this.setState({editorState: editorState})
   }
 
   saveContent = debounce((newContent) => {
@@ -163,8 +169,7 @@ export default class extends Component {
     // console.log(newState.getSelection())
     this.onChange(newState)
     this.setState({uploading: true})
-    this.uploadImageAsync(file)
-    .then( (data) => {
+    this.uploadImageAsync(file).then((data) => {
       // console.log(data.src)
       // let newState = this.addImageBlock(this.state.editorState, data.src)
       // console.log(convertToRaw(newState.getCurrentContent()))
@@ -182,23 +187,19 @@ export default class extends Component {
 
   }
 
-  addImageBlock = (editorState,url) => {
+  addImageBlock = (editorState, url) => {
     const urlType = 'image';
     const contentState = editorState.getCurrentContent();
-    const contentStateWithEntity = contentState.createEntity(urlType, 'IMMUTABLE', { src: url });
+    const contentStateWithEntity = contentState.createEntity(urlType, 'IMMUTABLE', {src: url});
     const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
     // console.log(entityKey)
-    const newEditorState = AtomicBlockUtils.insertAtomicBlock(
-      editorState,
-      entityKey,
-      ' '
-    );
+    const newEditorState = AtomicBlockUtils.insertAtomicBlock(editorState, entityKey, ' ');
     return newEditorState
   }
 
   uploadImageAsync(file) {
-    return new Promise( (resolve, reject) => {
-      setTimeout( () => {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
         // const src = window.URL.createObjectURL(file)
         // resolve( {src: src} )
         resolve()
@@ -210,37 +211,27 @@ export default class extends Component {
     // console.log(url)
     const editorState = this.state.editorState;
     const contentState = editorState.getCurrentContent();
-    const contentStateWithEntity = contentState.createEntity(
-      types.VIDEOTYPE,
-      'IMMUTABLE',
-      { src: url }
-    );
+    const contentStateWithEntity = contentState.createEntity(types.VIDEOTYPE, 'IMMUTABLE', {src: url});
     const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
     this.onChange(AtomicBlockUtils.insertAtomicBlock(editorState, entityKey, ' '));
   }
 
-
-  render () {
+  render() {
     return (
       <StoryEditorWrapper>
         <StoryEditor onClick={this.focus}>
 
-          <Editor
-            editorState={this.state.editorState}
-            onChange={this.onChange}
-            placeholder={placeholderText}
-            plugins={plugins}
-            ref={(element) => { this.editor = element; }}
-          />
-          <EmojiSuggestions />
+          <Editor editorState={this.state.editorState} onChange={this.onChange} placeholder={placeholderText} plugins={plugins} ref={(element) => {
+            this.editor = element;
+          }}/>
+          <EmojiSuggestions/>
 
         </StoryEditor>
-        {this.state.uploading &&
-          <ImagePlaceHolder />}
+        {this.state.uploading && <ImagePlaceHolder/>}
         <ToolsWrapper>
-          <EmojiSelect />
-          <ImageInsert uploadFile = {this.uploadFile}/>
-          <VideoInsert addVideoBlock = {this.addVideoBlock}/>
+          <EmojiSelect/>
+          <ImageInsert uploadFile={this.uploadFile}/>
+          <VideoInsert addVideoBlock={this.addVideoBlock}/>
         </ToolsWrapper>
       </StoryEditorWrapper>
 
@@ -248,19 +239,17 @@ export default class extends Component {
   }
 }
 
-
-
-const StoryEditorWrapper = styled.div`
+const StoryEditorWrapper = styled.div `
   display: flex;
   flex-direction: row;
 `
 
-const Dummy = styled.div`
+const Dummy = styled.div `
   height: 600px;
   background-color: #c2f0c2
 `
 
-const StoryEditor = styled.div`
+const StoryEditor = styled.div `
   cursor: text;
   text-align: left;
   box-sizing: border-box;
@@ -276,7 +265,7 @@ const StoryEditor = styled.div`
   max-width: 800px
 `
 
-const ToolsWrapper = styled.div`
+const ToolsWrapper = styled.div `
   margin-top: 10px;
   margin-bottom: 10px;
   height: fit-content;
