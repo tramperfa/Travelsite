@@ -25,7 +25,7 @@ const upload = multer({
 
 module.exports = function(app, db) {
   app.post('/upload', upload.single('theseNamesMustMatch'), (req, res) => {
-    console.log("REACH SERVER!!!!!!");
+    //console.log("REACH SERVER!!!!!!");
     s3.putObject({
       Bucket: 'thetripbeyond', Key: 'myupload.jpg', Body: req.file.buffer, ACL: 'public-read', // your permisions
     }, (err) => {

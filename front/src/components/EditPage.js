@@ -40,7 +40,7 @@ class Draft extends React.Component {
   }
 
   handleTitleUpdate = () => {
-    console.log("TRIGGER");
+    //console.log("TRIGGER");
     try {
       this.props.updateTitle(this.props.match.params._id, this.state.title)
     } catch (e) {
@@ -77,7 +77,7 @@ class Draft extends React.Component {
           </div>
         </div>
         <div>
-          <Editor/>
+          <Editor startingContent={this.props.draftData.story.content} match={this.props.match}/>
         </div>
         <Button raised color="primary" onClick={this.handlePublish}>
           Publish Travel Story
@@ -119,7 +119,7 @@ export const PublishStoryMutation = gql `
   }
 `;
 
-export const UpdateTiltleMutation = gql `
+export const UpdateTitleMutation = gql `
 mutation updateTitle($input: updateTitleInput!) {
   updateTitle(input: $input) {
       _id
@@ -147,7 +147,7 @@ export const WithPublish = graphql(PublishStoryMutation, {
   })
 })
 
-export const WithTitleMuation = graphql(UpdateTiltleMutation, {
+export const WithTitleMuation = graphql(UpdateTitleMutation, {
   props: ({mutate}) => ({
     updateTitle: (storyID, newTitle) => mutate({
       variables: {

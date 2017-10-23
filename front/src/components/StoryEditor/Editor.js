@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 //import { StickyContainer, Sticky } from 'react-sticky';
 import {EditorState, AtomicBlockUtils, convertFromRaw, convertToRaw} from 'draft-js';
 import debounce from 'lodash/debounce';
-
 import Editor, {createEditorStateWithText, composeDecorators} from 'draft-js-plugins-editor';
 import createEmojiPlugin from 'draft-js-emoji-plugin';
 import createVideoPlugin from 'draft-js-video-plugin';
@@ -12,6 +11,8 @@ import ImageInsert from './ImageInsert';
 import ImagePlaceHolder from './ImagePlaceHolder';
 import VideoInsert from './VideoInsert'
 import styled from 'styled-components'
+import PropTypes from 'prop-types';
+import {gql, graphql} from 'react-apollo';
 import 'draft-js-emoji-plugin/lib/plugin.css';
 import 'draft-js-image-plugin/lib/plugin.css';
 import 'draft-js/dist/Draft.css'
@@ -128,10 +129,11 @@ var containerStyle = {
   height: 200
 };
 
-export default class extends Component {
+class MyEditor extends Component {
 
   state = {
-    editorState: EditorState.createEmpty(),
+    //editorState: EditorState.createEmpty(),
+    editorState: EditorState.createWithContent(convertFromRaw(this.props.startingContent)),
     uploading: false
   }
 
@@ -149,7 +151,9 @@ export default class extends Component {
   }
 
   saveContent = debounce((newContent) => {
-    console.log(convertToRaw(newContent))
+    //console.log(convertToRaw(newContent))
+    //console.log("WRITING TO THE SERVER")
+    this.props.updateContent(this.props.match.params._id, convertToRaw(newContent))
     // console.log(JSON.stringify(convertToRaw(newContent)))
   }, 2000)
 
@@ -238,6 +242,36 @@ export default class extends Component {
     )
   }
 }
+
+MyEditor.PropTypes = {
+  updateContent: PropTypes.func.isRequired,
+  match: PropTypes.object.isRequired,
+  startingContent: PropTypes.object.isRequired
+}
+
+export const UpdateContentMutation = gql `
+mutation updateContent($input: updateContentInput!) {
+  updateContent(input: $input) {
+      _id
+      content
+    }
+  }
+`;
+
+export const WithContentMuation = graphql(UpdateContentMutation, {
+  props: ({mutate}) => ({
+    updateContent: (storyID, newContent) => mutate({
+      variables: {
+        input: {
+          storyID: storyID,
+          newContent: newContent
+        }
+      }
+    })
+  })
+})
+
+export default WithContentMuation(MyEditor)
 
 const StoryEditorWrapper = styled.div `
   display: flex;
