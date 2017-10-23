@@ -38,10 +38,6 @@ module.exports = {
     }
   },
 
-  s3: {
-    //subregion: 'us-east-1'
-  }
-
   //
   // s3Detail: {
   //   Bucket: 'your-bucket-name',

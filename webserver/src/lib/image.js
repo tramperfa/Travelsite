@@ -1,7 +1,7 @@
 import multer from 'multer';
 import AWS from 'aws-sdk';
 
-let config = require('./config');
+let aws = require('/aws');
 
 // Amazon s3 config
 
