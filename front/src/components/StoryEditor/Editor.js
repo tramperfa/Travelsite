@@ -133,7 +133,9 @@ class MyEditor extends Component {
 
   state = {
     //editorState: EditorState.createEmpty(),
-    editorState: EditorState.createWithContent(convertFromRaw(this.props.startingContent)),
+    editorState: this.props.startingContent
+      ? EditorState.createWithContent(convertFromRaw(this.props.startingContent))
+      : EditorState.createEmpty(),
     uploading: false
   }
 
