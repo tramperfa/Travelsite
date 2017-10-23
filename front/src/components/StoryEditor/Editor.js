@@ -256,6 +256,7 @@ mutation updateContent($input: updateContentInput!) {
   updateContent(input: $input) {
       _id
       content
+      lastUpdate
     }
   }
 `;

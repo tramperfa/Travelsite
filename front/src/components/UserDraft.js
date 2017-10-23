@@ -5,6 +5,7 @@ import Button from 'material-ui/Button';
 import PropTypes from 'prop-types';
 import DraftList from './DraftList';
 import {Redirect} from 'react-router-dom';
+import {draftsListQuery} from './DraftList';
 
 class UserDraft extends React.Component {
   state = {
@@ -50,6 +51,12 @@ const createDraftMutation = gql `
 
 export default graphql(createDraftMutation, {
   props: ({mutate}) => ({
-    createDraft: () => mutate()
+    createDraft: () => mutate({
+      refetchQueries: [
+        {
+          query: draftsListQuery
+        }
+      ]
+    })
   })
 })(UserDraft)

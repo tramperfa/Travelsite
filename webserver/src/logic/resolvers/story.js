@@ -32,6 +32,9 @@ module.exports = {
   },
   Mutation: {
     createDraft: async(parent, args, context) => {
+      if (!context.sessionUser.user._id) {
+        return new Error('You must login to write a story')
+      }
       var newStory = new Story({title: "", author: context.sessionUser.user._id});
       return newStory.newDraft()
     },
