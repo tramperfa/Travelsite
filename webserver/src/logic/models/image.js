@@ -5,14 +5,19 @@ import uniqueValidator from 'mongoose-unique-validator';
 
 var ImageSchema = new Schema({
   //_id
+  user: {
+    type: Schema.ObjectId,
+    ref: 'User'
+  },
+  // 0-Story; 1-Cover; 2-Headline; 3-Avatar;
+  catergory: {
+    type: Number,
+    default: 0
+  },
   story: {
     type: Schema.ObjectId,
     ref: 'Story',
     index: true
-  },
-  user: {
-    type: Schema.ObjectId,
-    ref: 'User'
   },
   poi: {
     type: Schema.ObjectId,
@@ -27,16 +32,45 @@ var ImageSchema = new Schema({
     type: Date,
     default: undefined
   },
-  isAvatar: {
-    type: Boolean,
-    default: false
+  extraData: {
+    type: JSON
   },
-  isCover: {
-    type: Boolean,
-    default: false
+  originalImage: {
+    url: {
+      type: String
+    },
+    width: {
+      type: Number
+    },
+    height: {
+      type: Number
+    }
+  },
+  browserStoryImage: {
+    type: String
+  },
+  browserListOrCommentImage: {
+    type: String
+  },
+  browserCoverHomeImage: {
+    type: String
+  },
+  browserHealdineImage: {
+    type: String
   }
-
 });
+
+ImageSchema.methods = {
+  newImage: function() {
+    return new Promise((resolve, reject) => {
+      this.save((err, res) => {
+        err
+          ? reject(err)
+          : resolve(res)
+      });
+    });
+  }
+}
 
 var Image = mongoose.model('Image', ImageSchema)
 module.exports = Image

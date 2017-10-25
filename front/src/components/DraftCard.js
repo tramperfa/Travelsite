@@ -36,10 +36,22 @@ const styles = theme => ({
 });
 
 function DraftCard(props) {
-  const {classes, draft} = props;
 
+  // class DraftCard extends React.Component {
+
+  const handleDelete = () => {
+    try {
+      console.log("TBD DELETE");
+    } catch (e) {
+      console.log(e.graphQLErrors[0].message);
+    } finally {}
+  }
+
+  // render() {
+  const {classes, draft} = props;
   return (
-    <div>
+
+    <div >
       <Card className={classes.card}>
         <Link className={classes.textField} to={`/edit/${draft._id}`}>
           <CardMedia className={classes.cover} image={imageTest} title="Live from space album cover"/>
@@ -62,7 +74,8 @@ function DraftCard(props) {
             <IconButton aria-label="Edit" href={`/edit/${draft._id}`}>
               <Edit/>
             </IconButton>
-            <IconButton aria-label="Delete">
+
+            <IconButton aria-label="Delete" onClick={handleDelete}>
               <Delete/>
             </IconButton>
 
@@ -72,6 +85,7 @@ function DraftCard(props) {
       </Card>
     </div>
   );
+  // }
 }
 
 DraftCard.propTypes = {

@@ -1,16 +1,10 @@
 import multer from 'multer';
 import AWS from 'aws-sdk';
 
-let aws = require('/aws');
+let aws = require('../../aws');
 
 // Amazon s3 config
-
-//AWS.config.update(config.s3);
-AWS.config.update({
-  accessKeyId: 'AKIAI3WJWVHVQM4B7LMA', secretAccessKey: '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'
-  //subregion: 'us-east-1'
-});
-
+AWS.config.update(aws.s3);
 const s3 = new AWS.S3();
 
 // Multer config
@@ -24,10 +18,12 @@ const upload = multer({
 });
 
 module.exports = function(app, db) {
-  app.post('/upload', upload.single('theseNamesMustMatch'), (req, res) => {
-    //console.log("REACH SERVER!!!!!!");
+  app.post('/upload', upload.single('image'), (req, res) => {
+    console.log("REACH SERVER!!!!!!")
+    console.log(req.body)
+
     s3.putObject({
-      Bucket: 'thetripbeyond', Key: 'myupload.jpg', Body: req.file.buffer, ACL: 'public-read', // your permisions
+      Bucket: 'thetripbeyond', Key: req.file.originalname, Body: req.file.buffer, ACL: 'public-read', // your permisions
     }, (err) => {
       if (err) {
         console.log(err);

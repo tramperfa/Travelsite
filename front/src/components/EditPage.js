@@ -64,7 +64,7 @@ class Draft extends React.Component {
 
     return (
       <div>
-        <HeadlineUpload/>
+        <HeadlineUpload match={this.props.match}/>
         <TextField inputProps={{
           maxLength: 60
         }} id="title" helperText={60 - this.state.title.length + " letters avaliable"} onBlur={this.handleTitleUpdate} fullWidth={true} placeholder="Title contains up to 60 letters" label="Title" value={this.state.title} onChange={this.handleChange('title')}/>

@@ -34,6 +34,8 @@ type Mutation {
   publishStory(storyID: ID!): Story
   likeStory(storyID: ID!): Story
   archiveStory(storyID: ID!): Story
+  deleteDraft(storyID: ID!): Story
+  deleteStory(storyID: ID!): Story
 }
 
 input updateTitleInput {

@@ -1,4 +1,4 @@
-import Image from '../models/story'
+import Image from '../models/Image'
 
 module.exports = {
 
@@ -10,8 +10,8 @@ module.exports = {
 
   Mutation: {
     createImage: async(parent, args, context) => {
-      var newImage = new Image({story: args.input.storyID, user: context.sessionUser.user._id});
-      return newImage.newDraft()
+      var newImage = new Image({user: context.sessionUser.user._id, story: args.input.storyID, catergory: args.input.catergory});
+      return newImage.newImage()
     }
   }
 
