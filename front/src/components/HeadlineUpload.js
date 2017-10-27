@@ -3,6 +3,7 @@ import Dropzone from 'react-dropzone';
 import upload from 'superagent';
 import PropTypes from 'prop-types';
 import {gql, graphql} from 'react-apollo';
+
 //import {CircularProgress} from 'material-ui/Progress';
 
 class HeadlineUpload extends React.Component {
@@ -13,10 +14,11 @@ class HeadlineUpload extends React.Component {
     const storyID = this.props.match.params._id
     const extension = files[0].name.split('.').pop();
 
-    const data = await this.props.createImage(2, storyID)
+    //console.log("AHA" + JSON.stringify(files[0]))
+    const data = await this.props.createImage(0, storyID)
     upload.post('http://localhost:8080/upload').attach('image', files[0], data.data.createImage._id + '.' + extension)
     //
-      .field('imageID', data.data.createImage._id).field('catergory', 2)
+      .field('imageID', data.data.createImage._id).field('catergory', 0).field('extension', extension)
     //
       .end((err, res) => {
       if (err)

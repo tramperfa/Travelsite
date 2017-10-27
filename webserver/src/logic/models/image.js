@@ -47,16 +47,48 @@ var ImageSchema = new Schema({
     }
   },
   browserStoryImage: {
-    type: String
+    url: {
+      type: String
+    },
+    width: {
+      type: Number
+    },
+    height: {
+      type: Number
+    }
   },
   browserListOrCommentImage: {
-    type: String
+    url: {
+      type: String
+    },
+    width: {
+      type: Number
+    },
+    height: {
+      type: Number
+    }
   },
   browserCoverHomeImage: {
-    type: String
+    url: {
+      type: String
+    },
+    width: {
+      type: Number
+    },
+    height: {
+      type: Number
+    }
   },
   browserHealdineImage: {
-    type: String
+    url: {
+      type: String
+    },
+    width: {
+      type: Number
+    },
+    height: {
+      type: Number
+    }
   }
 });
 
