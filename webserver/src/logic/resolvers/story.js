@@ -10,19 +10,20 @@ module.exports = {
     stories: async(parent, args, context) => {
       const options = {
         criteria: {
-          'hidden': false,
-          'adminDelete': false
+          'status': 2
         }
       }
       return Story.list(options)
     },
-    myDrafts: async(parent, args, context) => {
+
+    myStories: async(parent, args, context) => {
       if (context.sessionUser) {
         const options = {
           criteria: {
             'author': context.sessionUser.user._id,
-            'hidden': true,
-            'adminDelete': false
+            'status': {
+              $lt: 3
+            }
           }
         }
         return Story.list(options)
@@ -31,28 +32,6 @@ module.exports = {
     }
   },
   Mutation: {
-    createDraft: async(parent, args, context) => {
-      if (!context.sessionUser.user._id) {
-        return new Error('You must login to write a story')
-      }
-      var newStory = new Story({title: "", author: context.sessionUser.user._id});
-      return newStory.newDraft()
-    },
-    updateTitle: async(parent, args, context) => {
-      return willUpdateDraft(args.input.storyID, 'title', args.input.newTitle, context)
-    },
-    updateContent: async(parent, args, context) => {
-      return willUpdateDraft(args.input.storyID, 'content', args.input.newContent, context)
-    },
-    updateCover: async(parent, args, context) => {
-      return willUpdateDraft(args.input.storyID, 'coverImage', args.input.newCover, context)
-    },
-    updateHeadline: async(parent, args, context) => {
-      return willUpdateDraft(args.input.storyID, 'headlineImage', args.input.newHeadline, context)
-    },
-    publishStory: async(parent, args, context) => {
-      return willUpdateDraft(args.storyID, 'hidden', false, context)
-    },
 
     likeStory: async(parent, args, context) => {
       return willInteractStory(args.storyID, 'like', context)
@@ -65,34 +44,13 @@ module.exports = {
   JSON: GraphQLJSON
 }
 
-const willUpdateDraft = async(storyID, updateField, updateValue, context) => {
-  try {
-    if (!context.sessionUser) {
-      throw new Error('User Not Logged In')
-    }
-
-    const story = await Story.findById(storyID)
-    if (!story || story.adminDelete || !story.author.equals(context.sessionUser.user._id)) {
-      throw new Error('Reqested draft does not exist')
-    }
-    story.lastUpdate = new Date().toISOString()
-    story[updateField] = updateValue
-    await story.save()
-    return story
-
-  } catch (e) {
-    return e
-  } finally {}
-
-}
-
 const willInteractStory = async(storyID, interactField, context) => {
   try {
     if (!context.sessionUser) {
       throw new Error('User Not Logged In')
     }
     const story = await Story.findById(storyID)
-    if (!story || story.adminDelete) {
+    if (!story || story.status != 2) {
       throw new Error('Reqested story does not exist')
     }
     const user = await User.findById(context.sessionUser.user._id)

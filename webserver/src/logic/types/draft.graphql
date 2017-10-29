@@ -1,0 +1,46 @@
+type Draft {
+  _id: ID!
+  title: String!
+  content: JSON
+  coverImage: Image
+  #poi: POI
+  author: User
+  lastUpdate: String
+}
+
+type Query {
+  draft(_id: ID!): Draft
+  myDrafts: [Draft]
+  #DraftList(type: $type, offset: $offset, limit: Int = 10) [Draft]
+}
+
+
+type Mutation {
+  createDraft(user_id: ID): Draft
+  updateTitle(input: updateTitleInput!): Draft
+  updateContent(input: updateContentInput!): Draft
+  updateCover(input: updateCoverInput!): Draft
+  updateHeadline(input: updateHeadlineInput!): Draft
+  publishDraft(draftID: ID!): Draft
+  deleteDraft(draftID: ID!): Draft
+}
+
+input updateTitleInput {
+  draftID: ID!
+  newTitle: String!
+}
+
+input updateContentInput {
+  draftID: ID!
+  newContent: JSON!
+}
+
+input updateCoverInput {
+  draftID: ID!
+  newCover: ID!
+}
+
+input updateHeadlineInput {
+  draftID: ID!
+  newHeadline: ID!
+}

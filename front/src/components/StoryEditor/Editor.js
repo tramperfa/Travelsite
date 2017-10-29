@@ -123,7 +123,7 @@ const initialState = {
     }
   ]
 };
-const placeholderText = "Your story starts here"
+const placeholderText = "Your draft starts here"
 
 var containerStyle = {
   height: 200
@@ -263,10 +263,10 @@ mutation updateContent($input: updateContentInput!) {
 
 export const WithContentMuation = graphql(UpdateContentMutation, {
   props: ({mutate}) => ({
-    updateContent: (storyID, newContent) => mutate({
+    updateContent: (draftID, newContent) => mutate({
       variables: {
         input: {
-          storyID: storyID,
+          draftID: draftID,
           newContent: newContent
         }
       }

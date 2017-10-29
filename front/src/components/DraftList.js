@@ -36,7 +36,6 @@ export const draftsListQuery = gql `
         fullName
       }
       title
-      snapshotContent
       lastUpdate
     }
   }

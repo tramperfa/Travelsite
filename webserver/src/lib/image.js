@@ -43,7 +43,8 @@ const resizeCompressUpload = async(inputBuffer, extension, origSize, imageType, 
   var newName = "bsv1" + uuidv4()
   var requireSize = imageSize[imageType]
   ImageInfoDB[imageType].filename = newName + '.' + extension;
-  // do not further resize if width less than required width
+
+  // Resize to match required width
   if (origSize.width > requireSize.width) {
     var newbrowserStoryImage = await sharp(inputBuffer).resize(requireSize.width, requireSize.height).toBuffer()
     var newHeight = Math.round(origSize.height / origSize.width * requireSize.width)
@@ -67,6 +68,7 @@ const resizeCompressUpload = async(inputBuffer, extension, origSize, imageType, 
     //   height: origSize.height
     // }
   }
+
   await willUpload(newName + '.' + extension, newbrowserStoryImage)
 
 }
