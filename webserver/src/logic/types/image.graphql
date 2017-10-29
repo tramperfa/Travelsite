@@ -5,7 +5,7 @@ type Image {
     story: Story
     #poi: POI
     uploadAt: String
-    takenAt: String
+    takenTime: String
     browserStoryImage: String
 
 }

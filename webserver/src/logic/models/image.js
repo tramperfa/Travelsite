@@ -28,15 +28,23 @@ var ImageSchema = new Schema({
     type: Date,
     default: Date.now
   },
-  takenAt: {
+  takenTime: {
     type: Date,
     default: undefined
+  },
+  takenLocation: {
+    latitude: {
+      type: Number
+    },
+    longitude: {
+      type: Number
+    }
   },
   extraData: {
     type: JSON
   },
   originalImage: {
-    url: {
+    filename: {
       type: String
     },
     width: {
@@ -47,7 +55,7 @@ var ImageSchema = new Schema({
     }
   },
   browserStoryImage: {
-    url: {
+    filename: {
       type: String
     },
     width: {
@@ -58,7 +66,7 @@ var ImageSchema = new Schema({
     }
   },
   browserListOrCommentImage: {
-    url: {
+    filename: {
       type: String
     },
     width: {
@@ -69,7 +77,7 @@ var ImageSchema = new Schema({
     }
   },
   browserCoverHomeImage: {
-    url: {
+    filename: {
       type: String
     },
     width: {
@@ -80,7 +88,7 @@ var ImageSchema = new Schema({
     }
   },
   browserHealdineImage: {
-    url: {
+    filename: {
       type: String
     },
     width: {
@@ -100,6 +108,16 @@ ImageSchema.methods = {
           ? reject(err)
           : resolve(res)
       });
+    });
+  },
+
+  load: async function(_id) {
+    return new Promise((resolve, reject) => {
+      this.findOne({_id: _id}).exec((err, res) => {
+        err
+          ? reject(new Error("Cannot find requested image"))
+          : resolve(res)
+      })
     });
   }
 }
