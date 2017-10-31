@@ -80,7 +80,23 @@ const willPublishDraft = async(draftID, context) => {
     if (!draft || !draft.author.equals(context.sessionUser.user._id)) {
       throw new Error('Reqested draft does not exist')
     }
-    if (draft.story) {} else {
+    if (draft.status == 2) {
+      var story = Story.findById(draft.story)
+      if (story.draft != draft._id || draft.story != story._id) {
+        throw new Error('Story and Draft conflicts')
+      }
+      const fields = [
+        title,
+        content,
+        poi,
+        coverImage,
+        headlineImage,
+        images
+      ]
+      fields.forEach(field => {
+        story[field] = draft[field]
+      })
+    } else {
       var newStory = new Story({
         title: draft.title,
         content: draft.content,
