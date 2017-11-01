@@ -1,5 +1,6 @@
 type Draft {
   _id: ID!
+  story: ID
   title: String!
   content: JSON
   coverImage: Image

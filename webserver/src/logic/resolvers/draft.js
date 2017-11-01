@@ -42,7 +42,10 @@ module.exports = {
       return willUpdateDraft(args.input.draftID, 'headlineImage', args.input.newHeadline, context)
     },
     publishDraft: async(parent, args, context) => {
-      return willPublishDraft(args.input.draftID, context)
+      return willPublishDraft(args.draftID, context)
+    },
+    deleteDraft: async(parent, args, context) => {
+      return willDeleteDraft(args.draftID, context)
     }
   },
   JSON: GraphQLJSON
@@ -80,9 +83,10 @@ const willPublishDraft = async(draftID, context) => {
     if (!draft || !draft.author.equals(context.sessionUser.user._id)) {
       throw new Error('Reqested draft does not exist')
     }
+    // Already applied for publish
     if (draft.status == 2) {
       var story = Story.findById(draft.story)
-      if (story.draft != draft._id || draft.story != story._id) {
+      if ((story.draft != draft._id) || (draft.story != story._id)) {
         throw new Error('Story and Draft conflicts')
       }
       const fields = [
@@ -96,8 +100,14 @@ const willPublishDraft = async(draftID, context) => {
       fields.forEach(field => {
         story[field] = draft[field]
       })
+      console.log("ENTER AAAA ");
+      // First time applying for publish
     } else {
-      var newStory = new Story({
+      console.log("ENTER BBBB ");
+      var story = new Story({
+        //TESTING WITHOUT ADMIN REVIEW
+        status: 2,
+        draft: draft._id,
         title: draft.title,
         content: draft.content,
         author: draft.author,
@@ -106,9 +116,29 @@ const willPublishDraft = async(draftID, context) => {
         headlineImage: draft.headlineImage,
         images: draft.images
       })
-
+      draft.story = story._id
+      draft.status = 2
+      await draft.save()
     }
-
+    await story.save()
+    return draft
   } catch (e) {} finally {}
+
+}
+
+const willDeleteDraft = async(draftID, context) => {
+  try {
+    if (!context.sessionUser) {
+      throw new Error('User Not Logged In')
+    }
+    var draft = await Draft.findById(draftID)
+    if (!draft || !draft.author.equals(context.sessionUser.user._id)) {
+      throw new Error('Reqested draft does not exist')
+    }
+    await draft.remove()
+    return null
+  } catch (e) {
+    return e
+  } finally {}
 
 }

@@ -50,10 +50,10 @@ class Draft extends React.Component {
   }
 
   render() {
-    //console.log(this.props.match.params._id);
 
     if (this.state.publishRedirect) {
-      return <Redirect push to={`/draft/${this.props.match.params._id}`}/>;
+      console.log(this.props.draftData.draft.story);
+      return <Redirect push to={`/story/${this.props.draftData.draft.story}`}/>;
     }
 
     if (this.props.draftData.loading) {
@@ -112,6 +112,7 @@ export const PublishDraftMutation = gql `
   mutation publishDraft($draftID : ID!) {
     publishDraft(draftID: $draftID) {
       _id
+      story
     }
   }
 `;

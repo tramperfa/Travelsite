@@ -58,7 +58,13 @@ DraftSchema.plugin(uniqueValidator);
  * Pre-remove hook
  */
 
-DraftSchema.pre('remove', function(next) {
+DraftSchema.pre('remove', async(next) => {
+  console.log("Draft Pre-remove function called !");
+  this.images.forEach(imageID => {
+    image = Image.findById(imageID)
+    image.remove()
+  })
+
   // const imager = new Imager(imagerConfig, 'S3');
   // const files = this.image.files;
 

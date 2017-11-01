@@ -85,6 +85,19 @@ const willUpload = (key, body) => new Promise((resolve, reject) => {
   })
 })
 
+export const willDeleteObject = (key) => new Promise((resolve, reject) => {
+  s3.deleteObject({
+    Bucket: 'thetripbeyond',
+    Key: key
+  }, (err) => {
+    if (err) {
+      console.log(err);
+      return reject(new Error(err))
+    }
+    return resolve("delete successful")
+  })
+})
+
 module.exports = function(app, db) {
 
   app.post('/upload', upload.single('image'), async(req, res) => {

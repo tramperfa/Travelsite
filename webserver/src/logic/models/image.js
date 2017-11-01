@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 import uniqueValidator from 'mongoose-unique-validator';
+import {willDeleteObject} from '../../lib/image'
 
 var ImageSchema = new Schema({
   //_id
@@ -98,6 +99,15 @@ var ImageSchema = new Schema({
       type: Number
     }
   }
+});
+
+ImageSchema.pre('remove', function(next) {
+  console.log("Image Pre-remove function called!");
+
+  //remove image from S3
+  willDeleteObject()
+
+  next();
 });
 
 ImageSchema.methods = {

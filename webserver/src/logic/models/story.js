@@ -15,6 +15,7 @@ var StorySchema = new Schema({
   },
   // 1: applying for publish; 2: public story;
   // 3: deleted by user; 4: deleted by admin
+  // 5: user applying recovery
   status: {
     type: Number,
     default: 1
