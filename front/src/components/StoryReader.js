@@ -8,6 +8,8 @@ import StarBorder from "material-ui-icons/StarBorder";
 import Favorite from "material-ui-icons/Favorite";
 import Star from "material-ui-icons/Star";
 import Comment from "material-ui-icons/Comment";
+import Edit from "material-ui-icons/Edit";
+import Delete from "material-ui-icons/Delete";
 //import Reply from "material-ui-icons/Reply";
 //import {createBrowserHistory} from 'history';
 //const history = createBrowserHistory()
@@ -15,17 +17,16 @@ import Comment from "material-ui-icons/Comment";
 class Story extends React.Component {
   state = {
     publishRedirect: false,
+    owner: false,
     errorMessage: null,
     liked: false,
     archived: false
   }
 
   componentDidUpdate(prevProps) {
-    //console.log(this.props);
 
     if (this.props.MeData.me && (prevProps.MeData.me !== this.props.MeData.me)) {
-      // console.log("NEW BB");
-      // console.log(this.props);
+
       if (this.props.MeData.me.like.indexOf(this.props.match.params._id) >= 0) {
         this.setState({liked: true})
       }
@@ -33,6 +34,12 @@ class Story extends React.Component {
         this.setState({archived: true})
       }
     }
+
+    if (((prevProps.MeData.me !== this.props.MeData.me) || (prevProps.storyData.story !== this.props.storyData.story)) && this.props.MeData.me && this.props.storyData.story && this.props.MeData.me._id === this.props.storyData.story.author._id) {
+      //console.log("SET OWNER");
+      this.setState({owner: true})
+    }
+
   }
 
   handleLike = () => {
@@ -62,8 +69,9 @@ class Story extends React.Component {
   }
 
   render() {
-    //  console.log(this.props.MeData);
+
     const story = this.props.storyData.story;
+
     if (this.props.storyData.loading) {
       return (
         <div>Loading</div>
@@ -76,6 +84,7 @@ class Story extends React.Component {
         <div>
           <div>{"Tiltle: " + story.title}</div>
           <div>{"Author: " + story.author.fullName}</div>
+          {/* <div>{"Author: " + story.draft}</div> */}
           <div>{story.likeCount + "Likes"}</div>
           <div>{story.viewCount + "Views"}</div>
           <div>{story.archiveCount + "Archives"}</div>
@@ -103,6 +112,14 @@ class Story extends React.Component {
         <IconButton aria-label="Comment">
           <Comment/>
         </IconButton>
+        <div>
+          {this.state.owner && <IconButton aria-label="Edit" href={`/edit/${story.draft}`}>
+            <Edit/>
+          </IconButton>}
+          {this.state.owner && <IconButton aria-label="Delete">
+            <Delete/>
+          </IconButton>}
+        </div>
       </div>
     )
   }
@@ -122,8 +139,10 @@ export const StoryDetailsQuery = gql `
   query StoryQuery($_id : ID!) {
     story(_id: $_id) {
       _id
+      draft
       title
       author{
+        _id
         fullName
       }
       content

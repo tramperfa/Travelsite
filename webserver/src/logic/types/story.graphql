@@ -1,7 +1,7 @@
 type Story {
   _id: ID!
+  draft: ID
   title: String!
-  draft: Draft
   snapshotContent: String
   content: JSON
   #poi: POI
@@ -24,7 +24,6 @@ type Query {
   myStories: [Story]
   #storyList(type: $type, offset: $offset, limit: Int = 10) [Story]
 }
-
 
 
 type Mutation {

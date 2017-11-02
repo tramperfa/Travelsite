@@ -10,7 +10,7 @@ type Draft {
 }
 
 type Query {
-  draft(_id: ID!): Draft
+  draft(draftID: ID!): Draft
   myDrafts: [Draft]
   #DraftList(type: $type, offset: $offset, limit: Int = 10) [Draft]
 }

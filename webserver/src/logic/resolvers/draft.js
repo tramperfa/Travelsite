@@ -5,14 +5,15 @@ import User from '../models/user'
 
 module.exports = {
   Query: {
-    draft: async(parent, _id, context) => {
-      return Draft.load(_id)
+    draft: async(parent, args, context) => {
+      return willGetDraft(args.draftID, context)
     },
     myDrafts: async(parent, args, context) => {
       if (context.sessionUser) {
         const options = {
           criteria: {
-            'author': context.sessionUser.user._id
+            'author': context.sessionUser.user._id,
+            'status': 1
           }
         }
         return Draft.list(options)
@@ -52,6 +53,24 @@ module.exports = {
 
 }
 
+const willGetDraft = async(draftID, context) => {
+  try {
+    if (!context.sessionUser) {
+      throw new Error('User Not Logged In')
+    }
+    var draft = await Draft.findById(draftID)
+    if (!draft || !draft.author.equals(context.sessionUser.user._id)) {
+      throw new Error('Reqested draft does not exist')
+    }
+    return draft
+
+  } catch (e) {
+    console.log(e)
+    return e
+  } finally {}
+
+}
+
 const willUpdateDraft = async(draftID, updateField, updateValue, context) => {
   try {
     if (!context.sessionUser) {
@@ -85,25 +104,27 @@ const willPublishDraft = async(draftID, context) => {
     }
     // Already applied for publish
     if (draft.status == 2) {
-      var story = Story.findById(draft.story)
-      if ((story.draft != draft._id) || (draft.story != story._id)) {
+      //console.log("ENTER AAAA ");
+      var story = await Story.findById(draft.story)
+      if (!story.draft.equals(draft._id) || !draft.story.equals(story._id)) {
         throw new Error('Story and Draft conflicts')
       }
       const fields = [
-        title,
-        content,
-        poi,
-        coverImage,
-        headlineImage,
-        images
+        'title',
+        'content',
+        'poi',
+        'coverImage',
+        'headlineImage',
+        'images'
       ]
       fields.forEach(field => {
+        //console.log("UPDATING FIELD " + field);
         story[field] = draft[field]
       })
-      console.log("ENTER AAAA ");
+
       // First time applying for publish
     } else {
-      console.log("ENTER BBBB ");
+      //console.log("ENTER BBBB ");
       var story = new Story({
         //TESTING WITHOUT ADMIN REVIEW
         status: 2,
@@ -117,12 +138,15 @@ const willPublishDraft = async(draftID, context) => {
         images: draft.images
       })
       draft.story = story._id
+      story.draft = draft._id
       draft.status = 2
       await draft.save()
     }
     await story.save()
     return draft
-  } catch (e) {} finally {}
+  } catch (e) {
+    return e
+  } finally {}
 
 }
 

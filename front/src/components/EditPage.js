@@ -14,6 +14,7 @@ import Editor from './StoryEditor/Editor';
 class Draft extends React.Component {
   state = {
     publishRedirect: false,
+    linkedStoryID: undefined,
     errorMessage: null,
     title: ''
   }
@@ -27,8 +28,9 @@ class Draft extends React.Component {
   handlePublish = () => {
     try {
       var draftID = this.props.match.params._id
-      this.props.publishDraft(draftID).then(() => {
-        this.setState({publishRedirect: true})
+      this.props.publishDraft(draftID).then((data) => {
+        console.log(data.data)
+        this.setState({publishRedirect: true, linkedStoryID: data.data.publishDraft.story})
       })
     } catch (e) {
       this.setState({errorMessage: e.graphQLErrors[0].message})
@@ -53,7 +55,7 @@ class Draft extends React.Component {
 
     if (this.state.publishRedirect) {
       console.log(this.props.draftData.draft.story);
-      return <Redirect push to={`/story/${this.props.draftData.draft.story}`}/>;
+      return <Redirect push to={`/story/${this.state.linkedStoryID}`}/>;
     }
 
     if (this.props.draftData.loading) {
@@ -95,8 +97,8 @@ Draft.propTypes = {
 }
 
 export const DraftDetailsQuery = gql `
-  query DraftQuery($_id : ID!) {
-    draft(_id: $_id) {
+  query DraftQuery($draftID : ID!) {
+    draft(draftID: $draftID) {
       _id
       title
       author{
@@ -129,7 +131,7 @@ mutation updateTitle($input: updateTitleInput!) {
 export const WithDraftData = graphql(DraftDetailsQuery, {
   options: (props) => ({
     variables: {
-      _id: props.match.params._id
+      draftID: props.match.params._id
     }
   }),
   name: 'draftData'
