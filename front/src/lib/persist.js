@@ -7,23 +7,26 @@
 
 import localforage from 'localforage';
 
-
 const key = 'me';
 
 export default {
-  willGetSessionUser: async function() {
-   return localforage.getItem(key).catch(err => err)
- },
+  willGetSessionUser : async function() {
+    return localforage.getItem(key).catch(err => err)
+  },
 
-   willSetSessionUser: async function(value) {
-     return localforage.setItem(key, value).catch(err => err)
- },
+  willSetSessionUser : async function(value) {
+    return localforage.setItem(key, value).catch(err => err)
+  },
 
- willRomveSessionUser: async function() {
-   if (localforage.getItem(key)) {
+  willRomveSessionUser : async function() {
+    if (localforage.getItem(key)) {
       //console.log("removing me in local storage")
-      return  localforage.removeItem(key).catch(err => err)
-   }
+      return localforage.removeItem(key).catch(err => err)
+    }
   }
 
 }
+
+// export const willGetSessionUserNew = async() => {
+//   return localforage.getItem(key)
+// }

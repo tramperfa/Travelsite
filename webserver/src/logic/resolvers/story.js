@@ -38,13 +38,16 @@ module.exports = {
     },
     archiveStory: async(parent, args, context) => {
       return willInteractStory(args.storyID, 'archive', context)
+    },
+    deleteStory: async(parent, args, context) => {
+      return willDeleteStory(args.storyID, context)
     }
 
   },
   JSON: GraphQLJSON
 }
 
-const willInteractStory = async(storyID, interactField, context) => {
+const willInteractStory = async(storyID, field, context) => {
   try {
     if (!context.sessionUser) {
       throw new Error('User Not Logged In')
@@ -53,17 +56,35 @@ const willInteractStory = async(storyID, interactField, context) => {
     if (!story || story.status != 2) {
       throw new Error('Reqested story does not exist')
     }
+    const interactField = field + 'Story'
     const user = await User.findById(context.sessionUser.user._id)
     if (user[interactField].indexOf(story._id) >= 0) {
-      throw new Error('You already ' + JSON.stringify(interactField) + ' the story')
+      throw new Error('You already ' + field + ' the story')
     }
     const countField = interactField + 'Count'
-    //console.log("COUNT FIELD : " + countField)
     story[countField] = story[countField] + 1
+
     story[interactField].push(story._id)
     user[interactField].push(story._id)
-    //console.log("NEW USER FIELD" + JSON.stringify(user[interactField]));
+
     await user.save()
+    await story.save()
+    return story
+  } catch (e) {
+    return e
+  } finally {}
+}
+
+const willDeleteStory = async(storyID, context) => {
+  try {
+    if (!context.sessionUser) {
+      throw new Error('User Not Logged In')
+    }
+    var story = await Story.findById(storyID)
+    if (!story || !story.author.equals(context.sessionUser.user._id)) {
+      throw new Error('User not authorized')
+    }
+    story.status = 3
     await story.save()
     return story
   } catch (e) {

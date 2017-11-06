@@ -55,17 +55,10 @@ module.exports = {
 
 const willGetDraft = async(draftID, context) => {
   try {
-    if (!context.sessionUser) {
-      throw new Error('User Not Logged In')
-    }
-    var draft = await Draft.findById(draftID)
-    if (!draft || !draft.author.equals(context.sessionUser.user._id)) {
-      throw new Error('Reqested draft does not exist')
-    }
+    var draft = await checkLoginAndOwnerShip(draftID, context)
     return draft
-
   } catch (e) {
-    console.log(e)
+    //console.log(e)
     return e
   } finally {}
 
@@ -73,14 +66,7 @@ const willGetDraft = async(draftID, context) => {
 
 const willUpdateDraft = async(draftID, updateField, updateValue, context) => {
   try {
-    if (!context.sessionUser) {
-      throw new Error('User Not Logged In')
-    }
-
-    const draft = await Draft.findById(draftID)
-    if (!draft || !draft.author.equals(context.sessionUser.user._id)) {
-      throw new Error('Reqested draft does not exist')
-    }
+    var draft = await checkLoginAndOwnerShip(draftID, context)
     draft.lastUpdate = new Date().toISOString()
     draft[updateField] = updateValue
     await draft.save()
@@ -94,14 +80,8 @@ const willUpdateDraft = async(draftID, updateField, updateValue, context) => {
 
 const willPublishDraft = async(draftID, context) => {
   try {
-    if (!context.sessionUser) {
-      throw new Error('User Not Logged In')
-    }
 
-    var draft = await Draft.findById(draftID)
-    if (!draft || !draft.author.equals(context.sessionUser.user._id)) {
-      throw new Error('Reqested draft does not exist')
-    }
+    var draft = await checkLoginAndOwnerShip(draftID, context)
     // Already applied for publish
     if (draft.status == 2) {
       //console.log("ENTER AAAA ");
@@ -152,17 +132,22 @@ const willPublishDraft = async(draftID, context) => {
 
 const willDeleteDraft = async(draftID, context) => {
   try {
-    if (!context.sessionUser) {
-      throw new Error('User Not Logged In')
-    }
-    var draft = await Draft.findById(draftID)
-    if (!draft || !draft.author.equals(context.sessionUser.user._id)) {
-      throw new Error('Reqested draft does not exist')
-    }
+    var draft = await checkLoginAndOwnerShip(draftID, context)
     await draft.remove()
     return null
   } catch (e) {
     return e
   } finally {}
 
+}
+
+const checkLoginAndOwnerShip = async(draftID, context) => {
+  if (!context.sessionUser) {
+    return new Error('User Not Logged In')
+  }
+  var draft = await Draft.findById(draftID)
+  if (!draft || !draft.author.equals(context.sessionUser.user._id)) {
+    return new Error('Reqested draft does not exist')
+  }
+  return draft
 }

@@ -33,10 +33,10 @@ var StorySchema = new Schema({
     index: true,
     ref: 'User'
   },
-  poi: {
+  destination: {
     type: ObjectId,
     index: true,
-    ref: 'POI'
+    ref: 'Destination'
   },
   coverImage: {
     type: ObjectId,
@@ -60,21 +60,21 @@ var StorySchema = new Schema({
     type: Number,
     default: 0
   },
-  likeCount: {
+  likeStoryCount: {
     type: Number,
     default: 0
   },
-  archiveCount: {
+  archiveStoryCount: {
     type: Number,
     default: 0
   },
-  archive: [
+  archiveStory: [
     {
       type: Schema.ObjectId,
       ref: 'User'
     }
   ],
-  like: [
+  likeStory: [
     {
       type: Schema.ObjectId,
       ref: 'User'

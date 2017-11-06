@@ -10,13 +10,14 @@ import Star from "material-ui-icons/Star";
 import Comment from "material-ui-icons/Comment";
 import Edit from "material-ui-icons/Edit";
 import Delete from "material-ui-icons/Delete";
+import {Redirect} from 'react-router-dom';
 //import Reply from "material-ui-icons/Reply";
 //import {createBrowserHistory} from 'history';
 //const history = createBrowserHistory()
 
 class Story extends React.Component {
   state = {
-    publishRedirect: false,
+    deleteRedirect: false,
     owner: false,
     errorMessage: null,
     liked: false,
@@ -27,10 +28,10 @@ class Story extends React.Component {
 
     if (this.props.MeData.me && (prevProps.MeData.me !== this.props.MeData.me)) {
 
-      if (this.props.MeData.me.like.indexOf(this.props.match.params._id) >= 0) {
+      if (this.props.MeData.me.likeStory.indexOf(this.props.match.params._id) >= 0) {
         this.setState({liked: true})
       }
-      if (this.props.MeData.me.archive.indexOf(this.props.match.params._id) >= 0) {
+      if (this.props.MeData.me.archiveStory.indexOf(this.props.match.params._id) >= 0) {
         this.setState({archived: true})
       }
     }
@@ -68,6 +69,15 @@ class Story extends React.Component {
     })
   }
 
+  handleDelete = () => {
+    var storyID = this.props.match.params._id
+    this.props.deleteStory(storyID).then(() => {
+      this.setState({deleteRedirect: true})
+    }).catch((e) => {
+      this.setState({errorMessage: e.graphQLErrors[0].message})
+    })
+  }
+
   render() {
 
     const story = this.props.storyData.story;
@@ -78,6 +88,10 @@ class Story extends React.Component {
       )
     }
 
+    if (this.state.deleteRedirect) {
+      return <Redirect push to="/"/>;
+    }
+
     return (
 
       <div>
@@ -85,9 +99,9 @@ class Story extends React.Component {
           <div>{"Tiltle: " + story.title}</div>
           <div>{"Author: " + story.author.fullName}</div>
           {/* <div>{"Author: " + story.draft}</div> */}
-          <div>{story.likeCount + "Likes"}</div>
+          <div>{story.likeStoryCount + "Likes"}</div>
           <div>{story.viewCount + "Views"}</div>
-          <div>{story.archiveCount + "Archives"}</div>
+          <div>{story.archiveStoryCount + "Archives"}</div>
           <div style={{
             color: 'red'
           }}>
@@ -116,7 +130,7 @@ class Story extends React.Component {
           {this.state.owner && <IconButton aria-label="Edit" href={`/edit/${story.draft}`}>
             <Edit/>
           </IconButton>}
-          {this.state.owner && <IconButton aria-label="Delete">
+          {this.state.owner && <IconButton aria-label="Delete" onClick={this.handleDelete}>
             <Delete/>
           </IconButton>}
         </div>
@@ -128,6 +142,7 @@ class Story extends React.Component {
 Story.propTypes = {
   likeStory: PropTypes.func.isRequired,
   archiveStory: PropTypes.func.isRequired,
+  deleteStory: PropTypes.func.isRequired,
   match: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
   storyData: PropTypes.object.isRequired,
@@ -148,9 +163,9 @@ export const StoryDetailsQuery = gql `
       content
       lastUpdate
       viewCount
-      likeCount
+      likeStoryCount
+      archiveStoryCount
       commentCount
-      archiveCount
       # comments
 
     }
@@ -162,8 +177,7 @@ export const WithData = graphql(StoryDetailsQuery, {
     variables: {
       _id: props.match.params._id
     },
-
-    notifyOnNetworkStatusChange: true
+    //notifyOnNetworkStatusChange: true
   }),
   name: 'storyData'
 })
@@ -172,15 +186,15 @@ export const meQuery = gql `
   query meQuery {
     me {
       _id
-      like
-      archive
+      likeStory
+      archiveStory
     }
   }
 `;
 
 export const WithMeData = graphql(meQuery, {
   options: {
-    notifyOnNetworkStatusChange: true
+    //notifyOnNetworkStatusChange: true
   },
   name: 'MeData'
 })
@@ -189,7 +203,7 @@ export const LikeStoryMutation = gql `
   mutation likeStory($storyID : ID!) {
     likeStory(storyID: $storyID) {
       _id
-      likeCount
+      likeStoryCount
       lastUpdate
     }
   }
@@ -209,7 +223,7 @@ export const ArchiveStoryMutation = gql `
   mutation archiveStory($storyID : ID!) {
     archiveStory(storyID: $storyID) {
       _id
-      archiveCount
+      archiveStoryCount
       lastUpdate
     }
   }
@@ -225,4 +239,23 @@ export const WithArchive = graphql(ArchiveStoryMutation, {
   })
 })
 
-export default WithArchive(WithLike(WithData(WithMeData(Story))))
+export const DeleteStoryMutation = gql `
+  mutation deleteStory($storyID : ID!) {
+    deleteStory(storyID: $storyID) {
+      _id
+      lastUpdate
+    }
+  }
+`;
+
+export const WithDelete = graphql(DeleteStoryMutation, {
+  props: ({mutate}) => ({
+    deleteStory: (storyID) => mutate({
+      variables: {
+        storyID: storyID
+      }
+    })
+  })
+})
+
+export default WithDelete(WithArchive(WithLike(WithData(WithMeData(Story)))))

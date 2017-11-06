@@ -42,8 +42,8 @@ export const storiesListQuery = gql `
       _id
       title
       snapshotContent
-      viewCount
-      likeCount
+      archiveStoryCount
+      likeStoryCount
       commentCount
       author{
         fullName

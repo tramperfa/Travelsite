@@ -5,12 +5,13 @@ type Story {
   snapshotContent: String
   content: JSON
   #poi: POI
+  headlineImage: Image
   coverImage: Image
   author: User
   lastUpdate: String
   viewCount: Int
-  likeCount: Int
-  archiveCount: Int
+  likeStoryCount: Int
+  archiveStoryCount: Int
   commentCount: Int
 }
 
