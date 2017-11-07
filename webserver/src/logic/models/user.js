@@ -70,6 +70,18 @@ const UserSchema = new Schema({
       type: String
     }
   },
+  following: [
+    {
+      type: ObjectId,
+      ref: 'User'
+    }
+  ],
+  follower: [
+    {
+      type: ObjectId,
+      ref: 'User'
+    }
+  ],
   archiveStory: [
     {
       type: ObjectId,

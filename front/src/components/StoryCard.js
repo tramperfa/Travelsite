@@ -41,11 +41,11 @@ function StoryCard(props) {
   return (
     <div>
       <Card className={classes.card}>
-        <Link className={classes.textField} to={`story/${story._id}`}>
+        <Link className={classes.textField} to={`story/${story._id}`} target="_blank">
           <CardMedia className={classes.cover} image={imageTest} title="Live from space album cover"/>
         </Link>
-        <div className={classes.details} href={`story/${story._id}`}>
-          <Link className={classes.textField} to={`story/${story._id}`}>
+        <div className={classes.details}>
+          <Link className={classes.textField} to={`story/${story._id}`} target="_blank">
             <CardContent className={classes.content}>
               <Typography type="headline">
                 {story.title}
