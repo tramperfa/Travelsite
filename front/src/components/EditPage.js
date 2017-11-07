@@ -102,6 +102,7 @@ export const DraftDetailsQuery = gql `
       _id
       title
       author{
+        _id
         fullName
       }
       lastUpdate

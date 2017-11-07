@@ -11,6 +11,7 @@ import Comment from "material-ui-icons/Comment";
 import Edit from "material-ui-icons/Edit";
 import Delete from "material-ui-icons/Delete";
 import {Redirect} from 'react-router-dom';
+import {Link} from 'react-router-dom'
 //import Reply from "material-ui-icons/Reply";
 //import {createBrowserHistory} from 'history';
 //const history = createBrowserHistory()
@@ -82,7 +83,7 @@ class Story extends React.Component {
 
     const story = this.props.storyData.story;
 
-    if (this.props.storyData.loading) {
+    if (this.props.storyData.loading || this.props.MeData.loading) {
       return (
         <div>Loading</div>
       )
@@ -127,9 +128,11 @@ class Story extends React.Component {
           <Comment/>
         </IconButton>
         <div>
-          {this.state.owner && <IconButton aria-label="Edit" href={`/edit/${story.draft}`}>
-            <Edit/>
-          </IconButton>}
+          {this.state.owner && <Link to={`/edit/${story.draft}`}>
+            <IconButton aria-label="Edit">
+              <Edit/>
+            </IconButton>
+          </Link>}
           {this.state.owner && <IconButton aria-label="Delete" onClick={this.handleDelete}>
             <Delete/>
           </IconButton>}

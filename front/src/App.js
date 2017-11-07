@@ -37,25 +37,11 @@ const client = new ApolloClient({networkInterface});
 
 class App extends Component {
 
-  // constructor(props) {
-  //   super(props)
-  //   console.log("APP CONSTRUCTOR RUN");
-  //   console.log(props);
-  //   this.state = {
-  //     me: {
-  //       Looooooooading: true
-  //     },
-  //     openLogin: false,
-  //     Nav: ''
-  //   }
-  // }
-
   state = {
     me: {
       Looooooooading: true
     },
-    openLogin: false,
-    Nav: ''
+    openLogin: false
   }
 
   componentDidMount() {
@@ -95,12 +81,6 @@ class App extends Component {
     this.setState({openLogin: false});
   }
 
-  handleNav = async(newNav) => {
-    if (this.state.Nav !== newNav) {
-      this.setState({Nav: newNav})
-    }
-  }
-
   //Overwrite Material-UI Theme
   theme(outerTheme) {
     return createMuiTheme({
@@ -126,12 +106,12 @@ class App extends Component {
         <BrowserRouter>
           <MuiThemeProvider theme={this.theme}>
             <div>
-              <Header handleNav={this.handleNav} Nav={this.state.Nav} client={client} me={this.state.me} onLogout={this.onLogout} handleClickOpen={this.handleClickOpen}/>
+              <Header client={client} me={this.state.me} onLogout={this.onLogout} handleClickOpen={this.handleClickOpen}/>
               <Login client={client} onLogin={this.onLogin} openLogin={this.state.openLogin} handleRequestClose={this.handleRequestClose}/>
               <Switch>
                 <Route exact path="/" component={Homepage}/>
                 <Route path='/story/:_id' render={(props) => (<StoryReader {...props} handleTriggerOpen={this.handleTriggerOpen} me={this.state.me}/>)}/>
-                <Route path="/user/:_id/:n" component={UserHome}/>
+                <Route path="/user/:_id" component={UserHome}/>
                 <Route path="/userdraft/:_id" component={UserDraft}/>
                 <Route path="/edit/:_id" component={EditPage}/>
                 <Route path="/signup" component={null} key="signup"/>

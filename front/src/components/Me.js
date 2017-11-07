@@ -37,7 +37,7 @@ class Me extends React.Component {
         </Button>
         <Menu id="simple-menu" anchorEl={this.state.anchorEl} open={this.state.open} onRequestClose={this.handleRequestClose}>
           <MenuItem onClick={this.handleRequestClose}>
-            <Link className={this.props.classes.textField} to={`/user/${this.props.me._id}/0`}>
+            <Link className={this.props.classes.textField} to={`/user/${this.props.me._id}`}>
               My Profile
             </Link>
           </MenuItem>

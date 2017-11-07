@@ -145,7 +145,7 @@ const checkLoginAndOwnerShip = async(draftID, context) => {
   if (!context.sessionUser) {
     return new Error('User Not Logged In')
   }
-  var draft = await Draft.findById(draftID)
+  var draft = await Draft.load(draftID)
   if (!draft || !draft.author.equals(context.sessionUser.user._id)) {
     return new Error('Reqested draft does not exist')
   }

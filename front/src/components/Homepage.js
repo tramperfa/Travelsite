@@ -46,6 +46,7 @@ export const storiesListQuery = gql `
       likeStoryCount
       commentCount
       author{
+        _id
         fullName
       }
     }

@@ -5,6 +5,7 @@ import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Button from 'material-ui/Button';
 import {Link} from 'react-router-dom';
+import {NavLink} from 'react-router-dom';
 
 // import IconButton from 'material-ui/IconButton';
 //import Drafts from "material-ui-icons/Drafts";
@@ -36,13 +37,6 @@ const styles = theme => ({
   }
 });
 
-// {(props.Nav === 'Destination')
-//   ? <Button color="primary" onClick={() => props.handleNav('Destination')}>Destination</Button>
-//   : <Button color="contrast" onClick={() => props.handleNav('Destination')}>Destination</Button>}
-// {(props.Nav === 'Hotel')
-//   ? <Button color="primary" href="/hotel" onClick={() => props.handleNav('Hotel')}>Hotel</Button>
-//   : <Button color="contrast" href="/hotel" onClick={() => props.handleNav('Hotel')}>Hotel</Button>}
-
 function ButtonAppBar(props) {
 
   return (
@@ -50,27 +44,16 @@ function ButtonAppBar(props) {
       <AppBar position="static" className={props.classes.appbar}>
         <Toolbar className={props.classes.toolbar}>
           <div className={props.classes.navsection}>
-            {(props.Nav === 'Home')
-              ? <Link to="/">
-                  <Button color="primary" onClick={() => props.handleNav('Home')}>Home</Button>
-                </Link>
-              : <Link to="/">
-                <Button color="contrast" onClick={() => props.handleNav('Home')}>Home</Button>
-              </Link>}
-            {(props.Nav === 'Destination')
-              ? <Link to="/dest">
-                  <Button color="primary" onClick={() => props.handleNav('Destination')}>Destination</Button>
-                </Link>
-              : <Link to="/dest">
-                <Button color="contrast" onClick={() => props.handleNav('Destination')}>Destination</Button>
-              </Link>}
-            {(props.Nav === 'Hotel')
-              ? <Link to="/hotel">
-                  <Button color="primary" onClick={() => props.handleNav('Hotel')}>Hotel</Button>
-                </Link>
-              : <Link to="/hotel">
-                <Button color="contrast" onClick={() => props.handleNav('Hotel')}>Hotel</Button>
-              </Link>}
+
+            <NavLink to="/" exact activeClassName="active">
+              <Button color="contrast">Home</Button>
+            </NavLink>
+            <NavLink to="/dest" exact activeClassName="active">
+              <Button color="contrast">Destination</Button>
+            </NavLink>
+            <NavLink to="/hotel" exact activeClassName="active">
+              <Button color="contrast">Hotel</Button>
+            </NavLink>
 
           </div>
           <div className={props.classes.login}>
@@ -89,9 +72,7 @@ ButtonAppBar.propTypes = {
   me: PropTypes.object.isRequired,
   onLogout: PropTypes.func.isRequired,
   handleClickOpen: PropTypes.func.isRequired,
-  client: PropTypes.object.isRequired,
-  Nav: PropTypes.string.isRequired,
-  handleNav: PropTypes.func.isRequired
+  client: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(ButtonAppBar);
