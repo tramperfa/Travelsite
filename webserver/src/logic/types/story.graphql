@@ -23,6 +23,7 @@ type Query {
   story(_id: ID!): Story
   stories: [Story]
   myStories: [Story]
+  myDeletedStories: [Story]
   #storyList(type: $type, offset: $offset, limit: Int = 10) [Story]
 }
 
@@ -31,6 +32,7 @@ type Mutation {
   likeStory(storyID: ID!): Story
   archiveStory(storyID: ID!): Story
   deleteStory(storyID: ID!): Story
+  recoverStory(storyID: ID!): Story
 }
 
 

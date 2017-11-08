@@ -11,7 +11,7 @@ import Comment from "material-ui-icons/Comment";
 import Edit from "material-ui-icons/Edit";
 import Delete from "material-ui-icons/Delete";
 import {Redirect} from 'react-router-dom';
-import {Link} from 'react-router-dom'
+import {Link} from 'react-router-dom';
 //import Reply from "material-ui-icons/Reply";
 //import {createBrowserHistory} from 'history';
 //const history = createBrowserHistory()
@@ -251,6 +251,7 @@ export const DeleteStoryMutation = gql `
   }
 `;
 
+//NO REFETCH NEEDED
 export const WithDelete = graphql(DeleteStoryMutation, {
   props: ({mutate}) => ({
     deleteStory: (storyID) => mutate({

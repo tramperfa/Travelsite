@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 
 import MyHome from './MyHome';
 import MyStory from './MyStory';
+import MyDeleteStory from './MyDeleteStory';
 import UserHeader from './UserHeader';
 
 const styles = theme => ({
@@ -40,7 +41,7 @@ class UserHome extends React.Component {
           <Route path={`${match.path}/story`} exact component={MyStory}/>
           <Route path={`${match.path}/review`} component={Placeholder}/>
           <Route path={`${match.path}/archive`} component={Placeholder}/>
-          <Route path={`${match.path}/story/delete`} component={DeletePlaceholder}/>
+          <Route path={`${match.path}/story/delete`} component={MyDeleteStory}/>
         </Switch>
       </div>
     )

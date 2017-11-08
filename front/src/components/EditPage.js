@@ -9,6 +9,7 @@ import TextField from 'material-ui/TextField';
 
 import HeadlineUpload from './HeadlineUpload';
 import Editor from './StoryEditor/Editor';
+import {storiesListQuery} from './Homepage';
 //import Editor from './Editor';
 
 class Draft extends React.Component {
@@ -143,7 +144,12 @@ export const WithPublish = graphql(PublishDraftMutation, {
     publishDraft: (draftID) => mutate({
       variables: {
         draftID: draftID
-      }
+      },
+      refetchQueries: [
+        {
+          query: storiesListQuery
+        }
+      ]
     })
   })
 })

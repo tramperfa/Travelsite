@@ -8,7 +8,7 @@ import Typography from 'material-ui/Typography';
 
 import Share from "material-ui-icons/Share";
 
-import Comment from "material-ui-icons/Comment"
+import Comment from "material-ui-icons/Comment";
 
 import imageTest from '../images/cardtest.jpeg';
 
