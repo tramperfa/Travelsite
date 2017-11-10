@@ -301,16 +301,17 @@ mutation updateContent($input: updateContentInput!) {
   updateContent(input: $input) {
       _id
       content
+      lastUpdate
     }
   }
 `;
 
 export const WithContentMuation = graphql(UpdateContentMutation, {
   props: ({mutate}) => ({
-    updateContent: (storyID, newContent) => mutate({
+    updateContent: (draftID, newContent) => mutate({
       variables: {
         input: {
-          storyID: storyID,
+          draftID: draftID,
           newContent: newContent
         }
       }

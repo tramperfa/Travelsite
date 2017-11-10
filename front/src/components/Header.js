@@ -4,7 +4,8 @@ import {withStyles} from 'material-ui/styles';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Button from 'material-ui/Button';
-//import {Link} from 'react-router-dom';
+import {Link} from 'react-router-dom';
+import {NavLink} from 'react-router-dom';
 
 // import IconButton from 'material-ui/IconButton';
 //import Drafts from "material-ui-icons/Drafts";
@@ -37,22 +38,28 @@ const styles = theme => ({
 });
 
 function ButtonAppBar(props) {
+
   return (
     <div className={props.classes.root}>
       <AppBar position="static" className={props.classes.appbar}>
         <Toolbar className={props.classes.toolbar}>
           <div className={props.classes.navsection}>
-            <Button color="contrast" href="/">Home</Button>
-            <Button color="contrast" href="/destination">Destination</Button>
-            <Button color="contrast" href="/hotel">Hotel</Button>
-            <Button color="contrast" href="/hotel">Community</Button>
-            <Button color="contrast" href="/hotel">Book</Button>
+
+            <NavLink to="/" exact activeClassName="active">
+              <Button color="contrast">Home</Button>
+            </NavLink>
+            <NavLink to="/dest" exact activeClassName="active">
+              <Button color="contrast">Destination</Button>
+            </NavLink>
+            <NavLink to="/hotel" exact activeClassName="active">
+              <Button color="contrast">Hotel</Button>
+            </NavLink>
 
           </div>
           <div className={props.classes.login}>
-            {props.me.fullName
+            {!props.me.Looooooooading && (props.me.fullName
               ? <Me client={props.client} me={props.me} onLogout={props.onLogout}/>
-              : <Button className="login" color="contrast" onClick={props.handleClickOpen}>Login</Button>}
+              : <Button className="login" color="contrast" onClick={props.handleClickOpen}>Login</Button>)}
           </div>
         </Toolbar>
       </AppBar>
@@ -64,7 +71,8 @@ ButtonAppBar.propTypes = {
   classes: PropTypes.object.isRequired,
   me: PropTypes.object.isRequired,
   onLogout: PropTypes.func.isRequired,
-  handleClickOpen: PropTypes.func.isRequired
+  handleClickOpen: PropTypes.func.isRequired,
+  client: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(ButtonAppBar);

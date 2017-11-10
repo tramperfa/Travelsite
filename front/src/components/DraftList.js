@@ -33,10 +33,10 @@ export const draftsListQuery = gql `
     myDrafts {
       _id
       author{
+        _id
         fullName
       }
       title
-      snapshotContent
       lastUpdate
     }
   }

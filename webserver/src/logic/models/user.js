@@ -70,19 +70,48 @@ const UserSchema = new Schema({
       type: String
     }
   },
-  archive: [
+  following: [
+    {
+      type: ObjectId,
+      ref: 'User'
+    }
+  ],
+  follower: [
+    {
+      type: ObjectId,
+      ref: 'User'
+    }
+  ],
+  archiveStory: [
     {
       type: ObjectId,
       ref: 'Story'
     }
   ],
-  like: [
+  archivePOI: [
+    {
+      type: ObjectId,
+      ref: 'POI'
+    }
+  ],
+  archiveHotel: [
+    {
+      type: ObjectId,
+      ref: 'Hotel'
+    }
+  ],
+  archiveImage: [
+    {
+      type: ObjectId,
+      ref: 'Image'
+    }
+  ],
+  likeStory: [
     {
       type: ObjectId,
       ref: 'Story'
     }
   ],
-
   facebook: {
     type: String,
     unique: true,

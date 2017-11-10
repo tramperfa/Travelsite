@@ -13,9 +13,8 @@
     "flow-bin": "^0.52.0",
     "graphql-tools": "^1.1.0",
     "localforage": "1.5.0",
-    "material-ui": "1.0.0-beta.17",
+    "material-ui": "1.0.0-beta.19",
     "material-ui-icons": "^1.0.0-beta.15",
-    "moment": "2.18.1",
     "react": "^15.6.1",
     "react-apollo": "^1.4.12",
     "react-dom": "^15.6.1",
@@ -31,6 +30,7 @@
     "react-dropzone": "^4.2.1",
     "superagent": "^3.7.0",
     "moment": "^2.18.1"
+
   },
   "scripts": {
     "start": "react-scripts start",

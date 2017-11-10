@@ -20,8 +20,8 @@ type Me {
   facebook: String
   google: String
   role: String
-  like: [ID]
-  archive: [ID]
+  likeStory: [ID]
+  archiveStory: [ID]
   # likedStory:[Story]
   # archivedStory:[Story]
   #avatar(size: PhotoSize): Image

@@ -6,11 +6,13 @@ import Card, {CardContent, CardMedia} from 'material-ui/Card';
 import IconButton from 'material-ui/IconButton';
 import Typography from 'material-ui/Typography';
 import moment from 'moment';
+import {gql, graphql} from 'react-apollo';
 
 import Edit from "material-ui-icons/Edit";
 import Delete from "material-ui-icons/Delete";
 
 import imageTest from '../images/b.jpg';
+import {draftsListQuery} from './DraftList';
 
 const styles = theme => ({
   card: {
@@ -36,10 +38,22 @@ const styles = theme => ({
 });
 
 function DraftCard(props) {
-  const {classes, draft} = props;
 
+  // class DraftCard extends React.Component {
+
+  const handleDelete = () => {
+    try {
+      props.deleteDraft(props.draft._id)
+    } catch (e) {
+      console.log(e.graphQLErrors[0].message);
+    } finally {}
+  }
+
+  // render() {
+  const {classes, draft} = props;
   return (
-    <div>
+
+    <div >
       <Card className={classes.card}>
         <Link className={classes.textField} to={`/edit/${draft._id}`}>
           <CardMedia className={classes.cover} image={imageTest} title="Live from space album cover"/>
@@ -62,7 +76,8 @@ function DraftCard(props) {
             <IconButton aria-label="Edit" href={`/edit/${draft._id}`}>
               <Edit/>
             </IconButton>
-            <IconButton aria-label="Delete">
+
+            <IconButton aria-label="Delete" onClick={handleDelete}>
               <Delete/>
             </IconButton>
 
@@ -72,12 +87,37 @@ function DraftCard(props) {
       </Card>
     </div>
   );
+  // }
 }
 
 DraftCard.propTypes = {
   classes: PropTypes.object.isRequired,
   //theme: PropTypes.object.isRequired,
+  deleteDraft: PropTypes.func.isRequired,
   draft: PropTypes.object.isRequired
 };
 
-export default withStyles(styles, {withTheme: true})(DraftCard);
+export const DeleteDraftMutation = gql `
+  mutation deleteDraft($draftID : ID!) {
+    deleteDraft(draftID: $draftID) {
+      _id
+    }
+  }
+`;
+
+export const WithDelete = graphql(DeleteDraftMutation, {
+  props: ({mutate}) => ({
+    deleteDraft: (draftID) => mutate({
+      variables: {
+        draftID: draftID
+      },
+      refetchQueries: [
+        {
+          query: draftsListQuery
+        }
+      ]
+    })
+  })
+})
+
+export default WithDelete(withStyles(styles, {withTheme: true})(DraftCard))

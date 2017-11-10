@@ -1,14 +1,17 @@
 type Story {
   _id: ID!
+  draft: ID
   title: String!
   snapshotContent: String
   content: JSON
-  #cover: Image
+  #poi: POI
+  headlineImage: Image
+  coverImage: Image
   author: User
   lastUpdate: String
   viewCount: Int
-  likeCount: Int
-  archiveCount: Int
+  likeStoryCount: Int
+  archiveStoryCount: Int
   commentCount: Int
 }
 
@@ -19,42 +22,20 @@ type Commnet {
 type Query {
   story(_id: ID!): Story
   stories: [Story]
-  myDrafts: [Story]
+  myStories: [Story]
+  myDeletedStories: [Story]
   #storyList(type: $type, offset: $offset, limit: Int = 10) [Story]
 }
 
 
-
 type Mutation {
-  createDraft(user_id: ID): Story
-  updateTitle(input: updateTitleInput!): Story
-  updateContent(input: updateContentInput!): Story
-  updateCover(input: updateCoverInput!): Story
-  updateHeadline(input: updateHeadlineInput!): Story
-  publishStory(storyID: ID!): Story
   likeStory(storyID: ID!): Story
   archiveStory(storyID: ID!): Story
+  deleteStory(storyID: ID!): Story
+  recoverStory(storyID: ID!): Story
 }
 
-input updateTitleInput {
-  storyID: ID!
-  newTitle: String!
-}
 
-input updateContentInput {
-  storyID: ID!
-  newContent: JSON!
-}
-
-input updateCoverInput {
-  storyID: ID!
-  newCover: ID!
-}
-
-input updateHeadlineInput {
-  storyID: ID!
-  newHeadline: ID!
-}
 
 
 # addComment(input: addCommentInput!): addCommentPayload

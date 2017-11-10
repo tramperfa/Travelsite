@@ -5,9 +5,20 @@ import uniqueValidator from 'mongoose-unique-validator';
 
 var StorySchema = new Schema({
   //_id
+  draft: {
+    type: ObjectId,
+    ref: 'Draft'
+  },
   title: {
     type: String,
     trim: true
+  },
+  // 1: applying for publish; 2: public story;
+  // 3: deleted by user; 4: deleted by admin
+  // 5: user applying recovery
+  status: {
+    type: Number,
+    default: 1
   },
   snapshotContent: {
     type: String,
@@ -22,10 +33,10 @@ var StorySchema = new Schema({
     index: true,
     ref: 'User'
   },
-  poi: {
+  destination: {
     type: ObjectId,
     index: true,
-    ref: 'POI'
+    ref: 'Destination'
   },
   coverImage: {
     type: ObjectId,
@@ -45,33 +56,25 @@ var StorySchema = new Schema({
     type: Date,
     default: Date.now
   },
-  adminDelete: {
-    type: Boolean,
-    default: false
-  },
-  hidden: {
-    type: Boolean,
-    default: true
-  },
   viewCount: {
     type: Number,
     default: 0
   },
-  likeCount: {
+  likeStoryCount: {
     type: Number,
     default: 0
   },
-  archiveCount: {
+  archiveStoryCount: {
     type: Number,
     default: 0
   },
-  archive: [
+  archiveStory: [
     {
       type: Schema.ObjectId,
       ref: 'User'
     }
   ],
-  like: [
+  likeStory: [
     {
       type: Schema.ObjectId,
       ref: 'User'
@@ -102,82 +105,14 @@ var StorySchema = new Schema({
 StorySchema.plugin(uniqueValidator);
 
 /**
- * Pre-remove hook. Used for Admin Remove, User remove only flip "hidden" field
+ * Pre-remove hook
  */
-
-StorySchema.pre('remove', function(next) {
-  // const imager = new Imager(imagerConfig, 'S3');
-  // const files = this.image.files;
-
-  // if there are files associated with the item, remove from the cloud too
-  // imager.remove(files, function (err) {
-  //   if (err) return next(err);
-  // }, 'Story');
-
-  next();
-});
 
 /**
  * Methods
  */
 
 StorySchema.methods = {
-  /**
-   * Save Story and upload image
-   *
-   * @param {Object} images
-   * @api private
-   */
-
-  // TODO ADD IMAGE UPLOAD
-  /*
-if (images && !images.length) return this.save();
-const imager = new Imager(imagerConfig, 'S3');
-
-imager.upload(images, function (err, cdnUri, files) {
-  if (err) return cb(err);
-  if (files.length) {
-    self.image = { cdnUri : cdnUri, files : files };
-  }
-  self.save(cb);
-}, 'Story');
-*/
-
-  newDraft: function() {
-    return new Promise((resolve, reject) => {
-      this.save((err, res) => {
-        err
-          ? reject(err)
-          : resolve(res)
-      });
-    });
-  },
-
-  publish: function() {
-    // validate required fields all exist
-    const err = this.validateSync();
-    if (err && err.toString())
-      throw new Error(err.toString());
-    if (this.adminDelete) {
-      console.log("ERROR: Cannot publish due to admin reason");
-      return;
-    } else if (!this.hidden) {
-      console.log("ERROR: Cannot publish story that has been published");
-      return;
-    } else {
-      // TODO genertate snapshot
-      this.hidden = false;
-      return this.save();
-    }
-  },
-
-  /**
-   * Add comment
-   *
-   * @param {User} user
-   * @param {Object} comment
-   * @api private
-   */
 
   addComment: function(user, comment) {
     this.comments.push({body: comment.body, user: user._id});
@@ -228,7 +163,7 @@ StorySchema.statics = {
 
   load: async function(_id) {
     return new Promise((resolve, reject) => {
-      this.findOne({_id: _id, adminDelete: false}).populate('author').populate('comments').exec((err, res) => {
+      this.findOne({_id: _id, status: 2}).populate('author').populate('comments').exec((err, res) => {
         err
           ? reject(new Error("Cannot find requested story"))
           : resolve(res)

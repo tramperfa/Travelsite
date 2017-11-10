@@ -3,12 +3,7 @@ import './App.css';
 import Homepage from './components/Homepage';
 import {ApolloProvider, createNetworkInterface} from 'react-apollo';
 import ApolloClient from 'apollo-client';
-import {
-  BrowserRouter,
-  //Link,
-  Route,
-  Switch
-} from 'react-router-dom';
+import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import {MuiThemeProvider, createMuiTheme} from 'material-ui/styles';
 // import {createBrowserHistory} from 'history';
 
@@ -43,15 +38,23 @@ const client = new ApolloClient({networkInterface});
 class App extends Component {
 
   state = {
-    me: {},
-    openLogin: false,
-    //redirect: false
+    me: {
+      Looooooooading: true
+    },
+    openLogin: false
   }
 
   componentDidMount() {
     persist.willGetSessionUser().then(function(value) {
+      console.log("called");
       if (value) {
         this.setState({me: value})
+      } else {
+        this.setState({
+          me: {
+            Looooooooading: false
+          }
+        })
       }
     }.bind(this))
   }
@@ -112,6 +115,7 @@ class App extends Component {
                 <Route path="/userdraft/:_id" component={UserDraft}/>
                 <Route path="/edit/:_id" component={EditPage}/>
                 <Route path="/signup" component={null} key="signup"/>
+                <Route path="/dest" component={null} key="dest"/>
                 <Route component={NotFound}/>
               </Switch>
             </div>

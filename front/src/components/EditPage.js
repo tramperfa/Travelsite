@@ -5,30 +5,33 @@ import {gql, graphql} from 'react-apollo';
 import Button from 'material-ui/Button';
 import {Redirect} from 'react-router-dom';
 import TextField from 'material-ui/TextField';
-//import StoryDetailsQuery from './StoryQuery.graphql'
+//import DraftDetailsQuery from './DraftQuery.graphql'
 
 import HeadlineUpload from './HeadlineUpload';
 import Editor from './StoryEditor/Editor';
+import {storiesListQuery} from './Homepage';
 //import Editor from './Editor';
 
 class Draft extends React.Component {
   state = {
     publishRedirect: false,
+    linkedStoryID: undefined,
     errorMessage: null,
     title: ''
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.draftData.story && prevProps.draftData.story !== this.props.draftData.story) {
-      this.setState({title: this.props.draftData.story.title})
+    if (this.props.draftData.draft && prevProps.draftData.draft !== this.props.draftData.draft) {
+      this.setState({title: this.props.draftData.draft.title})
     }
   }
 
   handlePublish = () => {
     try {
-      var storyID = this.props.match.params._id
-      this.props.publishStory(storyID).then(() => {
-        this.setState({publishRedirect: true})
+      var draftID = this.props.match.params._id
+      this.props.publishDraft(draftID).then((data) => {
+        console.log(data.data)
+        this.setState({publishRedirect: true, linkedStoryID: data.data.publishDraft.story})
       })
     } catch (e) {
       this.setState({errorMessage: e.graphQLErrors[0].message})
@@ -50,10 +53,10 @@ class Draft extends React.Component {
   }
 
   render() {
-    //console.log(this.props.match.params._id);
 
     if (this.state.publishRedirect) {
-      return <Redirect push to={`/story/${this.props.match.params._id}`}/>;
+      console.log(this.props.draftData.draft.story);
+      return <Redirect push to={`/story/${this.state.linkedStoryID}`}/>;
     }
 
     if (this.props.draftData.loading) {
@@ -64,23 +67,23 @@ class Draft extends React.Component {
 
     return (
       <div>
-        <HeadlineUpload/>
+        <HeadlineUpload match={this.props.match}/>
         <TextField inputProps={{
           maxLength: 60
         }} id="title" helperText={60 - this.state.title.length + " letters avaliable"} onBlur={this.handleTitleUpdate} fullWidth={true} placeholder="Title contains up to 60 letters" label="Title" value={this.state.title} onChange={this.handleChange('title')}/>
 
         <div>
-          {/* <div>{"Tiltle: " + this.props.draftData.story.title}</div>
-          <div>{"Author: " + this.props.draftData.story.author.fullName}</div> */}
+          {/* <div>{"Tiltle: " + this.props.draftData.draft.title}</div>
+          <div>{"Author: " + this.props.draftData.draft.author.fullName}</div> */}
           <div>
-            {moment(new Date(this.props.draftData.story.lastUpdate)).utc().local().format("YYYY-MM-DD HH:mm")}
+            {moment(new Date(this.props.draftData.draft.lastUpdate)).utc().local().format("YYYY-MM-DD HH:mm")}
           </div>
         </div>
         <div>
-          <Editor startingContent={this.props.draftData.story.content} match={this.props.match}/>
+          <Editor startingContent={this.props.draftData.draft.content} match={this.props.match}/>
         </div>
         <Button raised color="primary" onClick={this.handlePublish}>
-          Publish Travel Story
+          Publish Travel Draft
         </Button>
       </div>
     )
@@ -88,33 +91,32 @@ class Draft extends React.Component {
 }
 
 Draft.propTypes = {
-  publishStory: PropTypes.func.isRequired,
+  publishDraft: PropTypes.func.isRequired,
   updateTitle: PropTypes.func.isRequired,
   match: PropTypes.object.isRequired,
   draftData: PropTypes.object.isRequired
 }
 
-export const StoryDetailsQuery = gql `
-  query StoryDraftQuery($_id : ID!) {
-    story(_id: $_id) {
+export const DraftDetailsQuery = gql `
+  query DraftQuery($draftID : ID!) {
+    draft(draftID: $draftID) {
       _id
       title
       author{
+        _id
         fullName
       }
       lastUpdate
-      viewCount
-      commentCount
-      likeCount
       content
     }
   }
 `;
 
-export const PublishStoryMutation = gql `
-  mutation publishStory($storyID : ID!) {
-    publishStory(storyID: $storyID) {
+export const PublishDraftMutation = gql `
+  mutation publishDraft($draftID : ID!) {
+    publishDraft(draftID: $draftID) {
       _id
+      story
     }
   }
 `;
@@ -128,31 +130,36 @@ mutation updateTitle($input: updateTitleInput!) {
   }
 `;
 
-export const WithDraftData = graphql(StoryDetailsQuery, {
+export const WithDraftData = graphql(DraftDetailsQuery, {
   options: (props) => ({
     variables: {
-      _id: props.match.params._id
+      draftID: props.match.params._id
     }
   }),
   name: 'draftData'
 })
 
-export const WithPublish = graphql(PublishStoryMutation, {
+export const WithPublish = graphql(PublishDraftMutation, {
   props: ({mutate}) => ({
-    publishStory: (storyID) => mutate({
+    publishDraft: (draftID) => mutate({
       variables: {
-        storyID: storyID
-      }
+        draftID: draftID
+      },
+      refetchQueries: [
+        {
+          query: storiesListQuery
+        }
+      ]
     })
   })
 })
 
 export const WithTitleMuation = graphql(UpdateTitleMutation, {
   props: ({mutate}) => ({
-    updateTitle: (storyID, newTitle) => mutate({
+    updateTitle: (draftID, newTitle) => mutate({
       variables: {
         input: {
-          storyID: storyID,
+          draftID: draftID,
           newTitle: newTitle
         }
       }

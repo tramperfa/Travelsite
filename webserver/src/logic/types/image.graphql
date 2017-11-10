@@ -1,9 +1,13 @@
 type Image {
     _id: ID!
-    story: Story
     user: User
+    catergory: Int
+    story: Story
     #poi: POI
     uploadAt: String
+    takenTime: String
+    browserStoryImage: String
+
 }
 
 type Query {
@@ -16,5 +20,6 @@ type Mutation {
 }
 
 input createImageInput {
+  catergory: Int
   storyID: ID
 }

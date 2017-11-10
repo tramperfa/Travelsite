@@ -2,17 +2,23 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 import uniqueValidator from 'mongoose-unique-validator';
+import {willDeleteObject} from '../../lib/image'
 
 var ImageSchema = new Schema({
   //_id
+  user: {
+    type: Schema.ObjectId,
+    ref: 'User'
+  },
+  // 0-Story; 1-Cover; 2-Headline; 3-Avatar;
+  catergory: {
+    type: Number,
+    default: 0
+  },
   story: {
     type: Schema.ObjectId,
     ref: 'Story',
     index: true
-  },
-  user: {
-    type: Schema.ObjectId,
-    ref: 'User'
   },
   poi: {
     type: Schema.ObjectId,
@@ -23,20 +29,108 @@ var ImageSchema = new Schema({
     type: Date,
     default: Date.now
   },
-  takenAt: {
+  takenTime: {
     type: Date,
     default: undefined
   },
-  isAvatar: {
-    type: Boolean,
-    default: false
+  takenLocation: {
+    latitude: {
+      type: Number
+    },
+    longitude: {
+      type: Number
+    }
   },
-  isCover: {
-    type: Boolean,
-    default: false
+  extraData: {
+    type: JSON
+  },
+  originalImage: {
+    filename: {
+      type: String
+    },
+    width: {
+      type: Number
+    },
+    height: {
+      type: Number
+    }
+  },
+  browserStoryImage: {
+    filename: {
+      type: String
+    },
+    width: {
+      type: Number
+    },
+    height: {
+      type: Number
+    }
+  },
+  browserListOrCommentImage: {
+    filename: {
+      type: String
+    },
+    width: {
+      type: Number
+    },
+    height: {
+      type: Number
+    }
+  },
+  browserCoverHomeImage: {
+    filename: {
+      type: String
+    },
+    width: {
+      type: Number
+    },
+    height: {
+      type: Number
+    }
+  },
+  browserHealdineImage: {
+    filename: {
+      type: String
+    },
+    width: {
+      type: Number
+    },
+    height: {
+      type: Number
+    }
   }
-
 });
+
+ImageSchema.pre('remove', function(next) {
+  console.log("Image Pre-remove function called!");
+
+  //remove image from S3
+  willDeleteObject()
+
+  next();
+});
+
+ImageSchema.methods = {
+  newImage: function() {
+    return new Promise((resolve, reject) => {
+      this.save((err, res) => {
+        err
+          ? reject(err)
+          : resolve(res)
+      });
+    });
+  },
+
+  load: async function(_id) {
+    return new Promise((resolve, reject) => {
+      this.findOne({_id: _id}).exec((err, res) => {
+        err
+          ? reject(new Error("Cannot find requested image"))
+          : resolve(res)
+      })
+    });
+  }
+}
 
 var Image = mongoose.model('Image', ImageSchema)
 module.exports = Image

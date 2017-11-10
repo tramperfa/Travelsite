@@ -1,59 +1,56 @@
 import React from 'react';
-import moment from 'moment';
+import {withStyles} from 'material-ui/styles';
+import {Route, Switch} from 'react-router-dom';
+import PropTypes from 'prop-types';
+//import Paper from 'material-ui/Paper';
 
-import {gql, graphql} from 'react-apollo';
+import MyHome from './MyHome';
+import MyStory from './MyStory';
+import MyDeleteStory from './MyDeleteStory';
+import UserHeader from './UserHeader';
 
-import NotFound from './NotFound';
-
-const userDetails = ({
-  data: {
-    loading,
-    error,
-    user
-  },
-  match
-}) => {
-  if (loading) {
-    return <p>Loading ...</p>;
+const styles = theme => ({
+  root: {
+    flexGrow: 1,
+    marginTop: theme.spacing.unit * 3
   }
-  if (error) {
-    return <p>{error.graphQLErrors[0].message}</p>;
-  }
-  if (user === null) {
-    return <NotFound/>
-  }
+});
 
-  return (
-    <div>
+const Placeholder = () => (
+  <div>
+    Place Holder for Review/Archive
+  </div>
+)
+
+const DeletePlaceholder = () => (
+  <div>
+    Delete Place Holder
+  </div>
+)
+
+class UserHome extends React.Component {
+
+  render() {
+    const {classes, match} = this.props;
+    //console.log(match);
+    return (
       <div>
-        <div>{"FullName: " + user.fullName}</div>
-        <div>{"Username: " + user.username}</div>
-        <div>{user._id}</div>
-        <div>{user.provider}</div>
-        <div>
-          {moment(new Date(user.lastUpdate)).utc().local().format("YYYY-MM-DD HH:mm")}
-        </div>
+        <UserHeader match={match}/>
+        <Switch>
+          <Route path={`${match.path}`} exact component={MyHome}/>
+          <Route path={`${match.path}/story`} exact component={MyStory}/>
+          <Route path={`${match.path}/review`} component={Placeholder}/>
+          <Route path={`${match.path}/archive`} component={Placeholder}/>
+          <Route path={`${match.path}/story/delete`} component={MyDeleteStory}/>
+        </Switch>
       </div>
-    </div>
-  );
+    )
+  }
+
 }
 
-export const userDetailQuery = gql `
-  query userDetailsQuery($_id : ID!) {
-    user(_id: $_id) {
-      _id
-      fullName
-      username
-      provider
-      profile
-    }
-  }
-`;
+UserHome.propTypes = {
+  match: PropTypes.object.isRequired
+}
 
-export default(graphql(userDetailQuery, {
-  options: (props) => ({
-    variables: {
-      _id: props.match.params._id
-    }
-  })
-})(userDetails));
+export default withStyles(styles)(UserHome)
