@@ -1,15 +1,21 @@
 import React, {Component} from 'react';
+import { Map } from 'immutable';
 //import { StickyContainer, Sticky } from 'react-sticky';
-import {EditorState, AtomicBlockUtils, convertFromRaw, convertToRaw} from 'draft-js';
+import {EditorState, AtomicBlockUtils, convertFromRaw, convertToRaw, DefaultDraftBlockRenderMap} from 'draft-js';
 import debounce from 'lodash/debounce';
 import Editor, {createEditorStateWithText, composeDecorators} from 'draft-js-plugins-editor';
 import createEmojiPlugin from 'draft-js-emoji-plugin';
 import createVideoPlugin from 'draft-js-video-plugin';
 import createImagePlugin from 'draft-js-image-plugin';
 import createBlockDndPlugin from 'draft-js-drag-n-drop-plugin';
+
+import TitleBlock from './TitleBlock';
 import ImageInsert from './ImageInsert';
 import ImagePlaceHolder from './ImagePlaceHolder';
 import VideoInsert from './VideoInsert'
+import TitleInsert from './TitleInsert'
+import SubTitleList from './SubTitleList'
+
 import styled from 'styled-components'
 import PropTypes from 'prop-types';
 import {gql, graphql} from 'react-apollo';
@@ -17,7 +23,7 @@ import 'draft-js-emoji-plugin/lib/plugin.css';
 import 'draft-js-image-plugin/lib/plugin.css';
 import 'draft-js/dist/Draft.css'
 
-import './imageStyles.css'
+import './BlockStyles.css'
 
 const emojiPlugin = createEmojiPlugin();
 const {EmojiSuggestions, EmojiSelect} = emojiPlugin;
@@ -50,7 +56,7 @@ const initialState = {
       "type": "image",
       "mutability": "IMMUTABLE",
       "data": {
-        "src": "https://wallpaperscraft.com/image/japan_osaka_city_park_lake_light_lights_night_blue_sky_trees_cherries_cherry_flowering_81979_1920x1080.jpg"
+        "src": "https://s3.amazonaws.com/thetripbeyond/59f092a2e9da3d0414879ce4.jpg"
       }
     },
     "2": {
@@ -123,6 +129,15 @@ const initialState = {
     }
   ]
 };
+
+// const blockRenderMap = Map({
+//   'unstyled': {
+//     element: 'h3'
+//   }
+// });
+// const extendedBlockRenderMap = DefaultDraftBlockRenderMap.merge(blockRenderMap)
+const extendedBlockRenderMap = DefaultDraftBlockRenderMap
+
 const placeholderText = "Your story starts here"
 
 var containerStyle = {
@@ -135,7 +150,7 @@ class MyEditor extends Component {
     //editorState: EditorState.createEmpty(),
     editorState: this.props.startingContent
       ? EditorState.createWithContent(convertFromRaw(this.props.startingContent))
-      : EditorState.createEmpty(),
+      : EditorState.createWithContent(convertFromRaw(initialState)),
     uploading: false
   }
 
@@ -153,7 +168,7 @@ class MyEditor extends Component {
   }
 
   saveContent = debounce((newContent) => {
-    //console.log(convertToRaw(newContent))
+    console.log(convertToRaw(newContent))
     //console.log("WRITING TO THE SERVER")
     this.props.updateContent(this.props.match.params._id, convertToRaw(newContent))
     // console.log(JSON.stringify(convertToRaw(newContent)))
@@ -222,14 +237,42 @@ class MyEditor extends Component {
     this.onChange(AtomicBlockUtils.insertAtomicBlock(editorState, entityKey, ' '));
   }
 
+  myBlockStyleFn = (contentBlock) => {
+    const type = contentBlock.getType()
+    if(type === 'atomic') {
+      return 'myAtomicStyle'
+    }
+  }
+
+  myBlockRenderer = (contentBlock) => {
+    const type = contentBlock.getType()
+    if (type === 'code-block') {
+      // console.log("A subtitle")
+      return {
+        component: TitleBlock,
+        editable: false,
+        props: {
+          text: contentBlock.getText()
+        }
+      }
+    }
+  }
+
   render() {
     return (
       <StoryEditorWrapper>
         <StoryEditor onClick={this.focus}>
 
-          <Editor editorState={this.state.editorState} onChange={this.onChange} placeholder={placeholderText} plugins={plugins} ref={(element) => {
-            this.editor = element;
-          }}/>
+          <Editor
+            editorState={this.state.editorState}
+            onChange={this.onChange}
+            placeholder={placeholderText}
+            plugins={plugins}
+            blockRenderMap={extendedBlockRenderMap}
+            blockStyleFn={this.myBlockStyleFn}
+            blockRendererFn={this.myBlockRenderer}
+            ref={(element) => {this.editor = element}}
+          />
           <EmojiSuggestions/>
 
         </StoryEditor>
@@ -238,6 +281,8 @@ class MyEditor extends Component {
           <EmojiSelect/>
           <ImageInsert uploadFile={this.uploadFile}/>
           <VideoInsert addVideoBlock={this.addVideoBlock}/>
+          <TitleInsert editorState={this.state.editorState} onChange={this.onChange}/>
+          <SubTitleList/>
         </ToolsWrapper>
       </StoryEditorWrapper>
 
@@ -302,11 +347,12 @@ const StoryEditor = styled.div `
 `
 
 const ToolsWrapper = styled.div `
-  margin-top: 10px;
-  margin-bottom: 10px;
+  padding: 16px;
   height: fit-content;
   width: fit-content;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  position: sticky;
+  top: 0px
 `

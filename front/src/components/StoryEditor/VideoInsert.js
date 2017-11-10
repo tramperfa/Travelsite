@@ -36,12 +36,12 @@ export default class extends Component {
       // console.log(this.state.url)
       this.onBlur()
       const url = this.state.url
-      const matches = re.exec(url)
-      if (matches && matches[1]) {
-        this.props.addVideoBlock(`https://youtube.com/embed/${matches[1]}`)
-      } else {
-        console.log("Please type a valid youtube video link")
-      }
+      // const matches = re.exec(url)
+      // if (matches && matches[1]) {
+        this.props.addVideoBlock(url)
+      // } else {
+      //   console.log("Please type a valid youtube video link")
+      // }
     }
   }
 
