@@ -1,13 +1,13 @@
 import React, {Component} from 'react'
-import ReactDOM from 'react-dom'
+// import ReactDOM from 'react-dom'
 
 import IconButton from 'material-ui/IconButton';
 import VideoCall from 'material-ui-icons/VideoCall';
-import Icon from 'material-ui/Icon';
+// import Icon from 'material-ui/Icon';
 import Input from 'material-ui/Input';
 
 const HINTTEXT = "Paste/Type a youtube video url and press 'Enter'"
-const re = /\/\/(?:www\.)?youtu(?:\.be|be\.com)\/(?:watch\?v=|embed\/)?([a-z0-9_\-]+)/i
+// const re = /\/\/(?:www\.)?youtu(?:\.be|be\.com)\/(?:watch\?v=|embed\/)?([a-z0-9_\-]+)/i
 export default class extends Component {
 
   state = {
@@ -36,12 +36,12 @@ export default class extends Component {
       // console.log(this.state.url)
       this.onBlur()
       const url = this.state.url
-      const matches = re.exec(url)
-      if (matches && matches[1]) {
-        this.props.addVideoBlock(`https://youtube.com/embed/${matches[1]}`)
-      } else {
-        console.log("Please type a valid youtube video link")
-      }
+      // const matches = re.exec(url)
+      // if (matches && matches[1]) {
+        this.props.addVideoBlock(url)
+      // } else {
+      //   console.log("Please type a valid youtube video link")
+      // }
     }
   }
 
