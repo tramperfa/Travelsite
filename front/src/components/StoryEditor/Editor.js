@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
-import { Map } from 'immutable';
+// import { Map } from 'immutable';
 //import { StickyContainer, Sticky } from 'react-sticky';
 import {EditorState, AtomicBlockUtils, convertFromRaw, convertToRaw, DefaultDraftBlockRenderMap} from 'draft-js';
 import debounce from 'lodash/debounce';
-import Editor, {createEditorStateWithText, composeDecorators} from 'draft-js-plugins-editor';
+import Editor, {composeDecorators} from 'draft-js-plugins-editor';
+// import Editor, {createEditorStateWithText, composeDecorators} from 'draft-js-plugins-editor';
 import createEmojiPlugin from 'draft-js-emoji-plugin';
 import createVideoPlugin from 'draft-js-video-plugin';
 import createImagePlugin from 'draft-js-image-plugin';
@@ -43,6 +44,7 @@ const plugins = [emojiPlugin, videoPlugin, blockDndPlugin, imagePlugin];
 
 const {types} = videoPlugin;
 
+/*
 const initialState = {
   "entityMap": {
     "0": {
@@ -129,7 +131,7 @@ const initialState = {
     }
   ]
 };
-
+*/
 // const blockRenderMap = Map({
 //   'unstyled': {
 //     element: 'h3'
@@ -140,9 +142,11 @@ const extendedBlockRenderMap = DefaultDraftBlockRenderMap
 
 const placeholderText = "Your story starts here"
 
+/*
 var containerStyle = {
   height: 200
 };
+*/
 
 class MyEditor extends Component {
 
@@ -150,7 +154,7 @@ class MyEditor extends Component {
     //editorState: EditorState.createEmpty(),
     editorState: this.props.startingContent
       ? EditorState.createWithContent(convertFromRaw(this.props.startingContent))
-      : EditorState.createWithContent(convertFromRaw(initialState)),
+      : EditorState.createEmpty(),
     uploading: false
   }
 
@@ -237,6 +241,14 @@ class MyEditor extends Component {
     this.onChange(AtomicBlockUtils.insertAtomicBlock(editorState, entityKey, ' '));
   }
 
+  addSubTitleBlock = (text) => {
+    const editorState = this.state.editorState;
+    const contentState = editorState.getCurrentContent();
+    const contentStateWithEntity = contentState.createEntity('subTitle', 'IMMUTABLE', {src: text})
+    const entityKey = contentStateWithEntity.getLastCreatedEntityKey()
+    this.onChange(AtomicBlockUtils.insertAtomicBlock(editorState, entityKey, ' '));
+  }
+
   myBlockStyleFn = (contentBlock) => {
     const type = contentBlock.getType()
     if(type === 'atomic') {
@@ -246,16 +258,25 @@ class MyEditor extends Component {
 
   myBlockRenderer = (contentBlock) => {
     const type = contentBlock.getType()
-    if (type === 'code-block') {
+    if (type === 'atomic') {
       // console.log("A subtitle")
-      return {
-        component: TitleBlock,
-        editable: false,
-        props: {
-          text: contentBlock.getText()
+      const entity = contentBlock.getEntityAt(0);
+      if (!entity) {
+        return null
+      }
+      const contentState = this.state.editorState.getCurrentContent()
+      const entityType = contentState.getEntity(entity).getType()
+      if (entityType === 'subTitle') {
+        return {
+          component: TitleBlock,
+          editable: false,
+          // props: {
+          //   text: contentBlock.getText()
+          // }
         }
       }
     }
+    return null
   }
 
   render() {
@@ -281,7 +302,7 @@ class MyEditor extends Component {
           <EmojiSelect/>
           <ImageInsert uploadFile={this.uploadFile}/>
           <VideoInsert addVideoBlock={this.addVideoBlock}/>
-          <TitleInsert editorState={this.state.editorState} onChange={this.onChange}/>
+          <TitleInsert addSubTitleBlock={this.addSubTitleBlock}/>
           <SubTitleList/>
         </ToolsWrapper>
       </StoryEditorWrapper>
@@ -325,12 +346,12 @@ const StoryEditorWrapper = styled.div `
   display: flex;
   flex-direction: row;
 `
-
+/*
 const Dummy = styled.div `
   height: 600px;
   background-color: #c2f0c2
 `
-
+*/
 const StoryEditor = styled.div `
   cursor: text;
   text-align: left;

@@ -15,14 +15,16 @@ export default class extends Component {
   }
 
   render () {
-    const text = this.props.blockProps.text
+    const contentState = this.props.contentState
+    const block = this.props.block
+    const {src} = contentState.getEntity(block.getEntityAt(0)).getData()
     return (
       <TitleBlock
         onMouseEnter={this.onMouseEnter}
         onMouseLeave={this.onMouseLeave}>
-        <a name={text}></a>
+        <a name={src}></a>
         <h1>
-          {text}
+          {src}
         </h1>
         <IconButton>
           <Edit />
