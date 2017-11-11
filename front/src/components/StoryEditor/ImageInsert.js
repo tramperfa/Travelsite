@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 
 import IconButton from 'material-ui/IconButton';
 import AddAPhoto from 'material-ui-icons/AddAPhoto';
-import Icon from 'material-ui/Icon';
+//import Icon from 'material-ui/Icon';
 
 export default class extends Component {
 
@@ -17,17 +17,15 @@ export default class extends Component {
     this.props.uploadFile(file)
   }
 
-  render () {
+  render() {
     return (
       <div>
         <IconButton onClick={this.onClick}>
           <AddAPhoto/>
         </IconButton>
-        <input
-          type='file'
-          ref='fileInput'
-          onChange={this.inputChange}
-          style={{display: 'none'}} />
+        <input type='file' ref='fileInput' onChange={this.inputChange} style={{
+          display: 'none'
+        }}/>
       </div>
 
     )

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {gql, graphql} from 'react-apollo';
+//import {gql, graphql} from 'react-apollo';
 import MyStoryCard from './MyStoryCard';
 import {withMyStoryData} from './MyHome';
 import Button from 'material-ui/Button';

@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {gql, graphql} from 'react-apollo';
-import Button from 'material-ui/Button';
-import MyStoryCard from './MyStoryCard';
+//import Button from 'material-ui/Button';
 
 class MyHome extends React.Component {
 

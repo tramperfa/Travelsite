@@ -22,16 +22,10 @@ const Placeholder = () => (
   </div>
 )
 
-const DeletePlaceholder = () => (
-  <div>
-    Delete Place Holder
-  </div>
-)
-
 class UserHome extends React.Component {
 
   render() {
-    const {classes, match} = this.props;
+    const {match} = this.props;
     //console.log(match);
     return (
       <div>

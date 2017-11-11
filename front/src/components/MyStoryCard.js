@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import {withStyles} from 'material-ui/styles';
 import Card, {CardContent, CardMedia} from 'material-ui/Card';
-import IconButton from 'material-ui/IconButton';
+//import IconButton from 'material-ui/IconButton';
 import Typography from 'material-ui/Typography';
 import imageTest from '../images/d.jpg';
 

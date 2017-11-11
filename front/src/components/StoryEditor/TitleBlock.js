@@ -14,23 +14,21 @@ export default class extends Component {
     // console.log("Mouse Leave!")
   }
 
-  render () {
+  render() {
     const contentState = this.props.contentState
     const block = this.props.block
     const {src} = contentState.getEntity(block.getEntityAt(0)).getData()
     return (
-      <TitleBlock
-        onMouseEnter={this.onMouseEnter}
-        onMouseLeave={this.onMouseLeave}>
-        <a name={src}></a>
+      <TitleBlock onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave}>
+        <a name={src}>TODO</a>
         <h1>
           {src}
         </h1>
         <IconButton>
-          <Edit />
+          <Edit/>
         </IconButton>
         <IconButton>
-          <Delete />
+          <Delete/>
         </IconButton>
       </TitleBlock>
     )
