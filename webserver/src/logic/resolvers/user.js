@@ -18,8 +18,7 @@ module.exports = {
   Mutation: {
     registerUser: async(parent, args, context) => {
       if (context.sessionUser) {
-        console.log("user already has an account and logged in!")
-        return null
+        return new Error("user already has an account and logged in!")
       }
       const user = args.input
       return User.create(user)

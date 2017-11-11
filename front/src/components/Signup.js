@@ -1,13 +1,12 @@
 import React from 'react';
 import {gql, graphql} from 'react-apollo';
-import persist from '../lib/persist';
 import PropTypes from 'prop-types';
 import Button from 'material-ui/Button';
-import Dialog, {DialogActions, DialogContent, DialogTitle} from 'material-ui/Dialog';
-import Slide from 'material-ui/transitions/Slide';
 import {withStyles} from 'material-ui/styles';
 import TextField from 'material-ui/TextField';
-import {ApolloClient} from 'react-apollo';
+import {Redirect} from 'react-router-dom';
+// import createHistory from 'history/createBrowserHistory'
+// const history = createHistory()
 
 const styles = theme => ({
   container: {
@@ -24,35 +23,27 @@ const styles = theme => ({
   }
 });
 
-class Login extends React.Component {
+class Signup extends React.Component {
 
   state = {
-    name: '',
+    username: '',
+    displayname: '',
+    email: '',
     password: '',
-    errorMessage: null
+    errorMessage: null,
+    redirect: false
   }
 
   handleSubmit = () => {
 
-    const emailorusername = this.state.name
-    const password = this.state.password
-
-    this.props.localLogin(emailorusername, password).then(({data}) => {
-      return persist.willSetSessionUser(data.localLogin.me)
-    }).then((me) => {
-      return this.props.onLogin(me)
-    }).then((me) => {
-      return this.props.handleRequestClose()
-    }).then(() => {
-      // console.log("RESET STORE");
-      // console.log(this.props.client);
-      return this.props.client.resetStore()
+    const {username, displayname, email, password} = this.state;
+    this.props.registerUser(username, displayname, email, password).then(() => {
+      this.setState({username: '', displayname: '', email: '', password: '', redirect: true})
     }).catch((error) => {
-      console.log('there was an error during login', error);
-      //console.log(JSON.stringify(error))
-      //, errorMessage: error.graphQLErrors[0].message
-    });
-    this.setState({name: '', password: ''})
+      //console.log('there was an error during login', error);
+      this.setState({errorMessage: error.graphQLErrors[0].message, password: ''})
+    })
+
   }
 
   handleChange = name => event => {
@@ -60,83 +51,74 @@ class Login extends React.Component {
   };
 
   onKeyPress = (event) => {
-    if (event.charCode === 13) { // enter key pressed
+    if (event.charCode === 13) {
       event.preventDefault()
-      // do something here
       this.handleSubmit()
     }
   }
 
-  handleClose = () => {
-    this.setState({name: '', password: '', errorMessage: null})
-    this.props.handleRequestClose()
+  handleSwitch = () => {
+    console.log("TBD: switch to signin");
   }
 
   render() {
+    if (this.state.redirect) {
+      //console.log(this.props.draftData.draft.story);
+      return <Redirect replace to="/"/>;
+    }
 
     return (
       <div>
-
-        <Dialog open={this.props.openLogin} transition={Slide} onRequestClose={this.handleClose} onKeyPress={this.onKeyPress}>
-          <DialogTitle>{"Login"}</DialogTitle>
-          <form className={this.props.classes.container} noValidate autoComplete="off">
-            <DialogContent>
-              <TextField id="name" label="Name" className={this.props.classes.textField} value={this.state.name} onChange={this.handleChange('name')} margin="normal"/>
-              <TextField id="password" label="Password" className={this.props.classes.textField} type="password" autoComplete="current-password" value={this.state.password} onChange={this.handleChange('password')} margin="normal"/>
-            </DialogContent>
-            <div style={{
-              color: 'red'
-            }}>
-              {this.state.errorMessage}
-            </div>
-          </form>
-          <DialogActions>
-            <Button onClick={this.handleSubmit} color="primary">
-              SUBMIT
-            </Button>
-            <Button onClick={this.handleClose} color="primary">
-              CANCEL
-            </Button>
-          </DialogActions>
-
-        </Dialog>
+        <form className={this.props.classes.container} noValidate autoComplete="off">
+          <TextField required id="username" label="Username" className={this.props.classes.textField} value={this.state.name} onChange={this.handleChange('username')} margin="normal"/>
+          <TextField required id="displayname" label="Displayname" className={this.props.classes.textField} value={this.state.name} onChange={this.handleChange('displayname')} margin="normal"/>
+          <TextField required id="email" label="Email" className={this.props.classes.textField} value={this.state.name} onChange={this.handleChange('email')} margin="normal"/>
+          <TextField required id="password" label="Password" className={this.props.classes.textField} type="password" autoComplete="current-password" value={this.state.password} onChange={this.handleChange('password')} margin="normal"/>
+          <div style={{
+            color: 'red'
+          }}>
+            {this.state.errorMessage}
+          </div>
+        </form>
+        <Button onClick={this.handleSubmit} color="primary">
+          SUBMIT
+        </Button>
+        <Button onClick={this.handleSwitch} color="primary">
+          SIGNIN
+        </Button>
       </div>
     )
   }
 }
 
-const LoginMutation = gql `
-  mutation localLogin($input: localLoginInput!) {
-    localLogin(input: $input) {
-      me {
-          fullName
-          _id
-          #avatar
-      }
+Signup.propTypes = {
+  registerUser: PropTypes.func.isRequired,
+  classes: PropTypes.object.isRequired
+}
+
+export const RegisterUserMutation = gql `
+  mutation registerUser($input: registerUserInput!) {
+    registerUser(input: $input) {
+      _id
+      username
+      fullName
     }
   }
  `;
 
-Login.propTypes = {
-  localLogin: PropTypes.func.isRequired,
-  classes: PropTypes.object.isRequired,
-  onLogin: PropTypes.func.isRequired,
-  openLogin: PropTypes.bool.isRequired,
-  handleRequestClose: PropTypes.func.isRequired,
-  client: PropTypes.instanceOf(ApolloClient).isRequired
-}
-
-const LoginWithMuation = graphql(LoginMutation, {
+const WithRegisterUserMutation = graphql(RegisterUserMutation, {
   props: ({mutate}) => ({
-    localLogin: (emailorusername, password) => mutate({
+    registerUser: (username, displayname, email, password) => mutate({
       variables: {
         input: {
-          emailorusername: emailorusername,
+          username: username,
+          fullName: displayname,
+          email: email,
           password: password
         }
       }
     })
   })
-})(Login)
+})
 
-export default withStyles(styles)(LoginWithMuation);
+export default WithRegisterUserMutation(withStyles(styles)(Signup))

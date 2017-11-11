@@ -62,7 +62,7 @@ require("./logic/graphql")(app, db);
 /**
  * Setup Image Upload
  */
-require("./lib/image")(app, db);
+require("./lib/upload")(app, db);
 
 /**
  * Start Server

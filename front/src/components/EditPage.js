@@ -55,7 +55,7 @@ class Draft extends React.Component {
   render() {
 
     if (this.state.publishRedirect) {
-      console.log(this.props.draftData.draft.story);
+      //console.log(this.props.draftData.draft.story);
       return <Redirect push to={`/story/${this.state.linkedStoryID}`}/>;
     }
 

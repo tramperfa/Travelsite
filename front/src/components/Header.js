@@ -11,6 +11,7 @@ import {NavLink} from 'react-router-dom';
 //import Drafts from "material-ui-icons/Drafts";
 
 import Me from './Me';
+import AllLogin from './AllLogin';
 
 const styles = theme => ({
   root: {
@@ -59,13 +60,15 @@ function ButtonAppBar(props) {
           <div className={props.classes.login}>
             {!props.me.Looooooooading && (props.me.fullName
               ? <Me client={props.client} me={props.me} onLogout={props.onLogout}/>
-              : <Button className="login" color="contrast" onClick={props.handleClickOpen}>Login</Button>)}
+              : <AllLogin handleClickOpen={props.handleClickOpen}/>)}
           </div>
         </Toolbar>
       </AppBar>
     </div>
   );
 }
+
+//  : <Button className="login" color="contrast" onClick={props.handleClickOpen}>Login</Button>)}
 
 ButtonAppBar.propTypes = {
   classes: PropTypes.object.isRequired,

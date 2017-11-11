@@ -1,15 +1,11 @@
 import multer from 'multer';
-import AWS from 'aws-sdk';
 import sharp from 'sharp';
-import Image from '../logic/models/Image';
 import uuidv4 from 'uuid/v4';
 import parser from 'exif-parser';
 
-let aws = require('../../aws');
-
-// Amazon s3 config
-AWS.config.update(aws.s3);
-const s3 = new AWS.S3();
+import Image from '../logic/models/image';
+//import Story from '../logic/models/story';
+import {willUploadObject, willDeleteObject} from './S3';
 
 // Multer config
 // memory storage keeps file data in a buffer
@@ -36,7 +32,7 @@ const parseDate = (s) => {
 const originalImageUpload = async(inputBuffer, extension, ImageInfoDB) => {
   var newName = "bsv1" + uuidv4()
   var newbrowserStoryImage = await sharp(inputBuffer).toBuffer()
-  await willUpload(newName + '.' + extension, newbrowserStoryImage)
+  await willUploadObject(newName + '.' + extension, newbrowserStoryImage)
 }
 
 const resizeCompressUpload = async(inputBuffer, extension, origSize, imageType, ImageInfoDB) => {
@@ -69,38 +65,13 @@ const resizeCompressUpload = async(inputBuffer, extension, origSize, imageType, 
     // }
   }
 
-  await willUpload(newName + '.' + extension, newbrowserStoryImage)
+  await willUploadObject(newName + '.' + extension, newbrowserStoryImage)
 
 }
 
-const willUpload = (key, body) => new Promise((resolve, reject) => {
-  s3.putObject({
-    Bucket: 'thetripbeyond', Key: key, Body: body, ACL: 'public-read', // your permisions
-  }, (err) => {
-    if (err) {
-      console.log(err);
-      return reject(new Error(err))
-    }
-    return resolve("upload successful")
-  })
-})
-
-export const willDeleteObject = (key) => new Promise((resolve, reject) => {
-  s3.deleteObject({
-    Bucket: 'thetripbeyond',
-    Key: key
-  }, (err) => {
-    if (err) {
-      console.log(err);
-      return reject(new Error(err))
-    }
-    return resolve("delete successful")
-  })
-})
-
 module.exports = function(app, db) {
 
-  app.post('/upload', upload.single('image'), async(req, res) => {
+  app.post('/upload', upload.single('imageupload'), async(req, res) => {
 
     try {
       var result = parser.create(req.file.buffer).enableSimpleValues(false).parse()
@@ -126,7 +97,7 @@ module.exports = function(app, db) {
   })
 
 }
-
+//////////////////////////////////////////////////////////////////////////////////////////
 // Hold off on GPS feature
 // if (result.tags.GPSLatitude && result.tags.GPSLongitude) {
 //   ImageInfoDB.takenLocation = {

@@ -1,5 +1,5 @@
 import GraphQLJSON from 'graphql-type-json';
-import Draft from '../models/Draft'
+import Draft from '../models/draft'
 import Story from '../models/story'
 import User from '../models/user'
 

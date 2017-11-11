@@ -50,7 +50,7 @@ class Login extends React.Component {
     }).catch((error) => {
       console.log('there was an error during login', error);
       //console.log(JSON.stringify(error))
-      //, errorMessage: error.graphQLErrors[0].message
+      this.setState({errorMessage: error.graphQLErrors[0].message})
     });
     this.setState({name: '', password: ''})
   }
@@ -81,7 +81,7 @@ class Login extends React.Component {
           <DialogTitle>{"Login"}</DialogTitle>
           <form className={this.props.classes.container} noValidate autoComplete="off">
             <DialogContent>
-              <TextField id="name" label="Name" className={this.props.classes.textField} value={this.state.name} onChange={this.handleChange('name')} margin="normal"/>
+              <TextField id="name" label="Username or Email" className={this.props.classes.textField} value={this.state.name} onChange={this.handleChange('name')} margin="normal"/>
               <TextField id="password" label="Password" className={this.props.classes.textField} type="password" autoComplete="current-password" value={this.state.password} onChange={this.handleChange('password')} margin="normal"/>
             </DialogContent>
             <div style={{

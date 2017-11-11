@@ -16,7 +16,7 @@ class HeadlineUpload extends React.Component {
 
     //console.log("AHA" + JSON.stringify(files[0]))
     const data = await this.props.createImage(0, storyID)
-    upload.post('http://localhost:8080/upload').attach('image', files[0], data.data.createImage._id + '.' + extension)
+    upload.post('http://localhost:8080/upload').attach('imageupload', files[0], data.data.createImage._id + '.' + extension)
     //
       .field('imageID', data.data.createImage._id).field('catergory', 0).field('extension', extension)
     //
