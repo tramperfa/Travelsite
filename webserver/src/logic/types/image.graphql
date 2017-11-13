@@ -15,11 +15,11 @@ type Query {
 }
 
 type Mutation {
-  createImage(input: createImageInput!): Image
+  addStoryImage(input: addStoryImageInput!): Image
   updateImagePOI(POI: ID!): Image
 }
 
-input createImageInput {
+input addStoryImageInput {
   catergory: Int
   storyID: ID
 }

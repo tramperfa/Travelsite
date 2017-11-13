@@ -19,8 +19,10 @@ const upload = multer({
 
 const imageSize = {
   browserStoryImage: {
-    width: 700,
-    height: undefined
+    width: 700
+  },
+  browserCommentImage: {
+    width: 300
   }
 }
 
@@ -29,65 +31,81 @@ const parseDate = (s) => {
   return new Date(b[0], b[1] - 1, b[2], b[3], b[4], b[5]);
 }
 
-const originalImageUpload = async(inputBuffer, extension, ImageInfoDB) => {
-  var newName = "bsv1" + uuidv4()
-  var newbrowserStoryImage = await sharp(inputBuffer).toBuffer()
-  await willUploadObject(newName + '.' + extension, newbrowserStoryImage)
+const originalSizeUpload = async(inputBuffer, extension, image) => {
+  var newName = "origV1-" + uuidv4() + '.' + extension;
+  var newImage = await sharp(inputBuffer).toBuffer()
+  image.originalImage = {
+    filename: newName
+  }
+  await willUploadObject(newName, newImage)
+
 }
 
-const resizeCompressUpload = async(inputBuffer, extension, origSize, imageType, ImageInfoDB) => {
-  var newName = "bsv1" + uuidv4()
+const widthBaseResizeUpload = async(inputBuffer, extension, origSize, imageType, image) => {
+  var newName = "storyV1-" + uuidv4() + '.' + extension;
   var requireSize = imageSize[imageType]
-  ImageInfoDB[imageType].filename = newName + '.' + extension;
+  var finalSize;
 
   // Resize to match required width
   if (origSize.width > requireSize.width) {
-    var newbrowserStoryImage = await sharp(inputBuffer).resize(requireSize.width, requireSize.height).toBuffer()
+    var newImage = await sharp(inputBuffer).resize(requireSize.width, undefined).toBuffer()
     var newHeight = Math.round(origSize.height / origSize.width * requireSize.width)
-
-    sharp(inputBuffer).resize(requireSize.width, requireSize.height).toBuffer(function(err, data, info) {
-      console.log(info);
-    })
-    var finalHeight = requireSize.height
-      ? requireSize.height
-      : newHeight
-
-    // ImageInfoDB[imageType] = {
-    //   width: requireSize.width,
-    //   height: finalHeight
-    // }
-
+    finalSize = {
+      width: requireSize.width,
+      height: newHeight
+    }
+    // Upload image width less than required width, No Resize
   } else {
-    var newbrowserStoryImage = await sharp(inputBuffer).toBuffer()
-    // ImageInfoDB[imageType] = {
-    //   width: origSize.width,
-    //   height: origSize.height
-    // }
+    var newImage = await sharp(inputBuffer).toBuffer()
+    finalSize = origSize
   }
 
-  await willUploadObject(newName + '.' + extension, newbrowserStoryImage)
-
+  image[imageType] = {
+    filename: newName,
+    size: finalSize
+  }
+  await willUploadObject(newName, newImage)
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////
+// Hold off on GPS feature
+// if (result.tags.GPSLatitude && result.tags.GPSLongitude) {
+//   image.takenLocation = {
+//     latitude: result.tags.GPSLatitude,
+//     longitude: result.tags.GPSLongitude
+//   }
+// }
+//////////////////////////////////////////////////////////////////////////////////////////
+// Double check height calculation is correct
+// sharp(inputBuffer).resize(requireSize.width, requireSize.height).toBuffer(function(err, data, info) {
+//   //console.log(info);
+// })
+//////////////////////////////////////////////////////////////////////////////////////////
 
 module.exports = function(app, db) {
 
   app.post('/upload', upload.single('imageupload'), async(req, res) => {
 
     try {
+      var image = await Image.findById(req.body.imageID)
+
+      //Parse Out EXIF
       var result = parser.create(req.file.buffer).enableSimpleValues(false).parse()
-      var ImageInfoDB = await Image.findById(req.body.imageID)
-      ImageInfoDB.extraData = result.tags
+      image.extraData = result.tags
       if (result.tags.DateTimeOriginal) {
-        ImageInfoDB.takenTime = parseDate(result.tags.DateTimeOriginal).toString();
+        image.takenTime = parseDate(result.tags.DateTimeOriginal).toString();
       }
+
+      // Upload orignal image
+      await originalSizeUpload(req.file.buffer, req.body.extension, image)
 
       //Story image
       if (req.body.catergory == 0) {
-        await resizeCompressUpload(req.file.buffer, req.body.extension, result.imageSize, 'browserStoryImage', ImageInfoDB)
+        await widthBaseResizeUpload(req.file.buffer, req.body.extension, result.imageSize, 'browserStoryImage', image)
+        await widthBaseResizeUpload(req.file.buffer, req.body.extension, result.imageSize, 'browserCommentImage', image)
       }
-      //console.log(ImageInfoDB)
-      await ImageInfoDB.save()
-
+      //console.log(image)
+      await image.save()
       res.send('File uploaded to S3');
     } catch (e) {
       console.log(e);
@@ -97,11 +115,3 @@ module.exports = function(app, db) {
   })
 
 }
-//////////////////////////////////////////////////////////////////////////////////////////
-// Hold off on GPS feature
-// if (result.tags.GPSLatitude && result.tags.GPSLongitude) {
-//   ImageInfoDB.takenLocation = {
-//     latitude: result.tags.GPSLatitude,
-//     longitude: result.tags.GPSLongitude
-//   }
-// }

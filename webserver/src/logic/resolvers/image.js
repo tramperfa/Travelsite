@@ -1,4 +1,6 @@
-import Image from '../models/image'
+import Image from '../models/image';
+import {draftCheckLoginAndOwnerShip} from '../../lib/resolverHelpers';
+import mongoose from 'mongoose';
 
 module.exports = {
 
@@ -9,9 +11,14 @@ module.exports = {
   },
 
   Mutation: {
-    createImage: async(parent, args, context) => {
+    addStoryImage: async(parent, args, context) => {
+      var draft = await draftCheckLoginAndOwnerShip(args.input.storyID, context)
       var newImage = new Image({user: context.sessionUser.user._id, story: args.input.storyID, catergory: args.input.catergory});
-      return newImage.newImage()
+      await newImage.newImage()
+      var images = draft.images
+      images.push(newImage._id)
+      await draft.save()
+      return newImage
     }
   }
 

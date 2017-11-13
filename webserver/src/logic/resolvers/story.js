@@ -1,6 +1,7 @@
 import GraphQLJSON from 'graphql-type-json';
 import Story from '../models/story'
 import User from '../models/user'
+import {storyCheckLoginAndOwnerShip} from '../../lib/resolverHelpers';
 
 module.exports = {
   Query: {
@@ -94,7 +95,7 @@ const willInteractStory = async(storyID, field, context) => {
 
 const willDeleteStory = async(storyID, context) => {
   try {
-    var story = await checkLoginAndOwnerShip(storyID, context)
+    var story = await storyCheckLoginAndOwnerShip(storyID, context)
     story.status = 3
     await story.save()
     return story
@@ -105,7 +106,7 @@ const willDeleteStory = async(storyID, context) => {
 
 const willRecoverStory = async(storyID, context) => {
   try {
-    var story = await checkLoginAndOwnerShip(storyID, context)
+    var story = await storyCheckLoginAndOwnerShip(storyID, context)
     console.log(story);
     story.status = 2
     await story.save()
@@ -113,16 +114,4 @@ const willRecoverStory = async(storyID, context) => {
   } catch (e) {
     return e
   } finally {}
-}
-
-const checkLoginAndOwnerShip = async(storyID, context) => {
-  if (!context.sessionUser) {
-    return new Error('User Not Logged In')
-  }
-  var story = await Story.findById(storyID).populate('author')
-  console.log(story);
-  if (!story || !story.author.equals(context.sessionUser.user._id)) {
-    return new Error('Reqested story does not exist')
-  }
-  return story
 }
