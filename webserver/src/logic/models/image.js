@@ -10,7 +10,7 @@ var ImageSchema = new Schema({
     type: Schema.ObjectId,
     ref: 'User'
   },
-  // 0-Story; 1-Cover; 2-Headline; 3-Avatar;
+  // 0-Story; 1-Headline; 2-Avatar;
   catergory: {
     type: Number,
     default: 0

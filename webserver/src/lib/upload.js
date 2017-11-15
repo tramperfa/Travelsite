@@ -23,6 +23,14 @@ const imageSize = {
   },
   browserCommentImage: {
     width: 300
+  },
+  browserCoverImage: {
+    width: 220,
+    height: 140
+  },
+  browserUserHomeCoverImage: {
+    width: 680,
+    height: 400
   }
 }
 
@@ -67,8 +75,18 @@ const widthBaseResizeUpload = async(inputBuffer, extension, origSize, imageType,
   await willUploadObject(newName, newImage)
 }
 
+const autoResizeUpload = async(inputBuffer, extension, origSize, imageType, image) => {
+  var newName = "storyV1-" + uuidv4() + '.' + extension;
+  var requireSize = imageSize[imageType]
+  var newImage = await sharp(inputBuffer).resize(requireSize.width, requireSize.height).crop().toBuffer()
+  image[imageType] = {
+    filename: newName
+  }
+  await willUploadObject(newName, newImage)
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////
-// Hold off on GPS feature
+// Hold off GPS feature
 // if (result.tags.GPSLatitude && result.tags.GPSLongitude) {
 //   image.takenLocation = {
 //     latitude: result.tags.GPSLatitude,
@@ -103,6 +121,11 @@ module.exports = function(app, db) {
       if (req.body.catergory == 0) {
         await widthBaseResizeUpload(req.file.buffer, req.body.extension, result.imageSize, 'browserStoryImage', image)
         await widthBaseResizeUpload(req.file.buffer, req.body.extension, result.imageSize, 'browserCommentImage', image)
+        await autoResizeUpload(req.file.buffer, req.body.extension, result.imageSize, 'browserCoverImage', image)
+        await autoResizeUpload(req.file.buffer, req.body.extension, result.imageSize, 'browserUserHomeCoverImage', image)
+      }
+      if (req.body.catergory == 1) {
+        //await autoResizeUpload(req.file.buffer, req.body.extension, result.imageSize, 'browserCoverImage', image)
       }
       //console.log(image)
       await image.save()
@@ -113,5 +136,4 @@ module.exports = function(app, db) {
     } finally {}
 
   })
-
 }

@@ -8,8 +8,6 @@ import {gql, graphql} from 'react-apollo';
 
 class HeadlineUpload extends React.Component {
 
-  state = {}
-
   onDrop = async(files) => {
     const storyID = this.props.match.params._id
     const extension = files[0].name.split('.').pop();
