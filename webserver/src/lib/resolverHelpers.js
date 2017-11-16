@@ -1,6 +1,12 @@
 import Story from '../logic/models/story'
 import Draft from '../logic/models/draft'
 
+export const checkLogin = (context) => {
+  if (!context.sessionUser) {
+    return new Error('User Not Logged In')
+  }
+}
+
 export const storyCheckLoginAndOwnerShip = async(storyID, context) => {
   if (!context.sessionUser) {
     return new Error('User Not Logged In')

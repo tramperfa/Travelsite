@@ -4,7 +4,8 @@ import uuidv4 from 'uuid/v4';
 import parser from 'exif-parser';
 
 import Image from '../logic/models/image';
-//import Story from '../logic/models/story';
+import Draft from '../logic/models/draft';
+import {draftCheckLoginAndOwnerShip, checkLogin} from './resolverHelpers';
 import {willUploadObject, willDeleteObject} from './S3';
 
 // Multer config
@@ -37,6 +38,15 @@ const imageSize = {
 const parseDate = (s) => {
   var b = s.split(/\D/);
   return new Date(b[0], b[1] - 1, b[2], b[3], b[4], b[5]);
+}
+
+const parseEXIF = (buffer, image) => {
+  //Parse Out EXIF
+  var result = parser.create(buffer).enableSimpleValues(false).parse()
+  image.extraData = result.tags
+  if (result.tags.DateTimeOriginal) {
+    image.takenTime = parseDate(result.tags.DateTimeOriginal).toString();
+  }
 }
 
 const originalSizeUpload = async(inputBuffer, extension, image) => {
@@ -75,7 +85,7 @@ const widthBaseResizeUpload = async(inputBuffer, extension, origSize, imageType,
   await willUploadObject(newName, newImage)
 }
 
-const autoResizeUpload = async(inputBuffer, extension, origSize, imageType, image) => {
+const autoCropUpload = async(inputBuffer, extension, origSize, imageType, image) => {
   var newName = "storyV1-" + uuidv4() + '.' + extension;
   var requireSize = imageSize[imageType]
   var newImage = await sharp(inputBuffer).resize(requireSize.width, requireSize.height).crop().toBuffer()
@@ -103,31 +113,43 @@ const autoResizeUpload = async(inputBuffer, extension, origSize, imageType, imag
 module.exports = function(app, db) {
 
   app.post('/upload', upload.single('imageupload'), async(req, res) => {
+    const {catergory, extension, storyID} = req.body
+    const buffer = req.file.buffer
+    console.log("GraphQL Requst is using sessionID :" + req.sessionID);
+    const context = {
+      sessionUser: req._passport
+    }
+    //console.log(req);
 
     try {
-      var image = await Image.findById(req.body.imageID)
-
-      //Parse Out EXIF
-      var result = parser.create(req.file.buffer).enableSimpleValues(false).parse()
-      image.extraData = result.tags
-      if (result.tags.DateTimeOriginal) {
-        image.takenTime = parseDate(result.tags.DateTimeOriginal).toString();
-      }
-
-      // Upload orignal image
-      await originalSizeUpload(req.file.buffer, req.body.extension, image)
+      checkLogin(context)
+      var image = new Image({user: context.sessionUser.user._id, story: args.storyID, catergory: catergory});
+      parseEXIF(buffer, image)
+      originalSizeUpload(buffer, extension, image)
 
       //Story image
-      if (req.body.catergory == 0) {
-        await widthBaseResizeUpload(req.file.buffer, req.body.extension, result.imageSize, 'browserStoryImage', image)
-        await widthBaseResizeUpload(req.file.buffer, req.body.extension, result.imageSize, 'browserCommentImage', image)
-        await autoResizeUpload(req.file.buffer, req.body.extension, result.imageSize, 'browserCoverImage', image)
-        await autoResizeUpload(req.file.buffer, req.body.extension, result.imageSize, 'browserUserHomeCoverImage', image)
+      if (catergory == 0) {
+        var draft = await draftCheckLoginAndOwnerShip(storyID, context)
+        var images = draft.images
+        images.push(image._id)
+        await draft.save()
+        widthBaseResizeUpload(buffer, extension, result.imageSize, 'browserStoryImage', image)
+        widthBaseResizeUpload(buffer, extension, result.imageSize, 'browserCommentImage', image)
+        autoCropUpload(buffer, extension, result.imageSize, 'browserCoverImage', image)
+        autoCropUpload(buffer, extension, result.imageSize, 'browserUserHomeCoverImage', image)
       }
-      if (req.body.catergory == 1) {
-        //await autoResizeUpload(req.file.buffer, req.body.extension, result.imageSize, 'browserCoverImage', image)
+      //Headline image
+      if (catergory == 1) {
+        var draft = await draftCheckLoginAndOwnerShip(storyID, context)
+        draft.headlineImage = image._id
+        await draft.save()
       }
-      //console.log(image)
+      //
+      if (catergory == 2) {
+        var user = await User.findById(context.sessionUser.user._id)
+        user.avatar = image._id
+        await user.save()
+      }
       await image.save()
       res.send('File uploaded to S3');
     } catch (e) {
@@ -136,4 +158,5 @@ module.exports = function(app, db) {
     } finally {}
 
   })
+
 }
