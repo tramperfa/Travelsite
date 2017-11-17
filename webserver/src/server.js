@@ -55,14 +55,14 @@ require('./auth/passport')(app);
 require('./auth/routes')(app, db);
 
 /**
- * Setup GraphQL
- */
-require("./logic/graphql")(app, db);
-
-/**
  * Setup Image Upload
  */
 require("./lib/upload")(app, db);
+
+/**
+ * Setup GraphQL
+ */
+require("./logic/graphql")(app, db);
 
 /**
  * Start Server

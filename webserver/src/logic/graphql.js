@@ -9,6 +9,7 @@ module.exports = function(app, db) {
 
   app.use("/graphql", graphqlExpress((req) => {
     console.log("GraphQL Requst is using sessionID :" + req.sessionID);
+    //console.log(req.session)
     const query = req.query.query || req.body.query;
     if (query && query.length > 2000) {
       // None of our app's queries are this long
