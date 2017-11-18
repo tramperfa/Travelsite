@@ -1,6 +1,6 @@
 type Image {
     _id: ID!
-    user: User
+    author: User
     catergory: Int
     story: Story
     #poi: POI
@@ -11,7 +11,7 @@ type Image {
 }
 
 type Query {
-  image(_id: ID!): Image
+  image(imageID: ID!): Image
 }
 
 type Mutation {
@@ -23,6 +23,6 @@ input cropImageInput {
   imageID: ID
   x: Int
   y: Int
-  height: Int
   width: Int
+  height: Int
 }

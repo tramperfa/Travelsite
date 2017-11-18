@@ -12,7 +12,7 @@ export const storyCheckLoginAndOwnerShip = async(storyID, context) => {
     return new Error('User Not Logged In')
   }
   var story = await Story.findById(storyID).populate('author')
-  console.log(story);
+
   if (!story || !story.author.equals(context.sessionUser.user._id)) {
     return new Error('Reqested story does not exist')
   }
@@ -29,3 +29,5 @@ export const draftCheckLoginAndOwnerShip = async(draftID, context) => {
   }
   return draft
 }
+
+export const willCheckDocumentOwnerShip = async(documentID, context, documentType) => {}

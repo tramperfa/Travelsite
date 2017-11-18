@@ -1,6 +1,6 @@
 import upload from 'superagent';
 
-function ImageUpload(file, imageCatergory, storyID) {
+const willUploadImage = (file, imageCatergory, storyID) => new Promise((resolve, reject) => {
   const extension = file.name.split('.').pop()
   upload.post('http://localhost:8080/upload')
   //
@@ -10,13 +10,16 @@ function ImageUpload(file, imageCatergory, storyID) {
   //
     .end((err, res) => {
     if (err) {
-      console.log(err);
+      return reject(new Error(err))
     }
-    alert('File uploaded!');
+    console.log("Returned Image Object: ");
+    console.log(res.body);
+    return resolve(res.body)
+    //alert('File uploaded!');
   })
-}
+})
 
-export default ImageUpload
+export default willUploadImage
 
 //////////////////////////////////////////////////////////////////////////////////////////
 // Hold off Progress

@@ -6,7 +6,7 @@ import uniqueValidator from 'mongoose-unique-validator';
 
 var ImageSchema = new Schema({
   //_id
-  user: {
+  author: {
     type: Schema.ObjectId,
     ref: 'User'
   },

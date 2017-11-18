@@ -7,10 +7,6 @@ import Button from 'material-ui/Button';
 class Headline extends Component {
   state = {
     crop: {}
-    // x: 0,
-    // y: 0
-    //aspect: 3 / 1
-    //}
   }
 
   handleCrop = async() => {}
@@ -29,6 +25,7 @@ class Headline extends Component {
   }
 
   onCropComplete = (crop, pixelCrop) => {
+    console.log(pixelCrop);
     console.log('To Be Displayed Inside Image Croping Area:   ', pixelCrop.width + ' X ' + pixelCrop.height);
   }
 
