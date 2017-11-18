@@ -10,7 +10,14 @@ import TextField from 'material-ui/TextField';
 import HeadlineUpload from './HeadlineUpload';
 import Editor from './StoryEditor/Editor';
 import {storiesListQuery} from './Homepage';
+// import ReactCrop, {makeAspectCrop} from 'react-image-crop';
+// import imageC from '../images/z.jpg';
+
 //import Editor from './Editor';
+
+// var crop = {
+//   aspect: 3 / 1
+// }
 
 class Draft extends React.Component {
   state = {
@@ -52,6 +59,23 @@ class Draft extends React.Component {
 
   }
 
+  // onCropChange = (crop) => {
+  //   this.setState({crop});
+  // }
+  //
+  // onButtonClick = () => {
+  //   const {image} = this.state;
+  //   this.setState({
+  //     crop: makeAspectCrop({
+  //       x: 20,
+  //       y: 5,
+  //       aspect: 1,
+  //       height: 50
+  //     }, image.naturalWidth / image.naturalHeight),
+  //     disabled: false
+  //   });
+  // }
+
   render() {
 
     if (this.state.publishRedirect) {
@@ -67,6 +91,10 @@ class Draft extends React.Component {
 
     return (
       <div>
+        {/* <div>
+          <ReactCrop src={imageC} crop={crop} onChange={this.onCropChange}/>
+        </div> */}
+
         <HeadlineUpload match={this.props.match}/>
         <TextField inputProps={{
           maxLength: 60

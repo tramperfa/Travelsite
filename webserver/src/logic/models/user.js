@@ -122,7 +122,7 @@ const UserSchema = new Schema({
     unique: true,
     sparse: true
   },
-  role: {
+  roleNotVisibleAtFrontEnd: {
     type: String,
     "default": 'user'
   },

@@ -1,4 +1,5 @@
-import Image from '../models/image'
+import Image from '../models/image';
+import {draftCheckLoginAndOwnerShip} from '../../lib/resolverHelpers';
 
 module.exports = {
 
@@ -8,11 +9,6 @@ module.exports = {
     }
   },
 
-  Mutation: {
-    createImage: async(parent, args, context) => {
-      var newImage = new Image({user: context.sessionUser.user._id, story: args.input.storyID, catergory: args.input.catergory});
-      return newImage.newImage()
-    }
-  }
+  Mutation: {}
 
 }

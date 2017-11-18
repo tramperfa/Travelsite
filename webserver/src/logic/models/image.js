@@ -10,7 +10,7 @@ var ImageSchema = new Schema({
     type: Schema.ObjectId,
     ref: 'User'
   },
-  // 0-Story; 1-Cover; 2-Headline; 3-Avatar;
+  // 0-Story; 1-Headline; 2-Avatar;
   catergory: {
     type: Number,
     default: 0
@@ -47,56 +47,47 @@ var ImageSchema = new Schema({
   originalImage: {
     filename: {
       type: String
-    },
-    width: {
-      type: Number
-    },
-    height: {
-      type: Number
     }
   },
   browserStoryImage: {
     filename: {
       type: String
     },
-    width: {
-      type: Number
-    },
-    height: {
-      type: Number
+    size: {
+      width: {
+        type: Number
+      },
+      height: {
+        type: Number
+      }
     }
   },
-  browserListOrCommentImage: {
+  browserCommentImage: {
     filename: {
       type: String
     },
-    width: {
-      type: Number
-    },
-    height: {
-      type: Number
+    size: {
+      width: {
+        type: Number
+      },
+      height: {
+        type: Number
+      }
     }
   },
-  browserCoverHomeImage: {
+  browserCoverImage: {
     filename: {
       type: String
-    },
-    width: {
-      type: Number
-    },
-    height: {
-      type: Number
+    }
+  },
+  browserUserHomeCoverImage: {
+    filename: {
+      type: String
     }
   },
   browserHealdineImage: {
     filename: {
       type: String
-    },
-    width: {
-      type: Number
-    },
-    height: {
-      type: Number
     }
   }
 });

@@ -1,32 +1,17 @@
 import React from 'react';
 import Dropzone from 'react-dropzone';
-import upload from 'superagent';
 import PropTypes from 'prop-types';
 import {gql, graphql} from 'react-apollo';
+
+import ImageUpload from './ImageUpload';
 
 //import {CircularProgress} from 'material-ui/Progress';
 
 class HeadlineUpload extends React.Component {
 
-  state = {}
-
   onDrop = async(files) => {
     const storyID = this.props.match.params._id
-    const extension = files[0].name.split('.').pop();
-
-    //console.log("AHA" + JSON.stringify(files[0]))
-    const data = await this.props.createImage(0, storyID)
-    upload.post('http://localhost:8080/upload')
-    //
-      .attach('imageupload', files[0], data.data.createImage._id + '.' + extension)
-    //
-      .field('imageID', data.data.createImage._id).field('catergory', 0).field('extension', extension)
-    //
-      .end((err, res) => {
-      if (err)
-        console.log(err);
-      alert('File uploaded!');
-    })
+    ImageUpload(files[0], 0, storyID)
   }
 
   render() {
@@ -41,13 +26,13 @@ class HeadlineUpload extends React.Component {
 }
 
 HeadlineUpload.propTypes = {
-  createImage: PropTypes.func.isRequired,
+  addStoryImage: PropTypes.func.isRequired,
   match: PropTypes.object.isRequired
 }
 
 export const CreateImageMutation = gql `
-mutation createImage($input: createImageInput!) {
-  createImage(input: $input) {
+mutation addStoryImage($input: addStoryImageInput!) {
+  addStoryImage(input: $input) {
       _id
       catergory
     }
@@ -56,7 +41,7 @@ mutation createImage($input: createImageInput!) {
 
 export const WithCreateImageMuation = graphql(CreateImageMutation, {
   props: ({mutate}) => ({
-    createImage: (catergory, storyID) => mutate({
+    addStoryImage: (catergory, storyID) => mutate({
       variables: {
         input: {
           catergory: catergory,

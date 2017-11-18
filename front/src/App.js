@@ -16,6 +16,7 @@ import UserHome from './components/UserHome';
 import UserDraft from './components/UserDraft';
 import persist from './lib/persist';
 import Signup from './components/Signup';
+import Headline from './components/Headline';
 
 // Create GraphQL client to setup Connection with GraphQL server
 const networkInterface = createNetworkInterface({
@@ -115,7 +116,7 @@ class App extends Component {
                 <Route path="/userdraft/:_id" component={UserDraft}/>
                 <Route path="/edit/:_id" component={EditPage}/>
                 <Route path="/signup" component={Signup} key="signup"/>
-                <Route path="/dest" component={null} key="dest"/>
+                <Route path="/dest" component={Headline} key="dest"/>
                 <Route component={NotFound}/>
               </Switch>
             </div>

@@ -2,9 +2,11 @@ import multer from 'multer';
 import sharp from 'sharp';
 import uuidv4 from 'uuid/v4';
 import parser from 'exif-parser';
+import passport from 'passport';
 
 import Image from '../logic/models/image';
-//import Story from '../logic/models/story';
+import Draft from '../logic/models/draft';
+import {draftCheckLoginAndOwnerShip, checkLogin} from './resolverHelpers';
 import {willUploadObject, willDeleteObject} from './S3';
 
 // Multer config
@@ -19,8 +21,18 @@ const upload = multer({
 
 const imageSize = {
   browserStoryImage: {
-    width: 700,
-    height: undefined
+    width: 700
+  },
+  browserCommentImage: {
+    width: 300
+  },
+  browserCoverImage: {
+    width: 220,
+    height: 140
+  },
+  browserUserHomeCoverImage: {
+    width: 680,
+    height: 400
   }
 }
 
@@ -29,65 +41,118 @@ const parseDate = (s) => {
   return new Date(b[0], b[1] - 1, b[2], b[3], b[4], b[5]);
 }
 
-const originalImageUpload = async(inputBuffer, extension, ImageInfoDB) => {
-  var newName = "bsv1" + uuidv4()
-  var newbrowserStoryImage = await sharp(inputBuffer).toBuffer()
-  await willUploadObject(newName + '.' + extension, newbrowserStoryImage)
+const parseEXIF = (buffer, image) => {
+  //Parse Out EXIF
+  var result = parser.create(buffer).enableSimpleValues(false).parse()
+  image.extraData = result.tags
+  if (result.tags.DateTimeOriginal) {
+    image.takenTime = parseDate(result.tags.DateTimeOriginal).toString();
+  }
+  return result
 }
 
-const resizeCompressUpload = async(inputBuffer, extension, origSize, imageType, ImageInfoDB) => {
-  var newName = "bsv1" + uuidv4()
+const originalSizeUpload = async(inputBuffer, extension, image) => {
+  var newName = "origV1-" + uuidv4() + '.' + extension;
+  var newImage = await sharp(inputBuffer).toBuffer()
+  image.originalImage = {
+    filename: newName
+  }
+  await willUploadObject(newName, newImage)
+
+}
+
+const widthBaseResizeUpload = async(inputBuffer, extension, origSize, imageType, image) => {
+  var newName = "storyV1-" + uuidv4() + '.' + extension;
   var requireSize = imageSize[imageType]
-  ImageInfoDB[imageType].filename = newName + '.' + extension;
+  var finalSize;
 
   // Resize to match required width
   if (origSize.width > requireSize.width) {
-    var newbrowserStoryImage = await sharp(inputBuffer).resize(requireSize.width, requireSize.height).toBuffer()
+    var newImage = await sharp(inputBuffer).resize(requireSize.width, undefined).toBuffer()
     var newHeight = Math.round(origSize.height / origSize.width * requireSize.width)
-
-    sharp(inputBuffer).resize(requireSize.width, requireSize.height).toBuffer(function(err, data, info) {
-      console.log(info);
-    })
-    var finalHeight = requireSize.height
-      ? requireSize.height
-      : newHeight
-
-    // ImageInfoDB[imageType] = {
-    //   width: requireSize.width,
-    //   height: finalHeight
-    // }
-
+    finalSize = {
+      width: requireSize.width,
+      height: newHeight
+    }
+    // Upload image width less than required width, No Resize
   } else {
-    var newbrowserStoryImage = await sharp(inputBuffer).toBuffer()
-    // ImageInfoDB[imageType] = {
-    //   width: origSize.width,
-    //   height: origSize.height
-    // }
+    var newImage = await sharp(inputBuffer).toBuffer()
+    finalSize = origSize
   }
 
-  await willUploadObject(newName + '.' + extension, newbrowserStoryImage)
-
+  image[imageType] = {
+    filename: newName,
+    size: finalSize
+  }
+  await willUploadObject(newName, newImage)
 }
 
-module.exports = function(app, db) {
+const autoCropUpload = async(inputBuffer, extension, origSize, imageType, image) => {
+  var newName = "storyV1-" + uuidv4() + '.' + extension;
+  var requireSize = imageSize[imageType]
+  var newImage = await sharp(inputBuffer).resize(requireSize.width, requireSize.height).crop().toBuffer()
+  image[imageType] = {
+    filename: newName
+  }
+  await willUploadObject(newName, newImage)
+}
 
-  app.post('/upload', upload.single('imageupload'), async(req, res) => {
+//////////////////////////////////////////////////////////////////////////////////////////
+// Hold off GPS feature
+// if (result.tags.GPSLatitude && result.tags.GPSLongitude) {
+//   image.takenLocation = {
+//     latitude: result.tags.GPSLatitude,
+//     longitude: result.tags.GPSLongitude
+//   }
+// }
+//////////////////////////////////////////////////////////////////////////////////////////
+// Double check height calculation is correct
+// sharp(inputBuffer).resize(requireSize.width, requireSize.height).toBuffer(function(err, data, info) {
+//   //console.log(info);
+// })
+//////////////////////////////////////////////////////////////////////////////////////////
+
+module.exports = function(app, db) {
+  //passport.authenticate('local', {session: true}),
+  app.post("/upload", upload.single('imageupload'), async(req, res) => {
+    const {catergory, extension, storyID} = req.body
+    const buffer = req.file.buffer
+    //console.log("NON-GraphQL Requst is using sessionID :" + req.sessionID);
+    const context = {
+      sessionUser: req.session.passport
+    }
+    //console.log(req.session);
 
     try {
-      var result = parser.create(req.file.buffer).enableSimpleValues(false).parse()
-      var ImageInfoDB = await Image.findById(req.body.imageID)
-      ImageInfoDB.extraData = result.tags
-      if (result.tags.DateTimeOriginal) {
-        ImageInfoDB.takenTime = parseDate(result.tags.DateTimeOriginal).toString();
-      }
+      checkLogin(context)
+      var image = new Image({user: context.sessionUser.user._id, story: storyID, catergory: catergory});
+      var result = parseEXIF(buffer, image)
+      originalSizeUpload(buffer, extension, image)
 
       //Story image
-      if (req.body.catergory == 0) {
-        await resizeCompressUpload(req.file.buffer, req.body.extension, result.imageSize, 'browserStoryImage', ImageInfoDB)
+      if (catergory == 0) {
+        var draft = await draftCheckLoginAndOwnerShip(storyID, context)
+        var images = draft.images
+        images.push(image._id)
+        await draft.save()
+        widthBaseResizeUpload(buffer, extension, result.imageSize, 'browserStoryImage', image)
+        widthBaseResizeUpload(buffer, extension, result.imageSize, 'browserCommentImage', image)
+        autoCropUpload(buffer, extension, result.imageSize, 'browserCoverImage', image)
+        autoCropUpload(buffer, extension, result.imageSize, 'browserUserHomeCoverImage', image)
       }
-      //console.log(ImageInfoDB)
-      await ImageInfoDB.save()
-
+      //Headline image
+      if (catergory == 1) {
+        var draft = await draftCheckLoginAndOwnerShip(storyID, context)
+        draft.headlineImage = image._id
+        draft.save()
+      }
+      //
+      if (catergory == 2) {
+        var user = await User.findById(context.sessionUser.user._id)
+        user.avatar = image._id
+        user.save()
+      }
+      image.save()
       res.send('File uploaded to S3');
     } catch (e) {
       console.log(e);
@@ -97,11 +162,3 @@ module.exports = function(app, db) {
   })
 
 }
-//////////////////////////////////////////////////////////////////////////////////////////
-// Hold off on GPS feature
-// if (result.tags.GPSLatitude && result.tags.GPSLongitude) {
-//   ImageInfoDB.takenLocation = {
-//     latitude: result.tags.GPSLatitude,
-//     longitude: result.tags.GPSLongitude
-//   }
-// }

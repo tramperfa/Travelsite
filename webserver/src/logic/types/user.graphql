@@ -19,7 +19,6 @@ type Me {
   profile: JSON
   facebook: String
   google: String
-  role: String
   likeStory: [ID]
   archiveStory: [ID]
   # likedStory:[Story]

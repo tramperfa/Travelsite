@@ -2,6 +2,7 @@ import GraphQLJSON from 'graphql-type-json';
 import Draft from '../models/draft'
 import Story from '../models/story'
 import User from '../models/user'
+import {draftCheckLoginAndOwnerShip} from '../../lib/resolverHelpers';
 
 module.exports = {
   Query: {
@@ -55,7 +56,7 @@ module.exports = {
 
 const willGetDraft = async(draftID, context) => {
   try {
-    var draft = await checkLoginAndOwnerShip(draftID, context)
+    var draft = await draftCheckLoginAndOwnerShip(draftID, context)
     return draft
   } catch (e) {
     //console.log(e)
@@ -66,7 +67,7 @@ const willGetDraft = async(draftID, context) => {
 
 const willUpdateDraft = async(draftID, updateField, updateValue, context) => {
   try {
-    var draft = await checkLoginAndOwnerShip(draftID, context)
+    var draft = await draftCheckLoginAndOwnerShip(draftID, context)
     draft.lastUpdate = new Date().toISOString()
     draft[updateField] = updateValue
     await draft.save()
@@ -81,7 +82,7 @@ const willUpdateDraft = async(draftID, updateField, updateValue, context) => {
 const willPublishDraft = async(draftID, context) => {
   try {
 
-    var draft = await checkLoginAndOwnerShip(draftID, context)
+    var draft = await draftCheckLoginAndOwnerShip(draftID, context)
     // Already applied for publish
     if (draft.status == 2) {
       //console.log("ENTER AAAA ");
@@ -132,22 +133,11 @@ const willPublishDraft = async(draftID, context) => {
 
 const willDeleteDraft = async(draftID, context) => {
   try {
-    var draft = await checkLoginAndOwnerShip(draftID, context)
+    var draft = await draftCheckLoginAndOwnerShip(draftID, context)
     await draft.remove()
     return null
   } catch (e) {
     return e
   } finally {}
 
-}
-
-const checkLoginAndOwnerShip = async(draftID, context) => {
-  if (!context.sessionUser) {
-    return new Error('User Not Logged In')
-  }
-  var draft = await Draft.load(draftID)
-  if (!draft || !draft.author.equals(context.sessionUser.user._id)) {
-    return new Error('Reqested draft does not exist')
-  }
-  return draft
 }
