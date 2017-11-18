@@ -71,7 +71,7 @@ export default class extends Component {
             placeholder = {HINTTEXT}
             onChange = {this.onChange}
             onKeyPress = {this.onKeyPress}
-            style = {{width: 400, position: "relative", left: -500}}
+            style = {{width: 400, position: "relative", left: -500, background: "#ffffff"}}
            />
         }
       </div>
