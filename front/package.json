@@ -5,9 +5,7 @@
   "dependencies": {
     "apollo-client": "^1.8.1",
     "draft-js": "^0.10.2",
-    "draft-js-drag-n-drop-plugin": "^2.0.0-rc8",
     "draft-js-emoji-plugin": "^2.0.0-rc8",
-    "draft-js-image-plugin": "^2.0.0-rc8",
     "draft-js-plugins-editor": "^2.0.0-rc8",
     "draft-js-video-plugin": "^2.0.0-rc8",
     "flow-bin": "^0.52.0",
@@ -29,8 +27,8 @@
     "history": "^4.7.2",
     "react-dropzone": "^4.2.1",
     "superagent": "^3.7.0",
-    "moment": "^2.18.1"
-
+    "moment": "^2.18.1",
+    "lazysizes": "^4.0.1 "
   },
   "scripts": {
     "start": "react-scripts start",

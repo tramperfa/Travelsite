@@ -3,25 +3,27 @@ import React, {Component} from 'react';
 //import { StickyContainer, Sticky } from 'react-sticky';
 import {EditorState, AtomicBlockUtils, convertFromRaw, convertToRaw, DefaultDraftBlockRenderMap} from 'draft-js';
 import debounce from 'lodash/debounce';
-import Editor, {composeDecorators} from 'draft-js-plugins-editor';
+import Editor from 'draft-js-plugins-editor';
 // import Editor, {createEditorStateWithText, composeDecorators} from 'draft-js-plugins-editor';
 import createEmojiPlugin from 'draft-js-emoji-plugin';
 import createVideoPlugin from 'draft-js-video-plugin';
-import createImagePlugin from 'draft-js-image-plugin';
-import createBlockDndPlugin from 'draft-js-drag-n-drop-plugin';
+// import createImagePlugin from 'draft-js-image-plugin';
+// import createBlockDndPlugin from 'draft-js-drag-n-drop-plugin';
 
 import TitleBlock from './TitleBlock';
 import ImageInsert from './ImageInsert';
-import ImagePlaceHolder from './ImagePlaceHolder';
+
+// import ImagePlaceHolder from './ImagePlaceHolder';
+import ImageBlock from './ImageBlock'
 import VideoInsert from './VideoInsert'
 import TitleInsert from './TitleInsert'
-import SubTitleList from './SubTitleList'
+// import SubTitleList from './SubTitleList'
 
 import styled from 'styled-components'
 import PropTypes from 'prop-types';
 import {gql, graphql} from 'react-apollo';
 import 'draft-js-emoji-plugin/lib/plugin.css';
-import 'draft-js-image-plugin/lib/plugin.css';
+// import 'draft-js-image-plugin/lib/plugin.css';
 import 'draft-js/dist/Draft.css'
 
 import './BlockStyles.css'
@@ -30,21 +32,21 @@ const emojiPlugin = createEmojiPlugin();
 const {EmojiSuggestions, EmojiSelect} = emojiPlugin;
 const videoPlugin = createVideoPlugin();
 
-const blockDndPlugin = createBlockDndPlugin();
-const decorator = composeDecorators(blockDndPlugin.decorator);
+// const blockDndPlugin = createBlockDndPlugin();
+// const decorator = composeDecorators(blockDndPlugin.decorator);
 
-const imagePlugin = createImagePlugin({
-  theme: {
-    image: "image"
-  },
-  decorator: decorator
-});
+// const imagePlugin = createImagePlugin({
+//   theme: {
+//     image: "image"
+//   },
+//   decorator: decorator
+// });
 
-const plugins = [emojiPlugin, videoPlugin, blockDndPlugin, imagePlugin];
-
+// const plugins = [emojiPlugin, videoPlugin, blockDndPlugin, imagePlugin];
+const plugins = [emojiPlugin, videoPlugin]
 const {types} = videoPlugin;
 
-/*
+
 const initialState = {
   "entityMap": {
     "0": {
@@ -58,7 +60,7 @@ const initialState = {
       "type": "image",
       "mutability": "IMMUTABLE",
       "data": {
-        "src": "https://s3.amazonaws.com/thetripbeyond/59f092a2e9da3d0414879ce4.jpg"
+        "src": "https://s3.amazonaws.com/thetripbeyond/storyV1-e62c479d-9eb1-4622-a75e-dc4af6ec25ba.jpg"
       }
     },
     "2": {
@@ -131,7 +133,7 @@ const initialState = {
     }
   ]
 };
-*/
+
 // const blockRenderMap = Map({
 //   'unstyled': {
 //     element: 'h3'
@@ -154,12 +156,13 @@ class MyEditor extends Component {
     //editorState: EditorState.createEmpty(),
     editorState: this.props.startingContent
       ? EditorState.createWithContent(convertFromRaw(this.props.startingContent))
-      : EditorState.createEmpty(),
+      : EditorState.createWithContent(convertFromRaw(initialState)),
     uploading: false
   }
 
   //EditorState.createWithContent(convertFromRaw(initialState))
   //createEditorStateWithText(initialText)
+  //EditorState.createEmpty()
 
   onChange = (editorState) => {
     // console.log(editorState.getSelection())
@@ -178,9 +181,9 @@ class MyEditor extends Component {
     // console.log(JSON.stringify(convertToRaw(newContent)))
   }, 2000)
 
-  focus = () => {
-    this.editor.focus()
-  };
+  // focus = () => {
+  //   this.editor.focus()
+  // };
 
   uploadFile = (file) => {
     if (file.type.indexOf('image/') !== 0) {
@@ -274,6 +277,11 @@ class MyEditor extends Component {
           //   text: contentBlock.getText()
           // }
         }
+      } else if (entityType === 'image') {
+        return {
+          component: ImageBlock,
+          editable: false
+        }
       }
     }
     return null
@@ -282,8 +290,8 @@ class MyEditor extends Component {
   render() {
     return (
       <StoryEditorWrapper>
-        <StoryEditor onClick={this.focus}>
-
+        {/* <StoryEditor onClick={this.focus}> */}
+        <StoryEditor >
           <Editor
             editorState={this.state.editorState}
             onChange={this.onChange}
@@ -297,13 +305,13 @@ class MyEditor extends Component {
           <EmojiSuggestions/>
 
         </StoryEditor>
-        {this.state.uploading && <ImagePlaceHolder/>}
+        {/* {this.state.uploading && <ImagePlaceHolder/>} */}
         <ToolsWrapper>
           <EmojiSelect/>
           <ImageInsert uploadFile={this.uploadFile}/>
           <VideoInsert addVideoBlock={this.addVideoBlock}/>
           <TitleInsert addSubTitleBlock={this.addSubTitleBlock}/>
-          <SubTitleList/>
+          {/* <SubTitleList/> */}
         </ToolsWrapper>
       </StoryEditorWrapper>
 
@@ -355,17 +363,19 @@ const Dummy = styled.div `
 const StoryEditor = styled.div `
   cursor: text;
   text-align: left;
-  box-sizing: border-box;
-  border: 1px solid #ddd;
+  ${'' /* box-sizing: border-box;
+  border: 1px solid #ddd; */}
   margin-left: 80px;
   margin-right: 80px;
-  padding: 16px;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  ${'' /* padding: 16px;
   border-radius: 2px;
   margin-bottom: 2em;
   box-shadow: inset 0px 1px 8px -3px #ABABAB;
-  background: #fefefe;
-  min-width: 800px;
-  max-width: 800px
+  background: #fefefe; */}
+  min-width: 700px;
+  max-width: 700px
 `
 
 const ToolsWrapper = styled.div `
@@ -376,5 +386,6 @@ const ToolsWrapper = styled.div `
   flex-direction: column;
   align-items: flex-start;
   position: sticky;
-  top: 0px
+  top: 0px;
+  z-index: 10
 `

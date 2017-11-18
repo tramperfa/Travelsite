@@ -14,13 +14,22 @@ export default class extends Component {
     // console.log("Mouse Leave!")
   }
 
+  onKeyPress = (e) => {
+    e.preventDefault()
+    console.log("Key pressed!")
+  }
+
   render() {
     const contentState = this.props.contentState
     const block = this.props.block
     const {src} = contentState.getEntity(block.getEntityAt(0)).getData()
     return (
-      <TitleBlock onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave}>
-        <a name={src}>TODO</a>
+      <TitleBlock
+        onMouseEnter={this.onMouseEnter}
+        onMouseLeave={this.onMouseLeave}
+        onKeyPress={this.onKeyPress}
+        >
+        <a name={src} style={{display: 'none'}}>#</a>
         <h1>
           {src}
         </h1>
