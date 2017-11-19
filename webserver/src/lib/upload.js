@@ -7,7 +7,7 @@ import Jimp from 'jimp';
 
 import Image from '../logic/models/image';
 import Draft from '../logic/models/draft';
-import {draftCheckLoginAndOwnerShip, checkLogin} from './resolverHelpers';
+import {willCheckDocumentOwnerShip, checkLogin} from './resolverHelpers';
 import {willUploadObject, willDevareObject} from './S3';
 
 // Multer config
@@ -39,22 +39,22 @@ const imageSize = {
 
 module.exports = function(app, db) {
   app.post("/upload", upload.single('imageupload'), async(req, res) => {
-    const {catergory, extension, storyID} = req.body
-    const buffer = req.file.buffer
-
-    const context = {
-      sessionUser: req.session.passport
-    }
-
+    const {catergory, extension, draftID} = req.body
     try {
+      // protect end point from random requests
+      const context = {
+        sessionUser: req.session.passport
+      }
       checkLogin(context)
-      var image = new Image({author: context.sessionUser.user._id, story: storyID, catergory: catergory});
+
+      const buffer = req.file.buffer
+      var image = new Image({author: context.sessionUser.user._id, story: draftID, catergory: catergory});
       var result = parseEXIF(buffer, image)
       switch (catergory) {
           // Story Image
         case '0':
           var [draft] = await Promise.all([
-            draftCheckLoginAndOwnerShip(storyID, context),
+            willCheckDocumentOwnerShip(draftID, context, 'draft'),
             originalSizeUpload(buffer, extension, image),
             widthBasedResizeUpload(buffer, extension, result.imageSize, 'browserStoryImage', image),
             widthBasedResizeUpload(buffer, extension, result.imageSize, 'browserCommentImage', image),
@@ -111,7 +111,6 @@ const originalSizeUpload = async(inputBuffer, extension, image) => {
     filename: newName
   }
   await willUploadObject(newName, newImage)
-
 }
 
 const widthBasedResizeUpload = async(inputBuffer, extension, origSize, imageType, image) => {
@@ -152,7 +151,6 @@ const autoCropUpload = async(inputBuffer, extension, origSize, imageType, image)
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
-
 // switch (catergory) {
 //     //Story image
 //   case '0':
@@ -173,7 +171,7 @@ const autoCropUpload = async(inputBuffer, extension, origSize, imageType, image)
 // }
 
 // var [draft] = await Promise.all([
-//   draftCheckLoginAndOwnerShip(storyID, context),
+//   draftCheckLoginAndOwnerShip(draftID, context),
 //   originalSizeUpload(buffer, extension, image)
 // ]);
 
