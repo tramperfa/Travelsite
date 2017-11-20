@@ -1,10 +1,14 @@
-.image{
+.image, .imageplaceholder{
   max-width: 100%;
   height: auto;
 }
 
+.imageplaceholder{
+opacity: 0.5
+}
+
 .myAtomicStyle{
-  width: 700px;
+  width: 100%;
   margin-left: 0px;
   margin-right: 0px;
 }
