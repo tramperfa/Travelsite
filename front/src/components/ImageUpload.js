@@ -2,6 +2,7 @@ import upload from 'superagent';
 
 const willUploadImage = (file, imageCatergory, draftID) => new Promise((resolve, reject) => {
   const extension = file.name.split('.').pop()
+  //console.log(file);
   upload.post('http://localhost:8080/upload')
   //
     .attach('imageupload', file).withCredentials()

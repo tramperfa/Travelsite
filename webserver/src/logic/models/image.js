@@ -47,6 +47,14 @@ var ImageSchema = new Schema({
   originalImage: {
     filename: {
       type: String
+    },
+    size: {
+      width: {
+        type: Number
+      },
+      height: {
+        type: Number
+      }
     }
   },
   browserStoryImage: {
@@ -78,16 +86,40 @@ var ImageSchema = new Schema({
   browserCoverImage: {
     filename: {
       type: String
+    },
+    size: {
+      width: {
+        type: Number
+      },
+      height: {
+        type: Number
+      }
     }
   },
   browserUserHomeCoverImage: {
     filename: {
       type: String
+    },
+    size: {
+      width: {
+        type: Number
+      },
+      height: {
+        type: Number
+      }
     }
   },
   browserHealdineImage: {
     filename: {
       type: String
+    },
+    size: {
+      width: {
+        type: Number
+      },
+      height: {
+        type: Number
+      }
     }
   }
 });

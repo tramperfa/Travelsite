@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import ReactCrop, {makeAspectCrop} from 'react-image-crop'
-import imageTest from '../images/g.jpeg';
+import imageTest from '../images/testV.jpg';
 import 'react-image-crop/dist/ReactCrop.css';
 import Button from 'material-ui/Button';
 
@@ -12,6 +12,19 @@ class Headline extends Component {
   handleCrop = async() => {}
 
   onImageLoaded = (image) => {
+    //   image.preventDefault()
+    //
+    // loadImage(
+    //   image,
+    //   (image) => {
+    //     image.toBlob((blob) => {
+    //       this.setImage(blob);
+    //       this.onDrop(URL.createObjectURL(blob));
+    //     });
+    //   },
+    //   { maxWidth: 400, canvas: true, orientation: true }
+    // );
+
     this.setState({
       crop: makeAspectCrop({
         x: 0,
@@ -50,3 +63,19 @@ class Headline extends Component {
 }
 
 export default Headline;
+
+// $('#yourFileInput').on('change', function(e) {
+//     e.preventDefault();
+//     e = e.originalEvent;
+//     var target = e.dataTransfer || e.target,
+//         file = target && target.files && target.files[0],
+//         options = {
+//             canvas: true
+//         };
+//
+//     if (!file) {
+//         return;
+//     }
+//
+//
+// });
