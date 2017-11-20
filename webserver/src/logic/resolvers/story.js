@@ -1,7 +1,7 @@
 import GraphQLJSON from 'graphql-type-json';
 import Story from '../models/story'
 import User from '../models/user'
-import {storyCheckLoginAndOwnerShip} from '../../lib/resolverHelpers';
+import {willCheckDocumentOwnerShip} from '../../lib/resolverHelpers';
 
 module.exports = {
   Query: {
@@ -95,7 +95,7 @@ const willInteractStory = async(storyID, field, context) => {
 
 const willDeleteStory = async(storyID, context) => {
   try {
-    var story = await storyCheckLoginAndOwnerShip(storyID, context)
+    var story = await willCheckDocumentOwnerShip(storyID, context, 'story')
     story.status = 3
     await story.save()
     return story
@@ -106,7 +106,7 @@ const willDeleteStory = async(storyID, context) => {
 
 const willRecoverStory = async(storyID, context) => {
   try {
-    var story = await storyCheckLoginAndOwnerShip(storyID, context)
+    var story = await willCheckDocumentOwnerShip(storyID, context, 'story')
     console.log(story);
     story.status = 2
     await story.save()

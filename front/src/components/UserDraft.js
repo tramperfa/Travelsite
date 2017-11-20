@@ -42,7 +42,7 @@ UserDraft.propTypes = {
 
 const createDraftMutation = gql `
   mutation createDraft($ID: ID){
-    createDraft(user_id: $ID) {
+    createDraft(userID: $ID) {
       _id
       title
   }

@@ -2,7 +2,7 @@ import GraphQLJSON from 'graphql-type-json';
 import Draft from '../models/draft'
 import Story from '../models/story'
 import User from '../models/user'
-import {draftCheckLoginAndOwnerShip} from '../../lib/resolverHelpers';
+import {willCheckDocumentOwnerShip} from '../../lib/resolverHelpers';
 
 module.exports = {
   Query: {
@@ -29,7 +29,9 @@ module.exports = {
         return new Error('You must login to write a draft')
       }
       var newDraft = new Draft({title: "", author: context.sessionUser.user._id});
-      return newDraft.newDraft()
+      await newDraft.save()
+      //return newDraft.newDraft()
+      return newDraft
     },
     updateTitle: async(parent, args, context) => {
       return willUpdateDraft(args.input.draftID, 'title', args.input.newTitle, context)
@@ -55,19 +57,21 @@ module.exports = {
 }
 
 const willGetDraft = async(draftID, context) => {
-  try {
-    var draft = await draftCheckLoginAndOwnerShip(draftID, context)
-    return draft
-  } catch (e) {
-    //console.log(e)
-    return e
-  } finally {}
+  // try {
+  //   var draft = await willCheckDocumentOwnerShip(draftID, context, 'draft')
+  //   return draft
+  // } catch (e) {
+  //   //console.log(e)
+  //   return e
+  // } finally {}
+
+  return willCheckDocumentOwnerShip(draftID, context, 'draft')
 
 }
 
 const willUpdateDraft = async(draftID, updateField, updateValue, context) => {
   try {
-    var draft = await draftCheckLoginAndOwnerShip(draftID, context)
+    var draft = await willCheckDocumentOwnerShip(draftID, context, 'draft')
     draft.lastUpdate = new Date().toISOString()
     draft[updateField] = updateValue
     await draft.save()
@@ -82,7 +86,7 @@ const willUpdateDraft = async(draftID, updateField, updateValue, context) => {
 const willPublishDraft = async(draftID, context) => {
   try {
 
-    var draft = await draftCheckLoginAndOwnerShip(draftID, context)
+    var draft = await willCheckDocumentOwnerShip(draftID, context, 'draft')
     // Already applied for publish
     if (draft.status == 2) {
       //console.log("ENTER AAAA ");
@@ -133,7 +137,7 @@ const willPublishDraft = async(draftID, context) => {
 
 const willDeleteDraft = async(draftID, context) => {
   try {
-    var draft = await draftCheckLoginAndOwnerShip(draftID, context)
+    var draft = await willCheckDocumentOwnerShip(draftID, context, 'draft')
     await draft.remove()
     return null
   } catch (e) {

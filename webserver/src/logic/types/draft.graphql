@@ -17,7 +17,7 @@ type Query {
 
 
 type Mutation {
-  createDraft(user_id: ID): Draft
+  createDraft(userID: ID): Draft
   updateTitle(input: updateTitleInput!): Draft
   updateContent(input: updateContentInput!): Draft
   updateCover(input: updateCoverInput!): Draft

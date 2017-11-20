@@ -7,7 +7,7 @@ import Jimp from 'jimp';
 
 import Image from '../logic/models/image';
 import Draft from '../logic/models/draft';
-import {draftCheckLoginAndOwnerShip, checkLogin} from './resolverHelpers';
+import {willCheckDocumentOwnerShip, checkLogin} from './resolverHelpers';
 import {willUploadObject, willDevareObject} from './S3';
 
 // Multer config
@@ -39,27 +39,31 @@ const imageSize = {
 
 module.exports = function(app, db) {
   app.post("/upload", upload.single('imageupload'), async(req, res) => {
-    const {catergory, extension, storyID} = req.body
-    const buffer = req.file.buffer
-
-    const context = {
-      sessionUser: req.session.passport
-    }
-
+    const {catergory, extension, draftID} = req.body
+    //console.log(req);
     try {
+      // protect end point from random requests
+      const context = {
+        sessionUser: req.session.passport
+      }
       checkLogin(context)
-      var image = new Image({author: context.sessionUser.user._id, story: storyID, catergory: catergory});
-      var result = parseEXIF(buffer, image)
+      var image = new Image({author: context.sessionUser.user._id, story: draftID, catergory: catergory});
+      const buffer = await sharp(req.file.buffer).rotate().toBuffer()
+      // Get The Right Size After Taking Orientation Through .rotate()
+      var imageSize = parseSize(buffer, image)
+      // Add EXIF
+      var result = parseEXIF(req.file.buffer, image, imageSize)
+
       switch (catergory) {
           // Story Image
         case '0':
           var [draft] = await Promise.all([
-            draftCheckLoginAndOwnerShip(storyID, context),
-            originalSizeUpload(buffer, extension, image),
-            widthBasedResizeUpload(buffer, extension, result.imageSize, 'browserStoryImage', image),
-            widthBasedResizeUpload(buffer, extension, result.imageSize, 'browserCommentImage', image),
-            autoCropUpload(buffer, extension, result.imageSize, 'browserCoverImage', image),
-            autoCropUpload(buffer, extension, result.imageSize, 'browserUserHomeCoverImage', image)
+            willCheckDocumentOwnerShip(draftID, context, 'draft'),
+            originalSizeUpload(buffer, extension, imageSize, image),
+            widthBasedResizeUpload(buffer, extension, imageSize, 'browserStoryImage', image),
+            widthBasedResizeUpload(buffer, extension, imageSize, 'browserCommentImage', image),
+            autoCropUpload(buffer, extension, 'browserCoverImage', image),
+            autoCropUpload(buffer, extension, 'browserUserHomeCoverImage', image)
           ]);
           break;
           // Headline Image, Avatar Image
@@ -90,9 +94,10 @@ const parseDate = (s) => {
   return new Date(b[0], b[1] - 1, b[2], b[3], b[4], b[5]);
 }
 
-const parseEXIF = (buffer, image) => {
-  //Parse Out EXIF
+const parseEXIF = (buffer, image, imageSize) => {
+  //Parse Out EXIF With Processed ImageSize
   var result = parser.create(buffer).enableSimpleValues(false).parse()
+  result.imageSize = imageSize
   image.extraData = result.tags
   if (result.tags.DateTimeOriginal) {
     image.takenTime = parseDate(result.tags.DateTimeOriginal).toString();
@@ -100,18 +105,22 @@ const parseEXIF = (buffer, image) => {
   return result
 }
 
+const parseSize = (buffer, image) => {
+  var result = parser.create(buffer).enableImageSize(true).parse()
+  return result.getImageSize()
+}
+
 const generateImageName = (prefix, extension) => {
   return prefix + uuidv4() + '.' + extension
 }
 
-const originalSizeUpload = async(inputBuffer, extension, image) => {
+const originalSizeUpload = async(inputBuffer, extension, origSize, image) => {
   let newName = generateImageName("origV1-", extension)
-  var newImage = await sharp(inputBuffer).toBuffer()
   image.originalImage = {
-    filename: newName
+    filename: newName,
+    size: origSize
   }
-  await willUploadObject(newName, newImage)
-
+  await willUploadObject(newName, inputBuffer)
 }
 
 const widthBasedResizeUpload = async(inputBuffer, extension, origSize, imageType, image) => {
@@ -129,7 +138,7 @@ const widthBasedResizeUpload = async(inputBuffer, extension, origSize, imageType
     }
     // Upload image width less than required width, No Resize
   } else {
-    var newImage = await sharp(inputBuffer).toBuffer()
+    var newImage = inputBuffer
     finalSize = origSize
   }
 
@@ -141,18 +150,21 @@ const widthBasedResizeUpload = async(inputBuffer, extension, origSize, imageType
 
 }
 
-const autoCropUpload = async(inputBuffer, extension, origSize, imageType, image) => {
-  let newName = generateImageName("storyV1-", extension)
+const autoCropUpload = async(inputBuffer, extension, imageType, image) => {
+  let newName = generateImageName("autoV1-", extension)
   var requireSize = imageSize[imageType]
+  // If Image Original Size is Smaller, First Enlarge to Match Require Size
+  // Otherwise, "Hole" will be left at required size
   var newImage = await sharp(inputBuffer).resize(requireSize.width, requireSize.height).crop().toBuffer()
+
   image[imageType] = {
-    filename: newName
+    filename: newName,
+    size: requireSize
   }
   await willUploadObject(newName, newImage)
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
-
 // switch (catergory) {
 //     //Story image
 //   case '0':
@@ -173,7 +185,7 @@ const autoCropUpload = async(inputBuffer, extension, origSize, imageType, image)
 // }
 
 // var [draft] = await Promise.all([
-//   draftCheckLoginAndOwnerShip(storyID, context),
+//   draftCheckLoginAndOwnerShip(draftID, context),
 //   originalSizeUpload(buffer, extension, image)
 // ]);
 
@@ -211,6 +223,6 @@ const willCustomCrop = (inputBuffer) => new Promise((resolve, reject) => {
 // }
 //////////////////////////////////////////////////////////////////////////////////////////
 // Double check height calculation is correct
-// sharp(inputBuffer).resize(requireSize.width, requireSize.height).toBuffer(function(err, data, info) {
+// sharp(inputBuffer).rotate().resize(requireSize.width, requireSize.height).toBuffer(function(err, data, info) {
 //   //console.log(info);
 // })

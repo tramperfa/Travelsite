@@ -130,10 +130,11 @@ export const DraftDetailsQuery = gql `
     draft(draftID: $draftID) {
       _id
       title
-      author{
-        _id
-        fullName
-      }
+      # DO NOT ADD AUTHOR, FILED NOT POPULATED FOR DRAFT
+      # author{
+      #   _id
+      #   fullName
+      # }
       lastUpdate
       content
     }

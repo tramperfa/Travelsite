@@ -1,7 +1,6 @@
 import React from 'react';
 import Dropzone from 'react-dropzone';
 import PropTypes from 'prop-types';
-import {gql, graphql} from 'react-apollo';
 
 import ImageUpload from './ImageUpload';
 
@@ -10,8 +9,8 @@ import ImageUpload from './ImageUpload';
 class HeadlineUpload extends React.Component {
 
   onDrop = async(files) => {
-    const storyID = this.props.match.params._id
-    ImageUpload(files[0], 0, storyID)
+    const draftID = this.props.match.params._id
+    ImageUpload(files[0], 0, draftID)
   }
 
   render() {
@@ -26,33 +25,10 @@ class HeadlineUpload extends React.Component {
 }
 
 HeadlineUpload.propTypes = {
-  addStoryImage: PropTypes.func.isRequired,
   match: PropTypes.object.isRequired
 }
 
-export const CreateImageMutation = gql `
-mutation addStoryImage($input: addStoryImageInput!) {
-  addStoryImage(input: $input) {
-      _id
-      catergory
-    }
-  }
-`;
-
-export const WithCreateImageMuation = graphql(CreateImageMutation, {
-  props: ({mutate}) => ({
-    addStoryImage: (catergory, storyID) => mutate({
-      variables: {
-        input: {
-          catergory: catergory,
-          storyID: storyID
-        }
-      }
-    })
-  })
-})
-
-export default WithCreateImageMuation(HeadlineUpload)
+export default HeadlineUpload
 
 // }).then(() => {
 //   console.log("UPLOAD FINISH");

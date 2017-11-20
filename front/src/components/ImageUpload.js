@@ -1,12 +1,13 @@
 import upload from 'superagent';
 
-const willUploadImage = (file, imageCatergory, storyID) => new Promise((resolve, reject) => {
+const willUploadImage = (file, imageCatergory, draftID) => new Promise((resolve, reject) => {
   const extension = file.name.split('.').pop()
+  //console.log(file);
   upload.post('http://localhost:8080/upload')
   //
     .attach('imageupload', file).withCredentials()
   //
-    .field('catergory', imageCatergory).field('extension', extension).field('storyID', storyID)
+    .field('catergory', imageCatergory).field('extension', extension).field('draftID', draftID)
   //
     .end((err, res) => {
     if (err) {
