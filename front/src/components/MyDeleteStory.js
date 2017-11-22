@@ -78,10 +78,10 @@ export const myDeleteStoryQuery = gql `
       _id
       title
       snapshotContent
-      coverImage{
-        _id
-        browserStoryImage
-      }
+      # coverImage{
+      #   _id
+      #   browserStoryImage
+      # }
       lastUpdate
       viewCount
       likeStoryCount

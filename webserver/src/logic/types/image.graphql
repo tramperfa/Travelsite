@@ -1,21 +1,27 @@
 type Image {
     _id: ID!
-    author: User
     catergory: Int
-    story: Story
+    draft: ID
     #poi: POI
     uploadAt: String
     takenTime: String
-    browserStoryImage: String
-
+    originalImage: ImageFile
+    browserStoryImage: ImageFile
+    browserCommentImage: ImageFile
+    browserCoverImage: ImageFile
+    browserUserHomeCoverImage: ImageFile
+    browserHeadlineImage: ImageFile
 }
+
 
 type Query {
   image(imageID: ID!): Image
 }
 
 type Mutation {
+  #Crop, Upload, and Update Draft/User for Headline and Avatar
   cropImage(input: cropImageInput!): Image
+  deleteImage(imageID: ID!): Image
   updateImagePOI(POI: ID!): Image
 }
 

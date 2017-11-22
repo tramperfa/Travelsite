@@ -1,6 +1,8 @@
 
 scalar JSON
 
+
+
 enum PhotoSize {
   ORIGINAL
   LARGE
@@ -9,24 +11,18 @@ enum PhotoSize {
   XSMALL
 }
 
+type ImageFile {
+  filename: String
+  size: Size
+}
 
-
-
-
+type Size {
+  width: Int
+  height: Int
+}
 
 # type POI {
 #   _id: ID!
 #   catergory: String
 #   name: String
 # }
-
-
-#
-# type Image {
-#   _id: ID!
-#   size: PhotoSize
-# }
-# uploadImage(input: uploadImageInput!): uploadImagePayload
-
-
-# LikeStory(input: toggleLikeInput!): toggleLikePayload

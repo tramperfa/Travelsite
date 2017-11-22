@@ -1,55 +1,15 @@
 import React, {Component} from 'react';
-import ReactCrop, {makeAspectCrop} from 'react-image-crop'
-import imageTest from '../images/testV.jpg';
-import 'react-image-crop/dist/ReactCrop.css';
+import PropTypes from 'prop-types';
+//import {gql, graphql} from 'react-apollo';
 import Button from 'material-ui/Button';
 
 class Headline extends Component {
-  state = {
-    crop: {}
-  }
 
-  handleCrop = async() => {}
-
-  onImageLoaded = (image) => {
-    //   image.preventDefault()
-    //
-    // loadImage(
-    //   image,
-    //   (image) => {
-    //     image.toBlob((blob) => {
-    //       this.setImage(blob);
-    //       this.onDrop(URL.createObjectURL(blob));
-    //     });
-    //   },
-    //   { maxWidth: 400, canvas: true, orientation: true }
-    // );
-
-    this.setState({
-      crop: makeAspectCrop({
-        x: 0,
-        // calculate the center starting point
-        y: Math.round((image.naturalHeight - image.naturalWidth / 3) * 100 / 2 / image.naturalHeight),
-        aspect: 3 / 1,
-        width: 100
-      }, image.naturalWidth / image.naturalHeight),
-      image
-    });
-  }
-
-  onCropComplete = (crop, pixelCrop) => {
-    console.log(pixelCrop);
-    console.log('To Be Displayed Inside Image Croping Area:   ', pixelCrop.width + ' X ' + pixelCrop.height);
-  }
-
-  onCropChange = (crop) => {
-    this.setState({crop});
-  }
+  state = {}
 
   render() {
     return (
       <div>
-        <ReactCrop crop={this.state.crop} src={imageTest} onImageLoaded={this.onImageLoaded} onChange={this.onCropChange} onComplete={this.onCropComplete}/>
 
         <Button raised color="primary" onClick={this.handleCrop}>
           Submit
@@ -62,20 +22,9 @@ class Headline extends Component {
   }
 }
 
-export default Headline;
+Headline.propTypes = {
+  //cropImage: PropTypes.func.isRequired
 
-// $('#yourFileInput').on('change', function(e) {
-//     e.preventDefault();
-//     e = e.originalEvent;
-//     var target = e.dataTransfer || e.target,
-//         file = target && target.files && target.files[0],
-//         options = {
-//             canvas: true
-//         };
-//
-//     if (!file) {
-//         return;
-//     }
-//
-//
-// });
+}
+
+export default Headline

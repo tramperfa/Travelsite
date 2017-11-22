@@ -28,7 +28,7 @@
     "react-dropzone": "^4.2.1",
     "superagent": "^3.7.0",
     "moment": "^2.18.1",
-    "react-image-crop": "^3.0.7"
+    "react-cropper": "^1.0.1"
   },
   "scripts": {
     "start": "react-scripts start",

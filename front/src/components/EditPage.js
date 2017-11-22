@@ -7,7 +7,7 @@ import {Redirect} from 'react-router-dom';
 import TextField from 'material-ui/TextField';
 //import DraftDetailsQuery from './DraftQuery.graphql'
 
-import HeadlineUpload from './HeadlineUpload';
+import TempUpload from './TempUpload';
 import Editor from './StoryEditor/Editor';
 import {storiesListQuery} from './Homepage';
 // import ReactCrop, {makeAspectCrop} from 'react-image-crop';
@@ -24,6 +24,7 @@ class Draft extends React.Component {
     publishRedirect: false,
     linkedStoryID: undefined,
     errorMessage: null,
+    headlineImage: null,
     title: ''
   }
 
@@ -33,13 +34,11 @@ class Draft extends React.Component {
     }
   }
 
-  handlePublish = () => {
+  handlePublish = async() => {
     try {
       var draftID = this.props.match.params._id
-      this.props.publishDraft(draftID).then((data) => {
-        console.log(data.data)
-        this.setState({publishRedirect: true, linkedStoryID: data.data.publishDraft.story})
-      })
+      var data = await this.props.publishDraft(draftID)
+      this.setState({publishRedirect: true, linkedStoryID: data.data.publishDraft.story})
     } catch (e) {
       this.setState({errorMessage: e.graphQLErrors[0].message})
     } finally {}
@@ -50,7 +49,6 @@ class Draft extends React.Component {
   }
 
   handleTitleUpdate = () => {
-    //console.log("TRIGGER");
     try {
       this.props.updateTitle(this.props.match.params._id, this.state.title)
     } catch (e) {
@@ -58,23 +56,6 @@ class Draft extends React.Component {
     } finally {}
 
   }
-
-  // onCropChange = (crop) => {
-  //   this.setState({crop});
-  // }
-  //
-  // onButtonClick = () => {
-  //   const {image} = this.state;
-  //   this.setState({
-  //     crop: makeAspectCrop({
-  //       x: 20,
-  //       y: 5,
-  //       aspect: 1,
-  //       height: 50
-  //     }, image.naturalWidth / image.naturalHeight),
-  //     disabled: false
-  //   });
-  // }
 
   render() {
 
@@ -92,10 +73,10 @@ class Draft extends React.Component {
     return (
       <div>
         {/* <div>
-          <ReactCrop src={imageC} crop={crop} onChange={this.onCropChange}/>
+          {this.state.headlineImage? }
         </div> */}
 
-        <HeadlineUpload match={this.props.match}/>
+        <TempUpload match={this.props.match}/>
         <TextField inputProps={{
           maxLength: 60
         }} id="title" helperText={60 - this.state.title.length + " letters avaliable"} onBlur={this.handleTitleUpdate} fullWidth={true} placeholder="Title contains up to 60 letters" label="Title" value={this.state.title} onChange={this.handleChange('title')}/>

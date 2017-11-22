@@ -32,27 +32,46 @@ class Login extends React.Component {
     errorMessage: null
   }
 
-  handleSubmit = () => {
+  handleSubmit = async() => {
 
     const emailorusername = this.state.name
     const password = this.state.password
-
-    this.props.localLogin(emailorusername, password).then(({data}) => {
-      return persist.willSetSessionUser(data.localLogin.me)
-    }).then((me) => {
-      return this.props.onLogin(me)
-    }).then((me) => {
-      return this.props.handleRequestClose()
-    }).then(() => {
-      // console.log("RESET STORE");
-      // console.log(this.props.client);
+    try {
+      let data = await this.props.localLogin(emailorusername, password)
+      console.log(data);
+      let me = await persist.willSetSessionUser(data.data.localLogin.me)
+      await this.props.onLogin(me)
+      await this.props.handleRequestClose()
+      console.log("RESET STORE");
       return this.props.client.resetStore()
-    }).catch((error) => {
+    } catch (error) {
       console.log('there was an error during login', error);
       //console.log(JSON.stringify(error))
       this.setState({errorMessage: error.graphQLErrors[0].message})
-    });
-    this.setState({name: '', password: ''})
+    } finally {
+      this.setState({name: '', password: ''})
+    }
+
+    /////////////////////////////////////////////////////////
+    // this.props.localLogin(emailorusername, password).then(({data}) => {
+    //   return persist.willSetSessionUser(data.localLogin.me)
+    // }).then((me) => {
+    //   return this.props.onLogin(me)
+    // }).then((me) => {
+    //   return this.props.handleRequestClose()
+    // }).then(() => {
+    //   // console.log("RESET STORE");
+    //   // console.log(this.props.client);
+    //   return this.props.client.resetStore()
+    // }).catch((error) => {
+    //   console.log('there was an error during login', error);
+    //   //console.log(JSON.stringify(error))
+    //   this.setState({errorMessage: error.graphQLErrors[0].message})
+    // });
+    //
+    //
+    // this.setState({name: '', password: ''})
+    ////////////////////////////////////////////////////////////////////////
   }
 
   handleChange = name => event => {
