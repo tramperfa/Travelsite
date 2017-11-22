@@ -4,14 +4,13 @@ import {withStyles} from 'material-ui/styles';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Button from 'material-ui/Button';
-//import {Link} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {NavLink} from 'react-router-dom';
 
 // import IconButton from 'material-ui/IconButton';
 //import Drafts from "material-ui-icons/Drafts";
 
-import Me from './Me';
-import AllLogin from './AllLogin';
+import Me from '../Authentication/Me';
 
 const styles = theme => ({
   root: {
@@ -40,6 +39,19 @@ const styles = theme => ({
 
 function ButtonAppBar(props) {
 
+  const MyLogin = (handleClickOpen) => {
+    return (
+      <div>
+        <Button className="login" color="contrast" onClick={props.handleClickOpen}>Login</Button>
+        <Link to="/signup">
+          <Button className="signup" color="contrast">Signup</Button>
+        </Link>
+      </div>
+
+    )
+  }
+
+  //<AllLogin handleClickOpen={props.handleClickOpen}/>
   return (
     <div className={props.classes.root}>
       <AppBar position="static" className={props.classes.appbar}>
@@ -60,7 +72,7 @@ function ButtonAppBar(props) {
           <div className={props.classes.login}>
             {!props.me.Looooooooading && (props.me.fullName
               ? <Me client={props.client} me={props.me} onLogout={props.onLogout}/>
-              : <AllLogin handleClickOpen={props.handleClickOpen}/>)}
+              : <MyLogin handleClickOpen={props.handleClickOpen}/>)}
           </div>
         </Toolbar>
       </AppBar>

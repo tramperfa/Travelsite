@@ -1,13 +1,15 @@
 import React from 'react';
+import {ApolloClient} from 'react-apollo';
 import {gql, graphql} from 'react-apollo';
-import persist from '../lib/persist';
 import PropTypes from 'prop-types';
 import Button from 'material-ui/Button';
 import Dialog, {DialogActions, DialogContent, DialogTitle} from 'material-ui/Dialog';
 import Slide from 'material-ui/transitions/Slide';
 import {withStyles} from 'material-ui/styles';
 import TextField from 'material-ui/TextField';
-import {ApolloClient} from 'react-apollo';
+
+//
+import persist from '../../lib/persist';
 
 const styles = theme => ({
   container: {
@@ -38,11 +40,11 @@ class Login extends React.Component {
     const password = this.state.password
     try {
       let data = await this.props.localLogin(emailorusername, password)
-      console.log(data);
+      //console.log(data);
       let me = await persist.willSetSessionUser(data.data.localLogin.me)
       await this.props.onLogin(me)
       await this.props.handleRequestClose()
-      console.log("RESET STORE");
+      //console.log("RESET STORE");
       return this.props.client.resetStore()
     } catch (error) {
       console.log('there was an error during login', error);

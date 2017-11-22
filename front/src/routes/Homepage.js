@@ -2,8 +2,7 @@ import React from 'react'
 //import {Link} from 'react-router-dom'
 import {gql, graphql} from 'react-apollo'
 
-import StoryCard from './StoryCard';
-
+import StoryCard from '../components/StoryCard';
 //import Highlight from './Highlight';
 
 const storiesList = ({

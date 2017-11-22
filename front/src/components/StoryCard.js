@@ -5,9 +5,7 @@ import {withStyles} from 'material-ui/styles';
 import Card, {CardContent, CardMedia} from 'material-ui/Card';
 import IconButton from 'material-ui/IconButton';
 import Typography from 'material-ui/Typography';
-
 import Share from "material-ui-icons/Share";
-
 import Comment from "material-ui-icons/Comment";
 
 import imageTest from '../images/cardtest.jpeg';

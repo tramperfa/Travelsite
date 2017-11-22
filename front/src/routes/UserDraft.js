@@ -3,9 +3,10 @@ import React from 'react'
 import {gql, graphql} from 'react-apollo'
 import Button from 'material-ui/Button';
 import PropTypes from 'prop-types';
-import DraftList from './DraftList';
 import {Redirect} from 'react-router-dom';
-import {draftsListQuery} from './DraftList';
+
+//
+import DraftList, {draftsListQuery} from '../components/DraftList';
 
 class UserDraft extends React.Component {
   state = {

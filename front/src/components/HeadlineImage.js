@@ -2,8 +2,9 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {gql, graphql} from 'react-apollo';
 //import imageTest from '../images/testV.jpg';
-import ImageCrop from './ImageCrop';
 import Button from 'material-ui/Button';
+
+import ImageCrop from './ImageCrop';
 
 class HeadlineImage extends Component {
 

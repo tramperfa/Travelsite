@@ -7,8 +7,8 @@ import {Redirect} from 'react-router-dom';
 import TextField from 'material-ui/TextField';
 //import DraftDetailsQuery from './DraftQuery.graphql'
 
-import TempUpload from './TempUpload';
-import Editor from './StoryEditor/Editor';
+import TempUpload from '../components/TempUpload';
+import Editor from '../components/StoryEditor/Editor';
 import {storiesListQuery} from './Homepage';
 // import ReactCrop, {makeAspectCrop} from 'react-image-crop';
 // import imageC from '../images/z.jpg';
@@ -77,6 +77,7 @@ class Draft extends React.Component {
         </div> */}
 
         <TempUpload match={this.props.match}/>
+
         <TextField inputProps={{
           maxLength: 60
         }} id="title" helperText={60 - this.state.title.length + " letters avaliable"} onBlur={this.handleTitleUpdate} fullWidth={true} placeholder="Title contains up to 60 letters" label="Title" value={this.state.title} onChange={this.handleChange('title')}/>

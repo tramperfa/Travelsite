@@ -2,7 +2,7 @@ import React from 'react';
 import Dropzone from 'react-dropzone';
 import PropTypes from 'prop-types';
 
-import ImageUpload from './ImageUpload';
+import ImageUpload from '../lib/ImageUpload';
 
 //import {CircularProgress} from 'material-ui/Progress';
 

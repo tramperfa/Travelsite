@@ -1,11 +1,13 @@
 import React from 'react';
 import {gql, graphql} from 'react-apollo';
-import persist from '../lib/persist';
 import PropTypes from 'prop-types';
 //import Button from 'material-ui/Button';
 //import Typography from 'material-ui/Typography';
 import {MenuItem} from 'material-ui/Menu';
 import {ApolloClient} from 'react-apollo';
+
+//
+import persist from '../../lib/persist';
 
 class Logout extends React.Component {
 

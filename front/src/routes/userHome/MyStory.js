@@ -1,10 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {gql, graphql} from 'react-apollo';
+//import {gql, graphql} from 'react-apollo';
+import {withMyStoryData} from './MyHome';
+import Button from 'material-ui/Button';
+import Delete from 'material-ui-icons/Delete';
+import {Link} from 'react-router-dom'
 import {withStyles} from 'material-ui/styles';
 //
 
-import DeleteStoryCard from './DeleteStoryCard';
+import MyStoryCard from '../../components/MyStoryCard';
 
 const styles = theme => ({
   textField: {
@@ -17,20 +21,20 @@ const StoryCount = (props) => {
   if (number === 0) {
     return (
       <div>
-        No deleted story
+        A Story is Missing Here
       </div>
     )
   } else if (number === 1) {
     return (
       <div>
-        Total 1 Deleted Story
+        Total 1 Story
       </div>
     )
   } else {
     return (
       <div>
         Total {number + '  '}
-        Deleted Stories
+        Stories
       </div>
     )
   }
@@ -38,27 +42,31 @@ const StoryCount = (props) => {
 
 class MyStory extends React.Component {
 
-  handleRecover = () => {
-    console.log("TBD");
-  }
-
   render() {
 
-    if (this.props.myDeleteStoryData.loading) {
+    if (this.props.myStoryData.loading) {
       return (
         <div>Loading</div>
       )
     }
 
-    const stories = this.props.myDeleteStoryData.myDeletedStories
+    const stories = this.props.myStoryData.myStories
 
     return (
       <div>
         {stories.map(story => (
           <div className="storyList" key={story._id}>
-            <DeleteStoryCard story={story} onClick={this.handleRecover}/>
+            <MyStoryCard story={story}/>
           </div>
         ))}
+        <div>
+          <Link className={this.props.classes.textField} to={`${this.props.match.url}/delete`}>
+            <Button raised color="accent">
+              My Deleted Stories
+              <Delete/>
+            </Button>
+          </Link>
+        </div>
         <div>
           <StoryCount number={stories.length}/>
         </div>
@@ -69,28 +77,7 @@ class MyStory extends React.Component {
 
 MyStory.propTypes = {
   match: PropTypes.object.isRequired,
-  myDeleteStoryData: PropTypes.object.isRequired
+  myStoryData: PropTypes.object.isRequired
 }
-
-export const myDeleteStoryQuery = gql `
-  query myDeleteStoryQuery {
-    myDeletedStories {
-      _id
-      title
-      snapshotContent
-      # coverImage{
-      #   _id
-      #   browserStoryImage
-      # }
-      lastUpdate
-      viewCount
-      likeStoryCount
-      archiveStoryCount
-      commentCount
-    }
-  }
-`;
-
-export const withMyStoryData = graphql(myDeleteStoryQuery, {name: 'myDeleteStoryData'})
 
 export default withMyStoryData(withStyles(styles)(MyStory))
