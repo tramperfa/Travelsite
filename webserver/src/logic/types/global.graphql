@@ -11,15 +11,7 @@ enum PhotoSize {
   XSMALL
 }
 
-type ImageFile {
-  filename: String
-  size: Size
-}
 
-type Size {
-  width: Int
-  height: Int
-}
 
 # type POI {
 #   _id: ID!

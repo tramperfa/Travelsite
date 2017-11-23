@@ -40,7 +40,6 @@ class Login extends React.Component {
     const password = this.state.password
     try {
       let data = await this.props.localLogin(emailorusername, password)
-      //console.log(data);
       let me = await persist.willSetSessionUser(data.data.localLogin.me)
       await this.props.onLogin(me)
       await this.props.handleRequestClose()
@@ -48,7 +47,6 @@ class Login extends React.Component {
       return this.props.client.resetStore()
     } catch (error) {
       console.log('there was an error during login', error);
-      //console.log(JSON.stringify(error))
       this.setState({errorMessage: error.graphQLErrors[0].message})
     } finally {
       this.setState({name: '', password: ''})
@@ -89,8 +87,9 @@ class Login extends React.Component {
   }
 
   handleClose = () => {
-    this.setState({name: '', password: '', errorMessage: null})
+
     this.props.handleRequestClose()
+    this.setState({name: '', password: '', errorMessage: null})
   }
 
   render() {

@@ -13,6 +13,15 @@ type Image {
     browserHeadlineImage: ImageFile
 }
 
+type ImageFile {
+  filename: String
+  size: Size
+}
+
+type Size {
+  width: Int
+  height: Int
+}
 
 type Query {
   image(imageID: ID!): Image

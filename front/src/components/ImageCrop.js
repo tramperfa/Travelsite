@@ -20,7 +20,7 @@ class ImageCrop extends Component {
     let minCropWidth = this.props.minCropWidthOnCanvas || 100
 
     return (<Cropper ref='cropper' src={this.props.src} style={{
-      height: 600,
+      height: 500,
       width: '100%'
     }} crop={this.crop} viewMode={1} background={false} aspectRatio={3 / 1} guides={false} // Cropper options
   movable={false} zoomable={false} scalable={false} zoomOnTouch={false} toggleDragModeOnDblclick={false} // Disable Image Move

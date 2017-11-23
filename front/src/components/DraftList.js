@@ -32,10 +32,6 @@ export const draftsListQuery = gql `
   query draftQuery {
     myDrafts {
       _id
-      author{
-        _id
-        fullName
-      }
       title
       lastUpdate
     }

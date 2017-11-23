@@ -15,7 +15,7 @@ export const willCheckDocumentOwnerShip = async(documentID, context, documentTyp
       var doc = await Story.findById(documentID);
       break;
     case 'draft':
-      var doc = await Draft.findById(documentID);
+      var doc = await Draft.load(documentID);
       break;
     case 'image':
       var doc = await Image.findById(documentID);

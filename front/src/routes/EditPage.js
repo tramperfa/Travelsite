@@ -5,11 +5,16 @@ import {gql, graphql} from 'react-apollo';
 import Button from 'material-ui/Button';
 import {Redirect} from 'react-router-dom';
 import TextField from 'material-ui/TextField';
+import Dropzone from 'react-dropzone';
 //import DraftDetailsQuery from './DraftQuery.graphql'
 
-import TempUpload from '../components/TempUpload';
+//
+import ImageUpload from '../lib/ImageUpload';
+
+//import TempUpload from '../components/TempUpload';
 import Editor from '../components/StoryEditor/Editor';
 import {storiesListQuery} from './Homepage';
+import HeadlineIamgeCrop from '../components/HeadlineImageCrop';
 // import ReactCrop, {makeAspectCrop} from 'react-image-crop';
 // import imageC from '../images/z.jpg';
 
@@ -24,13 +29,15 @@ class Draft extends React.Component {
     publishRedirect: false,
     linkedStoryID: undefined,
     errorMessage: null,
+    cropOpen: false, // Control Headline Image Cropper Open/Close
     headlineImage: null,
+    theImage: {},
     title: ''
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.draftData.draft && prevProps.draftData.draft !== this.props.draftData.draft) {
-      this.setState({title: this.props.draftData.draft.title})
+      this.setState({title: this.props.draftData.draft.title, headlineImage: this.props.draftData.draft.headlineImage})
     }
   }
 
@@ -57,10 +64,26 @@ class Draft extends React.Component {
 
   }
 
+  onDrop = async(files) => {
+    try {} catch (e) {} finally {}
+    const draftID = this.props.match.params._id
+    let image = await ImageUpload(files[0], 1, draftID)
+    // Pass image to Dialog
+    this.setState({cropOpen: true, theImage: image})
+  }
+
+  handleCloseCropper = () => {
+    this.setState({cropOpen: false});
+  }
+
+  handleOpenCropper = () => {
+    this.setState({cropOpen: true});
+  }
+
   render() {
+    //console.log(this.props.draftData.draft);
 
     if (this.state.publishRedirect) {
-      //console.log(this.props.draftData.draft.story);
       return <Redirect push to={`/story/${this.state.linkedStoryID}`}/>;
     }
 
@@ -70,21 +93,26 @@ class Draft extends React.Component {
       )
     }
 
+    //<TempUpload match={this.props.match}/>
+
     return (
       <div>
-        {/* <div>
-          {this.state.headlineImage? }
-        </div> */}
+        {this.state.theImage.originalImage && <HeadlineIamgeCrop cropOpen={this.state.cropOpen} handleCloseCropper={this.handleCloseCropper} theImage={this.state.theImage}/>}
 
-        <TempUpload match={this.props.match}/>
+        <div>
+          {this.state.headlineImage
+            ? <Headline headlineImage={this.state.headlineImage}/>
+            : <Dropzone onDrop={this.onDrop} accept="image/jpeg, image/gif, image/png">
+              <div>Click or Drop Story Headline Image --------- Suggest Use Original Image or Image Higher than 1980px
+              </div>
+            </Dropzone>}
+        </div>
 
         <TextField inputProps={{
           maxLength: 60
         }} id="title" helperText={60 - this.state.title.length + " letters avaliable"} onBlur={this.handleTitleUpdate} fullWidth={true} placeholder="Title contains up to 60 letters" label="Title" value={this.state.title} onChange={this.handleChange('title')}/>
 
         <div>
-          {/* <div>{"Tiltle: " + this.props.draftData.draft.title}</div>
-          <div>{"Author: " + this.props.draftData.draft.author.fullName}</div> */}
           <div>
             {moment(new Date(this.props.draftData.draft.lastUpdate)).utc().local().format("YYYY-MM-DD HH:mm")}
           </div>
@@ -107,16 +135,26 @@ Draft.propTypes = {
   draftData: PropTypes.object.isRequired
 }
 
+const Headline = (props) => {
+  var imageSource = 'https://s3.amazonaws.com/thetripbeyond/' + props.headlineImage.browserHeadlineImage.filename
+  return (<img className="headlineImage" src={imageSource} alt='headline'/>)
+}
+
 export const DraftDetailsQuery = gql `
   query DraftQuery($draftID : ID!) {
     draft(draftID: $draftID) {
       _id
       title
-      # DO NOT ADD AUTHOR, FILED NOT POPULATED FOR DRAFT
-      # author{
-      #   _id
-      #   fullName
-      # }
+      content
+      author{
+        _id
+        fullName
+      }
+      headlineImage{
+        browserHeadlineImage{
+          filename
+        }
+      }
       lastUpdate
       content
     }

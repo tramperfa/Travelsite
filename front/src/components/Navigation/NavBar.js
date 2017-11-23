@@ -14,7 +14,6 @@ import Me from '../Authentication/Me';
 
 const styles = theme => ({
   root: {
-    //marginTop: theme.spacing.unit * 3,
     width: '100%'
   },
   appbar: {
@@ -70,7 +69,7 @@ function ButtonAppBar(props) {
 
           </div>
           <div className={props.classes.login}>
-            {!props.me.Looooooooading && (props.me.fullName
+            {!props.me.looading && (props.me.fullName
               ? <Me client={props.client} me={props.me} onLogout={props.onLogout}/>
               : <MyLogin handleClickOpen={props.handleClickOpen}/>)}
           </div>

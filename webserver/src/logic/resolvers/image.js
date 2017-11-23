@@ -1,9 +1,14 @@
 import Jimp from 'jimp';
+import uuidv4 from 'uuid/v4';
+import sharp from 'sharp';
+
+//
+import {willCheckDocumentOwnerShip} from '../../lib/resolverHelpers';
+import {willUploadObject, willDeleteObject} from '../../lib/S3';
+
+//
 import Image from '../models/image';
 import User from '../models/user';
-import {willUploadObject, willDeleteObject} from '../../lib/S3';
-import {willCheckDocumentOwnerShip} from '../../lib/resolverHelpers';
-import uuidv4 from 'uuid/v4';
 
 module.exports = {
 
@@ -52,12 +57,14 @@ const willCustomCropUpload = async(imageID, cropAt, context) => {
             height: cropAt.height
           }
         }
-        // Sequential! Don't Trade Consistency with A Little Speed!
+        // SEQUENTIAL!!! Don't Trade Consistency with A Little Speed!
+        //  var finalImage = await sharp(newImage).toBuffer();
+        //console.log("COMPRESSED AGAIN");
         await willUploadObject(newName, newImage);
         await image.save();
         await draft.save();
         break;
-        // Avatar Image
+        // Avatar Image TO BE FINISH
       case 2:
         var [newImage,
           user] = await Promise.all([
@@ -68,11 +75,11 @@ const willCustomCropUpload = async(imageID, cropAt, context) => {
       default:
     }
 
-    image[imageType] = {
-      filename: newName
-    }
-
-    await willUploadObject(newName, newImage)
+    // image[imageType] = {
+    //   filename: newName
+    // }
+    //
+    // await willUploadObject(newName, finalImage)
   } catch (e) {
     return new Error(e)
   } finally {}
@@ -82,8 +89,7 @@ const willCustomCropUpload = async(imageID, cropAt, context) => {
 const willCustomCrop = (inputURL, cropAt) => new Promise((resolve, reject) => {
   Jimp.read(inputURL).then((image) => {
     let {x, y, width, height} = cropAt
-    y = -1
-    image.crop(x, y, width, height).getBuffer(Jimp.AUTO, (err, newImage) => {
+    image.quality(60).crop(x, y, width, height).getBuffer(Jimp.AUTO, (err, newImage) => {
       if (err) {
         return reject(new Error(err))
       }

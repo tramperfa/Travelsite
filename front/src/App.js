@@ -48,7 +48,7 @@ class App extends Component {
 
   state = {
     me: {
-      Looooooooading: true
+      looading: true
     },
     openLogin: false
   }
@@ -60,7 +60,7 @@ class App extends Component {
       } else {
         this.setState({
           me: {
-            Looooooooading: false
+            looading: false
           }
         })
       }
