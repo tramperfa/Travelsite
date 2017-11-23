@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 // import { Map } from 'immutable';
-import {EditorState, AtomicBlockUtils, Entity, convertFromRaw, convertToRaw, DefaultDraftBlockRenderMap} from 'draft-js';
+import {EditorState, AtomicBlockUtils, convertFromRaw, convertToRaw, DefaultDraftBlockRenderMap} from 'draft-js';
 import debounce from 'lodash/debounce';
 import Editor from 'draft-js-plugins-editor';
 // import Editor, {createEditorStateWithText, composeDecorators} from 'draft-js-plugins-editor';
-import createEmojiPlugin from 'draft-js-emoji-plugin';
+// import createEmojiPlugin from 'draft-js-emoji-plugin';
 import createVideoPlugin from 'draft-js-video-plugin';
 
 import TitleBlock from './TitleBlock';
@@ -20,17 +20,20 @@ import TitleInsert from './TitleInsert'
 import styled from 'styled-components'
 import PropTypes from 'prop-types';
 import {gql, graphql} from 'react-apollo';
-import 'draft-js-emoji-plugin/lib/plugin.css';
+// import 'draft-js-emoji-plugin/lib/plugin.css';
 import 'draft-js/dist/Draft.css'
 
 import './BlockStyles.css'
 
-const emojiPlugin = createEmojiPlugin();
-const {EmojiSuggestions, EmojiSelect} = emojiPlugin;
-const videoPlugin = createVideoPlugin();
-const plugins = [emojiPlugin, videoPlugin]
-const {types} = videoPlugin;
+import extractOrientation from './util/ExtractOrientation'
 
+
+// const emojiPlugin = createEmojiPlugin();
+// const {EmojiSuggestions, EmojiSelect} = emojiPlugin;
+const videoPlugin = createVideoPlugin();
+// const plugins = [emojiPlugin, videoPlugin]
+const plugins = [videoPlugin]
+const {types} = videoPlugin;
 
 // const initialState = {
 //   "entityMap": {
@@ -166,18 +169,38 @@ class MyEditor extends Component {
     // console.log(JSON.stringify(convertToRaw(newContent)))
   }, 2000)
 
+  addImagePlaceHolder = (data) => {
+    // console.log(data);
+    const beforeInsertImage = this.state.editorState
+    let placeHolderInserted = this.addAtomicBlock(beforeInsertImage, 'imagePlaceHolder', data)
+    this.setState({editorState: placeHolderInserted})
+  }
 
   uploadFile = async(file) => {
 
-    if (file.type.indexOf('image/') !== 0) {
-      console.log("File type error. Select image file only!")
-      return
-    }
+    // console.log(file);
+
+    // if (file.type.indexOf('image/') !== 0) {
+    //   console.log("File type error. Select image file only!")
+    //   return
+    // }
     const origEditorState = this.state.editorState
 
-    const localURL = window.URL.createObjectURL(file)
-    let tempState = this.addImagePlaceHolder(origEditorState, localURL)
-    this.setState({editorState: tempState})
+
+
+    // const localURL = window.URL.createObjectURL(file)
+    // console.log(localURL);
+    // var buffer = new Buffer(localURL, 'base64')
+    // console.log(buffer);
+    // var buffer = toBuffer(localURL, function(err, buffer) {})
+    // console.log(buffer);
+    // var result = parser.create(buffer).enableSimpleValues(false).parse()
+    // console.log(result);
+    // let tempState = this.addAtomicBlock(origEditorState, 'imagePlaceHolder', {src: url})
+    // this.setState({editorState: tempState})
+    extractOrientation(file, this.addImagePlaceHolder)
+
+
 
     // const recentEntityKey = tempState.getCurrentContent().getLastCreatedEntityKey()
     // console.log(convertToRaw(tempState.getCurrentContent()));
@@ -188,29 +211,38 @@ class MyEditor extends Component {
     const imageFileName = uploadedImage.browserStoryImage.filename
     const imageURL = IMAGEPATH + imageFileName
 
-    let newState = this.addImageBlock(origEditorState, imageURL)
+    let newState = this.addAtomicBlock(origEditorState, 'image', {id: imageID, src: imageURL})
     this.onChange(newState)
 }
 
-  addImageBlock = (editorState, url) => {
-    const urlType = 'image';
+  addAtomicBlock = (editorState, entityType, data) => {
     const contentState = editorState.getCurrentContent();
-    const contentStateWithEntity = contentState.createEntity(urlType, 'IMMUTABLE', {src: url});
+    const contentStateWithEntity = contentState.createEntity(entityType, 'IMMUTABLE', data);
     const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
     // console.log(entityKey)
     const newEditorState = AtomicBlockUtils.insertAtomicBlock(editorState, entityKey, ' ');
     return newEditorState
   }
 
-  addImagePlaceHolder = (editorState, url) => {
-    const urlType = 'imagePlaceHolder';
-    const contentState = editorState.getCurrentContent();
-    const contentStateWithEntity = contentState.createEntity(urlType, 'IMMUTABLE', {src: url});
-    const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
-    // console.log(entityKey)
-    const newEditorState = AtomicBlockUtils.insertAtomicBlock(editorState, entityKey, ' ');
-    return newEditorState
-  }
+  // addImageBlock = (editorState, url) => {
+  //   const urlType = 'image';
+  //   const contentState = editorState.getCurrentContent();
+  //   const contentStateWithEntity = contentState.createEntity(urlType, 'IMMUTABLE', {src: url});
+  //   const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
+  //   // console.log(entityKey)
+  //   const newEditorState = AtomicBlockUtils.insertAtomicBlock(editorState, entityKey, ' ');
+  //   return newEditorState
+  // }
+
+  // addImagePlaceHolder = (editorState, url) => {
+  //   const urlType = 'imagePlaceHolder';
+  //   const contentState = editorState.getCurrentContent();
+  //   const contentStateWithEntity = contentState.createEntity(urlType, 'IMMUTABLE', {src: url});
+  //   const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
+  //   // console.log(entityKey)
+  //   const newEditorState = AtomicBlockUtils.insertAtomicBlock(editorState, entityKey, ' ');
+  //   return newEditorState
+  // }
 
   // uploadImageAsync(file) {
   //   return new Promise((resolve, reject) => {
@@ -294,12 +326,12 @@ class MyEditor extends Component {
             blockRendererFn={this.myBlockRenderer}
             ref={(element) => {this.editor = element}}
           />
-          <EmojiSuggestions/>
+          {/* <EmojiSuggestions/> */}
 
         </StoryEditor>
         {/* {this.state.uploading && <ImagePlaceHolder/>} */}
         <ToolsWrapper>
-          <EmojiSelect/>
+          {/* <EmojiSelect/> */}
           <ImageInsert uploadFile={this.uploadFile}/>
           <VideoInsert addVideoBlock={this.addVideoBlock}/>
           <TitleInsert addSubTitleBlock={this.addSubTitleBlock}/>

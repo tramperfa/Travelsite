@@ -3,8 +3,12 @@
   height: auto;
 }
 
-.imageplaceholder{
+/*.imageplaceholder{
 opacity: 0.5
+}*/
+
+.imageplaceholder{
+  background-color: #C0C0C0
 }
 
 .myAtomicStyle{
