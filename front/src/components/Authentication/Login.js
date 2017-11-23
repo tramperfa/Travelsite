@@ -1,13 +1,15 @@
 import React from 'react';
+import {ApolloClient} from 'react-apollo';
 import {gql, graphql} from 'react-apollo';
-import persist from '../lib/persist';
 import PropTypes from 'prop-types';
 import Button from 'material-ui/Button';
 import Dialog, {DialogActions, DialogContent, DialogTitle} from 'material-ui/Dialog';
 import Slide from 'material-ui/transitions/Slide';
 import {withStyles} from 'material-ui/styles';
 import TextField from 'material-ui/TextField';
-import {ApolloClient} from 'react-apollo';
+
+//
+import persist from '../../lib/persist';
 
 const styles = theme => ({
   container: {
@@ -32,27 +34,44 @@ class Login extends React.Component {
     errorMessage: null
   }
 
-  handleSubmit = () => {
+  handleSubmit = async() => {
 
     const emailorusername = this.state.name
     const password = this.state.password
-
-    this.props.localLogin(emailorusername, password).then(({data}) => {
-      return persist.willSetSessionUser(data.localLogin.me)
-    }).then((me) => {
-      return this.props.onLogin(me)
-    }).then((me) => {
-      return this.props.handleRequestClose()
-    }).then(() => {
-      // console.log("RESET STORE");
-      // console.log(this.props.client);
+    try {
+      let data = await this.props.localLogin(emailorusername, password)
+      let me = await persist.willSetSessionUser(data.data.localLogin.me)
+      await this.props.onLogin(me)
+      await this.props.handleRequestClose()
+      //console.log("RESET STORE");
       return this.props.client.resetStore()
-    }).catch((error) => {
+    } catch (error) {
       console.log('there was an error during login', error);
-      //console.log(JSON.stringify(error))
       this.setState({errorMessage: error.graphQLErrors[0].message})
-    });
-    this.setState({name: '', password: ''})
+    } finally {
+      this.setState({name: '', password: ''})
+    }
+
+    /////////////////////////////////////////////////////////
+    // this.props.localLogin(emailorusername, password).then(({data}) => {
+    //   return persist.willSetSessionUser(data.localLogin.me)
+    // }).then((me) => {
+    //   return this.props.onLogin(me)
+    // }).then((me) => {
+    //   return this.props.handleRequestClose()
+    // }).then(() => {
+    //   // console.log("RESET STORE");
+    //   // console.log(this.props.client);
+    //   return this.props.client.resetStore()
+    // }).catch((error) => {
+    //   console.log('there was an error during login', error);
+    //   //console.log(JSON.stringify(error))
+    //   this.setState({errorMessage: error.graphQLErrors[0].message})
+    // });
+    //
+    //
+    // this.setState({name: '', password: ''})
+    ////////////////////////////////////////////////////////////////////////
   }
 
   handleChange = name => event => {
@@ -68,8 +87,9 @@ class Login extends React.Component {
   }
 
   handleClose = () => {
-    this.setState({name: '', password: '', errorMessage: null})
+
     this.props.handleRequestClose()
+    this.setState({name: '', password: '', errorMessage: null})
   }
 
   render() {

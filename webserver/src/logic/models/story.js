@@ -38,6 +38,11 @@ var StorySchema = new Schema({
     index: true,
     ref: 'Destination'
   },
+  POI: {
+    type: ObjectId,
+    index: true,
+    ref: 'POI'
+  },
   coverImage: {
     type: ObjectId,
     ref: 'Image'

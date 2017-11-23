@@ -133,9 +133,11 @@ DraftSchema.statics = {
    * @api private
    */
 
+  //
+
   load: async function(_id) {
     return new Promise((resolve, reject) => {
-      this.findOne({_id: _id}).populate('author').exec((err, res) => {
+      this.findOne({_id: _id}).populate('author').populate('headlineImage').exec((err, res) => {
         err
           ? reject(new Error("Cannot find requested draft"))
           : resolve(res)

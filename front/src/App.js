@@ -1,22 +1,29 @@
+// External Packages
 import React, {Component} from 'react';
-import './App.css';
-import Homepage from './components/Homepage';
 import {ApolloProvider, createNetworkInterface} from 'react-apollo';
 import ApolloClient from 'apollo-client';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import {MuiThemeProvider, createMuiTheme} from 'material-ui/styles';
-// import {createBrowserHistory} from 'history';
 
-import NotFound from './components/NotFound';
-import EditPage from './components/EditPage';
-import StoryReader from './components/StoryReader';
-import Login from './components/Login';
-import Header from './components/Header';
-import UserHome from './components/UserHome';
-import UserDraft from './components/UserDraft';
+//Styles
+import './App.css';
+
+// Routes
+import Homepage from './routes/Homepage';
+import NotFound from './routes/NotFound';
+import EditPage from './routes/EditPage';
+import StoryReader from './routes/StoryReader';
+import UserHome from './routes/UserHome';
+import UserDraft from './routes/UserDraft';
+import Signup from './routes/Signup';
+
+//Library
 import persist from './lib/persist';
-import Signup from './components/Signup';
-import Headline from './components/Headline';
+
+// UI components
+import Login from './components/Authentication/Login';
+import NavBar from './components/Navigation/NavBar';
+import HeadlineImage from './components/HeadlineImage';
 
 // Create GraphQL client to setup Connection with GraphQL server
 const networkInterface = createNetworkInterface({
@@ -41,7 +48,7 @@ class App extends Component {
 
   state = {
     me: {
-      Looooooooading: true
+      looading: true
     },
     openLogin: false
   }
@@ -53,7 +60,7 @@ class App extends Component {
       } else {
         this.setState({
           me: {
-            Looooooooading: false
+            looading: false
           }
         })
       }
@@ -107,7 +114,7 @@ class App extends Component {
         <BrowserRouter>
           <MuiThemeProvider theme={this.theme}>
             <div>
-              <Header client={client} me={this.state.me} onLogout={this.onLogout} handleClickOpen={this.handleClickOpen}/>
+              <NavBar client={client} me={this.state.me} onLogout={this.onLogout} handleClickOpen={this.handleClickOpen}/>
               <Login client={client} onLogin={this.onLogin} openLogin={this.state.openLogin} handleRequestClose={this.handleRequestClose}/>
               <Switch>
                 <Route exact path="/" component={Homepage}/>
@@ -116,7 +123,8 @@ class App extends Component {
                 <Route path="/userdraft/:_id" component={UserDraft}/>
                 <Route path="/edit/:_id" component={EditPage}/>
                 <Route path="/signup" component={Signup} key="signup"/>
-                <Route path="/dest" component={Headline} key="dest"/>
+                <Route path="/dest" component={null} key="dest"/>
+                <Route path="/hotel" component={HeadlineImage} key="hotel"/>
                 <Route component={NotFound}/>
               </Switch>
             </div>

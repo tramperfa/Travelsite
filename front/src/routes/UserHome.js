@@ -4,10 +4,10 @@ import {Route, Switch} from 'react-router-dom';
 import PropTypes from 'prop-types';
 //import Paper from 'material-ui/Paper';
 
-import MyHome from './MyHome';
-import MyStory from './MyStory';
-import MyDeleteStory from './MyDeleteStory';
-import UserHeader from './UserHeader';
+import MyHome from './userHome/MyHome';
+import MyStory from './userHome/MyStory';
+import MyDeleteStory from './userHome/MyDeleteStory';
+import UserHeader from '../components/Navigation/UserHeader';
 
 const styles = theme => ({
   root: {

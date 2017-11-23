@@ -2,9 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Button from 'material-ui/Button';
 import {Link} from 'react-router-dom';
-import Logout from './Logout';
 import Menu, {MenuItem} from 'material-ui/Menu';
 import {withStyles} from 'material-ui/styles';
+
+//
+import Logout from './Logout';
 
 const styles = theme => ({
   textField: {

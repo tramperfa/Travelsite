@@ -3,12 +3,12 @@ import sharp from 'sharp';
 import uuidv4 from 'uuid/v4';
 import parser from 'exif-parser';
 import passport from 'passport';
-import Jimp from 'jimp';
+//import Jimp from 'jimp';
 
 import Image from '../logic/models/image';
 import Draft from '../logic/models/draft';
 import {willCheckDocumentOwnerShip, checkLogin} from './resolverHelpers';
-import {willUploadObject, willDevareObject} from './S3';
+import {willUploadObject, willDeleteObject} from './S3';
 
 // Multer config
 // memory storage keeps file data in a buffer
@@ -40,14 +40,13 @@ const imageSize = {
 module.exports = function(app, db) {
   app.post("/upload", upload.single('imageupload'), async(req, res) => {
     const {catergory, extension, draftID} = req.body
-    //console.log(req);
     try {
       // protect end point from random requests
       const context = {
         sessionUser: req.session.passport
       }
       checkLogin(context)
-      var image = new Image({author: context.sessionUser.user._id, story: draftID, catergory: catergory});
+      var image = new Image({author: context.sessionUser.user._id, draft: draftID, catergory: catergory});
       const buffer = await sharp(req.file.buffer).rotate().toBuffer()
       // Get The Right Size After Taking Orientation Through .rotate()
       var imageSize = parseSize(buffer, image)
@@ -69,11 +68,12 @@ module.exports = function(app, db) {
           // Headline Image, Avatar Image
         case '1':
         case '2':
-          originalSizeUpload(buffer, extension, image);
+          await originalSizeUpload(buffer, extension, imageSize, image);
           break;
         default:
           throw new Error("illegal image upload request")
       }
+      // Save Image Before Draft
       await image.save()
       // Story Image Write to Draft Document
       if (catergory === '0') {
@@ -188,30 +188,6 @@ const autoCropUpload = async(inputBuffer, extension, imageType, image) => {
 //   draftCheckLoginAndOwnerShip(draftID, context),
 //   originalSizeUpload(buffer, extension, image)
 // ]);
-
-//export const willCustomCropUpload = async(inputBuffer, extension, imageType, image, cropAt) => {
-export const willCustomCropUpload = async(imageID, cropAt, context) => {
-
-  image[imageType] = {
-    filename: newName
-  }
-
-  let newName = generateImageName("autoV1-", extension)
-
-  var newImage = await willCustomCrop(inputBuffer)
-  await willUploadObject(newName, newImage)
-}
-
-const willCustomCrop = (inputBuffer) => new Promise((resolve, reject) => {
-  Jimp.read(inputBuffer).then((image) => {
-    image.crop(0, 500, 1500, 500).getBuffer(Jimp.AUTO, (err, newImage) => {
-      if (err) {
-        return reject(new Error(err))
-      }
-      return resolve(newImage)
-    })
-  })
-})
 
 //////////////////////////////////////////////////////////////////////////////////////////
 // Hold off GPS feature

@@ -15,9 +15,9 @@ var ImageSchema = new Schema({
     type: Number,
     default: 0
   },
-  story: {
+  draft: {
     type: Schema.ObjectId,
-    ref: 'Story',
+    ref: 'Draft',
     index: true
   },
   poi: {
@@ -109,7 +109,7 @@ var ImageSchema = new Schema({
       }
     }
   },
-  browserHealdineImage: {
+  browserHeadlineImage: {
     filename: {
       type: String
     },

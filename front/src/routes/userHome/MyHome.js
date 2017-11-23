@@ -61,10 +61,12 @@ export const myStoryQuery = gql `
       _id
       title
       snapshotContent
-      coverImage{
-        _id
-        browserStoryImage
-      }
+      # Need Fragment ?
+      # coverImage {
+      #   _id
+      #   browserCoverImage
+      #   browserUserHomeCoverImage
+      # }
       lastUpdate
       viewCount
       likeStoryCount

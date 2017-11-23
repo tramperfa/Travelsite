@@ -8,7 +8,7 @@ import IconButton from 'material-ui/IconButton';
 import Typography from 'material-ui/Typography';
 import imageTest from '../images/g.jpeg';
 import Undo from "material-ui-icons/Undo";
-import {myDeleteStoryQuery} from './MyDeleteStory'
+import {myDeleteStoryQuery} from '../routes/userHome/MyDeleteStory'
 
 const styles = theme => ({
   card: {

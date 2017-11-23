@@ -4,7 +4,7 @@ import {gql, graphql} from 'react-apollo';
 import {withStyles} from 'material-ui/styles';
 //
 
-import DeleteStoryCard from './DeleteStoryCard';
+import DeleteStoryCard from '../../components/DeleteStoryCard';
 
 const styles = theme => ({
   textField: {
@@ -78,10 +78,10 @@ export const myDeleteStoryQuery = gql `
       _id
       title
       snapshotContent
-      coverImage{
-        _id
-        browserStoryImage
-      }
+      # coverImage{
+      #   _id
+      #   browserStoryImage
+      # }
       lastUpdate
       viewCount
       likeStoryCount

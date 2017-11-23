@@ -2,7 +2,7 @@ import React from 'react';
 import Dropzone from 'react-dropzone';
 import PropTypes from 'prop-types';
 
-import ImageUpload from './ImageUpload';
+import ImageUpload from '../lib/ImageUpload';
 
 //import {CircularProgress} from 'material-ui/Progress';
 
@@ -10,7 +10,7 @@ class HeadlineUpload extends React.Component {
 
   onDrop = async(files) => {
     const draftID = this.props.match.params._id
-    ImageUpload(files[0], 0, draftID)
+    ImageUpload(files[0], 1, draftID)
   }
 
   render() {
@@ -29,21 +29,3 @@ HeadlineUpload.propTypes = {
 }
 
 export default HeadlineUpload
-
-// }).then(() => {
-//   console.log("UPLOAD FINISH");
-// }).catch((error) => {
-//   console.log('there was an error during fileupload', error);
-// })
-
-// .on('progress', event => {
-// console.log('Percentage done: ', event.percent);
-// console.log('Total File Size: ', event.total);
-// /* the event is:
-//   {
-//     direction: "upload" or "download"
-//     percent: 0 to 100 // may be missing if file size is unknown
-//     total: // total file size, may be missing
-//     loaded: // bytes downloaded or uploaded so far
-//   } */
-// })

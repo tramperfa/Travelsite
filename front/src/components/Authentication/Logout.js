@@ -1,26 +1,39 @@
 import React from 'react';
 import {gql, graphql} from 'react-apollo';
-import persist from '../lib/persist';
 import PropTypes from 'prop-types';
 //import Button from 'material-ui/Button';
 //import Typography from 'material-ui/Typography';
 import {MenuItem} from 'material-ui/Menu';
 import {ApolloClient} from 'react-apollo';
 
+//
+import persist from '../../lib/persist';
+
 class Logout extends React.Component {
 
-  handleLogout() {
-    this.props.logout().then((success) => {
-      return persist.willRomveSessionUser()
-    }).then(() => {
-      return this.props.onLogout()
-    }).then(() => {
-      // console.log("RESET STORE");
+  handleLogout = async() => {
+    try {
+      await this.props.logout()
+      await persist.willRomveSessionUser()
+      await this.props.onLogout()
       return this.props.client.resetStore()
-    }).catch((err) => {
-      console.log('there was an error during logout', err);
-      console.log(JSON.stringify(err));
-    })
+    } catch (e) {
+      console.log('there was an error during logout', e);
+      console.log(JSON.stringify(e));
+    } finally {}
+
+    // Refactored Nov,21
+    // this.props.logout().then((success) => {
+    //   return persist.willRomveSessionUser()
+    // }).then(() => {
+    //   return this.props.onLogout()
+    // }).then(() => {
+    //   // console.log("RESET STORE");
+    //   return this.props.client.resetStore()
+    // }).catch((err) => {
+    //   console.log('there was an error during logout', err);
+    //   console.log(JSON.stringify(err));
+    // })
   }
 
   render() {

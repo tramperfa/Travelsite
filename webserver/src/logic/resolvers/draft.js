@@ -7,7 +7,8 @@ import {willCheckDocumentOwnerShip} from '../../lib/resolverHelpers';
 module.exports = {
   Query: {
     draft: async(parent, args, context) => {
-      return willGetDraft(args.draftID, context)
+      //return willGetDraft(args.draftID, context)
+      return willCheckDocumentOwnerShip(args.draftID, context, 'draft')
     },
     myDrafts: async(parent, args, context) => {
       if (context.sessionUser) {
@@ -53,19 +54,6 @@ module.exports = {
     }
   },
   JSON: GraphQLJSON
-
-}
-
-const willGetDraft = async(draftID, context) => {
-  // try {
-  //   var draft = await willCheckDocumentOwnerShip(draftID, context, 'draft')
-  //   return draft
-  // } catch (e) {
-  //   //console.log(e)
-  //   return e
-  // } finally {}
-
-  return willCheckDocumentOwnerShip(draftID, context, 'draft')
 
 }
 

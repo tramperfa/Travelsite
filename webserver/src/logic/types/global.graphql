@@ -1,6 +1,8 @@
 
 scalar JSON
 
+
+
 enum PhotoSize {
   ORIGINAL
   LARGE
@@ -11,22 +13,8 @@ enum PhotoSize {
 
 
 
-
-
-
 # type POI {
 #   _id: ID!
 #   catergory: String
 #   name: String
 # }
-
-
-#
-# type Image {
-#   _id: ID!
-#   size: PhotoSize
-# }
-# uploadImage(input: uploadImageInput!): uploadImagePayload
-
-
-# LikeStory(input: toggleLikeInput!): toggleLikePayload

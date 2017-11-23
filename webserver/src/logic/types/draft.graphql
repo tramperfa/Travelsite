@@ -4,6 +4,7 @@ type Draft {
   title: String!
   content: JSON
   coverImage: Image
+  headlineImage: Image
   #poi: POI
   author: User
   lastUpdate: String
@@ -24,6 +25,7 @@ type Mutation {
   updateHeadline(input: updateHeadlineInput!): Draft
   publishDraft(draftID: ID!): Draft
   deleteDraft(draftID: ID!): Draft
+  setImageAsCover(imageID: ID!): Image
 }
 
 input updateTitleInput {
