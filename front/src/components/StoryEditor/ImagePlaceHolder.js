@@ -4,21 +4,25 @@ import extractSize from './util/ExtractSize'
 // import rotateImage from './util/RotateImage'
 import { CircularProgress } from 'material-ui/Progress';
 
+const CIRCULARSIZE = 40
+const MAXWIDTH = 700
+
 export default class extends Component {
   constructor (props) {
     super(props)
-    this.state = {width: 0, height: 0}
+    this.state = {origDimention: {}, scaledDimention: {}, center: {}}
   }
 
   setWidthHeight = (newSize) => {
     const {width, height} = newSize
+    this.setState({origDimention: newSize})
     // console.log("width: " + width + " height: " + height)
-    if(width > 700) {
-      const newHeight = 700 * height / width
+    if(width > MAXWIDTH) {
+      const newHeight = MAXWIDTH * height / width
       // console.log("newHeight: " + newHeight);
-      this.setState({width: 700, height: newHeight})
+      this.setState({scaledDimention: {width: MAXWIDTH, height: newHeight}, center: {x: (MAXWIDTH - CIRCULARSIZE) / 2, y: (newHeight - CIRCULARSIZE) / 2}})
     } else {
-      this.setState(newSize)
+      this.setState({scaledDimention: newSize, center: {x: (width - CIRCULARSIZE) / 2, y: (height - CIRCULARSIZE) / 2}})
     }
   }
 
@@ -31,12 +35,9 @@ export default class extends Component {
     // const contentState = this.props.contentState
     // const block = this.props.block
     // const {orientation, src} = contentState.getEntity(block.getEntityAt(0)).getData()
-    const tranX = this.state.width / 2 - 20
-    const tranY = this.state.height / 2 - 20
-    const tran = "translate(" + tranX + "px, " + tranY + "px)"
     return (
       <div className="imageplaceholder"
-        style={this.state} >
+        style={this.state.scaledDimention} >
         {/* <img
           className="imageplaceholder"
           alt=""
@@ -44,7 +45,7 @@ export default class extends Component {
           // style = {rotateImage(orientation)}
         /> */}
         {/* <CircularProgress style={{position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)"}}/> */}
-        <CircularProgress style={{transform: tran}}/>
+        <CircularProgress style={{transform: "translate(" + this.state.center.x + "px, " + this.state.center.y + "px)"}}/>
 
         {/* <CircularProgress /> */}
         {/* <FOO /> */}

@@ -14,7 +14,9 @@ export default class extends Component {
   inputChange = (e) => {
     const file = e.target.files[0]
     // console.log(e.target.files);
-    this.props.uploadFile(file)
+    if(file) {
+      this.props.uploadFile(file)
+    }
   }
 
   render() {
