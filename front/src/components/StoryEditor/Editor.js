@@ -27,7 +27,6 @@ import './BlockStyles.css'
 
 import extractOrientation from './util/ExtractOrientation'
 
-
 // const emojiPlugin = createEmojiPlugin();
 // const {EmojiSuggestions, EmojiSelect} = emojiPlugin;
 const videoPlugin = createVideoPlugin();
@@ -186,8 +185,6 @@ class MyEditor extends Component {
     // }
     const origEditorState = this.state.editorState
 
-
-
     // const localURL = window.URL.createObjectURL(file)
     // console.log(localURL);
     // var buffer = new Buffer(localURL, 'base64')
@@ -198,22 +195,26 @@ class MyEditor extends Component {
     // console.log(result);
     // let tempState = this.addAtomicBlock(origEditorState, 'imagePlaceHolder', {src: url})
     // this.setState({editorState: tempState})
-    extractOrientation(file, this.addImagePlaceHolder)
 
-
+    //extractOrientation(file, this.addImagePlaceHolder)
+    let outputData = await extractOrientation(file)
+    this.addImagePlaceHolder(outputData)
 
     // const recentEntityKey = tempState.getCurrentContent().getLastCreatedEntityKey()
     // console.log(convertToRaw(tempState.getCurrentContent()));
     // console.log(recentEntityKey);
 
-    const uploadedImage = await willUploadImage(file, 0, this.state.draftID)
-    const imageID = uploadedImage._id
-    const imageFileName = uploadedImage.browserStoryImage.filename
-    const imageURL = IMAGEPATH + imageFileName
+    // const uploadedImage = await willUploadImage(file, 0, this.state.draftID)
+    // const imageID = uploadedImage._id
+    // const imageFileName = uploadedImage.browserStoryImage.filename
+    // const imageURL = IMAGEPATH + imageFileName
 
-    let newState = this.addAtomicBlock(origEditorState, 'image', {id: imageID, src: imageURL})
-    this.onChange(newState)
-}
+    // let newState = this.addAtomicBlock(origEditorState, 'image', {
+    //   id: imageID,
+    //   src: imageURL
+    // })
+    // this.onChange(newState)
+  }
 
   addAtomicBlock = (editorState, entityType, data) => {
     const contentState = editorState.getCurrentContent();
@@ -273,7 +274,7 @@ class MyEditor extends Component {
 
   myBlockStyleFn = (contentBlock) => {
     const type = contentBlock.getType()
-    if(type === 'atomic') {
+    if (type === 'atomic') {
       return 'myAtomicStyle'
     }
   }
@@ -290,22 +291,15 @@ class MyEditor extends Component {
       const entityType = contentState.getEntity(entity).getType()
       if (entityType === 'subTitle') {
         return {
-          component: TitleBlock,
-          editable: false,
+          component: TitleBlock, editable: false,
           // props: {
           //   text: contentBlock.getText()
           // }
         }
       } else if (entityType === 'image') {
-        return {
-          component: ImageBlock,
-          editable: false
-        }
+        return {component: ImageBlock, editable: false}
       } else if (entityType === 'imagePlaceHolder') {
-        return {
-          component: ImagePlaceHolder,
-          editable: false
-        }
+        return {component: ImagePlaceHolder, editable: false}
       }
     }
     return null
@@ -316,17 +310,9 @@ class MyEditor extends Component {
       <StoryEditorWrapper>
         {/* <StoryEditor onClick={this.focus}> */}
         <StoryEditor >
-          <Editor
-            editorState={this.state.editorState}
-            onChange={this.onChange}
-            placeholder={PLACEHOLDERTEXT}
-            plugins={plugins}
-            blockRenderMap={extendedBlockRenderMap}
-            blockStyleFn={this.myBlockStyleFn}
-            blockRendererFn={this.myBlockRenderer}
-            ref={(element) => {this.editor = element}}
-          />
-          {/* <EmojiSuggestions/> */}
+          <Editor editorState={this.state.editorState} onChange={this.onChange} placeholder={PLACEHOLDERTEXT} plugins={plugins} blockRenderMap={extendedBlockRenderMap} blockStyleFn={this.myBlockStyleFn} blockRendererFn={this.myBlockRenderer} ref={(element) => {
+            this.editor = element
+          }}/> {/* <EmojiSuggestions/> */}
 
         </StoryEditor>
         {/* {this.state.uploading && <ImagePlaceHolder/>} */}
@@ -334,8 +320,7 @@ class MyEditor extends Component {
           {/* <EmojiSelect/> */}
           <ImageInsert uploadFile={this.uploadFile}/>
           <VideoInsert addVideoBlock={this.addVideoBlock}/>
-          <TitleInsert addSubTitleBlock={this.addSubTitleBlock}/>
-          {/* <SubTitleList/> */}
+          <TitleInsert addSubTitleBlock={this.addSubTitleBlock}/> {/* <SubTitleList/> */}
         </ToolsWrapper>
       </StoryEditorWrapper>
 
@@ -387,13 +372,13 @@ const Dummy = styled.div `
 const StoryEditor = styled.div `
   cursor: text;
   text-align: left;
-  ${'' /* box-sizing: border-box;
+  ${ ''/* box-sizing: border-box;
   border: 1px solid #ddd; */}
   margin-left: 80px;
   margin-right: 80px;
   padding-top: 16px;
   padding-bottom: 16px;
-  ${'' /* padding: 16px;
+  ${ ''/* padding: 16px;
   border-radius: 2px;
   margin-bottom: 2em;
   box-shadow: inset 0px 1px 8px -3px #ABABAB;
