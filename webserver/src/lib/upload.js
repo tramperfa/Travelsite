@@ -39,7 +39,7 @@ const imageSize = {
 
 module.exports = function(app, db) {
   app.post("/upload", upload.single('imageupload'), async(req, res) => {
-    const {catergory, extension, draftID} = req.body
+    const {catergory, extension, draftID, origSize} = req.body
     try {
       // protect end point from random requests
       const context = {
@@ -48,19 +48,21 @@ module.exports = function(app, db) {
       checkLogin(context)
       var image = new Image({author: context.sessionUser.user._id, draft: draftID, catergory: catergory});
       const buffer = await sharp(req.file.buffer).rotate().toBuffer()
-      // Get The Right Size After Taking Orientation Through .rotate()
-      var imageSize = parseSize(buffer, image)
-      // Add EXIF
-      var result = parseEXIF(req.file.buffer, image, imageSize)
+
+      // EXIF ONLY applies to JPEG and TIFF FORMAT
+      if (extension === 'jpg' || extension === 'jpeg' || extension === 'tiff') {
+        // Add EXIF
+        parseEXIF(req.file.buffer, image, origSize)
+      }
 
       switch (catergory) {
           // Story Image
         case '0':
           var [draft] = await Promise.all([
             willCheckDocumentOwnerShip(draftID, context, 'draft'),
-            originalSizeUpload(buffer, extension, imageSize, image),
-            widthBasedResizeUpload(buffer, extension, imageSize, 'browserStoryImage', image),
-            widthBasedResizeUpload(buffer, extension, imageSize, 'browserCommentImage', image),
+            originalSizeUpload(buffer, extension, origSize, image),
+            widthBasedResizeUpload(buffer, extension, origSize, 'browserStoryImage', image),
+            widthBasedResizeUpload(buffer, extension, origSize, 'browserCommentImage', image),
             autoCropUpload(buffer, extension, 'browserCoverImage', image),
             autoCropUpload(buffer, extension, 'browserUserHomeCoverImage', image)
           ]);
@@ -68,7 +70,7 @@ module.exports = function(app, db) {
           // Headline Image, Avatar Image
         case '1':
         case '2':
-          await originalSizeUpload(buffer, extension, imageSize, image);
+          await originalSizeUpload(buffer, extension, origSize, image);
           break;
         default:
           throw new Error("illegal image upload request")
@@ -94,20 +96,15 @@ const parseDate = (s) => {
   return new Date(b[0], b[1] - 1, b[2], b[3], b[4], b[5]);
 }
 
-const parseEXIF = (buffer, image, imageSize) => {
+const parseEXIF = (buffer, image, origSize) => {
   //Parse Out EXIF With Processed ImageSize
   var result = parser.create(buffer).enableSimpleValues(false).parse()
-  result.imageSize = imageSize
+  result.imageSize = origSize
   image.extraData = result.tags
   if (result.tags.DateTimeOriginal) {
     image.takenTime = parseDate(result.tags.DateTimeOriginal).toString();
   }
   return result
-}
-
-const parseSize = (buffer, image) => {
-  var result = parser.create(buffer).enableImageSize(true).parse()
-  return result.getImageSize()
 }
 
 const generateImageName = (prefix, extension) => {
@@ -165,31 +162,6 @@ const autoCropUpload = async(inputBuffer, extension, imageType, image) => {
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
-// switch (catergory) {
-//     //Story image
-//   case '0':
-//     var images = draft.images;
-//     images.push(image._id);
-//     await draft.save();
-//     break;
-//   case '1':
-//     draft.headlineImage = image._id;
-//     await draft.save();
-//     break;
-//   case '2':
-//     user.avatar = image._id;
-//     break;
-//   default:
-//     throw new Error("illegal image upload request");
-//     await user.save();
-// }
-
-// var [draft] = await Promise.all([
-//   draftCheckLoginAndOwnerShip(draftID, context),
-//   originalSizeUpload(buffer, extension, image)
-// ]);
-
-//////////////////////////////////////////////////////////////////////////////////////////
 // Hold off GPS feature
 // if (result.tags.GPSLatitude && result.tags.GPSLongitude) {
 //   image.takenLocation = {
@@ -202,3 +174,11 @@ const autoCropUpload = async(inputBuffer, extension, imageType, image) => {
 // sharp(inputBuffer).rotate().resize(requireSize.width, requireSize.height).toBuffer(function(err, data, info) {
 //   //console.log(info);
 // })
+//////////////////////////////////////////////////////////////////////////////////////////
+// const parseSize = (buffer, image) => {
+//   var result = parser.create(buffer).enableImageSize(true).parse()
+//   return result.getImageSize()
+// }
+//////////////////////////////////////////////////////////////////////////////////////////
+// Get The Right Size After Taking Orientation Through .rotate()
+//var origSize = parseSize(buffer, image)

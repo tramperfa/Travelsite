@@ -11,18 +11,9 @@ import Dropzone from 'react-dropzone';
 //
 import ImageUpload from '../lib/ImageUpload';
 
-//import TempUpload from '../components/TempUpload';
 import Editor from '../components/StoryEditor/Editor';
 import {storiesListQuery} from './Homepage';
 import HeadlineIamgeCrop from '../components/HeadlineImageCrop';
-// import ReactCrop, {makeAspectCrop} from 'react-image-crop';
-// import imageC from '../images/z.jpg';
-
-//import Editor from './Editor';
-
-// var crop = {
-//   aspect: 3 / 1
-// }
 
 class Draft extends React.Component {
   state = {
@@ -30,8 +21,8 @@ class Draft extends React.Component {
     linkedStoryID: undefined,
     errorMessage: null,
     cropOpen: false, // Control Headline Image Cropper Open/Close
-    headlineImage: null,
-    theImage: {},
+    headlineImage: null, // Being Used as Headline Image
+    theCropImage: {}, // Being Used as Crop Image
     title: ''
   }
 
@@ -67,9 +58,13 @@ class Draft extends React.Component {
   onDrop = async(files) => {
     try {} catch (e) {} finally {}
     const draftID = this.props.match.params._id
-    let image = await ImageUpload(files[0], 1, draftID)
+    let image = await ImageUpload(files[0], 1, draftID, 0)
     // Pass image to Dialog
-    this.setState({cropOpen: true, theImage: image})
+    this.setState({cropOpen: true, theCropImage: image})
+  }
+
+  updateHeadlineImage = (newImage) => {
+    this.setState({headlineImage: newImage})
   }
 
   handleCloseCropper = () => {
@@ -93,16 +88,14 @@ class Draft extends React.Component {
       )
     }
 
-    //<TempUpload match={this.props.match}/>
-
     return (
       <div>
-        {this.state.theImage.originalImage && <HeadlineIamgeCrop cropOpen={this.state.cropOpen} handleCloseCropper={this.handleCloseCropper} theImage={this.state.theImage}/>}
+        {this.state.theCropImage.originalImage && <HeadlineIamgeCrop cropOpen={this.state.cropOpen} handleCloseCropper={this.handleCloseCropper} theCropImage={this.state.theCropImage} updateHeadlineImage={this.updateHeadlineImage}/>}
 
         <div>
           {this.state.headlineImage
             ? <Headline headlineImage={this.state.headlineImage}/>
-            : <Dropzone onDrop={this.onDrop} accept="image/jpeg, image/gif, image/png">
+            : <Dropzone onDrop={this.onDrop} accept="image/jpeg, image/gif, image/png, image/tiff">
               <div>Click or Drop Story Headline Image --------- Suggest Use Original Image or Image Higher than 1980px
               </div>
             </Dropzone>}

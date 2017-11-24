@@ -23,7 +23,6 @@ import persist from './lib/persist';
 // UI components
 import Login from './components/Authentication/Login';
 import NavBar from './components/Navigation/NavBar';
-import HeadlineImage from './components/HeadlineImage';
 
 // Create GraphQL client to setup Connection with GraphQL server
 const networkInterface = createNetworkInterface({
@@ -124,7 +123,7 @@ class App extends Component {
                 <Route path="/edit/:_id" component={EditPage}/>
                 <Route path="/signup" component={Signup} key="signup"/>
                 <Route path="/dest" component={null} key="dest"/>
-                <Route path="/hotel" component={HeadlineImage} key="hotel"/>
+                <Route path="/hotel" component={null} key="hotel"/>
                 <Route component={NotFound}/>
               </Switch>
             </div>
