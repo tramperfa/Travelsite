@@ -6,6 +6,11 @@ import Editor from 'draft-js-plugins-editor';
 // import Editor, {createEditorStateWithText, composeDecorators} from 'draft-js-plugins-editor';
 // import createEmojiPlugin from 'draft-js-emoji-plugin';
 import createVideoPlugin from 'draft-js-video-plugin';
+import styled from 'styled-components'
+import PropTypes from 'prop-types';
+import {gql, graphql} from 'react-apollo';
+// import 'draft-js-emoji-plugin/lib/plugin.css';
+import 'draft-js/dist/Draft.css'
 
 import TitleBlock from './TitleBlock';
 import ImageInsert from './ImageInsert';
@@ -17,15 +22,10 @@ import VideoInsert from './VideoInsert'
 import TitleInsert from './TitleInsert'
 // import SubTitleList from './SubTitleList'
 
-import styled from 'styled-components'
-import PropTypes from 'prop-types';
-import {gql, graphql} from 'react-apollo';
-// import 'draft-js-emoji-plugin/lib/plugin.css';
-import 'draft-js/dist/Draft.css'
-
 import './BlockStyles.css'
 
-import extractOrientation from './util/ExtractOrientation'
+import willExtractOrientation from './util/ExtractOrientation'
+import willExtractSize from './util/ExtractSize'
 
 // const emojiPlugin = createEmojiPlugin();
 // const {EmojiSuggestions, EmojiSelect} = emojiPlugin;
@@ -168,52 +168,31 @@ class MyEditor extends Component {
     // console.log(JSON.stringify(convertToRaw(newContent)))
   }, 2000)
 
-  addImagePlaceHolder = (data) => {
-    // console.log(data);
-    const beforeInsertImage = this.state.editorState
-    let placeHolderInserted = this.addAtomicBlock(beforeInsertImage, 'imagePlaceHolder', data)
-    this.setState({editorState: placeHolderInserted})
-  }
-
   uploadFile = async(file) => {
 
-    // console.log(file);
-
-    // if (file.type.indexOf('image/') !== 0) {
-    //   console.log("File type error. Select image file only!")
-    //   return
-    // }
     const origEditorState = this.state.editorState
 
-    // const localURL = window.URL.createObjectURL(file)
-    // console.log(localURL);
-    // var buffer = new Buffer(localURL, 'base64')
-    // console.log(buffer);
-    // var buffer = toBuffer(localURL, function(err, buffer) {})
-    // console.log(buffer);
-    // var result = parser.create(buffer).enableSimpleValues(false).parse()
-    // console.log(result);
-    // let tempState = this.addAtomicBlock(origEditorState, 'imagePlaceHolder', {src: url})
-    // this.setState({editorState: tempState})
-
-    //extractOrientation(file, this.addImagePlaceHolder)
-    let outputData = await extractOrientation(file)
-    this.addImagePlaceHolder(outputData)
+    // example localImageData
+    // {orientation: 8, src: <localURL>}
+    let localImageData = await willExtractOrientation(file)
+    // example localImageSize
+    // {width: 100, height: 100}
+    let localImageSize = await willExtractSize(localImageData)
 
     // const recentEntityKey = tempState.getCurrentContent().getLastCreatedEntityKey()
     // console.log(convertToRaw(tempState.getCurrentContent()));
     // console.log(recentEntityKey);
 
-    // const uploadedImage = await willUploadImage(file, 0, this.state.draftID)
-    // const imageID = uploadedImage._id
-    // const imageFileName = uploadedImage.browserStoryImage.filename
-    // const imageURL = IMAGEPATH + imageFileName
+    const uploadedImage = await willUploadImage(file, 0, this.state.draftID, localImageSize)
+    const imageID = uploadedImage._id
+    const imageFileName = uploadedImage.browserStoryImage.filename
+    const imageURL = IMAGEPATH + imageFileName
 
-    // let newState = this.addAtomicBlock(origEditorState, 'image', {
-    //   id: imageID,
-    //   src: imageURL
-    // })
-    // this.onChange(newState)
+    let newState = this.addAtomicBlock(origEditorState, 'image', {
+      id: imageID,
+      src: imageURL
+    })
+    this.onChange(newState)
   }
 
   addAtomicBlock = (editorState, entityType, data) => {

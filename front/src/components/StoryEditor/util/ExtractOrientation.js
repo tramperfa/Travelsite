@@ -1,4 +1,4 @@
-const WillextractOrientation = (file) => new Promise((resolve, reject) => {
+const willExtractOrientation = (file) => new Promise((resolve, reject) => {
 
   const localURL = window.URL.createObjectURL(file)
   const noOrientation = {
@@ -6,6 +6,8 @@ const WillextractOrientation = (file) => new Promise((resolve, reject) => {
     src: localURL
   }
   var reader = new FileReader();
+
+  reader.readAsArrayBuffer(file.slice(0, 64 * 1024));
 
   reader.onload = function(event) {
     var view = new DataView(event.target.result);
@@ -47,11 +49,8 @@ const WillextractOrientation = (file) => new Promise((resolve, reject) => {
     }
     return resolve(noOrientation);
   }
-
-  reader.readAsArrayBuffer(file.slice(0, 64 * 1024));
-
 })
 
 //function extractOrientation(file, callback) {
 
-export default WillextractOrientation
+export default willExtractOrientation

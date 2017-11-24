@@ -1,4 +1,5 @@
-function extractSize(origImage, callback) {
+const willExtractSize = (origImage) => new Promise((resolve, reject) => {
+
   const {orientation, src} = origImage
   var newImage = new Image()
   newImage.src = src
@@ -8,11 +9,11 @@ function extractSize(origImage, callback) {
     const height = newImage.height
 
     if(4 < orientation && orientation < 9) {
-      return callback({width: height, height: width})
+      return resolve({width: height, height: width})
     } else {
-      return callback({width: width, height: height})
+      return resolve({width: width, height: height})
     }
   }
-}
+})
 
-export default extractSize
+export default willExtractSize
