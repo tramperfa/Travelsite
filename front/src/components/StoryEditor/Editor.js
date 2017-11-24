@@ -9,7 +9,7 @@ import createVideoPlugin from 'draft-js-video-plugin';
 
 import TitleBlock from './TitleBlock';
 import ImageInsert from './ImageInsert';
-import willUploadImage from '../ImageUpload'
+import willUploadImage from '../../lib/ImageUpload'
 
 import ImagePlaceHolder from './ImagePlaceHolder';
 import ImageBlock from './ImageBlock'
