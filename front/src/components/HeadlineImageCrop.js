@@ -23,17 +23,17 @@ class HeadlineImageCrop extends Component {
         height: Math.max(Math.round(height), 300)
       }
     })
-
-    console.log('To Be Displayed Inside Image Croping Area:   ', this.state.cropBox.width + ' X ' + this.state.cropBox.height);
   }
 
   handleSubmit = async() => {
     try {
       let {x, y, width, height} = this.state.cropBox
-      console.log("Cropping At:  ");
-      console.log(this.state.cropBox);
-      await this.props.cropImage(this.props.theImage._id, x, y, width, height)
-      this.props.handleCloseCropper()
+      let {cropImage, updateHeadlineImage, handleCloseCropper, theCropImage} = this.props
+      // console.log("Cropping At:  ");
+      // console.log(this.state.cropBox);
+      let newImage = await cropImage(theCropImage._id, x, y, width, height)
+      updateHeadlineImage(newImage)
+      handleCloseCropper()
     } catch (e) {
       console.log(e);
     } finally {}
@@ -48,15 +48,16 @@ class HeadlineImageCrop extends Component {
   }
 
   render() {
-    // + this.props.theImage.originalImage.filename
-    //var imageSource = 'https://s3.amazonaws.com/thetripbeyond/' + this.props.theImage.originalImage.filename
-    //console.log("IMAGE SOURCE:  " + imageSource);
     return (
       <div>
         <Dialog open={this.props.cropOpen} transition={Slide} onRequestClose={this.props.handleCloseCropper} onKeyPress={this.onKeyPress}>
           <DialogContent>
-            <ImageCrop updateCropBox={this.updateCropBox} minCropWidthOnCanvas={120} src={'https://s3.amazonaws.com/thetripbeyond/' + this.props.theImage.originalImage.filename}/>
+            <ImageCrop updateCropBox={this.updateCropBox} minCropWidthOnCanvas={120} src={'https://s3.amazonaws.com/thetripbeyond/' + this.props.theCropImage.originalImage.filename}/>
           </DialogContent>
+          <div>
+            Current Croping Area: {this.state.cropBox.width}
+            X {this.state.cropBox.height}
+          </div>
           <DialogActions>
             <Button raised color="primary" onClick={this.handleSubmit}>
               Submit
@@ -76,8 +77,9 @@ class HeadlineImageCrop extends Component {
 HeadlineImageCrop.propTypes = {
   cropImage: PropTypes.func.isRequired,
   cropOpen: PropTypes.bool.isRequired,
+  updateHeadlineImage: PropTypes.func.isRequired,
   handleCloseCropper: PropTypes.func.isRequired,
-  theImage: PropTypes.object.isRequired
+  theCropImage: PropTypes.object.isRequired
 }
 
 export const CropImageMutation = gql `
