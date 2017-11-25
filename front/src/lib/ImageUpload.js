@@ -1,13 +1,15 @@
 import upload from 'superagent';
 
-const willUploadImage = (file, imageCatergory, draftID, origSize) => new Promise((resolve, reject) => {
+const willUploadImage = (file, imageCatergory, draftID, origWidth, origHeight) => new Promise((resolve, reject) => {
   const extension = file.name.split('.').pop()
   //console.log(file);
   upload.post('http://localhost:8080/upload')
   //
     .attach('imageupload', file).withCredentials()
   //
-    .field('catergory', imageCatergory).field('extension', extension).field('draftID', draftID).field('origSize', origSize)
+    .field('catergory', imageCatergory).field('extension', extension).field('draftID', draftID)
+  // Cannot Pass Nested Object, ONE FILED AT A TIME!
+    .field('origWidth', origWidth).field('origHeight', origHeight)
   //
     .end((err, res) => {
     if (err) {

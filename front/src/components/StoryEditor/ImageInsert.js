@@ -14,7 +14,7 @@ export default class extends Component {
   inputChange = (e) => {
     const file = e.target.files[0]
     // console.log(e.target.files);
-    if(file) {
+    if (file) {
       this.props.uploadFile(file)
     }
   }
@@ -22,11 +22,11 @@ export default class extends Component {
   render() {
     return (
       <div>
+        {this.props.comment}
         <IconButton onClick={this.onClick}>
           <AddAPhoto/>
         </IconButton>
-        <input type='file' ref='fileInput' onChange={this.inputChange} accept="image/*"
-        style={{
+        <input type='file' ref='fileInput' onChange={this.inputChange} accept="image/*" style={{
           display: 'none'
         }}/>
       </div>

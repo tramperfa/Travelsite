@@ -39,7 +39,14 @@ const imageSize = {
 
 module.exports = function(app, db) {
   app.post("/upload", upload.single('imageupload'), async(req, res) => {
-    const {catergory, extension, draftID, origSize} = req.body
+    const {catergory, extension, draftID, origWidth, origHeight} = req.body
+    console.log("BODY");
+    console.log(req.body);
+
+    var origSize = {
+      width: origWidth,
+      height: origHeight
+    }
     try {
       // protect end point from random requests
       const context = {
@@ -79,6 +86,7 @@ module.exports = function(app, db) {
       await image.save()
       // Story Image Write to Draft Document
       if (catergory === '0') {
+        console.log(" ENTER BLOCK   ");
         let images = draft.images;
         images.push(image._id);
         await draft.save();

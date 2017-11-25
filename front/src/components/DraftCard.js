@@ -7,7 +7,6 @@ import IconButton from 'material-ui/IconButton';
 import Typography from 'material-ui/Typography';
 import moment from 'moment';
 import {gql, graphql} from 'react-apollo';
-
 import Edit from "material-ui-icons/Edit";
 import Delete from "material-ui-icons/Delete";
 

@@ -183,7 +183,7 @@ class MyEditor extends Component {
     // console.log(convertToRaw(tempState.getCurrentContent()));
     // console.log(recentEntityKey);
 
-    const uploadedImage = await willUploadImage(file, 0, this.state.draftID, localImageSize)
+    const uploadedImage = await willUploadImage(file, 0, this.state.draftID, localImageSize.width, localImageSize.height)
     const imageID = uploadedImage._id
     const imageFileName = uploadedImage.browserStoryImage.filename
     const imageURL = IMAGEPATH + imageFileName
