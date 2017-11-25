@@ -40,8 +40,6 @@ const imageSize = {
 module.exports = function(app, db) {
   app.post("/upload", upload.single('imageupload'), async(req, res) => {
     const {catergory, extension, draftID, origWidth, origHeight} = req.body
-    console.log("BODY");
-    console.log(req.body);
 
     var origSize = {
       width: origWidth,

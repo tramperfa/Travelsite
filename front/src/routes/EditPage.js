@@ -8,7 +8,6 @@ import TextField from 'material-ui/TextField';
 import IconButton from 'material-ui/IconButton';
 import Edit from "material-ui-icons/Edit";
 
-import Dropzone from 'react-dropzone';
 //import DraftDetailsQuery from './DraftQuery.graphql'
 
 //
@@ -58,26 +57,24 @@ class Draft extends React.Component {
     } catch (e) {
       this.setState({errorMessage: e.graphQLErrors[0].message})
     } finally {}
-
   }
 
-  onDrop = async(files) => {
-    const draftID = this.props.match.params._id
-    let image = await willUploadImage(files[0], 1, draftID, 0)
-    // Pass image to Dialog
-    this.setState({cropOpen: true, theCropImage: image})
-  }
+  // onDrop = async(files) => {
+  //   const draftID = this.props.match.params._id
+  //   let image = await willUploadImage(files[0], 1, draftID, 0)
+  //   // Pass image to Dialog
+  //   this.setState({cropOpen: true, theCropImage: image})
+  // }
 
   // Upload Crop Image
   uploadFile = async(file) => {
     try {
       // {orientation: 8, src: <localURL>}
       let localImageData = await willExtractOrientation(file)
-      // example imageSize
-      // {width: 100, height: 100}
       let imageSize = await willExtractSize(localImageData)
       let draftID = this.props.match.params._id
-      let image = await willUploadImage(file, 0, draftID, imageSize.width, imageSize.height)
+      // Catergory: 1  HeadlineImage
+      let image = await willUploadImage(file, 1, draftID, imageSize.width, imageSize.height)
       this.setState({cropOpen: true, theCropImage: image})
     } catch (e) {
       console.log("Headline Image Upload Error: " + e);
@@ -93,7 +90,7 @@ class Draft extends React.Component {
   }
 
   handleOpenCropper = () => {
-    console.log("AAA CALLED");
+    //console.log("AAA CALLED");
     this.setState({cropOpen: true});
   }
 
@@ -117,10 +114,7 @@ class Draft extends React.Component {
         <div>
           {this.state.headlineImage
             ? <Headline headlineImage={this.state.headlineImage} uploadFile={this.uploadFile} handleOpenCropper={this.handleOpenCropper}/>
-            : <Dropzone onDrop={this.onDrop} accept="image/jpeg, image/gif, image/png, image/tiff">
-              <div>Click or Drop Story Headline Image --------- Suggest Use Original Image or Image Higher than 1980px
-              </div>
-            </Dropzone>}
+            : <EmptyHeadline uploadFile={this.uploadFile}/>}
         </div>
 
         <TextField inputProps={{
@@ -167,6 +161,19 @@ const Headline = (props) => {
         </IconButton>
       </div>
 
+    </div>
+  )
+}
+
+const EmptyHeadline = (props) => {
+
+  return (
+    <div className="headline">
+      {/* <img className="headline" src={imageSource} alt='emptyheadline'/> */}
+      <div>
+        Suggest Use Original Image or Image Higher than 1980px
+        <ImageInsert uploadFile={props.uploadFile} comment='Upload Headline Image'/>
+      </div>
     </div>
   )
 }

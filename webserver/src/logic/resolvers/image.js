@@ -26,7 +26,7 @@ module.exports = {
         width: args.input.width,
         height: args.input.height
       }
-      willCustomCropUpload(args.input.imageID, cropAt, context)
+      return willCustomCropUpload(args.input.imageID, cropAt, context)
     }
   }
 }
@@ -74,12 +74,7 @@ const willCustomCropUpload = async(imageID, cropAt, context) => {
         break;
       default:
     }
-
-    // image[imageType] = {
-    //   filename: newName
-    // }
-    //
-    // await willUploadObject(newName, finalImage)
+    return image;
   } catch (e) {
     return new Error(e)
   } finally {}

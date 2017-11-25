@@ -28,15 +28,19 @@ class HeadlineImageCrop extends Component {
   handleSubmit = async() => {
     try {
       let {x, y, width, height} = this.state.cropBox
-      let {cropImage, updateHeadlineImage, handleCloseCropper, theCropImage} = this.props
+      var {cropImage, updateHeadlineImage, handleCloseCropper, theCropImage} = this.props
       // console.log("Cropping At:  ");
       // console.log(this.state.cropBox);
       let newImage = await cropImage(theCropImage._id, x, y, width, height)
-      updateHeadlineImage(newImage)
-      handleCloseCropper()
+      //console.log(newImage.data.cropImage);
+      let newHeadlineImage = newImage.data.cropImage;
+      updateHeadlineImage(newHeadlineImage)
+
     } catch (e) {
       console.log(e);
-    } finally {}
+    } finally {
+      handleCloseCropper()
+    }
 
   }
 
