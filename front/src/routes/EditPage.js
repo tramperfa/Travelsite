@@ -5,15 +5,21 @@ import {gql, graphql} from 'react-apollo';
 import Button from 'material-ui/Button';
 import {Redirect} from 'react-router-dom';
 import TextField from 'material-ui/TextField';
+import IconButton from 'material-ui/IconButton';
+import Edit from "material-ui-icons/Edit";
+
 import Dropzone from 'react-dropzone';
 //import DraftDetailsQuery from './DraftQuery.graphql'
 
 //
-import ImageUpload from '../lib/ImageUpload';
+import willUploadImage from '../lib/ImageUpload';
 
 import Editor from '../components/StoryEditor/Editor';
 import {storiesListQuery} from './Homepage';
 import HeadlineIamgeCrop from '../components/HeadlineImageCrop';
+import ImageInsert from '../components/StoryEditor/ImageInsert';
+import willExtractOrientation from '../components/StoryEditor/util/ExtractOrientation';
+import willExtractSize from '../components/StoryEditor//util/ExtractSize';
 
 class Draft extends React.Component {
   state = {
@@ -56,11 +62,26 @@ class Draft extends React.Component {
   }
 
   onDrop = async(files) => {
-    try {} catch (e) {} finally {}
     const draftID = this.props.match.params._id
-    let image = await ImageUpload(files[0], 1, draftID, 0)
+    let image = await willUploadImage(files[0], 1, draftID, 0)
     // Pass image to Dialog
     this.setState({cropOpen: true, theCropImage: image})
+  }
+
+  // Upload Crop Image
+  uploadFile = async(file) => {
+    try {
+      // {orientation: 8, src: <localURL>}
+      let localImageData = await willExtractOrientation(file)
+      // example imageSize
+      // {width: 100, height: 100}
+      let imageSize = await willExtractSize(localImageData)
+      let draftID = this.props.match.params._id
+      let image = await willUploadImage(file, 0, draftID, imageSize.width, imageSize.height)
+      this.setState({cropOpen: true, theCropImage: image})
+    } catch (e) {
+      console.log("Headline Image Upload Error: " + e);
+    } finally {}
   }
 
   updateHeadlineImage = (newImage) => {
@@ -72,6 +93,7 @@ class Draft extends React.Component {
   }
 
   handleOpenCropper = () => {
+    console.log("AAA CALLED");
     this.setState({cropOpen: true});
   }
 
@@ -94,7 +116,7 @@ class Draft extends React.Component {
 
         <div>
           {this.state.headlineImage
-            ? <Headline headlineImage={this.state.headlineImage}/>
+            ? <Headline headlineImage={this.state.headlineImage} uploadFile={this.uploadFile} handleOpenCropper={this.handleOpenCropper}/>
             : <Dropzone onDrop={this.onDrop} accept="image/jpeg, image/gif, image/png, image/tiff">
               <div>Click or Drop Story Headline Image --------- Suggest Use Original Image or Image Higher than 1980px
               </div>
@@ -130,7 +152,23 @@ Draft.propTypes = {
 
 const Headline = (props) => {
   var imageSource = 'https://s3.amazonaws.com/thetripbeyond/' + props.headlineImage.browserHeadlineImage.filename
-  return (<img className="headlineImage" src={imageSource} alt='headline'/>)
+
+  return (
+    <div>
+      <img className="headlineImage" src={imageSource} alt='headline'/>
+      <div>
+
+        <ImageInsert uploadFile={props.uploadFile} comment='Re-Upload Headline Image'/>
+      </div>
+      <div>
+        Re-Edit Headline Image
+        <IconButton aria-label="Edit" onClick={props.handleOpenCropper}>
+          <Edit/>
+        </IconButton>
+      </div>
+
+    </div>
+  )
 }
 
 export const DraftDetailsQuery = gql `
