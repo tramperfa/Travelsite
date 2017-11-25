@@ -4,10 +4,10 @@ export default class extends Component {
   render () {
     const contentState = this.props.contentState
     const block = this.props.block
-    const {src} = contentState.getEntity(block.getEntityAt(0)).getData()
+    const {src, width, height} = contentState.getEntity(block.getEntityAt(0)).getData()
 
     return (
-      <div>
+      <div style={{width: width, height: height}}>
         <img
           className="image"
           alt=""

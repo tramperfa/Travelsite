@@ -140,7 +140,6 @@ var containerStyle = {
 class MyEditor extends Component {
 
   state = {
-    draftID: this.props.match.params._id,
     editorState: this.props.startingContent
       ? EditorState.createWithContent(convertFromRaw(this.props.startingContent))
       : EditorState.createEmpty(),
@@ -183,14 +182,18 @@ class MyEditor extends Component {
     // console.log(convertToRaw(tempState.getCurrentContent()));
     // console.log(recentEntityKey);
 
-    const uploadedImage = await willUploadImage(file, 0, this.state.draftID, localImageSize)
+    const uploadedImage = await willUploadImage(file, 0, this.props.match.params._id, localImageSize)
     const imageID = uploadedImage._id
     const imageFileName = uploadedImage.browserStoryImage.filename
     const imageURL = IMAGEPATH + imageFileName
+    const imageWidth = uploadedImage.browserStoryImage.size.width
+    const imageHeight = uploadedImage.browserStoryImage.size.height
 
     let newState = this.addAtomicBlock(origEditorState, 'image', {
       id: imageID,
-      src: imageURL
+      src: imageURL,
+      width: imageWidth,
+      height: imageHeight
     })
     this.onChange(newState)
   }
