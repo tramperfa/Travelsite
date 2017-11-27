@@ -54,9 +54,8 @@ function DraftCard(props) {
 
     <div >
       <Card className={classes.card}>
-        <Link className={classes.textField} to={`/edit/${draft._id}`}>
-          <CardMedia className={classes.cover} image={imageTest} title="Live from space album cover"/>
-        </Link>
+        {/* <Link className={classes.textField} to={`/edit/${draft._id}`}> */}
+        <CardMedia className={classes.cover} image={imageTest} title="Live from space album cover"/> {/* </Link> */}
         <div className={classes.details} href={`/edit/${draft._id}`}>
           <Link className={classes.textField} to={`/edit/${draft._id}`}>
             <CardContent className={classes.content}>
@@ -71,7 +70,7 @@ function DraftCard(props) {
             </CardContent>
           </Link>
           <div className={classes.controls}>
-
+            Continue Writing
             <IconButton aria-label="Edit" href={`/edit/${draft._id}`}>
               <Edit/>
             </IconButton>
