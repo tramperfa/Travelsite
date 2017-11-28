@@ -61,6 +61,7 @@ class Draft extends React.Component {
 				<div>
 					<Editor
 						startingContent={this.props.draftData.draft.content}
+						startingImages={this.props.draftData.draft.images}
 						match={this.props.match}/>
 				</div>
 				<Button color="primary" onClick={this.handlePublish}>
@@ -97,6 +98,23 @@ export const DraftDetailsQuery = gql `
         }
       }
       lastUpdate
+      images{
+        _id
+        browserStoryImage{
+          filename
+          size{
+            width
+            height
+          }
+        }
+        browserCommentImage{
+          filename
+          size{
+            width
+            height
+          }
+        }
+      }
     }
   }
 `;

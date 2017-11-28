@@ -33,10 +33,10 @@ export const willCheckDocumentOwnerShip = async (
 	return doc
 }
 
-// /////////////////////////////////////////////////////////////////////////
-// /////////// export const storyCheckLoginAndOwnerShip = async(storyID,
-// context) => {   if (!context.sessionUser) {     return new Error('User Not
-// Logged In')   }   var story = await Story.findById(storyID)
+// ///////////////////////////////////////////////////////////////////// ///////
+// export const storyCheckLoginAndOwnerShip = async(storyID, context)
+// => {   if (!context.sessionUser) {     return new Error('User Not Logged In')
+// }   var story = await Story.findById(storyID)
 //
 // if (!story || !story.author.equals(context.sessionUser.user._id)) { return
 // new Error('Reqested story does not exist')   }   return story }

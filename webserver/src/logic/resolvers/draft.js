@@ -88,7 +88,6 @@ const willUpdateDraft = async (draftID, updateField, updateValue, context) => {
 	} catch (e) {
 		return e
 	} finally {}
-
 }
 
 const willPublishDraft = async (draftID, context) => {

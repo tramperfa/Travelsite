@@ -36,30 +36,28 @@ const plugins = [videoPlugin]
 const {types} = videoPlugin;
 
 // const initialState = {   "entityMap": {     "0": {       "type": "emoji",
-// "mutability": "IMMUTABLE",       "data": {         "emojiUnicode": "🎊"
-// }     },     "1": {       "type": "image",       "mutability": "IMMUTABLE",
-// "data": {         "src":
+// "mutability": "IMMUTABLE",       "data": {         "emojiUnicode": "🎊" } },
+// "1": {       "type": "image",       "mutability": "IMMUTABLE", "data": {
+// "src":
 // "https://s3.amazonaws.com/thetripbeyond/storyV1-e62c479d-9eb1-4622-a75e-dc4af6ec25ba.jpg"
 // }     },     "2": {       "type": types.VIDEOTYPE,       "mutability":
 // "IMMUTABLE",       "data": {         "src":
 // "https://www.youtube.com/watch?v=9I7H2qspqo8"       }     }   },   "blocks":
 // [     {       "key": "9gm3s",       "text": "Hello World! 🎊 ",       "type":
-// "unstyled",       "depth": 0,       "inlineStyleRanges": [],
-// "entityRanges": [         {           "offset": 13,           "length": 1,
-// "key": 0         }       ],       "data": {}     }, {       "key": "ov7r",
-// "text": " ",       "type": "atomic",       "depth": 0,
-// "inlineStyleRanges": [],       "entityRanges": [         {
-// "offset": 0,           "length": 1,           "key": 1         }       ],
-// "data": {}     }, {       "key": "e23a8",       "text": "......",
-// "type": "unstyled",       "depth": 0,       "inlineStyleRanges": [],
-// "entityRanges": [],       "data": {}     }, {       "key": "ov8r",
-// "text": " ",       "type": "atomic",       "depth": 0,
-// "inlineStyleRanges": [],       "entityRanges": [         {
-// "offset": 0,           "length": 1,           "key": 2         }       ],
-// "data": {}     }, {       "key": "e23a9",       "text": "......",
-// "type": "unstyled",       "depth": 0,       "inlineStyleRanges": [],
-// "entityRanges": [],       "data": {}     }   ] }; const blockRenderMap =
-// Map({   'unstyled': {     element: 'h3'   } }); const extendedBlockRenderMap
+// "unstyled",       "depth": 0,       "inlineStyleRanges": [], "entityRanges":
+// [         {           "offset": 13,           "length": 1, "key": 0         }
+// ],       "data": {}     }, {       "key": "ov7r", "text": " ",       "type":
+// "atomic",       "depth": 0, "inlineStyleRanges": [],       "entityRanges": [
+// { "offset": 0,           "length": 1,           "key": 1         }       ],
+// "data": {}     }, {       "key": "e23a8",       "text": "......", "type":
+// "unstyled",       "depth": 0,       "inlineStyleRanges": [], "entityRanges":
+// [],       "data": {}     }, {       "key": "ov8r", "text": " ",       "type":
+// "atomic",       "depth": 0, "inlineStyleRanges": [],       "entityRanges": [
+// { "offset": 0,           "length": 1,           "key": 2         }       ],
+// "data": {}     }, {       "key": "e23a9",       "text": "......", "type":
+// "unstyled",       "depth": 0,       "inlineStyleRanges": [], "entityRanges":
+// [],       "data": {}     }   ] }; const blockRenderMap = Map({   'unstyled':
+// {     element: 'h3'   } }); const extendedBlockRenderMap
 // = DefaultDraftBlockRenderMap.merge(blockRenderMap)
 const extendedBlockRenderMap = DefaultDraftBlockRenderMap
 
@@ -94,10 +92,15 @@ class MyEditor extends Component {
 		this.setState({editorState: editorState})
 	}
 
-	saveContent = debounce((newContent) => {
+	saveContent = debounce(async (newContent) => {
 		console.log(convertToRaw(newContent))
 		//console.log("WRITING TO THE SERVER")
-		this.props.updateContent(this.props.match.params._id, convertToRaw(newContent))
+		var updatedDraft = await this.props.updateContent(
+			this.props.match.params._id,
+			convertToRaw(newContent)
+		)
+
+		console.log(updatedDraft);
 		// console.log(JSON.stringify(convertToRaw(newContent)))
 	}, 2000)
 
@@ -225,6 +228,8 @@ class MyEditor extends Component {
 	}
 
 	render() {
+
+		console.log(this.props.startingImages);
 		return (
 			<StoryEditorWrapper>
 				{/* <StoryEditor onClick={this.focus}> */}
@@ -258,14 +263,14 @@ class MyEditor extends Component {
 MyEditor.PropTypes = {
 	updateContent: PropTypes.func.isRequired,
 	match: PropTypes.object.isRequired,
-	startingContent: PropTypes.object.isRequired
+	startingContent: PropTypes.object.isRequired,
+	startingImages: PropTypes.object.isRequired
 }
 
 export const UpdateContentMutation = gql `
 mutation updateContent($input: updateContentInput!) {
   updateContent(input: $input) {
       _id
-      content
       lastUpdate
     }
   }
