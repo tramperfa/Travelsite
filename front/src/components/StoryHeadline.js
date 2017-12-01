@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {gql, graphql} from 'react-apollo';
+import gql from 'graphql-tag';
+import {graphql} from 'react-apollo';
 import Slide from 'material-ui/transitions/Slide';
 import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';

@@ -1,41 +1,42 @@
-import React from 'react'
+import React from 'react';
 //import {Link} from 'react-router-dom'
-import {gql, graphql} from 'react-apollo'
-import DraftCard from './DraftCard'
+import gql from 'graphql-tag';
+import {graphql} from 'react-apollo';
+import DraftCard from './DraftCard';
 
 const draftsList = ({
-	data: {
-		loading,
-		error,
-		myDrafts
-	}
+  data: {
+    loading,
+    error,
+    myDrafts
+  }
 }) => {
-	if (loading) {
-		return <p>Loading ...</p>;
-	}
-	if (error) {
-		return <p>{error.message}</p>;
-	}
+  if (loading) {
+    return <p>Loading ...</p>;
+  }
+  if (error) {
+    return <p>{error.message}</p>;
+  }
+  //console.log(myDrafts);
 
-	return (
-		<div>
-			{
-				myDrafts.map(draft => (
-					<div key={draft._id} className='draft'>
-						<DraftCard draft={draft}/>
-					</div>
-				))
-			}
-		</div>
-	);
+  return (
+    <div>
+      {
+        myDrafts.map(draft => (
+          <div key={draft._id} className='draft'>
+            <DraftCard draft={draft}/>
+          </div>
+        ))
+      }
+    </div>
+  );
 };
 
 export const draftsListQuery = gql `
-  query draftQuery {
+  query DraftQuery {
     myDrafts {
       _id
       title
-      content
       author{
         _id
         fullName
@@ -45,12 +46,8 @@ export const draftsListQuery = gql `
         browserHeadlineImage{
           filename
         }
-        originalImage{
-          filename
-        }
       }
       lastUpdate
-      content
     }
   }
 `;

@@ -1,6 +1,6 @@
 import React from 'react';
-import {ApolloClient} from 'react-apollo';
-import {gql, graphql} from 'react-apollo';
+import gql from 'graphql-tag';
+import {graphql} from 'react-apollo';
 import PropTypes from 'prop-types';
 import Button from 'material-ui/Button';
 import Dialog, {DialogActions, DialogContent, DialogTitle} from 'material-ui/Dialog';
@@ -34,7 +34,7 @@ class Login extends React.Component {
     errorMessage: null
   }
 
-  handleSubmit = async() => {
+  handleSubmit = async () => {
 
     const emailorusername = this.state.name
     const password = this.state.password
@@ -44,7 +44,7 @@ class Login extends React.Component {
       await this.props.onLogin(me)
       await this.props.handleRequestClose()
       //console.log("RESET STORE");
-      return this.props.client.resetStore()
+      await this.props.handleResetStore()
     } catch (error) {
       console.log('there was an error during login', error);
       this.setState({errorMessage: error.graphQLErrors[0].message})
@@ -52,26 +52,19 @@ class Login extends React.Component {
       this.setState({name: '', password: ''})
     }
 
-    /////////////////////////////////////////////////////////
-    // this.props.localLogin(emailorusername, password).then(({data}) => {
-    //   return persist.willSetSessionUser(data.localLogin.me)
-    // }).then((me) => {
-    //   return this.props.onLogin(me)
-    // }).then((me) => {
-    //   return this.props.handleRequestClose()
-    // }).then(() => {
-    //   // console.log("RESET STORE");
-    //   // console.log(this.props.client);
-    //   return this.props.client.resetStore()
-    // }).catch((error) => {
-    //   console.log('there was an error during login', error);
-    //   //console.log(JSON.stringify(error))
-    //   this.setState({errorMessage: error.graphQLErrors[0].message})
-    // });
+    // ///////////////////////////////////////////////////
+    // this.props.localLogin(emailorusername, password).then(({data}) => {   return
+    // persist.willSetSessionUser(data.localLogin.me) }).then((me) => {   return
+    // this.props.onLogin(me) }).then((me) => {   return
+    // this.props.handleRequestClose() }).then(() => {    console.log("RESET
+    // STORE");    console.log(this.props.client);   return
+    // this.props.client.resetStore() }).catch((error) => {   console.log('there was
+    // an error during login', error);   console.log(JSON.stringify(error))
+    // this.setState({errorMessage: error.graphQLErrors[0].message}) });
     //
     //
     // this.setState({name: '', password: ''})
-    ////////////////////////////////////////////////////////////////////////
+    // //////////////////////////////////////////////////////////////////
   }
 
   handleChange = name => event => {
@@ -97,16 +90,37 @@ class Login extends React.Component {
     return (
       <div>
 
-        <Dialog open={this.props.openLogin} transition={Slide} onRequestClose={this.handleClose} onKeyPress={this.onKeyPress}>
+        <Dialog
+          open={this.props.openLogin}
+          transition={Slide}
+          onRequestClose={this.handleClose}
+          onKeyPress={this.onKeyPress}>
           <DialogTitle>{"Login"}</DialogTitle>
-          <form className={this.props.classes.container} noValidate autoComplete="off">
+          <form
+            className={this.props.classes.container}
+            noValidate="noValidate"
+            autoComplete="off">
             <DialogContent>
-              <TextField id="name" label="Username or Email" className={this.props.classes.textField} value={this.state.name} onChange={this.handleChange('name')} margin="normal"/>
-              <TextField id="password" label="Password" className={this.props.classes.textField} type="password" autoComplete="current-password" value={this.state.password} onChange={this.handleChange('password')} margin="normal"/>
+              <TextField
+                id="name"
+                label="Username or Email"
+                className={this.props.classes.textField}
+                value={this.state.name}
+                onChange={this.handleChange('name')}
+                margin="normal"/>
+              <TextField
+                id="password"
+                label="Password"
+                className={this.props.classes.textField}
+                type="password"
+                autoComplete="current-password"
+                value={this.state.password}
+                onChange={this.handleChange('password')}
+                margin="normal"/>
             </DialogContent>
             <div style={{
-              color: 'red'
-            }}>
+                color: 'red'
+              }}>
               {this.state.errorMessage}
             </div>
           </form>
@@ -143,7 +157,7 @@ Login.propTypes = {
   onLogin: PropTypes.func.isRequired,
   openLogin: PropTypes.bool.isRequired,
   handleRequestClose: PropTypes.func.isRequired,
-  client: PropTypes.instanceOf(ApolloClient).isRequired
+  handleResetStore: PropTypes.func.isRequired
 }
 
 const LoginWithMuation = graphql(LoginMutation, {

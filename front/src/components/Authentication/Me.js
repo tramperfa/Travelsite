@@ -32,24 +32,39 @@ class Me extends React.Component {
 
     return (
       <div>
-        <Button aria-owns={this.state.open
-          ? 'simple-menu'
-          : null} aria-haspopup="true" onClick={this.handleClick} color="contrast">
+        <Button
+          aria-owns={this.state.open
+            ? 'simple-menu'
+            : null}
+          aria-haspopup="true"
+          onClick={this.handleClick}
+          color="contrast">
           {this.props.me.fullName}
         </Button>
-        <Menu id="simple-menu" anchorEl={this.state.anchorEl} open={this.state.open} onRequestClose={this.handleRequestClose}>
+        <Menu
+          id="simple-menu"
+          anchorEl={this.state.anchorEl}
+          open={this.state.open}
+          onRequestClose={this.handleRequestClose}>
           <MenuItem onClick={this.handleRequestClose}>
-            <Link className={this.props.classes.textField} to={`/user/${this.props.me._id}`}>
+            <Link
+              className={this.props.classes.textField}
+              to={`/user/${this.props.me._id}`}>
               My Profile
             </Link>
           </MenuItem>
           <MenuItem onClick={this.handleRequestClose}>
-            <Link className={this.props.classes.textField} to={`/userdraft/${this.props.me._id}`}>
+            <Link
+              className={this.props.classes.textField}
+              to={`/userdraft/${this.props.me._id}`}>
               Write a Story
             </Link>
           </MenuItem>
           <Link className={this.props.classes.textField} to="/">
-            <Logout client={this.props.client} onLogout={this.props.onLogout} handleRedirect={this.handleRedirect}/>
+            <Logout
+              handleResetStore={this.props.handleResetStore}
+              onLogout={this.props.onLogout}
+              handleRedirect={this.handleRedirect}/>
           </Link>
         </Menu>
       </div>

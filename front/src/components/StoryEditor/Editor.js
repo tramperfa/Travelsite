@@ -9,7 +9,8 @@ import Editor from 'draft-js-plugins-editor';
 import createVideoPlugin from 'draft-js-video-plugin';
 import styled from 'styled-components'
 import PropTypes from 'prop-types';
-import {gql, graphql} from 'react-apollo';
+import gql from 'graphql-tag';
+import {graphql} from 'react-apollo';
 // import 'draft-js-emoji-plugin/lib/plugin.css';
 import 'draft-js/dist/Draft.css'
 
@@ -71,200 +72,200 @@ var containerStyle = {
 
 class MyEditor extends Component {
 
-	state = {
-		draftID: this.props.match.params._id,
-		editorState: this.props.startingContent
-			? EditorState.createWithContent(convertFromRaw(this.props.startingContent))
-			: EditorState.createEmpty(),
-		uploading: false
-	}
+  state = {
+    draftID: this.props.match.params._id,
+    editorState: this.props.startingContent
+      ? EditorState.createWithContent(convertFromRaw(this.props.startingContent))
+      : EditorState.createEmpty(),
+    uploading: false
+  }
 
-	// EditorState.createWithContent(convertFromRaw(initialState))
-	// createEditorStateWithText(initialText) EditorState.createEmpty()
+  // EditorState.createWithContent(convertFromRaw(initialState))
+  // createEditorStateWithText(initialText) EditorState.createEmpty()
 
-	onChange = (editorState) => {
-		// console.log(editorState.getSelection())
-		const currentContent = this.state.editorState.getCurrentContent()
-		const newContent = editorState.getCurrentContent()
-		if (currentContent !== newContent) {
-			this.saveContent(newContent)
-		}
-		this.setState({editorState: editorState})
-	}
+  onChange = (editorState) => {
+    // console.log(editorState.getSelection())
+    const currentContent = this.state.editorState.getCurrentContent()
+    const newContent = editorState.getCurrentContent()
+    if (currentContent !== newContent) {
+      this.saveContent(newContent)
+    }
+    this.setState({editorState: editorState})
+  }
 
-	saveContent = debounce(async (newContent) => {
-		console.log(convertToRaw(newContent))
-		//console.log("WRITING TO THE SERVER")
-		var updatedDraft = await this.props.updateContent(
-			this.props.match.params._id,
-			convertToRaw(newContent)
-		)
+  saveContent = debounce(async (newContent) => {
+    console.log(convertToRaw(newContent))
+    //console.log("WRITING TO THE SERVER")
+    var updatedDraft = await this.props.updateContent(
+      this.props.match.params._id,
+      convertToRaw(newContent)
+    )
 
-		console.log(updatedDraft);
-		// console.log(JSON.stringify(convertToRaw(newContent)))
-	}, 2000)
+    console.log(updatedDraft);
+    // console.log(JSON.stringify(convertToRaw(newContent)))
+  }, 2000)
 
-	uploadFile = async (file) => {
+  uploadFile = async (file) => {
 
-		const origEditorState = this.state.editorState
+    const origEditorState = this.state.editorState
 
-		// example localImageData {orientation: 8, src: <localURL>}
-		let localImageData = await willExtractOrientation(file)
-		// example localImageSize {width: 100, height: 100}
-		let localImageSize = await willExtractSize(localImageData)
+    // example localImageData {orientation: 8, src: <localURL>}
+    let localImageData = await willExtractOrientation(file)
+    // example localImageSize {width: 100, height: 100}
+    let localImageSize = await willExtractSize(localImageData)
 
-		// const recentEntityKey =
-		// tempState.getCurrentContent().getLastCreatedEntityKey()
-		// console.log(convertToRaw(tempState.getCurrentContent()));
-		// console.log(recentEntityKey);
+    // const recentEntityKey =
+    // tempState.getCurrentContent().getLastCreatedEntityKey()
+    // console.log(convertToRaw(tempState.getCurrentContent()));
+    // console.log(recentEntityKey);
 
-		const uploadedImage = await willUploadImage(
-			file,
-			0,
-			this.state.draftID,
-			localImageSize.width,
-			localImageSize.height
-		)
-		const imageID = uploadedImage._id
-		const imageFileName = uploadedImage.browserStoryImage.filename
-		const imageURL = IMAGEPATH + imageFileName
+    const uploadedImage = await willUploadImage(
+      file,
+      0,
+      this.state.draftID,
+      localImageSize.width,
+      localImageSize.height
+    )
+    const imageID = uploadedImage._id
+    const imageFileName = uploadedImage.browserStoryImage.filename
+    const imageURL = IMAGEPATH + imageFileName
 
-		let newState = this.addAtomicBlock(origEditorState, 'image', {
-			id: imageID,
-			src: imageURL
-		})
-		this.onChange(newState)
-	}
+    let newState = this.addAtomicBlock(origEditorState, 'image', {
+      id: imageID,
+      src: imageURL
+    })
+    this.onChange(newState)
+  }
 
-	addAtomicBlock = (editorState, entityType, data) => {
-		const contentState = editorState.getCurrentContent();
-		const contentStateWithEntity = contentState.createEntity(
-			entityType,
-			'IMMUTABLE',
-			data
-		);
-		const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
-		// console.log(entityKey)
-		const newEditorState = AtomicBlockUtils.insertAtomicBlock(
-			editorState,
-			entityKey,
-			' '
-		);
-		return newEditorState
-	}
+  addAtomicBlock = (editorState, entityType, data) => {
+    const contentState = editorState.getCurrentContent();
+    const contentStateWithEntity = contentState.createEntity(
+      entityType,
+      'IMMUTABLE',
+      data
+    );
+    const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
+    // console.log(entityKey)
+    const newEditorState = AtomicBlockUtils.insertAtomicBlock(
+      editorState,
+      entityKey,
+      ' '
+    );
+    return newEditorState
+  }
 
-	// addImageBlock = (editorState, url) => {   const urlType = 'image';   const
-	// contentState = editorState.getCurrentContent();   const
-	// contentStateWithEntity = contentState.createEntity(urlType, 'IMMUTABLE',
-	// {src: url});   const entityKey =
-	// contentStateWithEntity.getLastCreatedEntityKey();    console.log(entityKey)
-	// const newEditorState = AtomicBlockUtils.insertAtomicBlock(editorState,
-	// entityKey, ' ');   return newEditorState } addImagePlaceHolder =
-	// (editorState, url) => {   const urlType = 'imagePlaceHolder';   const
-	// contentState = editorState.getCurrentContent();   const
-	// contentStateWithEntity = contentState.createEntity(urlType, 'IMMUTABLE',
-	// {src: url});   const entityKey =
-	// contentStateWithEntity.getLastCreatedEntityKey();    console.log(entityKey)
-	// const newEditorState = AtomicBlockUtils.insertAtomicBlock(editorState,
-	// entityKey, ' ');   return newEditorState } uploadImageAsync(file) {   return
-	// new Promise((resolve, reject) => {     setTimeout(() => {        const src =
-	// window.URL.createObjectURL(file)        resolve( {src: src} )       resolve()
-	// }, 3000)   }) }
+  // addImageBlock = (editorState, url) => {   const urlType = 'image';   const
+  // contentState = editorState.getCurrentContent();   const
+  // contentStateWithEntity = contentState.createEntity(urlType, 'IMMUTABLE',
+  // {src: url});   const entityKey =
+  // contentStateWithEntity.getLastCreatedEntityKey();    console.log(entityKey)
+  // const newEditorState = AtomicBlockUtils.insertAtomicBlock(editorState,
+  // entityKey, ' ');   return newEditorState } addImagePlaceHolder =
+  // (editorState, url) => {   const urlType = 'imagePlaceHolder';   const
+  // contentState = editorState.getCurrentContent();   const
+  // contentStateWithEntity = contentState.createEntity(urlType, 'IMMUTABLE',
+  // {src: url});   const entityKey =
+  // contentStateWithEntity.getLastCreatedEntityKey();    console.log(entityKey)
+  // const newEditorState = AtomicBlockUtils.insertAtomicBlock(editorState,
+  // entityKey, ' ');   return newEditorState } uploadImageAsync(file) {   return
+  // new Promise((resolve, reject) => {     setTimeout(() => {        const src =
+  // window.URL.createObjectURL(file)        resolve( {src: src} )       resolve()
+  // }, 3000)   }) }
 
-	addVideoBlock = (url) => {
-		// console.log(url)
-		const editorState = this.state.editorState;
-		const contentState = editorState.getCurrentContent();
-		const contentStateWithEntity = contentState.createEntity(
-			types.VIDEOTYPE,
-			'IMMUTABLE',
-			{src: url}
-		);
-		const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
-		this.onChange(AtomicBlockUtils.insertAtomicBlock(editorState, entityKey, ' '));
-	}
+  addVideoBlock = (url) => {
+    // console.log(url)
+    const editorState = this.state.editorState;
+    const contentState = editorState.getCurrentContent();
+    const contentStateWithEntity = contentState.createEntity(
+      types.VIDEOTYPE,
+      'IMMUTABLE',
+      {src: url}
+    );
+    const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
+    this.onChange(AtomicBlockUtils.insertAtomicBlock(editorState, entityKey, ' '));
+  }
 
-	addSubTitleBlock = (text) => {
-		const editorState = this.state.editorState;
-		const contentState = editorState.getCurrentContent();
-		const contentStateWithEntity = contentState.createEntity(
-			'subTitle',
-			'IMMUTABLE',
-			{src: text}
-		)
-		const entityKey = contentStateWithEntity.getLastCreatedEntityKey()
-		this.onChange(AtomicBlockUtils.insertAtomicBlock(editorState, entityKey, ''));
-	}
+  addSubTitleBlock = (text) => {
+    const editorState = this.state.editorState;
+    const contentState = editorState.getCurrentContent();
+    const contentStateWithEntity = contentState.createEntity(
+      'subTitle',
+      'IMMUTABLE',
+      {src: text}
+    )
+    const entityKey = contentStateWithEntity.getLastCreatedEntityKey()
+    this.onChange(AtomicBlockUtils.insertAtomicBlock(editorState, entityKey, ''));
+  }
 
-	myBlockStyleFn = (contentBlock) => {
-		const type = contentBlock.getType()
-		if (type === 'atomic') {
-			return 'myAtomicStyle'
-		}
-	}
+  myBlockStyleFn = (contentBlock) => {
+    const type = contentBlock.getType()
+    if (type === 'atomic') {
+      return 'myAtomicStyle'
+    }
+  }
 
-	myBlockRenderer = (contentBlock) => {
-		const type = contentBlock.getType()
-		if (type === 'atomic') {
-			// console.log("A subtitle")
-			const entity = contentBlock.getEntityAt(0);
-			if (!entity) {
-				return null
-			}
-			const contentState = this.state.editorState.getCurrentContent()
-			const entityType = contentState.getEntity(entity).getType()
-			if (entityType === 'subTitle') {
-				return {
-					component: TitleBlock, editable: false,
-					// props: {   text: contentBlock.getText() }
-				}
-			} else if (entityType === 'image') {
-				return {component: ImageBlock, editable: false}
-			} else if (entityType === 'imagePlaceHolder') {
-				return {component: ImagePlaceHolder, editable: false}
-			}
-		}
-		return null
-	}
+  myBlockRenderer = (contentBlock) => {
+    const type = contentBlock.getType()
+    if (type === 'atomic') {
+      // console.log("A subtitle")
+      const entity = contentBlock.getEntityAt(0);
+      if (!entity) {
+        return null
+      }
+      const contentState = this.state.editorState.getCurrentContent()
+      const entityType = contentState.getEntity(entity).getType()
+      if (entityType === 'subTitle') {
+        return {
+          component: TitleBlock, editable: false,
+          // props: {   text: contentBlock.getText() }
+        }
+      } else if (entityType === 'image') {
+        return {component: ImageBlock, editable: false}
+      } else if (entityType === 'imagePlaceHolder') {
+        return {component: ImagePlaceHolder, editable: false}
+      }
+    }
+    return null
+  }
 
-	render() {
+  render() {
 
-		console.log(this.props.startingImages);
-		return (
-			<StoryEditorWrapper>
-				{/* <StoryEditor onClick={this.focus}> */}
-				<StoryEditor >
-					<Editor
-						editorState={this.state.editorState}
-						onChange={this.onChange}
-						placeholder={PLACEHOLDERTEXT}
-						plugins={plugins}
-						blockRenderMap={extendedBlockRenderMap}
-						blockStyleFn={this.myBlockStyleFn}
-						blockRendererFn={this.myBlockRenderer}
-						ref={(element) => {
-							this.editor = element
-						}}/> {/* <EmojiSuggestions/> */}
+    console.log(this.props.startingImages);
+    return (
+      <StoryEditorWrapper>
+        {/* <StoryEditor onClick={this.focus}> */}
+        <StoryEditor >
+          <Editor
+            editorState={this.state.editorState}
+            onChange={this.onChange}
+            placeholder={PLACEHOLDERTEXT}
+            plugins={plugins}
+            blockRenderMap={extendedBlockRenderMap}
+            blockStyleFn={this.myBlockStyleFn}
+            blockRendererFn={this.myBlockRenderer}
+            ref={(element) => {
+              this.editor = element
+            }}/> {/* <EmojiSuggestions/> */}
 
-				</StoryEditor>
-				{/* {this.state.uploading && <ImagePlaceHolder/>} */}
-				<ToolsWrapper>
-					{/* <EmojiSelect/> */}
-					<ImageInsert uploadFile={this.uploadFile}/>
-					<VideoInsert addVideoBlock={this.addVideoBlock}/>
-					<TitleInsert addSubTitleBlock={this.addSubTitleBlock}/> {/* <SubTitleList/> */}
-				</ToolsWrapper>
-			</StoryEditorWrapper>
+        </StoryEditor>
+        {/* {this.state.uploading && <ImagePlaceHolder/>} */}
+        <ToolsWrapper>
+          {/* <EmojiSelect/> */}
+          <ImageInsert uploadFile={this.uploadFile}/>
+          <VideoInsert addVideoBlock={this.addVideoBlock}/>
+          <TitleInsert addSubTitleBlock={this.addSubTitleBlock}/> {/* <SubTitleList/> */}
+        </ToolsWrapper>
+      </StoryEditorWrapper>
 
-		)
-	}
+    )
+  }
 }
 
-MyEditor.PropTypes = {
-	updateContent: PropTypes.func.isRequired,
-	match: PropTypes.object.isRequired,
-	startingContent: PropTypes.object.isRequired,
-	startingImages: PropTypes.object.isRequired
+MyEditor.propTypes = {
+  updateContent: PropTypes.func.isRequired,
+  match: PropTypes.object.isRequired,
+  startingContent: PropTypes.object,
+  startingImages: PropTypes.array.isRequired
 }
 
 export const UpdateContentMutation = gql `
@@ -277,16 +278,16 @@ mutation updateContent($input: updateContentInput!) {
 `;
 
 export const WithContentMuation = graphql(UpdateContentMutation, {
-	props: ({mutate}) => ({
-		updateContent: (draftID, newContent) => mutate({
-			variables: {
-				input: {
-					draftID: draftID,
-					newContent: newContent
-				}
-			}
-		})
-	})
+  props: ({mutate}) => ({
+    updateContent: (draftID, newContent) => mutate({
+      variables: {
+        input: {
+          draftID: draftID,
+          newContent: newContent
+        }
+      }
+    })
+  })
 })
 
 export default WithContentMuation(MyEditor)
