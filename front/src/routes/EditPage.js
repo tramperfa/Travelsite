@@ -132,9 +132,11 @@ export const WithDraftData = graphql(DraftDetailsQuery, {
   options: (props) => ({
     variables: {
       draftID: props.match.params._id
-    }
+    },
+    fetchPolicy: 'network-only'
   }),
   name: 'draftData'
+
 })
 
 export const WithPublish = graphql(PublishDraftMutation, {

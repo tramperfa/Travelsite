@@ -52,4 +52,8 @@ export const draftsListQuery = gql `
   }
 `;
 
-export default graphql(draftsListQuery, {})(draftsList);
+export default graphql(draftsListQuery, {
+  options: {
+    fetchPolicy: 'network-only'
+  }
+})(draftsList);
