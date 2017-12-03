@@ -1,14 +1,8 @@
 // External Packages
 import React, {Component} from 'react';
-// import {ApolloProvider, createNetworkInterface} from 'react-apollo'; import
-// ApolloClient from 'apollo-client';
-import {ApolloClient} from 'apollo-client';
-import {ApolloProvider} from 'react-apollo';
-import {InMemoryCache} from 'apollo-cache-inmemory';
-//import {IntrospectionFragmentMatcher} from 'apollo-cache-inmemory';
-import {createHttpLink} from 'apollo-link-http';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import {MuiThemeProvider, createMuiTheme} from 'material-ui/styles';
+import {ApolloProvider} from 'react-apollo';
 
 //Styles
 import './App.css';
@@ -25,40 +19,12 @@ import Signup from './routes/Signup';
 //Library
 import persist from './lib/persist';
 
+//GraphQL
+import client from './graphql/graphql';
+
 // UI components
 import Login from './components/Authentication/Login';
 import NavBar from './components/Navigation/NavBar';
-
-// Create GraphQL client to setup Connection with GraphQL server const
-// networkInterface = createNetworkInterface({   uri:
-// 'http://localhost:8080/graphql',   opts: {     credentials: 'include'   } });
-//
-// networkInterface.use([   {     applyMiddleware(req, next) { setTimeout(next,
-// 500);     }   } ]);
-//
-// const client = new ApolloClient({networkInterface});  NEW SETTING
-const link = createHttpLink(
-  {uri: 'http://localhost:8080/graphql', credentials: 'include'}
-)
-
-const cache = new InMemoryCache({
-  // dataIdFromObject: () =>  custom idGetter,
-  addTypename: true,
-  // cacheResolvers: {}, fragmentMatcher: new IntrospectionFragmentMatcher({
-  // introspectionQueryResultData: yourData }),
-});
-
-const client = new ApolloClient({
-  link,
-  // use restore on the cache instead of initialState
-  cache: cache.restore(window.__APOLLO_CLIENT__),
-  ssrMode: true,
-  ssrForceFetchDelay: 100,
-  connectToDevTools: true,
-  queryDeduplication: true
-});
-
-////////////////////////////////////
 
 class App extends Component {
 

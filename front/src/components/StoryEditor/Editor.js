@@ -26,6 +26,8 @@ import TitleInsert from './TitleInsert'
 
 import './BlockStyles.css'
 
+import client from '../../graphql/graphql';
+
 import willExtractOrientation from './util/ExtractOrientation'
 import willExtractSize from './util/ExtractSize'
 
@@ -69,6 +71,24 @@ var containerStyle = {
   height: 200
 };
 */
+
+const imageArrayQuery = gql `
+query DraftQuery($draftID : ID!) {
+  draft(draftID: $draftID) {
+    _id
+    images{
+      _id
+      browserStoryImage{
+        filename
+        size{
+          width
+          height
+        }
+      }
+    }
+  }
+}
+`;
 
 class MyEditor extends Component {
 
@@ -126,6 +146,11 @@ class MyEditor extends Component {
       localImageSize.width,
       localImageSize.height
     )
+
+    let data = this.getCachedDraft()
+    data.draft.images.push(uploadedImage)
+    client.writeQuery({query: imageArrayQuery, data: data})
+
     const imageID = uploadedImage._id
     const imageFileName = uploadedImage.browserStoryImage.filename
     const imageURL = IMAGEPATH + imageFileName
@@ -135,6 +160,17 @@ class MyEditor extends Component {
       src: imageURL
     })
     this.onChange(newState)
+  }
+
+  getCachedDraft = () => {
+    let data = client.readQuery({
+      query: imageArrayQuery,
+      variables: {
+        draftID: this.props.match.params._id
+      }
+    });
+    // IMAGE ARRAY is data.draft.images
+    return data
   }
 
   addAtomicBlock = (editorState, entityType, data) => {
@@ -230,7 +266,7 @@ class MyEditor extends Component {
 
   render() {
 
-    console.log(this.props.startingImages);
+    //console.log(this.props.startingImages);
     return (
       <StoryEditorWrapper>
         {/* <StoryEditor onClick={this.focus}> */}

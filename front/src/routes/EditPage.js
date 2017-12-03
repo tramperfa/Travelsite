@@ -9,8 +9,6 @@ import {Redirect} from 'react-router-dom';
 //import DraftDetailsQuery from './DraftQuery.graphql'
 
 import Editor from '../components/StoryEditor/Editor';
-import {storiesListQuery} from './Homepage';
-
 import StoryTitle from '../components/StoryTitle';
 import StoryHeadline from '../components/StoryHeadline';
 
@@ -107,13 +105,6 @@ export const DraftDetailsQuery = gql `
             height
           }
         }
-        browserCommentImage{
-          filename
-          size{
-            width
-            height
-          }
-        }
       }
     }
   }
@@ -144,12 +135,7 @@ export const WithPublish = graphql(PublishDraftMutation, {
     publishDraft: (draftID) => mutate({
       variables: {
         draftID: draftID
-      },
-      refetchQueries: [
-        {
-          query: storiesListQuery
-        }
-      ]
+      }
     })
   })
 })
