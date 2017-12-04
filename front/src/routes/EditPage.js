@@ -133,7 +133,7 @@ class Draft extends React.Component {
           </div>
         </div>
         <div>
-          <Editor startingContent={this.props.draftData.draft.content} match={this.props.match}/>
+          <Editor startingDraft={this.props.draftData.draft} match={this.props.match}/>
         </div>
         <Button raised color="primary" onClick={this.handlePublish}>
           Publish Travel Draft
@@ -187,7 +187,6 @@ export const DraftDetailsQuery = gql `
         }
       }
       lastUpdate
-      content
     }
   }
 `;

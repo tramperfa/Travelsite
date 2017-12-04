@@ -1,28 +1,25 @@
 import React, {Component} from 'react'
+// import ReactDOM from 'react-dom' import Immutable from 'immutable' import
+// {EditorState, Modifier} from 'draft-js'
 import IconButton from 'material-ui/IconButton';
-import Title from 'material-ui-icons/Title'
+import Edit from 'material-ui-icons/Edit'
 
 import AtomicInput from './AtomicInput'
 
-const HINTTEXT = "Type a subtitle and press 'Enter'"
+const HINTTEXT = "Update this subtitle and press 'Enter'"
 
 export default class extends Component {
-
 	state = {
-		addTitle: false,
-		title: ""
+		active: false,
+		title: this.props.title
 	}
 
 	onClick = () => {
-		this.setState({addTitle: true})
+		this.setState({active: true})
 	}
 
 	onBlur = () => {
-		if (this.props.editTitle) {
-			this.props.closeSubTitleEditor()
-		} else {
-			this.setState({addTitle: false})
-		}
+		this.setState({active: false, title: this.props.title})
 	}
 
 	onChange = (e) => {
@@ -32,28 +29,23 @@ export default class extends Component {
 	onKeyPress = (e) => {
 		if (e.key === 'Enter') {
 			const title = this.state.title
-			if (this.props.editTitle) {
-				this.props.updateSubTitle(this.props.titleEntityKeyOnEdit, title)
-			} else {
-				this.props.addSubTitleBlock(title)
-			}
 			this.onBlur()
+			console.log(title);
+			// this.props.addSubTitleBlock(title)
 		}
 	}
 
 	render() {
 		return (
 			<AtomicInput
-				active={this.props.editTitle || this.state.addTitle}
+				active={this.state.active}
 				onBlur={this.onBlur}
 				hintText={HINTTEXT}
-				text={this.props.editTitle
-					? this.props.currentTitle
-					: undefined}
+				text={this.state.title}
 				onChange={this.onChange}
 				onKeyPress={this.onKeyPress}>
 				<IconButton onClick={this.onClick}>
-					<Title/>
+					<Edit/>
 				</IconButton>
 			</AtomicInput>
 

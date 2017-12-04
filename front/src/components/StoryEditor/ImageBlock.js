@@ -1,19 +1,31 @@
 import React, {Component} from 'react';
+import LazyLoad from 'react-lazyload'
+
+import ImagePlaceHolder from './ImagePlaceHolder'
 
 export default class extends Component {
   render () {
-    const contentState = this.props.contentState
-    const block = this.props.block
-    const {src, width, height} = contentState.getEntity(block.getEntityAt(0)).getData()
-
+    const {src, width, height} = this.props.blockProps
+    // console.log(height)
     return (
-      <div style={{width: width, height: height}}>
+      <LazyLoad
+        throttle={2000}
+        height={height}
+        placeholder={<ImagePlaceHolder width={width} height={height}/>}>
         <img
           className="image"
           alt=""
           src = {src}
         />
-      </div>
+      </LazyLoad>
+
+      // <div style={{width: width, height: height}}>
+      //   <img
+      //     className="image"
+      //     alt=""
+      //     src = {src}
+      //   />
+      // </div>
 
     )
   }

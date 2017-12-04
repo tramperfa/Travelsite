@@ -1,52 +1,60 @@
 import React, {Component} from 'react';
 import styled from 'styled-components'
-
 import IconButton from 'material-ui/IconButton'
-import Edit from 'material-ui-icons/Edit'
 import Delete from 'material-ui-icons/Delete'
+import Edit from 'material-ui-icons/Edit'
 
 export default class extends Component {
-  onMouseEnter = () => {
-    // console.log("Mouse Enter!")
-  }
+	onMouseEnter = () => {
+		// console.log("Mouse Enter!")
+	}
 
-  onMouseLeave = () => {
-    // console.log("Mouse Leave!")
-  }
+	onMouseLeave = () => {
+		// console.log("Mouse Leave!")
+	}
+	onEdit = (entityKey, currentTitle) => {
+		this.props.blockProps.openSubTitleEditor(entityKey, currentTitle)
+	}
 
-  onKeyPress = (e) => {
-    e.preventDefault()
-    console.log("Key pressed!")
-  }
-
-  render() {
-    const contentState = this.props.contentState
-    const block = this.props.block
-    const {src} = contentState.getEntity(block.getEntityAt(0)).getData()
-    return (
-      <TitleBlock
-        onMouseEnter={this.onMouseEnter}
-        onMouseLeave={this.onMouseLeave}
-        onKeyPress={this.onKeyPress}
-        >
-        <a name={src} style={{display: 'none'}}>#</a>
-        <h1>
-          {src}
-        </h1>
-        <IconButton>
-          <Edit/>
-        </IconButton>
-        <IconButton>
-          <Delete/>
-        </IconButton>
-      </TitleBlock>
-    )
-  }
+	render() {
+		const contentState = this.props.contentState
+		const block = this.props.block
+		const entityKey = block.getEntityAt(0)
+		const {title} = contentState.getEntity(entityKey).getData()
+		return (
+			<TitleBlock onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave}>
+				<a name={title} style={{
+						display: 'none'
+					}}>#</a>
+				<h1 style={{
+						margin: 0
+					}}>
+					{title}
+				</h1>
+				<TitleAction>
+					<IconButton onClick={() => this.onEdit(entityKey, title)}>
+						<Edit/>
+					</IconButton>
+					<IconButton>
+						<Delete/>
+					</IconButton>
+				</TitleAction>
+			</TitleBlock>
+		)
+	}
 }
 
 const TitleBlock = styled.div `
   width: 100%;
   background: #e4f0f5;
   display: flex;
+  align-items: center;
   flex-direction: row;
+  justify-content: space-between;
+`
+const TitleAction = styled.div `
+	display: flex;
+	align-items: center;
+  flex-direction: row;
+  justify-content: flex-end;
 `

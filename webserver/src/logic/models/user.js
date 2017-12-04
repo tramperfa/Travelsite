@@ -12,6 +12,7 @@ let validateLocalStrategyPassword = function(password) {
   return this.provider !== "local" || (password && password.length >= 6);
 };
 
+
 const UserSchema = new Schema({
   // _id
   fullName: {
@@ -32,6 +33,7 @@ const UserSchema = new Schema({
     ],
     match: [/.+\@.+\..+/, "Please fill a valid email address"]
   },
+  
   username: {
     type: String,
     unique: true,
