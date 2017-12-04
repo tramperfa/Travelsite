@@ -1,7 +1,10 @@
 import React from 'react';
-//import {Link} from 'react-router-dom'
-import gql from 'graphql-tag';
 import {graphql} from 'react-apollo';
+
+//
+import {draftsListQuery} from '../graphql/draft';
+
+//
 import DraftCard from './DraftCard';
 
 const draftsList = ({
@@ -31,26 +34,6 @@ const draftsList = ({
     </div>
   );
 };
-
-export const draftsListQuery = gql `
-  query DraftQuery {
-    myDrafts {
-      _id
-      title
-      author{
-        _id
-        fullName
-      }
-      headlineImage{
-        _id
-        browserHeadlineImage{
-          filename
-        }
-      }
-      lastUpdate
-    }
-  }
-`;
 
 export default graphql(draftsListQuery, {
   options: {

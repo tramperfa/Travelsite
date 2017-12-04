@@ -1,13 +1,11 @@
 import React from 'react';
-import gql from 'graphql-tag';
 import {graphql} from 'react-apollo';
 import PropTypes from 'prop-types';
-// import Button from 'material-ui/Button'; import Typography from
-// 'material-ui/Typography';
 import {MenuItem} from 'material-ui/Menu';
 
 //
 import persist from '../../lib/persist';
+import {LogoutMutation} from '../../graphql/user';
 
 class Logout extends React.Component {
 
@@ -44,14 +42,6 @@ Logout.propTypes = {
   onLogout: PropTypes.func.isRequired,
   handleResetStore: PropTypes.func.isRequired
 }
-
-const LogoutMutation = gql `
-mutation logout($name: String){
-  logout(fullName: $name) {
-    success
-  }
-}
-`;
 
 export default graphql(LogoutMutation, {
   props: ({mutate}) => ({

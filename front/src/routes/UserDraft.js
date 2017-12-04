@@ -7,7 +7,10 @@ import PropTypes from 'prop-types';
 import {Redirect} from 'react-router-dom';
 
 //
-import DraftList, {draftsListQuery} from '../components/DraftList';
+import {draftsListQuery} from '../graphql/draft';
+
+//
+import DraftList from '../components/DraftList';
 
 class UserDraft extends React.Component {
   state = {

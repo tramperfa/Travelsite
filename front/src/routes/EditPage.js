@@ -1,12 +1,12 @@
 import React from 'react';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-import gql from 'graphql-tag';
 import {graphql} from 'react-apollo';
 import Button from 'material-ui/Button';
 import {Redirect} from 'react-router-dom';
 
-//import DraftDetailsQuery from './DraftQuery.graphql'
+import {DraftDetailsQuery} from '../graphql/draft';
+import {PublishDraftMutation} from '../graphql/draft';
 
 import Editor from '../components/StoryEditor/Editor';
 import StoryTitle from '../components/StoryTitle';
@@ -32,7 +32,7 @@ class Draft extends React.Component {
   }
 
   render() {
-    //console.log(this.props.draftData.draft);
+
     if (this.state.publishRedirect) {
       return <Redirect push={true} to={`/story/${this.state.linkedStoryID}`}/>;
     }
@@ -75,49 +75,6 @@ Draft.propTypes = {
   match: PropTypes.object.isRequired,
   draftData: PropTypes.object.isRequired
 }
-
-export const DraftDetailsQuery = gql `
-  query DraftQuery($draftID : ID!) {
-    draft(draftID: $draftID) {
-      _id
-      title
-      content
-      author{
-        _id
-        fullName
-      }
-      headlineImage{
-        _id
-        browserHeadlineImage{
-          filename
-        }
-        originalImage{
-          filename
-        }
-      }
-      lastUpdate
-      images{
-        _id
-        browserStoryImage{
-          filename
-          size{
-            width
-            height
-          }
-        }
-      }
-    }
-  }
-`;
-
-export const PublishDraftMutation = gql `
-  mutation publishDraft($draftID : ID!) {
-    publishDraft(draftID: $draftID) {
-      _id
-      story
-    }
-  }
-`;
 
 export const WithDraftData = graphql(DraftDetailsQuery, {
   options: (props) => ({

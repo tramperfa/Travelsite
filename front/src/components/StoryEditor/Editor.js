@@ -9,30 +9,30 @@ import Editor from 'draft-js-plugins-editor';
 import createVideoPlugin from 'draft-js-video-plugin';
 import styled from 'styled-components'
 import PropTypes from 'prop-types';
-import gql from 'graphql-tag';
 import {graphql} from 'react-apollo';
+
+//
 // import 'draft-js-emoji-plugin/lib/plugin.css';
 import 'draft-js/dist/Draft.css'
+import './BlockStyles.css'
 
+//
+import willUploadImage from '../../lib/ImageUpload'
+import willExtractOrientation from './util/ExtractOrientation'
+import willExtractSize from './util/ExtractSize'
+import client from '../../graphql/graphql';
+import {draftImageArrayQuery} from '../../graphql/draft';
+import {UpdateContentMutation} from '../../graphql/draft';
+
+//
 import TitleBlock from './TitleBlock';
 import ImageInsert from './ImageInsert';
-import willUploadImage from '../../lib/ImageUpload'
-
 import ImagePlaceHolder from './ImagePlaceHolder';
 import ImageBlock from './ImageBlock'
 import VideoInsert from './VideoInsert'
 import TitleInsert from './TitleInsert'
-// import SubTitleList from './SubTitleList'
-
-import './BlockStyles.css'
-
-import client from '../../graphql/graphql';
-
-import willExtractOrientation from './util/ExtractOrientation'
-import willExtractSize from './util/ExtractSize'
-
-// const emojiPlugin = createEmojiPlugin(); const {EmojiSuggestions,
-// EmojiSelect} = emojiPlugin;
+// import SubTitleList from './SubTitleList' const emojiPlugin =
+// createEmojiPlugin(); const {EmojiSuggestions, EmojiSelect} = emojiPlugin;
 const videoPlugin = createVideoPlugin();
 // const plugins = [emojiPlugin, videoPlugin]
 const plugins = [videoPlugin]
@@ -71,24 +71,6 @@ var containerStyle = {
   height: 200
 };
 */
-
-const imageArrayQuery = gql `
-query DraftQuery($draftID : ID!) {
-  draft(draftID: $draftID) {
-    _id
-    images{
-      _id
-      browserStoryImage{
-        filename
-        size{
-          width
-          height
-        }
-      }
-    }
-  }
-}
-`;
 
 class MyEditor extends Component {
 
@@ -149,7 +131,7 @@ class MyEditor extends Component {
 
     let data = this.getCachedDraft()
     data.draft.images.push(uploadedImage)
-    client.writeQuery({query: imageArrayQuery, data: data})
+    client.writeQuery({query: draftImageArrayQuery, data: data})
 
     const imageID = uploadedImage._id
     const imageFileName = uploadedImage.browserStoryImage.filename
@@ -164,7 +146,7 @@ class MyEditor extends Component {
 
   getCachedDraft = () => {
     let data = client.readQuery({
-      query: imageArrayQuery,
+      query: draftImageArrayQuery,
       variables: {
         draftID: this.props.match.params._id
       }
@@ -303,15 +285,6 @@ MyEditor.propTypes = {
   startingContent: PropTypes.object,
   startingImages: PropTypes.array.isRequired
 }
-
-export const UpdateContentMutation = gql `
-mutation updateContent($input: updateContentInput!) {
-  updateContent(input: $input) {
-      _id
-      lastUpdate
-    }
-  }
-`;
 
 export const WithContentMuation = graphql(UpdateContentMutation, {
   props: ({mutate}) => ({
