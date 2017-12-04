@@ -6,11 +6,11 @@ import {willCheckDocumentOwnerShip} from '../../lib/resolverHelpers';
 
 module.exports = {
   Query: {
-    draft: async(parent, args, context) => {
-      //return willGetDraft(args.draftID, context)
+    draft: async (parent, args, context) => {
+      console.log("GETTING DRAFT DATA");
       return willCheckDocumentOwnerShip(args.draftID, context, 'draft')
     },
-    myDrafts: async(parent, args, context) => {
+    myDrafts: async (parent, args, context) => {
       if (context.sessionUser) {
         const options = {
           criteria: {
@@ -25,31 +25,53 @@ module.exports = {
   },
 
   Mutation: {
-    createDraft: async(parent, args, context) => {
+    createDraft: async (parent, args, context) => {
       if (!context.sessionUser.user._id) {
         return new Error('You must login to write a draft')
       }
-      var newDraft = new Draft({title: "", author: context.sessionUser.user._id});
+      var newDraft = new Draft(
+        {title: "", author: context.sessionUser.user._id, content: {}, images: []}
+      );
       await newDraft.save()
       //return newDraft.newDraft()
       return newDraft
     },
-    updateTitle: async(parent, args, context) => {
-      return willUpdateDraft(args.input.draftID, 'title', args.input.newTitle, context)
+    updateTitle: async (parent, args, context) => {
+      return willUpdateDraft(
+        args.input.draftID,
+        'title',
+        args.input.newTitle,
+        context
+      )
     },
-    updateContent: async(parent, args, context) => {
-      return willUpdateDraft(args.input.draftID, 'content', args.input.newContent, context)
+    updateContent: async (parent, args, context) => {
+      return willUpdateDraft(
+        args.input.draftID,
+        'content',
+        args.input.newContent,
+        context
+      )
     },
-    updateCover: async(parent, args, context) => {
-      return willUpdateDraft(args.input.draftID, 'coverImage', args.input.newCover, context)
+    updateCover: async (parent, args, context) => {
+      return willUpdateDraft(
+        args.input.draftID,
+        'coverImage',
+        args.input.newCover,
+        context
+      )
     },
-    updateHeadline: async(parent, args, context) => {
-      return willUpdateDraft(args.input.draftID, 'headlineImage', args.input.newHeadline, context)
+    updateHeadline: async (parent, args, context) => {
+      return willUpdateDraft(
+        args.input.draftID,
+        'headlineImage',
+        args.input.newHeadline,
+        context
+      )
     },
-    publishDraft: async(parent, args, context) => {
+    publishDraft: async (parent, args, context) => {
       return willPublishDraft(args.draftID, context)
     },
-    deleteDraft: async(parent, args, context) => {
+    deleteDraft: async (parent, args, context) => {
       return willDeleteDraft(args.draftID, context)
     }
   },
@@ -57,7 +79,7 @@ module.exports = {
 
 }
 
-const willUpdateDraft = async(draftID, updateField, updateValue, context) => {
+const willUpdateDraft = async (draftID, updateField, updateValue, context) => {
   try {
     var draft = await willCheckDocumentOwnerShip(draftID, context, 'draft')
     draft.lastUpdate = new Date().toISOString()
@@ -68,10 +90,9 @@ const willUpdateDraft = async(draftID, updateField, updateValue, context) => {
   } catch (e) {
     return e
   } finally {}
-
 }
 
-const willPublishDraft = async(draftID, context) => {
+const willPublishDraft = async (draftID, context) => {
   try {
 
     var draft = await willCheckDocumentOwnerShip(draftID, context, 'draft')
@@ -123,7 +144,7 @@ const willPublishDraft = async(draftID, context) => {
 
 }
 
-const willDeleteDraft = async(draftID, context) => {
+const willDeleteDraft = async (draftID, context) => {
   try {
     var draft = await willCheckDocumentOwnerShip(draftID, context, 'draft')
     await draft.remove()

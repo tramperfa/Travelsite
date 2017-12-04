@@ -13,25 +13,25 @@ import User from '../models/user';
 module.exports = {
 
   Query: {
-    image: async(parent, args, context) => {
+    image: async (parent, args, context) => {
       return Image.load(args.imageID)
     }
   },
 
   Mutation: {
-    cropImage: async(parent, args, context) => {
+    cropImage: async (parent, args, context) => {
       let cropAt = {
         x: args.input.x,
         y: args.input.y,
         width: args.input.width,
         height: args.input.height
       }
-      willCustomCropUpload(args.input.imageID, cropAt, context)
+      return willCustomCropUpload(args.input.imageID, cropAt, context)
     }
   }
 }
 
-const willCustomCropUpload = async(imageID, cropAt, context) => {
+const willCustomCropUpload = async (imageID, cropAt, context) => {
 
   try {
     let image = await willCheckDocumentOwnerShip(imageID, context, 'image')
@@ -39,17 +39,18 @@ const willCustomCropUpload = async(imageID, cropAt, context) => {
     let extension = origImageName.split('.').pop()
     //let newName = generateImageName("customV1-", extension)
     let newName = "customV1-" + uuidv4() + '.' + extension
-    let origImapeURL = 'https://s3.amazonaws.com/thetripbeyond/' + origImageName
+    let origImapeURL = 'https://s3.amazonaws.com/thetripbeyond/' +
+        origImageName
 
     switch (image.catergory) {
         // Headline Image
       case 1:
-        var [newImage,
-          draft] = await Promise.all([
+        var [newImage, draft] = await Promise.all([
           willCustomCrop(origImapeURL, cropAt),
           willCheckDocumentOwnerShip(image.draft, context, 'draft')
         ]);
         draft.headlineImage = image._id;
+        draft.lastUpdate = new Date().toISOString()
         image.browserHeadlineImage = {
           filename: newName,
           size: {
@@ -57,17 +58,17 @@ const willCustomCropUpload = async(imageID, cropAt, context) => {
             height: cropAt.height
           }
         }
-        // SEQUENTIAL!!! Don't Trade Consistency with A Little Speed!
-        //  var finalImage = await sharp(newImage).toBuffer();
-        //console.log("COMPRESSED AGAIN");
+
+        // SEQUENTIAL!!! Don't Trade Consistency with A Little Speed!  var finalImage =
+        // await sharp(newImage).toBuffer(); console.log("COMPRESSED AGAIN");
+
         await willUploadObject(newName, newImage);
         await image.save();
         await draft.save();
         break;
         // Avatar Image TO BE FINISH
       case 2:
-        var [newImage,
-          user] = await Promise.all([
+        var [newImage, user] = await Promise.all([
           willCustomCrop(origImapeURL, cropAt),
           User.findById(context.sessionUser.user._id)
         ]);
@@ -75,13 +76,9 @@ const willCustomCropUpload = async(imageID, cropAt, context) => {
       default:
     }
 
-    // image[imageType] = {
-    //   filename: newName
-    // }
-    //
-    // await willUploadObject(newName, finalImage)
+    return image;
   } catch (e) {
-    return new Error(e)
+    return e
   } finally {}
 
 }
@@ -89,12 +86,15 @@ const willCustomCropUpload = async(imageID, cropAt, context) => {
 const willCustomCrop = (inputURL, cropAt) => new Promise((resolve, reject) => {
   Jimp.read(inputURL).then((image) => {
     let {x, y, width, height} = cropAt
-    image.quality(60).crop(x, y, width, height).getBuffer(Jimp.AUTO, (err, newImage) => {
-      if (err) {
-        return reject(new Error(err))
+    image.quality(60).crop(x, y, width, height).getBuffer(
+      Jimp.AUTO,
+      (err, newImage) => {
+        if (err) {
+          return reject(new Error(err))
+        }
+        return resolve(newImage)
       }
-      return resolve(newImage)
-    })
+    )
   }).catch((err) => {
     return reject(new Error(err))
   })

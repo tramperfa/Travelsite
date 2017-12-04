@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import client from '../../graphql/graphql';
 // import { Map } from 'immutable';
 import {EditorState, AtomicBlockUtils, convertFromRaw, convertToRaw, getDefaultKeyBinding} from 'draft-js';
 import debounce from 'lodash/debounce';
@@ -9,7 +10,8 @@ import Editor from 'draft-js-plugins-editor';
 import createVideoPlugin from 'draft-js-video-plugin';
 import styled from 'styled-components'
 import PropTypes from 'prop-types';
-import {gql, graphql} from 'react-apollo';
+import gql from 'graphql-tag';
+import {graphql} from 'react-apollo';
 // import 'draft-js-emoji-plugin/lib/plugin.css';
 import 'draft-js/dist/Draft.css'
 
@@ -38,30 +40,6 @@ const videoPlugin = createVideoPlugin();
 const plugins = [videoPlugin]
 const {types} = videoPlugin;
 
-// const initialState = { 	"entityMap": { 		"0": { 			"type": "emoji",
-// "mutability": "IMMUTABLE", 			"data": { 				"emojiUnicode": "🎊" 			} 		},
-// "1": { 			"type": "image", 			"mutability": "IMMUTABLE", 			"data": { "src":
-// "https://s3.amazonaws.com/thetripbeyond/storyV1-e62c479d-9eb1-4622-a75e-dc4af6e"
-// + 						"c25ba.jpg" 			} 		}, 		"2": { 			"type": types.VIDEOTYPE,
-// "mutability": "IMMUTABLE", 			"data": { 				"src":
-// "https://www.youtube.com/watch?v=9I7H2qspqo8" 			} 		} 	}, 	"blocks": [ 		{
-// "key": "9gm3s", 			"text": "Hello World! 🎊 ", 			"type": "unstyled",
-// "depth": 0, 			"inlineStyleRanges": [], 			"entityRanges": [ 				{ "offset":
-// 13, 					"length": 1, 					"key": 0 				} 			], 			"data": {} 		}, { "key":
-// "ov7r", 			"text": " ", 			"type": "atomic", 			"depth": 0,
-// "inlineStyleRanges": [], 			"entityRanges": [ 				{ 					"offset": 0,
-// "length": 1, 					"key": 1 				} 			], 			"data": {} 		}, { 			"key":
-// "e23a8", 			"text": "......", 			"type": "unstyled", 			"depth": 0,
-// "inlineStyleRanges": [], 			"entityRanges": [], 			"data": {} 		}, { "key":
-// "ov8r", 			"text": " ", 			"type": "atomic", 			"depth": 0,
-// "inlineStyleRanges": [], 			"entityRanges": [ 				{ 					"offset": 0,
-// "length": 1, 					"key": 2 				} 			], 			"data": {} 		}, { 			"key":
-// "e23a9", 			"text": "......", 			"type": "unstyled", 			"depth": 0,
-// "inlineStyleRanges": [], 			"entityRanges": [], 			"data": {} 		} 	] }; const
-// blockRenderMap = Map({ 	'unstyled': { 		element: 'h3' 	} }); const
-// extendedBlockRenderMap = DefaultDraftBlockRenderMap.merge(blockRenderMap)
-// const extendedBlockRenderMap = DefaultDraftBlockRenderMap
-
 const PLACEHOLDERTEXT = "Your story starts here"
 const BUCKET_NAME = CONFIG.BUCKET_NAME
 /*
@@ -69,6 +47,24 @@ var containerStyle = {
   height: 200
 };
 */
+
+const imageArrayQuery = gql `
+query DraftQuery($draftID : ID!) {
+  draft(draftID: $draftID) {
+    _id
+    images{
+      _id
+      browserStoryImage{
+        filename
+        size{
+          width
+          height
+        }
+      }
+    }
+  }
+}
+`;
 
 class MyEditor extends Component {
 
@@ -307,17 +303,17 @@ class MyEditor extends Component {
 	}
 }
 
-MyEditor.PropTypes = {
+MyEditor.propTypes = {
 	updateContent: PropTypes.func.isRequired,
 	match: PropTypes.object.isRequired,
-	startingContent: PropTypes.object.isRequired
+	startingContent: PropTypes.object,
+	startingImages: PropTypes.array.isRequired
 }
 
 export const UpdateContentMutation = gql `
 mutation updateContent($input: updateContentInput!) {
   updateContent(input: $input) {
       _id
-      content
       lastUpdate
     }
   }

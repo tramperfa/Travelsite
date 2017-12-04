@@ -1,9 +1,8 @@
 // External Packages
 import React, {Component} from 'react';
-import {ApolloProvider, createNetworkInterface} from 'react-apollo';
-import ApolloClient from 'apollo-client';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import {MuiThemeProvider, createMuiTheme} from 'material-ui/styles';
+import {ApolloProvider} from 'react-apollo';
 
 //Styles
 import './App.css';
@@ -20,28 +19,12 @@ import Signup from './routes/Signup';
 //Library
 import persist from './lib/persist';
 
+//GraphQL
+import client from './graphql/graphql';
+
 // UI components
 import Login from './components/Authentication/Login';
 import NavBar from './components/Navigation/NavBar';
-
-// Create GraphQL client to setup Connection with GraphQL server
-const networkInterface = createNetworkInterface({
-  uri: 'http://localhost:8080/graphql',
-  opts: {
-    credentials: 'include'
-  }
-});
-
-networkInterface.use([
-  {
-    applyMiddleware(req, next) {
-      setTimeout(next, 500);
-    }
-  }
-]);
-
-const client = new ApolloClient({networkInterface});
-// const history = createBrowserHistory()
 
 class App extends Component {
 
@@ -53,7 +36,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    persist.willGetSessionUser().then(function(value) {
+    persist.willGetSessionUser().then(function (value) {
       if (value) {
         this.setState({me: value})
       } else {
@@ -88,16 +71,22 @@ class App extends Component {
     this.setState({openLogin: false});
   }
 
+  handleResetStore = () => {
+    client.resetStore()
+  }
+
   //Overwrite Material-UI Theme
   theme(outerTheme) {
     return createMuiTheme({
       typography: {
-        fontFamily: '"SF Pro Text", "Myriad Set Pro", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif',
+        fontFamily: '"SF Pro Text", "Myriad Set Pro", "SF Pro Icons", "Helvetica Neue", Helvetica, ' +
+            'Arial, sans-serif',
         body1: {
           fontWeight: 'normal'
         },
         button: {
-          fontFamily: '"SF Pro Text", "Myriad Set Pro", "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif',
+          fontFamily: '"SF Pro Text", "Myriad Set Pro", "SF Pro Icons", "Helvetica Neue", Helvetica, ' +
+              'Arial, sans-serif',
           textTransform: 'none',
           fontWeight: 300,
           labelColor: '#f9f9f9'
@@ -113,11 +102,26 @@ class App extends Component {
         <BrowserRouter>
           <MuiThemeProvider theme={this.theme}>
             <div>
-              <NavBar client={client} me={this.state.me} onLogout={this.onLogout} handleClickOpen={this.handleClickOpen}/>
-              <Login client={client} onLogin={this.onLogin} openLogin={this.state.openLogin} handleRequestClose={this.handleRequestClose}/>
+              <NavBar
+                handleResetStore={this.handleResetStore}
+                me={this.state.me}
+                onLogout={this.onLogout}
+                handleClickOpen={this.handleClickOpen}/>
+              <Login
+                handleResetStore={this.handleResetStore}
+                onLogin={this.onLogin}
+                openLogin={this.state.openLogin}
+                handleRequestClose={this.handleRequestClose}/>
               <Switch>
-                <Route exact path="/" component={Homepage}/>
-                <Route path='/story/:_id' render={(props) => (<StoryReader {...props} handleTriggerOpen={this.handleTriggerOpen} me={this.state.me}/>)}/>
+                <Route exact={true} path="/" component={Homepage}/>
+                <Route
+                  path='/story/:_id'
+                  render={(props) => (
+                    <StoryReader
+                      {...props}
+                      handleTriggerOpen={this.handleTriggerOpen}
+                      me={this.state.me}/>
+                  )}/>
                 <Route path="/user/:_id" component={UserHome}/>
                 <Route path="/userdraft/:_id" component={UserDraft}/>
                 <Route path="/edit/:_id" component={EditPage}/>

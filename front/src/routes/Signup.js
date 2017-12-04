@@ -1,12 +1,13 @@
 import React from 'react';
-import {gql, graphql} from 'react-apollo';
+import gql from 'graphql-tag';
+import {graphql} from 'react-apollo';
 import PropTypes from 'prop-types';
 import Button from 'material-ui/Button';
 import {withStyles} from 'material-ui/styles';
 import TextField from 'material-ui/TextField';
 import {Redirect} from 'react-router-dom';
-// import createHistory from 'history/createBrowserHistory'
-// const history = createHistory()
+// import createHistory from 'history/createBrowserHistory' const history =
+// createHistory()
 
 const styles = theme => ({
   container: {
@@ -38,7 +39,9 @@ class Signup extends React.Component {
 
     const {username, displayname, email, password} = this.state;
     this.props.registerUser(username, displayname, email, password).then(() => {
-      this.setState({username: '', displayname: '', email: '', password: '', redirect: true})
+      this.setState(
+        {username: '', displayname: '', email: '', password: '', redirect: true}
+      )
     }).catch((error) => {
       //console.log('there was an error during login', error);
       this.setState({errorMessage: error.graphQLErrors[0].message, password: ''})
@@ -64,19 +67,52 @@ class Signup extends React.Component {
   render() {
     if (this.state.redirect) {
       //console.log(this.props.draftData.draft.story);
-      return <Redirect replace to="/"/>;
+      return <Redirect replace="replace" to="/"/>;
     }
 
     return (
       <div>
-        <form className={this.props.classes.container} noValidate autoComplete="off">
-          <TextField required id="username" label="Username" className={this.props.classes.textField} value={this.state.name} onChange={this.handleChange('username')} margin="normal"/>
-          <TextField required id="displayname" label="Displayname" className={this.props.classes.textField} value={this.state.name} onChange={this.handleChange('displayname')} margin="normal"/>
-          <TextField required id="email" label="Email" className={this.props.classes.textField} value={this.state.name} onChange={this.handleChange('email')} margin="normal"/>
-          <TextField required id="password" label="Password" className={this.props.classes.textField} type="password" autoComplete="current-password" value={this.state.password} onChange={this.handleChange('password')} margin="normal"/>
+        <form
+          className={this.props.classes.container}
+          noValidate="noValidate"
+          autoComplete="off">
+          <TextField
+            required={true}
+            id="username"
+            label="Username"
+            className={this.props.classes.textField}
+            value={this.state.name}
+            onChange={this.handleChange('username')}
+            margin="normal"/>
+          <TextField
+            required={true}
+            id="displayname"
+            label="Displayname"
+            className={this.props.classes.textField}
+            value={this.state.name}
+            onChange={this.handleChange('displayname')}
+            margin="normal"/>
+          <TextField
+            required={true}
+            id="email"
+            label="Email"
+            className={this.props.classes.textField}
+            value={this.state.name}
+            onChange={this.handleChange('email')}
+            margin="normal"/>
+          <TextField
+            required={true}
+            id="password"
+            label="Password"
+            className={this.props.classes.textField}
+            type="password"
+            autoComplete="current-password"
+            value={this.state.password}
+            onChange={this.handleChange('password')}
+            margin="normal"/>
           <div style={{
-            color: 'red'
-          }}>
+              color: 'red'
+            }}>
             {this.state.errorMessage}
           </div>
         </form>
