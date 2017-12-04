@@ -69,10 +69,8 @@ query DraftQuery($draftID : ID!) {
 class MyEditor extends Component {
 
 	state = {
-		editorState: this.props.startingDraft.content
-			? EditorState.createWithContent(
-				convertFromRaw(this.props.startingDraft.content)
-			)
+		editorState: this.props.startingContent
+			? EditorState.createWithContent(convertFromRaw(this.props.startingContent))
 			: EditorState.createEmpty(),
 		titleOpen: false,
 		titleEntityKeyOnEdit: '',
@@ -215,7 +213,7 @@ class MyEditor extends Component {
 				}
 			} else if (entityType === 'image') {
 				const entityData = contentState.getEntity(entity).getData()
-				const imageData = searchImage(entityData._id, this.props.startingDraft.images)
+				const imageData = searchImage(entityData._id, this.props.startingImages)
 				return {
 					component: ImageBlock,
 					editable: false,

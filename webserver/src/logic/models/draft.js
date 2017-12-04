@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 import uniqueValidator from 'mongoose-unique-validator';
 // import Image from './image';
+//
 
 var DraftSchema = new Schema({
 	//_id
