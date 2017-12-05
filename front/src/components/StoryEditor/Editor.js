@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import client from '../../graphql/graphql';
 // import { Map } from 'immutable';
 import {EditorState, AtomicBlockUtils, convertFromRaw, convertToRaw, getDefaultKeyBinding} from 'draft-js';
 import debounce from 'lodash/debounce';
@@ -10,25 +9,28 @@ import Editor from 'draft-js-plugins-editor';
 import createVideoPlugin from 'draft-js-video-plugin';
 import styled from 'styled-components'
 import PropTypes from 'prop-types';
-import gql from 'graphql-tag';
-import {graphql} from 'react-apollo';
+import {graphql} from 'react-apollo'
+import equal from 'fast-deep-equal'
+
 // import 'draft-js-emoji-plugin/lib/plugin.css';
 import 'draft-js/dist/Draft.css'
+import './BlockStyles.css'
 
+//
+import willUploadImage from '../../lib/ImageUpload'
+import willExtractOrientation from './util/ExtractOrientation'
+import willExtractSize from './util/ExtractSize'
+import client from '../../graphql/graphql';
+import {draftImageArrayQuery} from '../../graphql/draft';
+import {UpdateContentMutation} from '../../graphql/draft';
+
+//
 import TitleBlock from './TitleBlock';
 import ImageInsert from './ImageInsert';
-import willUploadImage from '../../lib/ImageUpload'
-
-import ImagePlaceHolder from './ImagePlaceHolder';
 import ImageBlock from './ImageBlock'
 import VideoInsert from './VideoInsert'
 import TitleInsert from './TitleInsert'
 // import SubTitleList from './SubTitleList'
-
-import './BlockStyles.css'
-
-import willExtractOrientation from './util/ExtractOrientation'
-import willExtractSize from './util/ExtractSize'
 
 import CONFIG from '../../lib/config'
 import searchImage from '../../lib/searchImage'
@@ -42,29 +44,12 @@ const {types} = videoPlugin;
 
 const PLACEHOLDERTEXT = "Your story starts here"
 const BUCKET_NAME = CONFIG.BUCKET_NAME
+const DRAFT_WIDTH = CONFIG.DRAFT_WIDTH
 /*
 var containerStyle = {
   height: 200
 };
 */
-
-const imageArrayQuery = gql `
-query DraftQuery($draftID : ID!) {
-  draft(draftID: $draftID) {
-    _id
-    images{
-      _id
-      browserStoryImage{
-        filename
-        size{
-          width
-          height
-        }
-      }
-    }
-  }
-}
-`;
 
 class MyEditor extends Component {
 
@@ -72,6 +57,9 @@ class MyEditor extends Component {
 		editorState: this.props.startingContent
 			? EditorState.createWithContent(convertFromRaw(this.props.startingContent))
 			: EditorState.createEmpty(),
+		images: this.props.startingImages
+			? this.props.startingImages
+			: undefined,
 		titleOpen: false,
 		titleEntityKeyOnEdit: '',
 		currentTitle: ''
@@ -87,8 +75,7 @@ class MyEditor extends Component {
 		// console.log(this.state.editorState.getSelection());
 		const currentContent = this.state.editorState.getCurrentContent()
 		const newContent = editorState.getCurrentContent()
-		if (currentContent !== newContent) {
-			console.log("On Change")
+		if (!equal(currentContent, newContent)) {
 			this.saveContent(newContent)
 		}
 		this.setState({editorState: editorState})
@@ -110,8 +97,22 @@ class MyEditor extends Component {
 		// example localImageSize {width: 100, height: 100}
 		let localImageSize = await willExtractSize(localImageData)
 
-		// const recentEntityKey =
-		// tempState.getCurrentContent().getLastCreatedEntityKey()
+		let editorStateWithPlaceholder = this.addAtomicBlock(
+			origEditorState,
+			'image',
+			{
+				width: localImageSize.width > DRAFT_WIDTH
+					? DRAFT_WIDTH
+					: localImageSize.width,
+				height: localImageSize.width > DRAFT_WIDTH
+					? localImageSize.height / localImageSize.width * DRAFT_WIDTH
+					: localImageSize.height
+			}
+		)
+		// console.log(convertToRaw(editorStateWithPlaceholder.getCurrentContent()));
+		this.setState({editorState: editorStateWithPlaceholder})
+		const contentStateWithPlaceHolder = editorStateWithPlaceholder.getCurrentContent()
+		const recentEntityKey = contentStateWithPlaceHolder.getLastCreatedEntityKey()
 		// console.log(convertToRaw(tempState.getCurrentContent()));
 		// console.log(recentEntityKey);
 
@@ -122,13 +123,28 @@ class MyEditor extends Component {
 			localImageSize.width,
 			localImageSize.height
 		)
-		const imageID = uploadedImage._id
-		// const imageFileName = uploadedImage.browserStoryImage.filename const imageURL
-		// = BUCKET_NAME + imageFileName const imageWidth =
-		// uploadedImage.browserStoryImage.size.width const imageHeight =
-		// uploadedImage.browserStoryImage.size.height
 
-		this.addAtomicBlock(origEditorState, 'image', {id: imageID})
+		let data = this.getCachedDraft()
+		data.draft.images.push(uploadedImage)
+		client.writeQuery({query: draftImageArrayQuery, data: data})
+		const imageID = uploadedImage._id
+		const contentStateWithRemoteImage = contentStateWithPlaceHolder.replaceEntityData(
+			recentEntityKey,
+			{_id: imageID}
+		)
+		this.editor.focus()
+		this.saveContent(contentStateWithRemoteImage)
+	}
+
+	getCachedDraft = () => {
+		let data = client.readQuery({
+			query: draftImageArrayQuery,
+			variables: {
+				draftID: this.props.match.params._id
+			}
+		});
+		// IMAGE ARRAY is data.draft.images
+		return data
 	}
 
 	addAtomicBlock = (editorState, entityType, data) => {
@@ -145,7 +161,10 @@ class MyEditor extends Component {
 			entityKey,
 			' '
 		);
-		this.onChange(newEditorState)
+		if (entityType !== 'image') {
+			this.onChange(newEditorState)
+		}
+		return newEditorState
 	}
 
 	addVideoBlock = (url) => {
@@ -213,18 +232,28 @@ class MyEditor extends Component {
 				}
 			} else if (entityType === 'image') {
 				const entityData = contentState.getEntity(entity).getData()
-				const imageData = searchImage(entityData._id, this.props.startingImages)
-				return {
-					component: ImageBlock,
-					editable: false,
-					props: {
-						src: BUCKET_NAME + imageData.browserStoryImage.filename,
-						width: imageData.browserStoryImage.size.width,
-						height: imageData.browserStoryImage.size.height
+
+				if (entityData._id) {
+					const imageData = searchImage(entityData._id, this.props.startingImages)
+					return {
+						component: ImageBlock,
+						editable: false,
+						props: {
+							src: BUCKET_NAME + imageData.browserStoryImage.filename,
+							width: imageData.browserStoryImage.size.width,
+							height: imageData.browserStoryImage.size.height
+						}
+					}
+				} else {
+					return {
+						component: ImageBlock,
+						editable: false,
+						props: {
+							width: entityData.width,
+							height: entityData.height
+						}
 					}
 				}
-			} else if (entityType === 'imagePlaceHolder') {
-				return {component: ImagePlaceHolder, editable: false}
 			}
 		}
 		return null
@@ -299,6 +328,7 @@ class MyEditor extends Component {
 
 		)
 	}
+
 }
 
 MyEditor.propTypes = {
@@ -307,15 +337,6 @@ MyEditor.propTypes = {
 	startingContent: PropTypes.object,
 	startingImages: PropTypes.array.isRequired
 }
-
-export const UpdateContentMutation = gql `
-mutation updateContent($input: updateContentInput!) {
-  updateContent(input: $input) {
-      _id
-      lastUpdate
-    }
-  }
-`;
 
 export const WithContentMuation = graphql(UpdateContentMutation, {
 	props: ({mutate}) => ({

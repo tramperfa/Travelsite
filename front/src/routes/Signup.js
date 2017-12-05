@@ -1,5 +1,4 @@
 import React from 'react';
-import gql from 'graphql-tag';
 import {graphql} from 'react-apollo';
 import PropTypes from 'prop-types';
 import Button from 'material-ui/Button';
@@ -8,6 +7,8 @@ import TextField from 'material-ui/TextField';
 import {Redirect} from 'react-router-dom';
 // import createHistory from 'history/createBrowserHistory' const history =
 // createHistory()
+
+import {RegisterUserMutation} from '../graphql/user';
 
 const styles = theme => ({
   container: {
@@ -131,16 +132,6 @@ Signup.propTypes = {
   registerUser: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired
 }
-
-export const RegisterUserMutation = gql `
-  mutation registerUser($input: registerUserInput!) {
-    registerUser(input: $input) {
-      _id
-      username
-      fullName
-    }
-  }
- `;
 
 const WithRegisterUserMutation = graphql(RegisterUserMutation, {
   props: ({mutate}) => ({

@@ -6,24 +6,23 @@ import ImagePlaceHolder from './ImagePlaceHolder'
 export default class extends Component {
 	render() {
 		const {src, width, height} = this.props.blockProps
-		// console.log(height)
-		return (
-			<LazyLoad
-				throttle={2000}
-				height={height}
-				placeholder={<ImagePlaceHolder width = {
-					width
-				}
-				height = {
-					height
-				} />}>
-				<img className="image" alt="" src={src}/>
-			</LazyLoad>
-
-			// <div style={{width: width, height: height}}>   <img     className="image"
-			// alt=""     src = {src}   /> </div>
-
-		)
+		if (src) {
+			return (
+				<LazyLoad
+					throttle={2000}
+					height={height}
+					placeholder={<ImagePlaceHolder width = {
+						width
+					}
+					height = {
+						height
+					} />}>
+					<img className="image" alt="" src={src}/>
+				</LazyLoad>
+			)
+		} else {
+			return (<ImagePlaceHolder width={width} height={height}/>)
+		}
 	}
 }
 

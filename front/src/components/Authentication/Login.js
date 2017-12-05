@@ -1,5 +1,4 @@
 import React from 'react';
-import gql from 'graphql-tag';
 import {graphql} from 'react-apollo';
 import PropTypes from 'prop-types';
 import Button from 'material-ui/Button';
@@ -10,6 +9,7 @@ import TextField from 'material-ui/TextField';
 
 //
 import persist from '../../lib/persist';
+import {LoginMutation} from '../../graphql/user';
 
 const styles = theme => ({
   container: {
@@ -52,7 +52,7 @@ class Login extends React.Component {
       this.setState({name: '', password: ''})
     }
 
-    // ///////////////////////////////////////////////////
+    // ///////////////////////////////////////////////
     // this.props.localLogin(emailorusername, password).then(({data}) => {   return
     // persist.willSetSessionUser(data.localLogin.me) }).then((me) => {   return
     // this.props.onLogin(me) }).then((me) => {   return
@@ -64,7 +64,7 @@ class Login extends React.Component {
     //
     //
     // this.setState({name: '', password: ''})
-    // //////////////////////////////////////////////////////////////////
+    // //////////////////////////////////////////////////////////////
   }
 
   handleChange = name => event => {
@@ -138,18 +138,6 @@ class Login extends React.Component {
     )
   }
 }
-
-const LoginMutation = gql `
-  mutation localLogin($input: localLoginInput!) {
-    localLogin(input: $input) {
-      me {
-          fullName
-          _id
-          #avatar
-      }
-    }
-  }
- `;
 
 Login.propTypes = {
   localLogin: PropTypes.func.isRequired,
