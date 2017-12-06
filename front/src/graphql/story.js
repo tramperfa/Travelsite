@@ -1,84 +1,45 @@
 import gql from 'graphql-tag';
+import {STORY_CARD_FRG, STORY_IMAGE_ARRAY} from './storyFragment';
 
 ////// QUERY
-
-export const storiesListQuery = gql `
-  query poularStoryQuery {
-    stories {
-      _id
-      title
-      snapshotContent
-      archiveStoryCount
-      likeStoryCount
-      commentCount
-      author{
-        _id
-        fullName
-      }
-    }
-  }
-`;
 
 export const StoryDetailsQuery = gql `
   query StoryQuery($_id : ID!) {
     story(_id: $_id) {
-      _id
-      draft
-      title
-      author{
-        _id
-        fullName
-      }
+      ...storyCard
       content
-      lastUpdate
-      viewCount
-      likeStoryCount
-      archiveStoryCount
-      commentCount
-      # comments
-
+      ...storyImageArray
     }
   }
+  ${STORY_CARD_FRG}
+  ${STORY_IMAGE_ARRAY}
+`;
+
+export const storiesListQuery = gql `
+  query poularStoryQuery {
+    stories {
+      ...storyCard
+    }
+  }
+  ${STORY_CARD_FRG}
 `;
 
 export const myStoryQuery = gql `
   query myStoryQuery {
     myStories {
-      _id
-      title
-      snapshotContent
-      # Need Fragment ?
-      # coverImage {
-      #   _id
-      #   browserCoverImage
-      #   browserUserHomeCoverImage
-      # }
-      lastUpdate
-      viewCount
-      likeStoryCount
-      archiveStoryCount
-      commentCount
+      ...storyCard
     }
   }
+  ${STORY_CARD_FRG}
 `;
 
 export const myDeleteStoryQuery = gql `
   query myDeleteStoryQuery {
     myDeletedStories {
-      _id
-      title
-      snapshotContent
-      # coverImage{
-      #   _id
-      #   browserStoryImage
-      # }
-      lastUpdate
-      viewCount
-      likeStoryCount
-      archiveStoryCount
-      commentCount
+      ...storyCard
     }
   }
+${STORY_CARD_FRG}
 `;
 
 /////// MUTATION
@@ -116,18 +77,6 @@ export const RecoverStoryMutation = gql `
   mutation recoverStory($storyID : ID!) {
     recoverStory(storyID: $storyID) {
       _id
-      draft
-      title
-      author{
-        _id
-        fullName
-      }
-      content
-      lastUpdate
-      viewCount
-      likeStoryCount
-      archiveStoryCount
-      commentCount
     }
   }
 `;

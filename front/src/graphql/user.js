@@ -49,8 +49,6 @@ export const RegisterUserMutation = gql `
    mutation registerUser($input: registerUserInput!) {
      registerUser(input: $input) {
        _id
-       username
-       fullName
      }
    }
   `;

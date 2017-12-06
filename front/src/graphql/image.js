@@ -1,34 +1,16 @@
 import gql from 'graphql-tag';
+import {HEADLINE_IMAGE_FRG} from './imageFragment';
 
-////// QUERY ///// MUTATION
+////// QUERY / MUTATION
 
 export const CropImageMutation = gql `
 mutation cropImage($input: cropImageInput!) {
   cropImage(input: $input) {
-      _id
+      ...headlineImage
       draft
-      originalImage {
-        filename
-        size {
-          width
-          height
-        }
-      }
-      browserHeadlineImage {
-        filename
-        size {
-          width
-          height
-        }
-      }
-      # browserHeadlineImage
-      # browserStoryImage
-      # browserCommentImage
-      # browserCoverImage
-      # browserUserHomeCoverImage
-
     }
   }
+${HEADLINE_IMAGE_FRG}
 `;
 
 export default CropImageMutation

@@ -1,77 +1,42 @@
 import gql from 'graphql-tag';
+import {DRAFT_CARD_FRG, DRAFT_IMAGE_ARRAY} from './draftFragment';
+import {HEADLINE_IMAGE_FRG} from './imageFragment';
 
 ////// QUERY
 
 export const DraftDetailsQuery = gql `
   query DraftQuery($draftID : ID!) {
     draft(draftID: $draftID) {
-      _id
-      title
+      ...draftCard
+      ...draftImageArray
       content
-      author{
-        _id
-        fullName
-      }
       headlineImage{
-        _id
-        browserHeadlineImage{
-          filename
-        }
-        originalImage{
-          filename
-        }
-      }
-      lastUpdate
-      images{
-        _id
-        browserStoryImage{
-          filename
-          size{
-            width
-            height
-          }
-        }
+        ...headlineImage
       }
     }
   }
+  ${DRAFT_CARD_FRG}
+  ${DRAFT_IMAGE_ARRAY}
+  ${HEADLINE_IMAGE_FRG}
 `;
 
 export const draftsListQuery = gql `
   query DraftQuery {
     myDrafts {
-      _id
-      title
-      author{
-        _id
-        fullName
-      }
-      headlineImage{
-        _id
-        browserHeadlineImage{
-          filename
-        }
-      }
-      lastUpdate
+      ...draftCard
     }
   }
+  ${DRAFT_CARD_FRG}
 `;
 
 export const draftImageArrayQuery = gql `
 query DraftQuery($draftID : ID!) {
   draft(draftID: $draftID) {
     _id
-    images{
-      _id
-      browserStoryImage{
-        filename
-        size{
-          width
-          height
-        }
-      }
-    }
+    ...draftImageArray
   }
 }
+${DRAFT_IMAGE_ARRAY}
 `;
 
 /////// MUTATION
@@ -99,7 +64,7 @@ mutation updateTitle($input: updateTitleInput!) {
   updateTitle(input: $input) {
       _id
       title
-      #lastUpdate
+      #lastUpdate ## Title and Headline are not part of content, do not update time stamp
     }
   }
 `;

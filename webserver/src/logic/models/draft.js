@@ -134,7 +134,9 @@ DraftSchema.statics = {
 		return new Promise((resolve, reject) => {
 			this.findOne({_id: _id}).populate('author').populate('headlineImage')
 			//
-				.populate('images').exec((err, res) => {
+				.populate('images').populate('coverImage')
+			//
+				.exec((err, res) => {
 				err
 					? reject(new Error("Cannot find requested draft"))
 					: resolve(res)
