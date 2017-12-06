@@ -8,6 +8,7 @@ type Story {
   headlineImage: Image
   coverImage: Image
   author: User
+  images: [Image]
   lastUpdate: String
   viewCount: Int
   likeStoryCount: Int

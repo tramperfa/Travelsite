@@ -9,43 +9,48 @@ import {myStoryQuery} from '../../graphql/story';
 
 class MyHome extends React.Component {
 
-  render() {
-    const user = this.props.userData.user
-    if (this.props.userData.loading) {
-      return (<div>Loading</div>)
-    }
+	render() {
+		const user = this.props.userData.user
+		if (this.props.userData.loading) {
+			return (<div>Loading</div>)
+		}
 
-    return (
-      <div>
-        <div>
-          <div>{"FullName: " + user.fullName}</div>
-          <div>{"Username: " + user.username}</div>
-          <div>{user._id}</div>
-          <div>{user.provider}</div>
-        </div>
-      </div>
-    )
+		return (
+			<div>
+				<div>
+					<div>{"FullName: " + user.fullName}</div>
+					<div>{"Username: " + user.username}</div>
+					<div>{user._id}</div>
+					<div>{user.provider}</div>
+				</div>
+			</div>
+		)
 
-  }
+	}
 
 }
 
 MyHome.propTypes = {
-  match: PropTypes.object.isRequired,
-  userData: PropTypes.object.isRequired,
-  myStoryData: PropTypes.object.isRequired
+	match: PropTypes.object.isRequired,
+	userData: PropTypes.object.isRequired,
+	myStoryData: PropTypes.object.isRequired
 }
 
 export const withUserData = graphql(userDetailQuery, {
-  options: (props) => ({
-    variables: {
-      _id: props.match.params._id
-    }
-  }),
-  name: 'userData'
+	options: (props) => ({
+		variables: {
+			_id: props.match.params._id
+		}
+	}),
+	name: 'userData'
 })
 
-export const withMyStoryData = graphql(myStoryQuery, {name: 'myStoryData'})
+export const withMyStoryData = graphql(myStoryQuery, {
+	options: {
+		fetchPolicy: 'network-only'
+	},
+	name: 'myStoryData'
+})
 
 export default withMyStoryData(withUserData(MyHome))
 

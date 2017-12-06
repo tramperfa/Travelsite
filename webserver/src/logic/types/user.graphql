@@ -5,6 +5,7 @@ type User {
   username: String
   provider: String
   profile: JSON
+  avatar: Image
   # facebook: String
   # google: String
   #avatar(size: PhotoSize): Image
