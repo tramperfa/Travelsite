@@ -1,5 +1,7 @@
 import gql from 'graphql-tag';
 
+////// QUERY
+
 export const DraftDetailsQuery = gql `
   query DraftQuery($draftID : ID!) {
     draft(draftID: $draftID) {
@@ -34,11 +36,22 @@ export const DraftDetailsQuery = gql `
   }
 `;
 
-export const PublishDraftMutation = gql `
-  mutation publishDraft($draftID : ID!) {
-    publishDraft(draftID: $draftID) {
+export const draftsListQuery = gql `
+  query DraftQuery {
+    myDrafts {
       _id
-      story
+      title
+      author{
+        _id
+        fullName
+      }
+      headlineImage{
+        _id
+        browserHeadlineImage{
+          filename
+        }
+      }
+      lastUpdate
     }
   }
 `;
@@ -59,6 +72,17 @@ query DraftQuery($draftID : ID!) {
     }
   }
 }
+`;
+
+/////// MUTATION
+
+export const PublishDraftMutation = gql `
+  mutation publishDraft($draftID : ID!) {
+    publishDraft(draftID: $draftID) {
+      _id
+      story
+    }
+  }
 `;
 
 export const UpdateContentMutation = gql `
@@ -84,26 +108,6 @@ export const DeleteDraftMutation = gql `
   mutation deleteDraft($draftID : ID!) {
     deleteDraft(draftID: $draftID) {
       _id
-    }
-  }
-`;
-
-export const draftsListQuery = gql `
-  query DraftQuery {
-    myDrafts {
-      _id
-      title
-      author{
-        _id
-        fullName
-      }
-      headlineImage{
-        _id
-        browserHeadlineImage{
-          filename
-        }
-      }
-      lastUpdate
     }
   }
 `;

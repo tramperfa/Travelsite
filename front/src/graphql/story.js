@@ -1,5 +1,7 @@
 import gql from 'graphql-tag';
 
+////// QUERY
+
 export const storiesListQuery = gql `
   query poularStoryQuery {
     stories {
@@ -38,6 +40,48 @@ export const StoryDetailsQuery = gql `
     }
   }
 `;
+
+export const myStoryQuery = gql `
+  query myStoryQuery {
+    myStories {
+      _id
+      title
+      snapshotContent
+      # Need Fragment ?
+      # coverImage {
+      #   _id
+      #   browserCoverImage
+      #   browserUserHomeCoverImage
+      # }
+      lastUpdate
+      viewCount
+      likeStoryCount
+      archiveStoryCount
+      commentCount
+    }
+  }
+`;
+
+export const myDeleteStoryQuery = gql `
+  query myDeleteStoryQuery {
+    myDeletedStories {
+      _id
+      title
+      snapshotContent
+      # coverImage{
+      #   _id
+      #   browserStoryImage
+      # }
+      lastUpdate
+      viewCount
+      likeStoryCount
+      archiveStoryCount
+      commentCount
+    }
+  }
+`;
+
+/////// MUTATION
 
 export const LikeStoryMutation = gql `
   mutation likeStory($storyID : ID!) {
@@ -79,46 +123,6 @@ export const RecoverStoryMutation = gql `
         fullName
       }
       content
-      lastUpdate
-      viewCount
-      likeStoryCount
-      archiveStoryCount
-      commentCount
-    }
-  }
-`;
-
-export const myStoryQuery = gql `
-  query myStoryQuery {
-    myStories {
-      _id
-      title
-      snapshotContent
-      # Need Fragment ?
-      # coverImage {
-      #   _id
-      #   browserCoverImage
-      #   browserUserHomeCoverImage
-      # }
-      lastUpdate
-      viewCount
-      likeStoryCount
-      archiveStoryCount
-      commentCount
-    }
-  }
-`;
-
-export const myDeleteStoryQuery = gql `
-  query myDeleteStoryQuery {
-    myDeletedStories {
-      _id
-      title
-      snapshotContent
-      # coverImage{
-      #   _id
-      #   browserStoryImage
-      # }
       lastUpdate
       viewCount
       likeStoryCount

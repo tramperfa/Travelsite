@@ -1,5 +1,7 @@
 import gql from 'graphql-tag';
 
+////// QUERY ///// MUTATION
+
 export const CropImageMutation = gql `
 mutation cropImage($input: cropImageInput!) {
   cropImage(input: $input) {
