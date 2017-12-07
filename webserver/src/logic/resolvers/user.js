@@ -17,7 +17,7 @@ module.exports = {
 	},
 	Mutation: {
 		registerUser: async (parent, args, context) => {
-			if (context.sessionUser._id) {
+			if (context.sessionUser && context.sessionUser._id) {
 				return new Error("user already has an account and logged in!")
 			}
 			const user = args.input

@@ -7,10 +7,10 @@ import AddAPhoto from 'material-ui-icons/AddAPhoto';
 
 export default class extends Component {
 
-  onClick = () => {
-    ReactDOM.findDOMNode(this.refs.fileInput).click()
-    // console.log("Add a image click")
-  }
+onClick = () => {
+	ReactDOM.findDOMNode(this.refs.fileInput).click()
+	// console.log("Add a image click")
+}
   inputChange = (e) => {
     const file = e.target.files[0]
     // console.log(e.target.files);
