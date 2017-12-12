@@ -56,6 +56,7 @@ class MyEditor extends Component {
 			? getSubTitleList(convertFromRaw(this.props.startingContent))
 			: undefined,
 		titleOpen: false,
+		titleBlockKeyOnEdit: '',
 		titleEntityKeyOnEdit: '',
 		currentTitle: ''
 	}
@@ -85,25 +86,20 @@ class MyEditor extends Component {
 
 	uploadFile = async (file) => {
 
-		const origEditorState = this.state.editorState
-
-		// example localImageData {orientation: 8, src: <localURL>}
+		// const origEditorState = this.state.editorState example localImageData
+		// {orientation: 8, src: <localURL>}
 		let localImageData = await willExtractOrientation(file)
 		// example localImageSize {width: 100, height: 100}
 		let localImageSize = await willExtractSize(localImageData)
 
-		let editorStateWithPlaceholder = this.addAtomicBlock(
-			origEditorState,
-			'image',
-			{
-				width: localImageSize.width > DRAFT_WIDTH
-					? DRAFT_WIDTH
-					: localImageSize.width,
-				height: localImageSize.width > DRAFT_WIDTH
-					? localImageSize.height / localImageSize.width * DRAFT_WIDTH
-					: localImageSize.height
-			}
-		)
+		let editorStateWithPlaceholder = this.addAtomicBlock('image', {
+			width: localImageSize.width > DRAFT_WIDTH
+				? DRAFT_WIDTH
+				: localImageSize.width,
+			height: localImageSize.width > DRAFT_WIDTH
+				? localImageSize.height / localImageSize.width * DRAFT_WIDTH
+				: localImageSize.height
+		})
 		// console.log(convertToRaw(editorStateWithPlaceholder.getCurrentContent()));
 		this.setState({editorState: editorStateWithPlaceholder})
 		const contentStateWithPlaceHolder = editorStateWithPlaceholder.getCurrentContent()
@@ -127,7 +123,15 @@ class MyEditor extends Component {
 			recentEntityKey,
 			{_id: imageID}
 		)
-		this.editor.focus()
+
+		//force rerender can be removed when draft update to v0.11
+		this.setState({
+			editorState: EditorState.forceSelection(
+				this.state.editorState,
+				this.state.editorState.getSelection()
+			)
+		})
+
 		this.saveContent(contentStateWithRemoteImage)
 	}
 
@@ -142,7 +146,8 @@ class MyEditor extends Component {
 		return data
 	}
 
-	addAtomicBlock = (editorState, entityType, data) => {
+	addAtomicBlock = (entityType, data) => {
+		const editorState = this.state.editorState
 		const contentState = editorState.getCurrentContent();
 		const contentStateWithEntity = contentState.createEntity(
 			entityType,
@@ -176,12 +181,15 @@ class MyEditor extends Component {
 	}
 
 	addSubTitleBlock = (text) => {
-		this.addAtomicBlock(this.state.editorState, 'subTitle', {title: text})
+		let newEditorState = this.addAtomicBlock('subTitle', {title: text})
+		this.setState({
+			subTitleList: getSubTitleList(newEditorState.getCurrentContent())
+		})
 	}
 
-	openSubTitleEditor = (titleEntityKeyOnEdit, currentTitle) => {
+	openSubTitleEditor = (titleBlockKeyOnEdit, titleEntityKeyOnEdit, currentTitle) => {
 		this.setState(
-			{titleOpen: true, titleEntityKeyOnEdit: titleEntityKeyOnEdit, currentTitle: currentTitle}
+			{titleOpen: true, titleBlockKeyOnEdit: titleBlockKeyOnEdit, titleEntityKeyOnEdit: titleEntityKeyOnEdit, currentTitle: currentTitle}
 		)
 	}
 
@@ -189,13 +197,18 @@ class MyEditor extends Component {
 		this.setState({titleOpen: false})
 	}
 
-	updateSubTitle = (entityKey, newTitle) => {
+	updateSubTitle = (newTitle) => {
 		let origES = this.state.editorState
 		const contentState = origES.getCurrentContent()
 		const newContentState = contentState.replaceEntityData(
-			entityKey,
+			this.state.titleEntityKeyOnEdit,
 			{title: newTitle}
 		)
+		const newTitleList = this.state.subTitleList.update(
+			this.state.titleBlockKeyOnEdit,
+			value => newTitle
+		)
+		this.setState({subTitleList: newTitleList})
 		this.editor.focus()
 		this.saveContent(newContentState)
 	}
@@ -227,7 +240,6 @@ class MyEditor extends Component {
 				}
 			} else if (entityType === 'image') {
 				const entityData = contentState.getEntity(entity).getData()
-
 				if (entityData._id) {
 					const imageData = searchImage(entityData._id, this.props.startingImages)
 					return {
@@ -260,9 +272,14 @@ class MyEditor extends Component {
 			const selection = this.state.editorState.getSelection()
 			const content = this.state.editorState.getCurrentContent()
 			const block = content.getBlockForKey(selection.getAnchorKey())
-			if (block.type === 'atomic') {
+			if (block.getType() === 'atomic') {
 				// console.log("Delete Pressed on Atomic")
 				return 'do-nothing'
+			} else if (selection.isCollapsed() && selection.getAnchorOffset() === 0) {
+				let preBlock = content.getBlockBefore(block.getKey())
+				if (preBlock && preBlock.getType() === 'atomic') {
+					return 'do-nothing'
+				}
 			}
 		}
 		return getDefaultKeyBinding(e)

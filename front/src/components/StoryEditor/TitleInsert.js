@@ -33,7 +33,7 @@ export default class extends Component {
 		if (e.key === 'Enter') {
 			const title = this.state.title
 			if (this.props.editTitle) {
-				this.props.updateSubTitle(this.props.titleEntityKeyOnEdit, title)
+				this.props.updateSubTitle(title)
 			} else {
 				this.props.addSubTitleBlock(title)
 			}
