@@ -1,0 +1,795 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+ShallowWrapper {
+  "length": 1,
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <Unknown
+    classes={Object {}}
+    deleteDraft={[Function]}
+    draft={Object {}}
+/>,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "host",
+    "props": Object {
+      "children": <Card
+        className={undefined}
+        raised={false}
+>
+        <Link
+                className={undefined}
+                replace={false}
+                to="/edit/undefined"
+        >
+                <withStyles(CardMedia)
+                        className={undefined}
+                        image="b.jpg"
+                        title="Live from space album cover"
+                />
+        </Link>
+        <div
+                className={undefined}
+        >
+                <Link
+                        className={undefined}
+                        replace={false}
+                        to="/edit/undefined"
+                >
+                        <withStyles(CardContent)
+                                className={undefined}
+                        >
+                                <withStyles(Typography)
+                                        type="headline"
+                                />
+                                <withStyles(Typography)
+                                        color="secondary"
+                                        type="subheading"
+                                >
+                                        <div>
+                                                Last Updated: 
+                                                Invalid date
+                                        </div>
+                                </withStyles(Typography)>
+                        </withStyles(CardContent)>
+                </Link>
+                <div
+                        className={undefined}
+                >
+                        Continue Writing
+                        <withStyles(IconButton)
+                                aria-label="Edit"
+                        >
+                                <pure(Edit) />
+                        </withStyles(IconButton)>
+                        <withStyles(IconButton)
+                                aria-label="Delete"
+                                onClick={[Function]}
+                        >
+                                <pure(Delete) />
+                        </withStyles(IconButton)>
+                </div>
+        </div>
+</Card>,
+    },
+    "ref": null,
+    "rendered": Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "function",
+      "props": Object {
+        "children": Array [
+          <Link
+            className={undefined}
+            replace={false}
+            to="/edit/undefined"
+>
+            <withStyles(CardMedia)
+                        className={undefined}
+                        image="b.jpg"
+                        title="Live from space album cover"
+            />
+</Link>,
+          <div
+            className={undefined}
+>
+            <Link
+                        className={undefined}
+                        replace={false}
+                        to="/edit/undefined"
+            >
+                        <withStyles(CardContent)
+                                    className={undefined}
+                        >
+                                    <withStyles(Typography)
+                                                type="headline"
+                                    />
+                                    <withStyles(Typography)
+                                                color="secondary"
+                                                type="subheading"
+                                    >
+                                                <div>
+                                                            Last Updated: 
+                                                            Invalid date
+                                                </div>
+                                    </withStyles(Typography)>
+                        </withStyles(CardContent)>
+            </Link>
+            <div
+                        className={undefined}
+            >
+                        Continue Writing
+                        <withStyles(IconButton)
+                                    aria-label="Edit"
+                        >
+                                    <pure(Edit) />
+                        </withStyles(IconButton)>
+                        <withStyles(IconButton)
+                                    aria-label="Delete"
+                                    onClick={[Function]}
+                        >
+                                    <pure(Delete) />
+                        </withStyles(IconButton)>
+            </div>
+</div>,
+        ],
+        "className": undefined,
+        "raised": false,
+      },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "class",
+          "props": Object {
+            "children": <withStyles(CardMedia)
+              className={undefined}
+              image="b.jpg"
+              title="Live from space album cover"
+/>,
+            "className": undefined,
+            "replace": false,
+            "to": "/edit/undefined",
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "class",
+            "props": Object {
+              "className": undefined,
+              "image": "b.jpg",
+              "title": "Live from space album cover",
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+          "type": [Function],
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": Array [
+              <Link
+                className={undefined}
+                replace={false}
+                to="/edit/undefined"
+>
+                <withStyles(CardContent)
+                                className={undefined}
+                >
+                                <withStyles(Typography)
+                                                type="headline"
+                                />
+                                <withStyles(Typography)
+                                                color="secondary"
+                                                type="subheading"
+                                >
+                                                <div>
+                                                                Last Updated: 
+                                                                Invalid date
+                                                </div>
+                                </withStyles(Typography)>
+                </withStyles(CardContent)>
+</Link>,
+              <div
+                className={undefined}
+>
+                Continue Writing
+                <withStyles(IconButton)
+                                aria-label="Edit"
+                >
+                                <pure(Edit) />
+                </withStyles(IconButton)>
+                <withStyles(IconButton)
+                                aria-label="Delete"
+                                onClick={[Function]}
+                >
+                                <pure(Delete) />
+                </withStyles(IconButton)>
+</div>,
+            ],
+            "className": undefined,
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "class",
+              "props": Object {
+                "children": <withStyles(CardContent)
+                  className={undefined}
+>
+                  <withStyles(Typography)
+                                    type="headline"
+                  />
+                  <withStyles(Typography)
+                                    color="secondary"
+                                    type="subheading"
+                  >
+                                    <div>
+                                                      Last Updated: 
+                                                      Invalid date
+                                    </div>
+                  </withStyles(Typography)>
+</withStyles(CardContent)>,
+                "className": undefined,
+                "replace": false,
+                "to": "/edit/undefined",
+              },
+              "ref": null,
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "class",
+                "props": Object {
+                  "children": Array [
+                    <withStyles(Typography)
+                      type="headline"
+/>,
+                    <withStyles(Typography)
+                      color="secondary"
+                      type="subheading"
+>
+                      <div>
+                                            Last Updated: 
+                                            Invalid date
+                      </div>
+</withStyles(Typography)>,
+                  ],
+                  "className": undefined,
+                },
+                "ref": null,
+                "rendered": Array [
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "class",
+                    "props": Object {
+                      "children": undefined,
+                      "type": "headline",
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "class",
+                    "props": Object {
+                      "children": <div>
+                        Last Updated: 
+                        Invalid date
+</div>,
+                      "color": "secondary",
+                      "type": "subheading",
+                    },
+                    "ref": null,
+                    "rendered": Object {
+                      "instance": null,
+                      "key": undefined,
+                      "nodeType": "host",
+                      "props": Object {
+                        "children": Array [
+                          "Last Updated: ",
+                          "Invalid date",
+                        ],
+                      },
+                      "ref": null,
+                      "rendered": Array [
+                        "Last Updated: ",
+                        "Invalid date",
+                      ],
+                      "type": "div",
+                    },
+                    "type": [Function],
+                  },
+                ],
+                "type": [Function],
+              },
+              "type": [Function],
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": Array [
+                  "Continue Writing",
+                  <withStyles(IconButton)
+                    aria-label="Edit"
+>
+                    <pure(Edit) />
+</withStyles(IconButton)>,
+                  <withStyles(IconButton)
+                    aria-label="Delete"
+                    onClick={[Function]}
+>
+                    <pure(Delete) />
+</withStyles(IconButton)>,
+                ],
+                "className": undefined,
+              },
+              "ref": null,
+              "rendered": Array [
+                "Continue Writing",
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "class",
+                  "props": Object {
+                    "aria-label": "Edit",
+                    "children": <pure(Edit) />,
+                  },
+                  "ref": null,
+                  "rendered": Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "class",
+                    "props": Object {},
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                  "type": [Function],
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "class",
+                  "props": Object {
+                    "aria-label": "Delete",
+                    "children": <pure(Delete) />,
+                    "onClick": [Function],
+                  },
+                  "ref": null,
+                  "rendered": Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "class",
+                    "props": Object {},
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                  "type": [Function],
+                },
+              ],
+              "type": "div",
+            },
+          ],
+          "type": "div",
+        },
+      ],
+      "type": [Function],
+    },
+    "type": "div",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": <Card
+          className={undefined}
+          raised={false}
+>
+          <Link
+                    className={undefined}
+                    replace={false}
+                    to="/edit/undefined"
+          >
+                    <withStyles(CardMedia)
+                              className={undefined}
+                              image="b.jpg"
+                              title="Live from space album cover"
+                    />
+          </Link>
+          <div
+                    className={undefined}
+          >
+                    <Link
+                              className={undefined}
+                              replace={false}
+                              to="/edit/undefined"
+                    >
+                              <withStyles(CardContent)
+                                        className={undefined}
+                              >
+                                        <withStyles(Typography)
+                                                  type="headline"
+                                        />
+                                        <withStyles(Typography)
+                                                  color="secondary"
+                                                  type="subheading"
+                                        >
+                                                  <div>
+                                                            Last Updated: 
+                                                            Invalid date
+                                                  </div>
+                                        </withStyles(Typography)>
+                              </withStyles(CardContent)>
+                    </Link>
+                    <div
+                              className={undefined}
+                    >
+                              Continue Writing
+                              <withStyles(IconButton)
+                                        aria-label="Edit"
+                              >
+                                        <pure(Edit) />
+                              </withStyles(IconButton)>
+                              <withStyles(IconButton)
+                                        aria-label="Delete"
+                                        onClick={[Function]}
+                              >
+                                        <pure(Delete) />
+                              </withStyles(IconButton)>
+                    </div>
+          </div>
+</Card>,
+      },
+      "ref": null,
+      "rendered": Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "function",
+        "props": Object {
+          "children": Array [
+            <Link
+              className={undefined}
+              replace={false}
+              to="/edit/undefined"
+>
+              <withStyles(CardMedia)
+                            className={undefined}
+                            image="b.jpg"
+                            title="Live from space album cover"
+              />
+</Link>,
+            <div
+              className={undefined}
+>
+              <Link
+                            className={undefined}
+                            replace={false}
+                            to="/edit/undefined"
+              >
+                            <withStyles(CardContent)
+                                          className={undefined}
+                            >
+                                          <withStyles(Typography)
+                                                        type="headline"
+                                          />
+                                          <withStyles(Typography)
+                                                        color="secondary"
+                                                        type="subheading"
+                                          >
+                                                        <div>
+                                                                      Last Updated: 
+                                                                      Invalid date
+                                                        </div>
+                                          </withStyles(Typography)>
+                            </withStyles(CardContent)>
+              </Link>
+              <div
+                            className={undefined}
+              >
+                            Continue Writing
+                            <withStyles(IconButton)
+                                          aria-label="Edit"
+                            >
+                                          <pure(Edit) />
+                            </withStyles(IconButton)>
+                            <withStyles(IconButton)
+                                          aria-label="Delete"
+                                          onClick={[Function]}
+                            >
+                                          <pure(Delete) />
+                            </withStyles(IconButton)>
+              </div>
+</div>,
+          ],
+          "className": undefined,
+          "raised": false,
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "class",
+            "props": Object {
+              "children": <withStyles(CardMedia)
+                className={undefined}
+                image="b.jpg"
+                title="Live from space album cover"
+/>,
+              "className": undefined,
+              "replace": false,
+              "to": "/edit/undefined",
+            },
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "class",
+              "props": Object {
+                "className": undefined,
+                "image": "b.jpg",
+                "title": "Live from space album cover",
+              },
+              "ref": null,
+              "rendered": null,
+              "type": [Function],
+            },
+            "type": [Function],
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": Array [
+                <Link
+                  className={undefined}
+                  replace={false}
+                  to="/edit/undefined"
+>
+                  <withStyles(CardContent)
+                                    className={undefined}
+                  >
+                                    <withStyles(Typography)
+                                                      type="headline"
+                                    />
+                                    <withStyles(Typography)
+                                                      color="secondary"
+                                                      type="subheading"
+                                    >
+                                                      <div>
+                                                                        Last Updated: 
+                                                                        Invalid date
+                                                      </div>
+                                    </withStyles(Typography)>
+                  </withStyles(CardContent)>
+</Link>,
+                <div
+                  className={undefined}
+>
+                  Continue Writing
+                  <withStyles(IconButton)
+                                    aria-label="Edit"
+                  >
+                                    <pure(Edit) />
+                  </withStyles(IconButton)>
+                  <withStyles(IconButton)
+                                    aria-label="Delete"
+                                    onClick={[Function]}
+                  >
+                                    <pure(Delete) />
+                  </withStyles(IconButton)>
+</div>,
+              ],
+              "className": undefined,
+            },
+            "ref": null,
+            "rendered": Array [
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "class",
+                "props": Object {
+                  "children": <withStyles(CardContent)
+                    className={undefined}
+>
+                    <withStyles(Typography)
+                                        type="headline"
+                    />
+                    <withStyles(Typography)
+                                        color="secondary"
+                                        type="subheading"
+                    >
+                                        <div>
+                                                            Last Updated: 
+                                                            Invalid date
+                                        </div>
+                    </withStyles(Typography)>
+</withStyles(CardContent)>,
+                  "className": undefined,
+                  "replace": false,
+                  "to": "/edit/undefined",
+                },
+                "ref": null,
+                "rendered": Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "class",
+                  "props": Object {
+                    "children": Array [
+                      <withStyles(Typography)
+                        type="headline"
+/>,
+                      <withStyles(Typography)
+                        color="secondary"
+                        type="subheading"
+>
+                        <div>
+                                                Last Updated: 
+                                                Invalid date
+                        </div>
+</withStyles(Typography)>,
+                    ],
+                    "className": undefined,
+                  },
+                  "ref": null,
+                  "rendered": Array [
+                    Object {
+                      "instance": null,
+                      "key": undefined,
+                      "nodeType": "class",
+                      "props": Object {
+                        "children": undefined,
+                        "type": "headline",
+                      },
+                      "ref": null,
+                      "rendered": null,
+                      "type": [Function],
+                    },
+                    Object {
+                      "instance": null,
+                      "key": undefined,
+                      "nodeType": "class",
+                      "props": Object {
+                        "children": <div>
+                          Last Updated: 
+                          Invalid date
+</div>,
+                        "color": "secondary",
+                        "type": "subheading",
+                      },
+                      "ref": null,
+                      "rendered": Object {
+                        "instance": null,
+                        "key": undefined,
+                        "nodeType": "host",
+                        "props": Object {
+                          "children": Array [
+                            "Last Updated: ",
+                            "Invalid date",
+                          ],
+                        },
+                        "ref": null,
+                        "rendered": Array [
+                          "Last Updated: ",
+                          "Invalid date",
+                        ],
+                        "type": "div",
+                      },
+                      "type": [Function],
+                    },
+                  ],
+                  "type": [Function],
+                },
+                "type": [Function],
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": Array [
+                    "Continue Writing",
+                    <withStyles(IconButton)
+                      aria-label="Edit"
+>
+                      <pure(Edit) />
+</withStyles(IconButton)>,
+                    <withStyles(IconButton)
+                      aria-label="Delete"
+                      onClick={[Function]}
+>
+                      <pure(Delete) />
+</withStyles(IconButton)>,
+                  ],
+                  "className": undefined,
+                },
+                "ref": null,
+                "rendered": Array [
+                  "Continue Writing",
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "class",
+                    "props": Object {
+                      "aria-label": "Edit",
+                      "children": <pure(Edit) />,
+                    },
+                    "ref": null,
+                    "rendered": Object {
+                      "instance": null,
+                      "key": undefined,
+                      "nodeType": "class",
+                      "props": Object {},
+                      "ref": null,
+                      "rendered": null,
+                      "type": [Function],
+                    },
+                    "type": [Function],
+                  },
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "class",
+                    "props": Object {
+                      "aria-label": "Delete",
+                      "children": <pure(Delete) />,
+                      "onClick": [Function],
+                    },
+                    "ref": null,
+                    "rendered": Object {
+                      "instance": null,
+                      "key": undefined,
+                      "nodeType": "class",
+                      "props": Object {},
+                      "ref": null,
+                      "rendered": null,
+                      "type": [Function],
+                    },
+                    "type": [Function],
+                  },
+                ],
+                "type": "div",
+              },
+            ],
+            "type": "div",
+          },
+        ],
+        "type": [Function],
+      },
+      "type": "div",
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+      },
+    },
+  },
+}
+`;
