@@ -69,6 +69,15 @@ mutation updateTitle($input: updateTitleInput!) {
   }
 `;
 
+export const createDraftMutation = gql `
+  mutation createDraft($ID: ID){
+    createDraft(userID: $ID) {
+      _id
+      title
+  }
+}
+`;
+
 export const DeleteDraftMutation = gql `
   mutation deleteDraft($draftID : ID!) {
     deleteDraft(draftID: $draftID) {

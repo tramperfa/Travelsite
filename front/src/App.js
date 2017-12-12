@@ -100,7 +100,7 @@ class App extends Component {
     return (
       <ApolloProvider client={client}>
         <BrowserRouter>
-          <MuiThemeProvider theme={this.theme}>
+          {/* <MuiThemeProvider theme={this.theme}> */}
             <div>
               <NavBar
                 handleResetStore={this.handleResetStore}
@@ -131,7 +131,8 @@ class App extends Component {
                 <Route component={NotFound}/>
               </Switch>
             </div>
-          </MuiThemeProvider>
+    {/* </MuiThemeProvider> */
+}
         </BrowserRouter>
       </ApolloProvider>
     );
