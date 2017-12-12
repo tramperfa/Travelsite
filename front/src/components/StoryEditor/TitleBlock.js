@@ -23,14 +23,14 @@ export default class extends Component {
 		const {title} = contentState.getEntity(entityKey).getData()
 		return (
 			<TitleBlock onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave}>
-				<a name={title} style={{
-						display: 'none'
-					}}>#</a>
-				<h1 style={{
-						margin: 0
-					}}>
-					{title}
-				</h1>
+				<div>
+					<a name={block.getKey()}></a>
+					<h1 style={{
+							margin: 0
+						}}>
+						{title}
+					</h1>
+				</div>
 				<TitleAction>
 					<IconButton onClick={() => this.onEdit(entityKey, title)}>
 						<Edit/>

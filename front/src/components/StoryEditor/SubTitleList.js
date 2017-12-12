@@ -1,15 +1,23 @@
 import React, {Component} from 'react';
 
 export default class extends Component {
-  render() {
-    return (
-      <ul>
-        <li>
-          <a href="#a">
-            <h3>a</h3>
-          </a>
-        </li>
-      </ul>
-    )
-  }
+	render() {
+		return (
+			<ul>
+				{
+					this.props.subTitleList.entrySeq().map((title) => {
+						return (
+							<li key={title[0]}>
+								<a href={"#" + title[0]} style={{
+										color: 'blue'
+									}}>
+									{title[1]}
+								</a>
+							</li>
+						)
+					})
+				}
+			</ul>
+		)
+	}
 }

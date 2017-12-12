@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-// import { Map } from 'immutable';
 import {EditorState, AtomicBlockUtils, convertFromRaw, convertToRaw, getDefaultKeyBinding} from 'draft-js';
 import debounce from 'lodash/debounce';
 import Editor from 'draft-js-plugins-editor';
@@ -16,7 +15,6 @@ import equal from 'fast-deep-equal'
 import 'draft-js/dist/Draft.css'
 import './BlockStyles.css'
 
-//
 import willUploadImage from '../../lib/ImageUpload'
 import willExtractOrientation from './util/ExtractOrientation'
 import willExtractSize from './util/ExtractSize'
@@ -24,13 +22,12 @@ import client from '../../graphql/graphql';
 import {draftImageArrayQuery} from '../../graphql/draft';
 import {UpdateContentMutation} from '../../graphql/draft';
 
-//
 import TitleBlock from './TitleBlock';
 import ImageInsert from './ImageInsert';
 import ImageBlock from './ImageBlock'
 import VideoInsert from './VideoInsert'
 import TitleInsert from './TitleInsert'
-// import SubTitleList from './SubTitleList'
+import SubTitleList from './SubTitleList'
 
 import CONFIG from '../../lib/config'
 import searchImage from '../../lib/searchImage'
@@ -45,11 +42,6 @@ const {types} = videoPlugin;
 const PLACEHOLDERTEXT = "Your story starts here"
 const BUCKET_NAME = CONFIG.BUCKET_NAME
 const DRAFT_WIDTH = CONFIG.DRAFT_WIDTH
-/*
-var containerStyle = {
-  height: 200
-};
-*/
 
 class MyEditor extends Component {
 
@@ -59,6 +51,9 @@ class MyEditor extends Component {
 			: EditorState.createEmpty(),
 		images: this.props.startingImages
 			? this.props.startingImages
+			: undefined,
+		subTitleList: this.props.startingContent
+			? getSubTitleList(convertFromRaw(this.props.startingContent))
 			: undefined,
 		titleOpen: false,
 		titleEntityKeyOnEdit: '',
@@ -322,13 +317,29 @@ class MyEditor extends Component {
 						currentTitle={this.state.currentTitle}
 						updateSubTitle={this.updateSubTitle}
 						closeSubTitleEditor={this.closeSubTitleEditor}
-						addSubTitleBlock={this.addSubTitleBlock}/> {/* <SubTitleList/> */}
+						addSubTitleBlock={this.addSubTitleBlock}/>
+					<SubTitleList subTitleList={this.state.subTitleList}/>
 				</ToolsWrapper>
 			</StoryEditorWrapper>
 
 		)
 	}
 
+}
+
+const getSubTitleList = (contentState) => {
+
+	let subTitleBlocks = contentState.getBlockMap().filter((block) => {
+		return (block.getType() === 'atomic') && (
+			contentState.getEntity(block.getEntityAt(0)).getType() === 'subTitle'
+		)
+	})
+	let subTitleList = subTitleBlocks.map((block, key) => {
+		// console.log(key); console.log(block);
+		return contentState.getEntity(block.getEntityAt(0)).getData().title
+	})
+	// console.log(subTitleList);
+	return subTitleList
 }
 
 MyEditor.propTypes = {
@@ -361,17 +372,10 @@ const StoryEditorWrapper = styled.div `
 const StoryEditor = styled.div `
   cursor: text;
   text-align: left;
-  ${ ''/* box-sizing: border-box;
-  border: 1px solid #ddd; */}
   margin-left: 80px;
   margin-right: 80px;
   padding-top: 16px;
   padding-bottom: 16px;
-  ${ ''/* padding: 16px;
-  border-radius: 2px;
-  margin-bottom: 2em;
-  box-shadow: inset 0px 1px 8px -3px #ABABAB;
-  background: #fefefe; */}
   min-width: 700px;
   max-width: 700px
 `
