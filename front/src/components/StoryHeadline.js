@@ -9,8 +9,8 @@ import Dialog, {DialogActions, DialogContent} from 'material-ui/Dialog';
 
 //
 import willUploadImage from '../lib/ImageUpload';
-import {CropImageMutation} from '../graphql/image';
-import {DraftDetailsQuery} from '../graphql/draft';
+import {CROP_IMAGE_MUTATION} from '../graphql/image';
+import {DRAFT_DETAILS_QUERY} from '../graphql/draft';
 
 //
 import ImageInsert from './StoryEditor/ImageInsert';
@@ -169,7 +169,7 @@ const EmptyHeadline = (props) => {
 	)
 }
 
-export const WithCropImageMutation = graphql(CropImageMutation, {
+export const WithCropImageMutation = graphql(CROP_IMAGE_MUTATION, {
 	props: ({mutate}) => ({
 		cropImage: (imageID, x, y, width, heigth) => mutate({
 			variables: {
@@ -186,7 +186,7 @@ export const WithCropImageMutation = graphql(CropImageMutation, {
 				}}) => {
 				// Read the data from the cache for this query.
 				const data = store.readQuery({
-					query: DraftDetailsQuery,
+					query: DRAFT_DETAILS_QUERY,
 					variables: {
 						draftID: cropImage.draft
 					}
@@ -195,7 +195,7 @@ export const WithCropImageMutation = graphql(CropImageMutation, {
 				data.draft.headlineImage = cropImage
 				// Write the data back to the cache.
 				store.writeQuery({
-					query: DraftDetailsQuery,
+					query: DRAFT_DETAILS_QUERY,
 					variables: {
 						draftID: cropImage.draft
 					},

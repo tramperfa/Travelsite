@@ -4,7 +4,7 @@ import {graphql} from 'react-apollo';
 import {withStyles} from 'material-ui/styles';
 
 //
-import {myDeleteStoryQuery} from '../../graphql/story';
+import {MY_DELETE_STORY_QUERY} from '../../graphql/story';
 
 //
 import DeleteStoryCard from '../../components/DeleteStoryCard';
@@ -65,7 +65,7 @@ MyStory.propTypes = {
 	myDeleteStoryData: PropTypes.object.isRequired
 }
 
-export const withMyStoryData = graphql(myDeleteStoryQuery, {
+export const withMyStoryData = graphql(MY_DELETE_STORY_QUERY, {
 	options: {
 		fetchPolicy: 'network-only'
 	},

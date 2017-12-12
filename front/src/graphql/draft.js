@@ -4,7 +4,7 @@ import {HEADLINE_IMAGE_FRG} from './imageFragment';
 
 ////// QUERY
 
-export const DraftDetailsQuery = gql `
+export const DRAFT_DETAILS_QUERY = gql `
   query DraftQuery($draftID : ID!) {
     draft(draftID: $draftID) {
       ...draftCard
@@ -20,7 +20,7 @@ export const DraftDetailsQuery = gql `
   ${HEADLINE_IMAGE_FRG}
 `;
 
-export const draftsListQuery = gql `
+export const DRAFTS_LIST_QUERY = gql `
   query DraftQuery {
     myDrafts {
       ...draftCard
@@ -29,7 +29,7 @@ export const draftsListQuery = gql `
   ${DRAFT_CARD_FRG}
 `;
 
-export const draftImageArrayQuery = gql `
+export const DRAFT_IMAGE_ARRAY_QUERY = gql `
 query DraftQuery($draftID : ID!) {
   draft(draftID: $draftID) {
     _id
@@ -41,7 +41,7 @@ ${DRAFT_IMAGE_ARRAY}
 
 /////// MUTATION
 
-export const PublishDraftMutation = gql `
+export const PUBLISH_DRAFT_MUTATION = gql `
   mutation publishDraft($draftID : ID!) {
     publishDraft(draftID: $draftID) {
       _id
@@ -50,7 +50,7 @@ export const PublishDraftMutation = gql `
   }
 `;
 
-export const UpdateContentMutation = gql `
+export const UPDATE_CONTENT_MUTATION = gql `
 mutation updateContent($input: updateContentInput!) {
   updateContent(input: $input) {
       _id
@@ -59,7 +59,7 @@ mutation updateContent($input: updateContentInput!) {
   }
 `;
 
-export const UpdateTitleMutation = gql `
+export const UPDATE_TITLE_MUTATION = gql `
 mutation updateTitle($input: updateTitleInput!) {
   updateTitle(input: $input) {
       _id
@@ -69,7 +69,7 @@ mutation updateTitle($input: updateTitleInput!) {
   }
 `;
 
-export const createDraftMutation = gql `
+export const CREATE_DRAFT_MUTATION = gql `
   mutation createDraft($ID: ID){
     createDraft(userID: $ID) {
       _id
@@ -78,7 +78,7 @@ export const createDraftMutation = gql `
 }
 `;
 
-export const DeleteDraftMutation = gql `
+export const DELETE_DRAFT_MUTATION = gql `
   mutation deleteDraft($draftID : ID!) {
     deleteDraft(draftID: $draftID) {
       _id
@@ -86,4 +86,4 @@ export const DeleteDraftMutation = gql `
   }
 `;
 
-export default DraftDetailsQuery
+export default DRAFT_DETAILS_QUERY
