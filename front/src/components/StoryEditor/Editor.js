@@ -213,6 +213,8 @@ class MyEditor extends Component {
 		this.saveContent(newContentState)
 	}
 
+	deleteAtomicBlock = (blockKey) => {}
+
 	myBlockStyleFn = (contentBlock) => {
 		const type = contentBlock.getType()
 		if (type === 'atomic') {
