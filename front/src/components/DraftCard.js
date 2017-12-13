@@ -6,12 +6,14 @@ import Card, {CardContent, CardMedia} from 'material-ui/Card';
 import IconButton from 'material-ui/IconButton';
 import Typography from 'material-ui/Typography';
 import moment from 'moment';
-import {graphql} from 'react-apollo';
+//import {graphql} from 'react-apollo';
 import Edit from "material-ui-icons/Edit";
 import Delete from "material-ui-icons/Delete";
 
 //
-import {DRAFTS_LIST_QUERY, DELETE_DRAFT_MUTATION} from '../graphql/draft';
+// import {DRAFTS_LIST_QUERY, DELETE_DRAFT_MUTATION, WithDelete} from
+// '../graphql/draft';
+import {WithDelete} from '../graphql/draft';
 
 //
 import imageTest from '../images/b.jpg';
@@ -39,42 +41,15 @@ export const styles = theme => ({
 	}
 });
 
-export const style = {
-	card: {
-		display: 'flex',
-		marginTop: 24,
-		width: 620,
-		height: 150
-	},
-	details: {
-		display: 'flex',
-		flexDirection: 'column'
-	},
-	content: {
-		flex: '1 0 auto'
-	},
-	cover: {
-		width: 220,
-		height: 150
-	},
-	textField: {
-		textDecoration: 'none'
-	}
-};
-
 export var DraftCard = function (props) {
-	console.log(props);
-
-	// class DraftCard extends React.Component {
+	//console.log(props);
 
 	const handleDelete = () => {
 		try {
 			props.deleteDraft(props.draft._id)
 		} catch (e) {
-			if (e.graphQLErrors) {
-				console.log(e.graphQLErrors[0].message);
-			}
-
+			console.log(e);
+			//console.log(e.graphQLErrors[0].message);
 		} finally {}
 	}
 
@@ -129,19 +104,9 @@ DraftCard.propTypes = {
 	draft: PropTypes.object.isRequired
 };
 
-export const WithDelete = graphql(DELETE_DRAFT_MUTATION, {
-	props: ({mutate}) => ({
-		deleteDraft: (draftID) => mutate({
-			variables: {
-				draftID: draftID
-			},
-			refetchQueries: [
-				{
-					query: DRAFTS_LIST_QUERY
-				}
-			]
-		})
-	})
-})
+// export const WithDelete = graphql(DELETE_DRAFT_MUTATION, { 	props: ({mutate})
+// => ({ 		deleteDraft: (draftID) => mutate({ 			variables: { 				draftID:
+// draftID 			}, 			refetchQueries: [ 				{ 					query: DRAFTS_LIST_QUERY 				}
+// ] 		}) 	}) })
 
 export default WithDelete(withStyles(styles, {withTheme: true})(DraftCard))

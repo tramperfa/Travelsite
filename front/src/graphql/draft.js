@@ -1,4 +1,5 @@
 import gql from 'graphql-tag';
+import {graphql} from 'react-apollo';
 import {DRAFT_CARD_FRG, DRAFT_IMAGE_ARRAY} from './draftFragment';
 import {HEADLINE_IMAGE_FRG} from './imageFragment';
 
@@ -85,5 +86,20 @@ export const DELETE_DRAFT_MUTATION = gql `
     }
   }
 `;
+
+export const WithDelete = graphql(DELETE_DRAFT_MUTATION, {
+	props: ({mutate}) => ({
+		deleteDraft: (draftID) => mutate({
+			variables: {
+				draftID: draftID
+			},
+			refetchQueries: [
+				{
+					query: DRAFTS_LIST_QUERY
+				}
+			]
+		})
+	})
+})
 
 export default DRAFT_DETAILS_QUERY

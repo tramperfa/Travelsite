@@ -29,7 +29,13 @@ exports[`Mount renders correctly 1`] = `
     <Component
       classes={Object {}}
       deleteDraft={[Function]}
-      draft={Object {}}
+      draft={
+        Object {
+          "_id": "test000",
+          "lastUpdate": "Thu Dec 07 2017 04:49:49 GMT+0000 (UTC)",
+          "title": "trip to test0",
+        }
+      }
     >
       <div>
         <Card
@@ -79,10 +85,10 @@ exports[`Mount renders correctly 1`] = `
               >
                 <Link
                   replace={false}
-                  to="/edit/undefined"
+                  to="/edit/test000"
                 >
                   <a
-                    href="/edit/undefined"
+                    href="/edit/test000"
                     onClick={[Function]}
                   >
                     <withStyles(CardMedia)
@@ -116,10 +122,10 @@ exports[`Mount renders correctly 1`] = `
                 <div>
                   <Link
                     replace={false}
-                    to="/edit/undefined"
+                    to="/edit/test000"
                   >
                     <a
-                      href="/edit/undefined"
+                      href="/edit/test000"
                       onClick={[Function]}
                     >
                       <withStyles(CardContent)>
@@ -187,7 +193,9 @@ exports[`Mount renders correctly 1`] = `
                               >
                                 <h1
                                   className="MuiTypography-root-31 MuiTypography-headline-36"
-                                />
+                                >
+                                  trip to test0
+                                </h1>
                               </Typography>
                             </withStyles(Typography)>
                             <withStyles(Typography)
@@ -248,7 +256,7 @@ exports[`Mount renders correctly 1`] = `
                                 >
                                   <div>
                                     Last Updated: 
-                                    Invalid date
+                                    2017-12-07 04:49
                                   </div>
                                 </h3>
                               </Typography>

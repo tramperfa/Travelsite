@@ -10,7 +10,7 @@ import {DRAFTS_LIST_QUERY, CREATE_DRAFT_MUTATION} from '../graphql/draft';
 //
 import DraftList from '../components/DraftList';
 
-export class TheUserDraft extends React.Component {
+export class UserDraft extends React.Component {
 	state = {
 		newDraftID: null
 	}
@@ -43,7 +43,7 @@ export class TheUserDraft extends React.Component {
 
 }
 
-TheUserDraft.propTypes = {
+UserDraft.propTypes = {
 	createDraft: PropTypes.func.isRequired
 }
 
@@ -59,4 +59,4 @@ export const WithCreateDraft = graphql(CREATE_DRAFT_MUTATION, {
 	})
 })
 
-export default WithCreateDraft(TheUserDraft)
+export default WithCreateDraft(UserDraft)

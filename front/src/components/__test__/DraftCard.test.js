@@ -1,11 +1,13 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 // Note: test renderer must be required after react-native. i
-import {DraftCard, style} from '../DraftCard';
-import TheDraftCard from '../DraftCard';
 import {shallow, mount} from 'enzyme';
 import {MemoryRouter, StaticRouter} from 'react-router-dom';
 import toJson from 'enzyme-to-json'
+import {MockedProvider} from 'react-apollo/test-utils';
+
+import {DraftCard} from '../DraftCard';
+import TheDraftCard from '../DraftCard';
 
 // test('shallow renders correctly', () => { 	const wrapper = shallow(
 // <MemoryRouter> <TheDraftCard deleteDraft={() => {}} draft={{}} classes={{}}/>
@@ -23,7 +25,7 @@ test('Tree renders correctly', () => {
 				draft={{
 					_id: 'test000'
 				}}
-				classes={style}/>
+				classes={{}}/>
 		</StaticRouter>
 	).toJSON();
 	expect(tree).toMatchSnapshot();
@@ -32,14 +34,20 @@ test('Tree renders correctly', () => {
 test('Mount renders correctly', () => {
 	const wrapper = mount(
 		<StaticRouter context={{}}>
-			<DraftCard deleteDraft={() => {}} draft={{}} classes={{}}/>
-		</StaticRouter>
+			<DraftCard
+				deleteDraft={() => {}}
+				draft={{
+					_id: 'test000',
+					title: 'trip to test0',
+					lastUpdate: 'Thu Dec 07 2017 04:49:49 GMT+0000 (UTC)'
 
+				}}
+				classes={{}}/>
+		</StaticRouter>
 	);
 
-	console.log(JSON.stringify(wrapper));
 	wrapper.find('button').forEach(child => {
-		console.log("SIMULATED");
+		//console.log("SIMULATED");
 		child.simulate('click');
 	});
 	//expect(handleDelete.calledOnce).toBe(true);
