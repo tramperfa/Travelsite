@@ -39,7 +39,31 @@ export const styles = theme => ({
 	}
 });
 
+export const style = {
+	card: {
+		display: 'flex',
+		marginTop: 24,
+		width: 620,
+		height: 150
+	},
+	details: {
+		display: 'flex',
+		flexDirection: 'column'
+	},
+	content: {
+		flex: '1 0 auto'
+	},
+	cover: {
+		width: 220,
+		height: 150
+	},
+	textField: {
+		textDecoration: 'none'
+	}
+};
+
 export var DraftCard = function (props) {
+	console.log(props);
 
 	// class DraftCard extends React.Component {
 
@@ -47,7 +71,10 @@ export var DraftCard = function (props) {
 		try {
 			props.deleteDraft(props.draft._id)
 		} catch (e) {
-			console.log(e.graphQLErrors[0].message);
+			if (e.graphQLErrors) {
+				console.log(e.graphQLErrors[0].message);
+			}
+
 		} finally {}
 	}
 

@@ -12,6 +12,7 @@ test('renders correctly', () => {
 			}
 		}
 	}
+
 	const wrapper = shallow(
 		<TheUserDraft createDraft={() => {
 				return mockedData
