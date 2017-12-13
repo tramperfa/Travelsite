@@ -11,8 +11,7 @@ import Edit from "material-ui-icons/Edit";
 import Delete from "material-ui-icons/Delete";
 
 //
-import {draftsListQuery} from '../graphql/draft';
-import {DeleteDraftMutation} from '../graphql/draft';
+import {DRAFTS_LIST_QUERY, DELETE_DRAFT_MUTATION} from '../graphql/draft';
 
 //
 import imageTest from '../images/b.jpg';
@@ -103,7 +102,7 @@ DraftCard.propTypes = {
 	draft: PropTypes.object.isRequired
 };
 
-export const WithDelete = graphql(DeleteDraftMutation, {
+export const WithDelete = graphql(DELETE_DRAFT_MUTATION, {
 	props: ({mutate}) => ({
 		deleteDraft: (draftID) => mutate({
 			variables: {
@@ -111,7 +110,7 @@ export const WithDelete = graphql(DeleteDraftMutation, {
 			},
 			refetchQueries: [
 				{
-					query: draftsListQuery
+					query: DRAFTS_LIST_QUERY
 				}
 			]
 		})

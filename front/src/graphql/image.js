@@ -3,7 +3,7 @@ import {HEADLINE_IMAGE_FRG} from './imageFragment';
 
 ////// QUERY / MUTATION
 
-export const CropImageMutation = gql `
+export const CROP_IMAGE_MUTATION = gql `
 mutation cropImage($input: cropImageInput!) {
   cropImage(input: $input) {
       ...headlineImage
@@ -13,4 +13,4 @@ mutation cropImage($input: cropImageInput!) {
 ${HEADLINE_IMAGE_FRG}
 `;
 
-export default CropImageMutation
+export default CROP_IMAGE_MUTATION

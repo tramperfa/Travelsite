@@ -4,8 +4,8 @@ import {graphql} from 'react-apollo';
 //import Button from 'material-ui/Button';
 
 //
-import {userDetailQuery} from '../../graphql/user';
-import {myStoryQuery} from '../../graphql/story';
+import {USER_DETAIL_QUERY} from '../../graphql/user';
+import {MY_STORY_QUERY} from '../../graphql/story';
 
 class MyHome extends React.Component {
 
@@ -36,7 +36,7 @@ MyHome.propTypes = {
 	myStoryData: PropTypes.object.isRequired
 }
 
-export const withUserData = graphql(userDetailQuery, {
+export const withUserData = graphql(USER_DETAIL_QUERY, {
 	options: (props) => ({
 		variables: {
 			_id: props.match.params._id
@@ -45,7 +45,7 @@ export const withUserData = graphql(userDetailQuery, {
 	name: 'userData'
 })
 
-export const withMyStoryData = graphql(myStoryQuery, {
+export const withMyStoryData = graphql(MY_STORY_QUERY, {
 	options: {
 		fetchPolicy: 'network-only'
 	},

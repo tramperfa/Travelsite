@@ -15,11 +15,8 @@ import {Link} from 'react-router-dom';
 // import Reply from "material-ui-icons/Reply"; import {createBrowserHistory}
 // from 'history'; const history = createBrowserHistory()
 
-import {StoryDetailsQuery} from '../graphql/story';
-import {LikeStoryMutation} from '../graphql/story';
-import {ArchiveStoryMutation} from '../graphql/story';
-import {DeleteStoryMutation} from '../graphql/story';
-import {meQuery} from '../graphql/user';
+import {STORY_DETAILS_QUERY, LIKE_STORY_MUTATION, ARCHIVE_STORY_MUTATION, DELETE_STORY_MUTATION} from '../graphql/story';
+import {ME_QUERY} from '../graphql/user';
 
 class Story extends React.Component {
 	state = {
@@ -164,7 +161,7 @@ Story.propTypes = {
 	MeData: PropTypes.object.isRequired
 }
 
-export const WithData = graphql(StoryDetailsQuery, {
+export const WithData = graphql(STORY_DETAILS_QUERY, {
 	options: (props) => ({
 		variables: {
 			_id: props.match.params._id
@@ -174,14 +171,14 @@ export const WithData = graphql(StoryDetailsQuery, {
 	name: 'storyData'
 })
 
-export const WithMeData = graphql(meQuery, {
+export const WithMeData = graphql(ME_QUERY, {
 	options: {
 		//notifyOnNetworkStatusChange: true
 	},
 	name: 'MeData'
 })
 
-export const WithLike = graphql(LikeStoryMutation, {
+export const WithLike = graphql(LIKE_STORY_MUTATION, {
 	props: ({mutate}) => ({
 		likeStory: (storyID) => mutate({
 			variables: {
@@ -191,7 +188,7 @@ export const WithLike = graphql(LikeStoryMutation, {
 	})
 })
 
-export const WithArchive = graphql(ArchiveStoryMutation, {
+export const WithArchive = graphql(ARCHIVE_STORY_MUTATION, {
 	props: ({mutate}) => ({
 		archiveStory: (storyID) => mutate({
 			variables: {
@@ -202,7 +199,7 @@ export const WithArchive = graphql(ArchiveStoryMutation, {
 })
 
 //NO REFETCH NEEDED
-export const WithDelete = graphql(DeleteStoryMutation, {
+export const WithDelete = graphql(DELETE_STORY_MUTATION, {
 	props: ({mutate}) => ({
 		deleteStory: (storyID) => mutate({
 			variables: {

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import {Redirect} from 'react-router-dom';
 
 //
-import {draftsListQuery, createDraftMutation} from '../graphql/draft';
+import {DRAFTS_LIST_QUERY, CREATE_DRAFT_MUTATION} from '../graphql/draft';
 
 //
 import DraftList from '../components/DraftList';
@@ -47,12 +47,12 @@ TheUserDraft.propTypes = {
 	createDraft: PropTypes.func.isRequired
 }
 
-export const WithCreateDraft = graphql(createDraftMutation, {
+export const WithCreateDraft = graphql(CREATE_DRAFT_MUTATION, {
 	props: ({mutate}) => ({
 		createDraft: () => mutate({
 			refetchQueries: [
 				{
-					query: draftsListQuery
+					query: DRAFTS_LIST_QUERY
 				}
 			]
 		})

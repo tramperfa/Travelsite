@@ -5,8 +5,7 @@ import {graphql} from 'react-apollo';
 import Button from 'material-ui/Button';
 import {Redirect} from 'react-router-dom';
 
-import {DraftDetailsQuery} from '../graphql/draft';
-import {PublishDraftMutation} from '../graphql/draft';
+import {DRAFT_DETAILS_QUERY, PUBLISH_DRAFT_MUTATION} from '../graphql/draft';
 
 import Editor from '../components/StoryEditor/Editor';
 import StoryTitle from '../components/StoryTitle';
@@ -76,7 +75,7 @@ Draft.propTypes = {
 	draftData: PropTypes.object.isRequired
 }
 
-export const WithDraftData = graphql(DraftDetailsQuery, {
+export const WithDraftData = graphql(DRAFT_DETAILS_QUERY, {
 	options: (props) => ({
 		variables: {
 			draftID: props.match.params._id
@@ -87,7 +86,7 @@ export const WithDraftData = graphql(DraftDetailsQuery, {
 
 })
 
-export const WithPublish = graphql(PublishDraftMutation, {
+export const WithPublish = graphql(PUBLISH_DRAFT_MUTATION, {
 	props: ({mutate}) => ({
 		publishDraft: (draftID) => mutate({
 			variables: {

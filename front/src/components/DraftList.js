@@ -2,7 +2,7 @@ import React from 'react';
 import {graphql} from 'react-apollo';
 
 //
-import {draftsListQuery} from '../graphql/draft';
+import {DRAFTS_LIST_QUERY} from '../graphql/draft';
 
 //
 import DraftCard from './DraftCard';
@@ -35,7 +35,7 @@ const draftsList = ({
 	);
 };
 
-export default graphql(draftsListQuery, {
+export default graphql(DRAFTS_LIST_QUERY, {
 	options: {
 		fetchPolicy: 'network-only'
 	}

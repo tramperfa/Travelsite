@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
 ////// QUERY
-export const meQuery = gql `
+export const ME_QUERY = gql `
   query meQuery {
     me {
       _id
@@ -11,7 +11,7 @@ export const meQuery = gql `
   }
 `;
 
-export const userDetailQuery = gql `
+export const USER_DETAIL_QUERY = gql `
    query userDetailsQuery($_id : ID!) {
      user(_id: $_id) {
        _id
@@ -25,7 +25,7 @@ export const userDetailQuery = gql `
 
 ////// MUTATION
 
-export const LoginMutation = gql `
+export const LOGIN_MUTATION = gql `
    mutation localLogin($input: localLoginInput!) {
      localLogin(input: $input) {
        me {
@@ -37,7 +37,7 @@ export const LoginMutation = gql `
    }
   `;
 
-export const LogoutMutation = gql `
+export const LOGOUT_MUTATION = gql `
   mutation logout($name: String){
     logout(fullName: $name) {
       success
@@ -45,7 +45,7 @@ export const LogoutMutation = gql `
   }
   `;
 
-export const RegisterUserMutation = gql `
+export const REGISTER_USER_MUTATION = gql `
    mutation registerUser($input: registerUserInput!) {
      registerUser(input: $input) {
        _id
@@ -53,4 +53,4 @@ export const RegisterUserMutation = gql `
    }
   `;
 
-export default LoginMutation
+export default LOGIN_MUTATION

@@ -19,8 +19,8 @@ import willUploadImage from '../../lib/ImageUpload'
 import willExtractOrientation from './util/ExtractOrientation'
 import willExtractSize from './util/ExtractSize'
 import client from '../../graphql/graphql';
-import {draftImageArrayQuery} from '../../graphql/draft';
-import {UpdateContentMutation} from '../../graphql/draft';
+import {DRAFT_IMAGE_ARRAY_QUERY} from '../../graphql/draft';
+import {UPDATE_CONTENT_MUTATION} from '../../graphql/draft';
 
 import TitleBlock from './TitleBlock';
 import ImageInsert from './ImageInsert';
@@ -117,7 +117,7 @@ class MyEditor extends Component {
 
 		let data = this.getCachedDraft()
 		data.draft.images.push(uploadedImage)
-		client.writeQuery({query: draftImageArrayQuery, data: data})
+		client.writeQuery({query: DRAFT_IMAGE_ARRAY_QUERY, data: data})
 		const imageID = uploadedImage._id
 		const contentStateWithRemoteImage = contentStateWithPlaceHolder.replaceEntityData(
 			recentEntityKey,
@@ -137,7 +137,7 @@ class MyEditor extends Component {
 
 	getCachedDraft = () => {
 		let data = client.readQuery({
-			query: draftImageArrayQuery,
+			query: DRAFT_IMAGE_ARRAY_QUERY,
 			variables: {
 				draftID: this.props.match.params._id
 			}
@@ -368,7 +368,7 @@ MyEditor.propTypes = {
 	startingImages: PropTypes.array.isRequired
 }
 
-export const WithContentMuation = graphql(UpdateContentMutation, {
+export const WithContentMuation = graphql(UPDATE_CONTENT_MUTATION, {
 	props: ({mutate}) => ({
 		updateContent: (draftID, newContent) => mutate({
 			variables: {
