@@ -12,8 +12,8 @@ export default class extends Component {
 	onMouseLeave = () => {
 		// console.log("Mouse Leave!")
 	}
-	onEdit = (entityKey, currentTitle) => {
-		this.props.blockProps.openSubTitleEditor(entityKey, currentTitle)
+	onEdit = (blockKey, entityKey, currentTitle) => {
+		this.props.blockProps.openSubTitleEditor(blockKey, entityKey, currentTitle)
 	}
 
 	render() {
@@ -32,7 +32,7 @@ export default class extends Component {
 					</h1>
 				</div>
 				<TitleAction>
-					<IconButton onClick={() => this.onEdit(entityKey, title)}>
+					<IconButton onClick={() => this.onEdit(block.getKey(), entityKey, title)}>
 						<Edit/>
 					</IconButton>
 					<IconButton>
