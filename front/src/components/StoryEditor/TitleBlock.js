@@ -15,6 +15,9 @@ export default class extends Component {
 	onEdit = (blockKey, entityKey, currentTitle) => {
 		this.props.blockProps.openSubTitleEditor(blockKey, entityKey, currentTitle)
 	}
+	onDelete = (blockKey) => {
+		this.props.blockProps.deleteAtomicBlock(blockKey)
+	}
 
 	render() {
 		const contentState = this.props.contentState
@@ -35,7 +38,7 @@ export default class extends Component {
 					<IconButton onClick={() => this.onEdit(block.getKey(), entityKey, title)}>
 						<Edit/>
 					</IconButton>
-					<IconButton>
+					<IconButton onClick={() => this.onDelete(block.getKey())}>
 						<Delete/>
 					</IconButton>
 				</TitleAction>

@@ -1,10 +1,22 @@
 import React, {Component} from 'react';
-import {EditorState, AtomicBlockUtils, convertFromRaw, convertToRaw, getDefaultKeyBinding} from 'draft-js';
+import {List} from 'immutable'
+import {
+	Editor,
+	EditorState,
+	ContentState,
+	SelectionState,
+	AtomicBlockUtils,
+	convertFromRaw,
+	convertToRaw,
+	getDefaultKeyBinding,
+	Modifier,
+	ContentBlock,
+	genKey
+} from 'draft-js';
 import debounce from 'lodash/debounce';
-import Editor from 'draft-js-plugins-editor';
-// import Editor, {createEditorStateWithText, composeDecorators} from
-// 'draft-js-plugins-editor'; import createEmojiPlugin from
-// 'draft-js-emoji-plugin';
+// import Editor from 'draft-js-plugins-editor' {createEditorStateWithText,
+// composeDecorators} from 'draft-js-plugins-editor'; import createEmojiPlugin
+// from 'draft-js-emoji-plugin';
 import createVideoPlugin from 'draft-js-video-plugin';
 import styled from 'styled-components'
 import PropTypes from 'prop-types';
@@ -124,7 +136,8 @@ class MyEditor extends Component {
 			{_id: imageID}
 		)
 
-		//force rerender can be removed when draft update to v0.11
+		// force rerender can be removed when draft update to v0.11. automatically
+		// re-render after replaceEntityData
 		this.setState({
 			editorState: EditorState.forceSelection(
 				this.state.editorState,
@@ -213,7 +226,101 @@ class MyEditor extends Component {
 		this.saveContent(newContentState)
 	}
 
-	deleteAtomicBlock = (blockKey) => {}
+	anotherDeleteAtomicBlock = (blockKey) => {
+		const contentState = this.state.editorState.getCurrentContent()
+		const selectionState = this.state.editorState.getSelection()
+		const blockKeyAfter = contentState.getKeyAfter(blockKey)
+
+		const blockMap = contentState.getBlockMap().delete(blockKey)
+		const contentStateAfterRemoval = contentState.merge(
+			{blockMap, selectionAfter: selectionState}
+		)
+
+		const newState = EditorState.push(
+			this.state.editorState,
+			contentStateAfterRemoval,
+			'remove-range'
+		)
+
+		const newSelection = new SelectionState(
+			{anchorKey: blockKeyAfter, anchorOffset: 0, focusKey: blockKeyAfter, focusOffset: 0}
+		)
+
+		const newEditorState = EditorState.forceSelection(newState, newSelection)
+		this.onChange(newEditorState)
+	}
+
+	deleteAtomicBlockV3 = (blockKey) => {
+		const contentState = this.state.editorState.getCurrentContent()
+		const selectionState = this.state.editorState.getSelection()
+		const blockKeyAfter = contentState.getKeyAfter(blockKey)
+
+		//create empty block
+		const newBlock = new ContentBlock(
+			{key: genKey(), type: "unstyled", text: "", characterList: List()}
+		)
+
+		const blockMap = contentState.getBlockMap().set(newBlock.key, newBlock)
+		const newState = EditorState.push(
+			this.state.editorState,
+			ContentState.createFromBlockArray(blockMap.toArray()).set('selectionBefore', contentState.getSelectionBefore()).set('selectionAfter', contentState.getSelectionAfter())
+		)
+		/*
+		const blockMap = contentState.getBlockMap().delete(blockKey)
+		const contentStateAfterRemoval = contentState.merge(
+			{blockMap, selectionAfter: selectionState}
+		)
+
+		const newState = EditorState.push(
+			this.state.editorState,
+			contentStateAfterRemoval,
+			'remove-range'
+		)
+*/
+
+		this.onChange(newState)
+	}
+
+	deleteAtomicBlock = (blockKey) => {
+		const editorState = this.state.editorState
+		const contentState = editorState.getCurrentContent()
+		const blockKeyBefore = contentState.getKeyBefore(blockKey)
+		const blockKeyAfter = contentState.getKeyAfter(blockKey)
+		const selectionState = editorState.getSelection()
+
+		// Start Updating Content State
+		const selectAtomic = selectionState.merge({
+			anchorKey: blockKeyBefore, anchorOffset: contentState.getBlockForKey(blockKeyBefore).getLength(),
+			//
+			focusKey: blockKey,
+			focusOffset: contentState.getBlockForKey(blockKey).getLength()
+		})
+		const contentStateAfterRemoval = Modifier.removeRange(
+			contentState,
+			selectAtomic,
+			'forward'
+		)
+		const selectAfter = selectAtomic.merge(
+			{anchorKey: blockKeyAfter, anchorOffset: 0, focusKey: blockKeyAfter, focusOffset: 0}
+		)
+		const contentWithSeletAfter = contentStateAfterRemoval.merge(
+			{selectionAfter: selectAfter}
+		)
+		const newState = EditorState.push(
+			this.state.editorState,
+			contentWithSeletAfter,
+			'remove-range'
+		)
+		// const newState = EditorState.createWithContent(contentStateAfterRemoval)
+		// console.log(newState.getSelection());
+		this.onChange(newState)
+	}
+
+	deleteSubTitle = (blockKey) => {
+		this.deleteAtomicBlock(blockKey)
+		const newList = this.state.subTitleList.delete(blockKey)
+		this.setState({subTitleList: newList})
+	}
 
 	myBlockStyleFn = (contentBlock) => {
 		const type = contentBlock.getType()
@@ -237,7 +344,8 @@ class MyEditor extends Component {
 					component: TitleBlock,
 					editable: false,
 					props: {
-						openSubTitleEditor: this.openSubTitleEditor
+						openSubTitleEditor: this.openSubTitleEditor,
+						deleteAtomicBlock: this.deleteSubTitle
 					}
 				}
 			} else if (entityType === 'image') {
