@@ -29,7 +29,7 @@ class StoryTitle extends React.Component {
 	render() {
 		return (
 			<TextField
-				inputProps={{
+				inputprops={{
 					maxLength: 60
 				}}
 				id="title"

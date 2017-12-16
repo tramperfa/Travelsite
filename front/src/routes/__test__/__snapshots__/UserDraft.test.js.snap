@@ -2341,7 +2341,7 @@ exports[`Mount renders correctly 1`] = `
             ],
           },
         },
-        "version": "2.1.0",
+        "version": "2.0.4",
         "watchQuery": [Function],
       }
     }

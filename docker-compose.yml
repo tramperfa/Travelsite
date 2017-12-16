@@ -23,6 +23,6 @@ services:
       - mongodb
 
   mongodb:
-    image: mongo:latest
+    image: mongo:3.5
     ports:
       - "27017:27017"

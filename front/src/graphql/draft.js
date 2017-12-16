@@ -79,6 +79,18 @@ export const CREATE_DRAFT_MUTATION = gql `
 }
 `;
 
+export const WithCreateDraftMutation = graphql(CREATE_DRAFT_MUTATION, {
+	props: ({mutate}) => ({
+		createDraft: () => mutate({
+			refetchQueries: [
+				{
+					query: DRAFTS_LIST_QUERY
+				}
+			]
+		})
+	})
+})
+
 export const DELETE_DRAFT_MUTATION = gql `
   mutation deleteDraft($draftID : ID!) {
     deleteDraft(draftID: $draftID) {
@@ -87,7 +99,7 @@ export const DELETE_DRAFT_MUTATION = gql `
   }
 `;
 
-export const WithDelete = graphql(DELETE_DRAFT_MUTATION, {
+export const WithDeleteDraftMutation = graphql(DELETE_DRAFT_MUTATION, {
 	props: ({mutate}) => ({
 		deleteDraft: (draftID) => mutate({
 			variables: {
