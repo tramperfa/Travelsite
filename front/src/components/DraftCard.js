@@ -6,12 +6,11 @@ import Card, {CardContent, CardMedia} from 'material-ui/Card';
 import IconButton from 'material-ui/IconButton';
 import Typography from 'material-ui/Typography';
 import moment from 'moment';
-import {graphql} from 'react-apollo';
 import Edit from "material-ui-icons/Edit";
 import Delete from "material-ui-icons/Delete";
 
 //
-import {DRAFTS_LIST_QUERY, DELETE_DRAFT_MUTATION} from '../graphql/draft';
+import {WithDeleteDraftMutation} from '../graphql/draft';
 
 //
 import imageTest from '../images/b.jpg';
@@ -40,18 +39,18 @@ export const styles = theme => ({
 });
 
 export var DraftCard = function (props) {
-
-	// class DraftCard extends React.Component {
+	//console.log(props);
 
 	const handleDelete = () => {
 		try {
 			props.deleteDraft(props.draft._id)
+
 		} catch (e) {
-			console.log(e.graphQLErrors[0].message);
+			console.log(e);
+			//console.log(e.graphQLErrors[0].message);
 		} finally {}
 	}
 
-	// render() {
 	const {classes, draft} = props;
 	return (
 
@@ -92,29 +91,12 @@ export var DraftCard = function (props) {
 			</Card>
 		</div>
 	);
-	// }
 }
 
 DraftCard.propTypes = {
 	classes: PropTypes.object.isRequired,
-	//theme: PropTypes.object.isRequired,
 	deleteDraft: PropTypes.func.isRequired,
 	draft: PropTypes.object.isRequired
 };
 
-export const WithDelete = graphql(DELETE_DRAFT_MUTATION, {
-	props: ({mutate}) => ({
-		deleteDraft: (draftID) => mutate({
-			variables: {
-				draftID: draftID
-			},
-			refetchQueries: [
-				{
-					query: DRAFTS_LIST_QUERY
-				}
-			]
-		})
-	})
-})
-
-export default WithDelete(withStyles(styles, {withTheme: true})(DraftCard))
+export default WithDeleteDraftMutation(withStyles(styles)(DraftCard))

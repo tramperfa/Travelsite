@@ -1,4 +1,5 @@
 import gql from 'graphql-tag';
+import {graphql} from 'react-apollo';
 import {DRAFT_CARD_FRG, DRAFT_IMAGE_ARRAY} from './draftFragment';
 import {HEADLINE_IMAGE_FRG} from './imageFragment';
 
@@ -78,6 +79,18 @@ export const CREATE_DRAFT_MUTATION = gql `
 }
 `;
 
+export const WithCreateDraftMutation = graphql(CREATE_DRAFT_MUTATION, {
+	props: ({mutate}) => ({
+		createDraft: () => mutate({
+			refetchQueries: [
+				{
+					query: DRAFTS_LIST_QUERY
+				}
+			]
+		})
+	})
+})
+
 export const DELETE_DRAFT_MUTATION = gql `
   mutation deleteDraft($draftID : ID!) {
     deleteDraft(draftID: $draftID) {
@@ -85,5 +98,20 @@ export const DELETE_DRAFT_MUTATION = gql `
     }
   }
 `;
+
+export const WithDeleteDraftMutation = graphql(DELETE_DRAFT_MUTATION, {
+	props: ({mutate}) => ({
+		deleteDraft: (draftID) => mutate({
+			variables: {
+				draftID: draftID
+			},
+			refetchQueries: [
+				{
+					query: DRAFTS_LIST_QUERY
+				}
+			]
+		})
+	})
+})
 
 export default DRAFT_DETAILS_QUERY

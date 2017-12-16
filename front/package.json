@@ -5,6 +5,8 @@
   "devDependencies": {
     "react-test-renderer": "^16.2.0",
     "enzyme-adapter-react-16": "^1.1.0",
+    "flow-bin": "^0.52.0",
+    "enzyme-to-json": "^3.2.2",
     "enzyme": "^3.2.0"
   },
 
@@ -19,9 +21,8 @@
     "draft-js-emoji-plugin": "^2.0.0-rc8",
     "draft-js-plugins-editor": "^2.0.0-rc8",
     "draft-js-video-plugin": "^2.0.0-rc8",
-    "flow-bin": "^0.52.0",
     "localforage": "1.5.0",
-    "material-ui": "1.0.0-beta.22",
+    "material-ui": "1.0.0-beta.23",
     "material-ui-icons": "^1.0.0-beta.17",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",

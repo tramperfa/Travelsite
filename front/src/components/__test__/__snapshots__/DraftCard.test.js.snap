@@ -1,0 +1,746 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Mount renders correctly 1`] = `
+<MockedProvider>
+  <ApolloProvider
+    client={
+      ApolloClient {
+        "cache": InMemoryCache {
+          "addTypename": true,
+          "config": Object {
+            "addTypename": true,
+            "dataIdFromObject": [Function],
+            "fragmentMatcher": HeuristicFragmentMatcher {},
+            "storeFactory": [Function],
+          },
+          "data": ObjectCache {
+            "data": Object {},
+          },
+          "optimistic": Array [],
+          "silenceBroadcast": false,
+          "watches": Array [],
+        },
+        "defaultOptions": Object {},
+        "disableNetworkFetches": false,
+        "link": ApolloLink {
+          "request": [Function],
+        },
+        "mutate": [Function],
+        "query": [Function],
+        "queryDeduplication": true,
+        "reFetchObservableQueries": [Function],
+        "resetStore": [Function],
+        "ssrMode": false,
+        "store": DataStore {
+          "cache": InMemoryCache {
+            "addTypename": true,
+            "config": Object {
+              "addTypename": true,
+              "dataIdFromObject": [Function],
+              "fragmentMatcher": HeuristicFragmentMatcher {},
+              "storeFactory": [Function],
+            },
+            "data": ObjectCache {
+              "data": Object {},
+            },
+            "optimistic": Array [],
+            "silenceBroadcast": false,
+            "watches": Array [],
+          },
+        },
+        "version": "2.0.4",
+        "watchQuery": [Function],
+      }
+    }
+  >
+    <QueryRecyclerProvider>
+      <StaticRouter
+        basename=""
+        context={Object {}}
+        location="/"
+      >
+        <Router
+          history={
+            Object {
+              "action": "POP",
+              "block": [Function],
+              "createHref": [Function],
+              "go": [Function],
+              "goBack": [Function],
+              "goForward": [Function],
+              "listen": [Function],
+              "location": Object {
+                "hash": "",
+                "pathname": "/",
+                "search": "",
+              },
+              "push": [Function],
+              "replace": [Function],
+            }
+          }
+        >
+          <Component
+            classes={Object {}}
+            deleteDraft={[Function]}
+            draft={
+              Object {
+                "_id": "test000",
+                "lastUpdate": "Thu Dec 07 2017 04:49:49 GMT+0000 (UTC)",
+                "title": "trip to test0",
+              }
+            }
+          >
+            <div>
+              <Card
+                raised={false}
+              >
+                <withStyles(Paper)
+                  elevation={2}
+                >
+                  <Paper
+                    classes={
+                      Object {
+                        "root": "MuiPaper-root-6",
+                        "rounded": "MuiPaper-rounded-7",
+                        "shadow0": "MuiPaper-shadow0-8",
+                        "shadow1": "MuiPaper-shadow1-9",
+                        "shadow10": "MuiPaper-shadow10-18",
+                        "shadow11": "MuiPaper-shadow11-19",
+                        "shadow12": "MuiPaper-shadow12-20",
+                        "shadow13": "MuiPaper-shadow13-21",
+                        "shadow14": "MuiPaper-shadow14-22",
+                        "shadow15": "MuiPaper-shadow15-23",
+                        "shadow16": "MuiPaper-shadow16-24",
+                        "shadow17": "MuiPaper-shadow17-25",
+                        "shadow18": "MuiPaper-shadow18-26",
+                        "shadow19": "MuiPaper-shadow19-27",
+                        "shadow2": "MuiPaper-shadow2-10",
+                        "shadow20": "MuiPaper-shadow20-28",
+                        "shadow21": "MuiPaper-shadow21-29",
+                        "shadow22": "MuiPaper-shadow22-30",
+                        "shadow23": "MuiPaper-shadow23-31",
+                        "shadow24": "MuiPaper-shadow24-32",
+                        "shadow3": "MuiPaper-shadow3-11",
+                        "shadow4": "MuiPaper-shadow4-12",
+                        "shadow5": "MuiPaper-shadow5-13",
+                        "shadow6": "MuiPaper-shadow6-14",
+                        "shadow7": "MuiPaper-shadow7-15",
+                        "shadow8": "MuiPaper-shadow8-16",
+                        "shadow9": "MuiPaper-shadow9-17",
+                      }
+                    }
+                    component="div"
+                    elevation={2}
+                    square={false}
+                  >
+                    <div
+                      className="MuiPaper-root-6 MuiPaper-shadow2-10 MuiPaper-rounded-7"
+                    >
+                      <Link
+                        replace={false}
+                        to="/edit/test000"
+                      >
+                        <a
+                          href="/edit/test000"
+                          onClick={[Function]}
+                        >
+                          <withStyles(CardMedia)
+                            image="b.jpg"
+                            title="Live from space album cover"
+                          >
+                            <CardMedia
+                              classes={
+                                Object {
+                                  "root": "MuiCardMedia-root-33",
+                                  "rootMedia": "MuiCardMedia-rootMedia-34",
+                                }
+                              }
+                              component="div"
+                              image="b.jpg"
+                              title="Live from space album cover"
+                            >
+                              <div
+                                className="MuiCardMedia-root-33"
+                                style={
+                                  Object {
+                                    "backgroundImage": "url(b.jpg)",
+                                  }
+                                }
+                                title="Live from space album cover"
+                              />
+                            </CardMedia>
+                          </withStyles(CardMedia)>
+                        </a>
+                      </Link>
+                      <div>
+                        <Link
+                          replace={false}
+                          to="/edit/test000"
+                        >
+                          <a
+                            href="/edit/test000"
+                            onClick={[Function]}
+                          >
+                            <withStyles(CardContent)>
+                              <CardContent
+                                classes={
+                                  Object {
+                                    "root": "MuiCardContent-root-35",
+                                  }
+                                }
+                              >
+                                <div
+                                  className="MuiCardContent-root-35"
+                                >
+                                  <withStyles(Typography)
+                                    type="headline"
+                                  >
+                                    <Typography
+                                      align="inherit"
+                                      classes={
+                                        Object {
+                                          "alignCenter": "MuiTypography-alignCenter-49",
+                                          "alignJustify": "MuiTypography-alignJustify-51",
+                                          "alignLeft": "MuiTypography-alignLeft-48",
+                                          "alignRight": "MuiTypography-alignRight-50",
+                                          "body1": "MuiTypography-body1-45",
+                                          "body2": "MuiTypography-body2-44",
+                                          "button": "MuiTypography-button-47",
+                                          "caption": "MuiTypography-caption-46",
+                                          "colorAccent": "MuiTypography-colorAccent-58",
+                                          "colorError": "MuiTypography-colorError-59",
+                                          "colorInherit": "MuiTypography-colorInherit-55",
+                                          "colorPrimary": "MuiTypography-colorPrimary-56",
+                                          "colorSecondary": "MuiTypography-colorSecondary-57",
+                                          "display1": "MuiTypography-display1-40",
+                                          "display2": "MuiTypography-display2-39",
+                                          "display3": "MuiTypography-display3-38",
+                                          "display4": "MuiTypography-display4-37",
+                                          "gutterBottom": "MuiTypography-gutterBottom-53",
+                                          "headline": "MuiTypography-headline-41",
+                                          "noWrap": "MuiTypography-noWrap-52",
+                                          "paragraph": "MuiTypography-paragraph-54",
+                                          "root": "MuiTypography-root-36",
+                                          "subheading": "MuiTypography-subheading-43",
+                                          "title": "MuiTypography-title-42",
+                                        }
+                                      }
+                                      color="default"
+                                      gutterBottom={false}
+                                      headlineMapping={
+                                        Object {
+                                          "body1": "p",
+                                          "body2": "aside",
+                                          "display1": "h1",
+                                          "display2": "h1",
+                                          "display3": "h1",
+                                          "display4": "h1",
+                                          "headline": "h1",
+                                          "subheading": "h3",
+                                          "title": "h2",
+                                        }
+                                      }
+                                      noWrap={false}
+                                      paragraph={false}
+                                      type="headline"
+                                    >
+                                      <h1
+                                        className="MuiTypography-root-36 MuiTypography-headline-41"
+                                      >
+                                        trip to test0
+                                      </h1>
+                                    </Typography>
+                                  </withStyles(Typography)>
+                                  <withStyles(Typography)
+                                    color="secondary"
+                                    type="subheading"
+                                  >
+                                    <Typography
+                                      align="inherit"
+                                      classes={
+                                        Object {
+                                          "alignCenter": "MuiTypography-alignCenter-49",
+                                          "alignJustify": "MuiTypography-alignJustify-51",
+                                          "alignLeft": "MuiTypography-alignLeft-48",
+                                          "alignRight": "MuiTypography-alignRight-50",
+                                          "body1": "MuiTypography-body1-45",
+                                          "body2": "MuiTypography-body2-44",
+                                          "button": "MuiTypography-button-47",
+                                          "caption": "MuiTypography-caption-46",
+                                          "colorAccent": "MuiTypography-colorAccent-58",
+                                          "colorError": "MuiTypography-colorError-59",
+                                          "colorInherit": "MuiTypography-colorInherit-55",
+                                          "colorPrimary": "MuiTypography-colorPrimary-56",
+                                          "colorSecondary": "MuiTypography-colorSecondary-57",
+                                          "display1": "MuiTypography-display1-40",
+                                          "display2": "MuiTypography-display2-39",
+                                          "display3": "MuiTypography-display3-38",
+                                          "display4": "MuiTypography-display4-37",
+                                          "gutterBottom": "MuiTypography-gutterBottom-53",
+                                          "headline": "MuiTypography-headline-41",
+                                          "noWrap": "MuiTypography-noWrap-52",
+                                          "paragraph": "MuiTypography-paragraph-54",
+                                          "root": "MuiTypography-root-36",
+                                          "subheading": "MuiTypography-subheading-43",
+                                          "title": "MuiTypography-title-42",
+                                        }
+                                      }
+                                      color="secondary"
+                                      gutterBottom={false}
+                                      headlineMapping={
+                                        Object {
+                                          "body1": "p",
+                                          "body2": "aside",
+                                          "display1": "h1",
+                                          "display2": "h1",
+                                          "display3": "h1",
+                                          "display4": "h1",
+                                          "headline": "h1",
+                                          "subheading": "h3",
+                                          "title": "h2",
+                                        }
+                                      }
+                                      noWrap={false}
+                                      paragraph={false}
+                                      type="subheading"
+                                    >
+                                      <h3
+                                        className="MuiTypography-root-36 MuiTypography-subheading-43 MuiTypography-colorSecondary-57"
+                                      >
+                                        <div>
+                                          Last Updated: 
+                                          2017-12-07 04:49
+                                        </div>
+                                      </h3>
+                                    </Typography>
+                                  </withStyles(Typography)>
+                                </div>
+                              </CardContent>
+                            </withStyles(CardContent)>
+                          </a>
+                        </Link>
+                        <div>
+                          Continue Writing
+                          <withStyles(IconButton)
+                            aria-label="Edit"
+                          >
+                            <IconButton
+                              aria-label="Edit"
+                              classes={
+                                Object {
+                                  "colorAccent": "MuiIconButton-colorAccent-61",
+                                  "colorContrast": "MuiIconButton-colorContrast-62",
+                                  "colorInherit": "MuiIconButton-colorInherit-64",
+                                  "colorPrimary": "MuiIconButton-colorPrimary-63",
+                                  "disabled": "MuiIconButton-disabled-65",
+                                  "icon": "MuiIconButton-icon-67",
+                                  "keyboardFocused": "MuiIconButton-keyboardFocused-68",
+                                  "label": "MuiIconButton-label-66",
+                                  "root": "MuiIconButton-root-60",
+                                }
+                              }
+                              color="default"
+                              disableRipple={false}
+                              disabled={false}
+                            >
+                              <withStyles(ButtonBase)
+                                aria-label="Edit"
+                                centerRipple={true}
+                                className="MuiIconButton-root-60"
+                                disableRipple={false}
+                                disabled={false}
+                                keyboardFocusedClassName="MuiIconButton-keyboardFocused-68"
+                              >
+                                <ButtonBase
+                                  aria-label="Edit"
+                                  centerRipple={true}
+                                  className="MuiIconButton-root-60"
+                                  classes={
+                                    Object {
+                                      "disabled": "MuiButtonBase-disabled-70",
+                                      "root": "MuiButtonBase-root-69",
+                                    }
+                                  }
+                                  disableRipple={false}
+                                  disabled={false}
+                                  focusRipple={false}
+                                  keyboardFocusedClassName="MuiIconButton-keyboardFocused-68"
+                                  tabIndex={0}
+                                  type="button"
+                                >
+                                  <button
+                                    aria-label="Edit"
+                                    className="MuiButtonBase-root-69 MuiIconButton-root-60"
+                                    disabled={false}
+                                    onBlur={[Function]}
+                                    onFocus={[Function]}
+                                    onKeyDown={[Function]}
+                                    onKeyUp={[Function]}
+                                    onMouseDown={[Function]}
+                                    onMouseLeave={[Function]}
+                                    onMouseUp={[Function]}
+                                    onTouchEnd={[Function]}
+                                    onTouchMove={[Function]}
+                                    onTouchStart={[Function]}
+                                    role="button"
+                                    tabIndex={0}
+                                    type="button"
+                                  >
+                                    <span
+                                      className="MuiIconButton-label-66"
+                                    >
+                                      <pure(Edit)
+                                        className="MuiIconButton-icon-67"
+                                        key=".0"
+                                      >
+                                        <Edit
+                                          className="MuiIconButton-icon-67"
+                                        >
+                                          <withStyles(SvgIcon)
+                                            className="MuiIconButton-icon-67"
+                                          >
+                                            <SvgIcon
+                                              className="MuiIconButton-icon-67"
+                                              classes={
+                                                Object {
+                                                  "root": "MuiSvgIcon-root-71",
+                                                }
+                                              }
+                                              viewBox="0 0 24 24"
+                                            >
+                                              <svg
+                                                aria-hidden="true"
+                                                className="MuiSvgIcon-root-71 MuiIconButton-icon-67"
+                                                focusable="false"
+                                                viewBox="0 0 24 24"
+                                              >
+                                                <path
+                                                  d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
+                                                />
+                                              </svg>
+                                            </SvgIcon>
+                                          </withStyles(SvgIcon)>
+                                        </Edit>
+                                      </pure(Edit)>
+                                    </span>
+                                    <withStyles(TouchRipple)
+                                      center={true}
+                                      innerRef={[Function]}
+                                    >
+                                      <TouchRipple
+                                        center={true}
+                                        classes={
+                                          Object {
+                                            "ripple": "MuiTouchRipple-ripple-76",
+                                            "rippleFast": "MuiTouchRipple-rippleFast-78",
+                                            "rippleVisible": "MuiTouchRipple-rippleVisible-77",
+                                            "root": "MuiTouchRipple-root-72",
+                                            "wrapper": "MuiTouchRipple-wrapper-73",
+                                            "wrapperLeaving": "MuiTouchRipple-wrapperLeaving-74",
+                                            "wrapperPulsating": "MuiTouchRipple-wrapperPulsating-75",
+                                          }
+                                        }
+                                      >
+                                        <TransitionGroup
+                                          childFactory={[Function]}
+                                          className="MuiTouchRipple-root-72"
+                                          component="span"
+                                          enter={true}
+                                          exit={true}
+                                        >
+                                          <span
+                                            className="MuiTouchRipple-root-72"
+                                          />
+                                        </TransitionGroup>
+                                      </TouchRipple>
+                                    </withStyles(TouchRipple)>
+                                  </button>
+                                </ButtonBase>
+                              </withStyles(ButtonBase)>
+                            </IconButton>
+                          </withStyles(IconButton)>
+                          <withStyles(IconButton)
+                            aria-label="Delete"
+                            onClick={[Function]}
+                          >
+                            <IconButton
+                              aria-label="Delete"
+                              classes={
+                                Object {
+                                  "colorAccent": "MuiIconButton-colorAccent-61",
+                                  "colorContrast": "MuiIconButton-colorContrast-62",
+                                  "colorInherit": "MuiIconButton-colorInherit-64",
+                                  "colorPrimary": "MuiIconButton-colorPrimary-63",
+                                  "disabled": "MuiIconButton-disabled-65",
+                                  "icon": "MuiIconButton-icon-67",
+                                  "keyboardFocused": "MuiIconButton-keyboardFocused-68",
+                                  "label": "MuiIconButton-label-66",
+                                  "root": "MuiIconButton-root-60",
+                                }
+                              }
+                              color="default"
+                              disableRipple={false}
+                              disabled={false}
+                              onClick={[Function]}
+                            >
+                              <withStyles(ButtonBase)
+                                aria-label="Delete"
+                                centerRipple={true}
+                                className="MuiIconButton-root-60"
+                                disableRipple={false}
+                                disabled={false}
+                                keyboardFocusedClassName="MuiIconButton-keyboardFocused-68"
+                                onClick={[Function]}
+                              >
+                                <ButtonBase
+                                  aria-label="Delete"
+                                  centerRipple={true}
+                                  className="MuiIconButton-root-60"
+                                  classes={
+                                    Object {
+                                      "disabled": "MuiButtonBase-disabled-70",
+                                      "root": "MuiButtonBase-root-69",
+                                    }
+                                  }
+                                  disableRipple={false}
+                                  disabled={false}
+                                  focusRipple={false}
+                                  keyboardFocusedClassName="MuiIconButton-keyboardFocused-68"
+                                  onClick={[Function]}
+                                  tabIndex={0}
+                                  type="button"
+                                >
+                                  <button
+                                    aria-label="Delete"
+                                    className="MuiButtonBase-root-69 MuiIconButton-root-60"
+                                    disabled={false}
+                                    onBlur={[Function]}
+                                    onClick={[Function]}
+                                    onFocus={[Function]}
+                                    onKeyDown={[Function]}
+                                    onKeyUp={[Function]}
+                                    onMouseDown={[Function]}
+                                    onMouseLeave={[Function]}
+                                    onMouseUp={[Function]}
+                                    onTouchEnd={[Function]}
+                                    onTouchMove={[Function]}
+                                    onTouchStart={[Function]}
+                                    role="button"
+                                    tabIndex={0}
+                                    type="button"
+                                  >
+                                    <span
+                                      className="MuiIconButton-label-66"
+                                    >
+                                      <pure(Delete)
+                                        className="MuiIconButton-icon-67"
+                                        key=".0"
+                                      >
+                                        <Delete
+                                          className="MuiIconButton-icon-67"
+                                        >
+                                          <withStyles(SvgIcon)
+                                            className="MuiIconButton-icon-67"
+                                          >
+                                            <SvgIcon
+                                              className="MuiIconButton-icon-67"
+                                              classes={
+                                                Object {
+                                                  "root": "MuiSvgIcon-root-71",
+                                                }
+                                              }
+                                              viewBox="0 0 24 24"
+                                            >
+                                              <svg
+                                                aria-hidden="true"
+                                                className="MuiSvgIcon-root-71 MuiIconButton-icon-67"
+                                                focusable="false"
+                                                viewBox="0 0 24 24"
+                                              >
+                                                <path
+                                                  d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"
+                                                />
+                                              </svg>
+                                            </SvgIcon>
+                                          </withStyles(SvgIcon)>
+                                        </Delete>
+                                      </pure(Delete)>
+                                    </span>
+                                    <withStyles(TouchRipple)
+                                      center={true}
+                                      innerRef={[Function]}
+                                    >
+                                      <TouchRipple
+                                        center={true}
+                                        classes={
+                                          Object {
+                                            "ripple": "MuiTouchRipple-ripple-76",
+                                            "rippleFast": "MuiTouchRipple-rippleFast-78",
+                                            "rippleVisible": "MuiTouchRipple-rippleVisible-77",
+                                            "root": "MuiTouchRipple-root-72",
+                                            "wrapper": "MuiTouchRipple-wrapper-73",
+                                            "wrapperLeaving": "MuiTouchRipple-wrapperLeaving-74",
+                                            "wrapperPulsating": "MuiTouchRipple-wrapperPulsating-75",
+                                          }
+                                        }
+                                      >
+                                        <TransitionGroup
+                                          childFactory={[Function]}
+                                          className="MuiTouchRipple-root-72"
+                                          component="span"
+                                          enter={true}
+                                          exit={true}
+                                        >
+                                          <span
+                                            className="MuiTouchRipple-root-72"
+                                          />
+                                        </TransitionGroup>
+                                      </TouchRipple>
+                                    </withStyles(TouchRipple)>
+                                  </button>
+                                </ButtonBase>
+                              </withStyles(ButtonBase)>
+                            </IconButton>
+                          </withStyles(IconButton)>
+                        </div>
+                      </div>
+                    </div>
+                  </Paper>
+                </withStyles(Paper)>
+              </Card>
+            </div>
+          </Component>
+        </Router>
+      </StaticRouter>
+    </QueryRecyclerProvider>
+  </ApolloProvider>
+</MockedProvider>
+`;
+
+exports[`Tree renders correctly 1`] = `
+<div>
+  <div
+    className="MuiPaper-root-6 MuiPaper-shadow2-10 MuiPaper-rounded-7 Component-card-1"
+  >
+    <a
+      className="Component-textField-5"
+      href="/edit/test000"
+      onClick={[Function]}
+    >
+      <div
+        className="MuiCardMedia-root-33 Component-cover-4"
+        src={undefined}
+        style={
+          Object {
+            "backgroundImage": "url(b.jpg)",
+          }
+        }
+        title="Live from space album cover"
+      />
+    </a>
+    <div
+      className="Component-details-2"
+    >
+      <a
+        className="Component-textField-5"
+        href="/edit/test000"
+        onClick={[Function]}
+      >
+        <div
+          className="MuiCardContent-root-35 Component-content-3"
+        >
+          <h1
+            className="MuiTypography-root-36 MuiTypography-headline-41"
+          />
+          <h3
+            className="MuiTypography-root-36 MuiTypography-subheading-43 MuiTypography-colorSecondary-57"
+          >
+            <div>
+              Last Updated: 
+              Invalid date
+            </div>
+          </h3>
+        </div>
+      </a>
+      <div
+        className={undefined}
+      >
+        Continue Writing
+        <button
+          aria-label="Edit"
+          className="MuiButtonBase-root-69 MuiIconButton-root-60"
+          disabled={false}
+          onBlur={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onMouseDown={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+          onTouchEnd={[Function]}
+          onTouchMove={[Function]}
+          onTouchStart={[Function]}
+          role="button"
+          tabIndex={0}
+          type="button"
+        >
+          <span
+            className="MuiIconButton-label-66"
+          >
+            <svg
+              aria-hidden="true"
+              className="MuiSvgIcon-root-71 MuiIconButton-icon-67"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
+              />
+            </svg>
+          </span>
+          <span
+            className="MuiTouchRipple-root-72"
+          />
+        </button>
+        <button
+          aria-label="Delete"
+          className="MuiButtonBase-root-69 MuiIconButton-root-60"
+          disabled={false}
+          onBlur={[Function]}
+          onClick={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onKeyUp={[Function]}
+          onMouseDown={[Function]}
+          onMouseLeave={[Function]}
+          onMouseUp={[Function]}
+          onTouchEnd={[Function]}
+          onTouchMove={[Function]}
+          onTouchStart={[Function]}
+          role="button"
+          tabIndex={0}
+          type="button"
+        >
+          <span
+            className="MuiIconButton-label-66"
+          >
+            <svg
+              aria-hidden="true"
+              className="MuiSvgIcon-root-71 MuiIconButton-icon-67"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"
+              />
+            </svg>
+          </span>
+          <span
+            className="MuiTouchRipple-root-72"
+          />
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
