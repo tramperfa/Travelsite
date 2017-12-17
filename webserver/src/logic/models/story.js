@@ -103,7 +103,7 @@ var StorySchema = new Schema({
 			}
 		}
 	]
-});
+}, {usePushEach: true});
 
 //Add detailed error log info
 StorySchema.plugin(uniqueValidator);

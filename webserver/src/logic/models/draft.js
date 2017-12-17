@@ -51,7 +51,7 @@ var DraftSchema = new Schema({
 		type: Date,
 		default: Date.now
 	}
-});
+}, {usePushEach: true});
 
 //Add detailed error log info
 DraftSchema.plugin(uniqueValidator);

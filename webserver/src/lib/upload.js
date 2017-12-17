@@ -81,8 +81,8 @@ module.exports = function (app, db) {
 					// Save Image Before Draft
 					await image.save();
 					let images = draft.images;
-					//images.push(image._id);
-					images = images.concat([image._id])
+					console.log(images);
+					images.push(image._id);
 					await draft.save();
 					let returnImage = {
 						_id: image._id,
@@ -197,14 +197,14 @@ const autoCropUpload = async (inputBuffer, extension, imageType, image) => {
 	await willUploadObject(newName, newImage)
 }
 
-// /////// / Hold off GPS feature if (result.tags.GPSLatitude &&
+// / / Hold off GPS feature if (result.tags.GPSLatitude &&
 // result.tags.GPSLongitude) { image.takenLocation = {     latitude:
-// result.tags.GPSLatitude, longitude: result.tags.GPSLongitude } }
-// //////////////////// Double check height calculation is correct
+// result.tags.GPSLatitude, longitude: result.tags.GPSLongitude } } //////////
+// Double check height calculation is correct
 // sharp(inputBuffer).rotate().resize(requireSize.width,
 // requireSize.height).toBuffer(function(err, data, info) {   console.log(info);
-// }) //////////////////// const parseSize
+// }) ////////// const parseSize
 // = (buffer, image) => {   var result =
 // parser.create(buffer).enableImageSize(true).parse()   return
-// result.getImageSize() } //////////////////// Get The Right Size After Taking
+// result.getImageSize() } ////////// Get The Right Size After Taking
 // Orientation Through .rotate() var origSize = parseSize(buffer, image)

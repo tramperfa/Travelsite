@@ -122,7 +122,7 @@ var ImageSchema = new Schema({
 			}
 		}
 	}
-});
+}, {usePushEach: true});
 
 ImageSchema.pre('remove', function (next) {
 	console.log("Image Pre-remove function called!");
