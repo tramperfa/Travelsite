@@ -50,9 +50,9 @@ module.exports = function (app, db) {
 				sessionUser: req.session.passport
 			}
 			checkLogin(context)
-			var image = new Image(
-				{author: context.sessionUser.user._id, draft: draftID, catergory: catergory}
-			);
+			var image = new Image({author: context.sessionUser.user._id, draft: draftID})
+
+			//, catergory: catergory);
 			const buffer = await sharp(req.file.buffer).rotate().toBuffer()
 
 			// EXIF ONLY applies to JPEG and TIFF FORMAT
@@ -65,7 +65,7 @@ module.exports = function (app, db) {
 					// Story Image
 				case '0':
 					var [draft] = await Promise.all([
-						willCheckDocumentOwnerShip(draftID, context, 'draft'),
+						willCheckDocumentOwnerShip(draftID, context, 'leanDraft'),
 						originalSizeUpload(buffer, extension, origSize, image),
 						widthBasedResizeUpload(buffer, extension, origSize, 'browserStoryImage', image),
 						widthBasedResizeUpload(
@@ -81,7 +81,8 @@ module.exports = function (app, db) {
 					// Save Image Before Draft
 					await image.save();
 					let images = draft.images;
-					images.push(image._id);
+					//images.push(image._id);
+					images = images.concat([image._id])
 					await draft.save();
 					let returnImage = {
 						_id: image._id,
@@ -196,18 +197,14 @@ const autoCropUpload = async (inputBuffer, extension, imageType, image) => {
 	await willUploadObject(newName, newImage)
 }
 
-// ///////////////////////////////////////////////////////////// / Hold off GPS
-// feature if (result.tags.GPSLatitude && result.tags.GPSLongitude) {
-// image.takenLocation = {     latitude: result.tags.GPSLatitude, longitude:
-// result.tags.GPSLongitude   } }
-// //////////////////////////////////////////////////////////////////////////
-// Double check height calculation is correct
+// /////// / Hold off GPS feature if (result.tags.GPSLatitude &&
+// result.tags.GPSLongitude) { image.takenLocation = {     latitude:
+// result.tags.GPSLatitude, longitude: result.tags.GPSLongitude } }
+// //////////////////// Double check height calculation is correct
 // sharp(inputBuffer).rotate().resize(requireSize.width,
 // requireSize.height).toBuffer(function(err, data, info) {   console.log(info);
-// }) //////////////////////////////////////////////////////////////////////////
-// const parseSize = (buffer, image) => {   var result =
+// }) //////////////////// const parseSize
+// = (buffer, image) => {   var result =
 // parser.create(buffer).enableImageSize(true).parse()   return
-// result.getImageSize() }
-// //////////////////////////////////////////////////////////////////////////
-// Get The Right Size After Taking Orientation Through .rotate() var origSize =
-// parseSize(buffer, image)
+// result.getImageSize() } //////////////////// Get The Right Size After Taking
+// Orientation Through .rotate() var origSize = parseSize(buffer, image)

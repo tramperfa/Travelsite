@@ -17,7 +17,6 @@ const willUploadImage = (file, imageCatergory, draftID, origWidth, origHeight) =
 		//
 			.end((err, res) => {
 			if (err) {
-				console.log(err);
 				return reject(new Error(err))
 			}
 			console.log("Returned Image Object: ");
@@ -30,8 +29,8 @@ const willUploadImage = (file, imageCatergory, draftID, origWidth, origHeight) =
 
 export default willUploadImage
 
-// ///////////////////////////////////////////////////////////////////////////
-// ///////////// Hold off Progress .on('progress', event => {
+// /////////////////////////////////////////////////////////////////////////
+// /////////// Hold off Progress .on('progress', event => {
 // console.log('Percentage done: ', event.percent); console.log('Total File
 // Size: ', event.total); /* the event is:   {     direction: "upload" or
 // "download"     percent: 0 to 100  may be missing if file size is unknown

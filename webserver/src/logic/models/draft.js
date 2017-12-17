@@ -144,6 +144,20 @@ DraftSchema.statics = {
 		});
 	},
 
+	leanLoad: async function (_id) {
+		return new Promise((resolve, reject) => {
+			this.findOne({_id: _id})
+			//
+				.populate('coverImage')
+			//
+				.exec((err, res) => {
+				err
+					? reject(new Error("Cannot find requested draft"))
+					: resolve(res)
+			})
+		});
+	},
+
 	/**
    * List Drafts
    *
