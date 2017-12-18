@@ -29,6 +29,9 @@ export const willCheckDocumentOwnerShip = async (
 		case 'draft':
 			var doc = await Draft.load(documentID);
 			break;
+		case 'leanDraft':
+			var doc = await Draft.leanLoad(documentID);
+			break;
 		case 'image':
 			var doc = await Image.findById(documentID);
 			break;

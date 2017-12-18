@@ -51,7 +51,7 @@ var DraftSchema = new Schema({
 		type: Date,
 		default: Date.now
 	}
-});
+}, {usePushEach: true});
 
 //Add detailed error log info
 DraftSchema.plugin(uniqueValidator);
@@ -135,6 +135,20 @@ DraftSchema.statics = {
 			this.findOne({_id: _id}).populate('author').populate('headlineImage')
 			//
 				.populate('images').populate('coverImage')
+			//
+				.exec((err, res) => {
+				err
+					? reject(new Error("Cannot find requested draft"))
+					: resolve(res)
+			})
+		});
+	},
+
+	leanLoad: async function (_id) {
+		return new Promise((resolve, reject) => {
+			this.findOne({_id: _id})
+			//
+				.populate('coverImage')
 			//
 				.exec((err, res) => {
 				err
