@@ -252,8 +252,6 @@ class MyEditor extends Component {
 
 	deleteAtomicBlockV3 = (blockKey) => {
 		const contentState = this.state.editorState.getCurrentContent()
-		const selectionState = this.state.editorState.getSelection()
-		const blockKeyAfter = contentState.getKeyAfter(blockKey)
 
 		//create empty block
 		const newBlock = new ContentBlock(
@@ -311,8 +309,7 @@ class MyEditor extends Component {
 			contentWithSeletAfter,
 			'remove-range'
 		)
-		// const newState = EditorState.createWithContent(contentStateAfterRemoval)
-		// console.log(newState.getSelection());
+
 		this.onChange(newState)
 	}
 

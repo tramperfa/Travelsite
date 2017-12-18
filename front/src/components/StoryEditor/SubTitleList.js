@@ -1,23 +1,37 @@
-import React, {Component} from 'react';
+// import React, {Component} from 'react';
+import React from 'react';
+import {List} from 'immutable'
 
-export default class extends Component {
-	render() {
-		return (
-			<ul>
-				{
-					this.props.subTitleList && this.props.subTitleList.entrySeq().map((title) => {
-						return (
-							<li key={title[0]}>
-								<a href={"#" + title[0]} style={{
-										color: 'blue'
-									}}>
-									{title[1]}
-								</a>
-							</li>
-						)
-					})
-				}
-			</ul>
-		)
-	}
+const SubTitleList = (props) => {
+	const list = buildTitleList(props.subTitleList)
+	return (<ul>
+		{list}
+	</ul>)
 }
+
+const buildTitleList = (subTitleList) => {
+	let list = List()
+	if (subTitleList) {
+		subTitleList = subTitleList.map((title, key) => {
+			return {key: key, title: title}
+		})
+		list = list.concat(subTitleList.toArray())
+	}
+
+	const listItems = list.toArray().map(
+		(title) => <TitleItem key={title.key} titleKey={title.key} title={title.title}/>
+	)
+	return listItems
+}
+
+const TitleItem = (props) => (
+	<li>
+		<a href={"#" + props.titleKey} style={{
+				color: 'blue'
+			}}>
+			{props.title}
+		</a>
+	</li>
+)
+
+export default SubTitleList
