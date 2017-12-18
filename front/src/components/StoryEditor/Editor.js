@@ -342,7 +342,7 @@ class MyEditor extends Component {
 					editable: false,
 					props: {
 						openSubTitleEditor: this.openSubTitleEditor,
-						deleteAtomicBlock: this.deleteSubTitle
+						deleteBlock: this.deleteSubTitle
 					}
 				}
 			} else if (entityType === 'image') {
@@ -355,7 +355,8 @@ class MyEditor extends Component {
 						props: {
 							src: BUCKET_NAME + imageData.browserStoryImage.filename,
 							width: imageData.browserStoryImage.size.width,
-							height: imageData.browserStoryImage.size.height
+							height: imageData.browserStoryImage.size.height,
+							deleteBlock: this.deleteAtomicBlock
 						}
 					}
 				} else {
