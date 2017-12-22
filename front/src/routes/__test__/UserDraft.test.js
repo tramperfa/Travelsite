@@ -9,40 +9,32 @@ import {UserDraft} from '../UserDraft';
 import {MockedProvider} from 'react-apollo/test-utils';
 
 const mockedData = {
-	data: {
-		createDraft: {
-			_id: 'test000',
-			title: 'trip to test0',
-			lastUpdate: 'Thu Dec 07 2017 04:49:49 GMT+0000 (UTC)'
-		}
-	}
-}
-// test('renders correctly', () => { const wrapper = shallow( 		<UserDraft
-// createDraft={() => { 				return mockedData 			}}/>, 	);
-// expect(wrapper).toMatchSnapshot();   const myButton
-// = wrapper.find('withStyles(Button)'); console.log(myButton);
-// wrapper.find('button').simulate('click');
-//
-// });
+	myDrafts: [
+		{
 
-test('Mount renders correctly', () => {
+			_id: 'test001',
+			title: 'trip to test1',
+			lastUpdate: 'Thu Dec 07 2017 04:49:49 GMT+0000 (UTC)',
+			__typename: "Draft"
+		}
+	]
+}
+
+const createDraft = jest.fn()
+
+test('Mount renders correctly, createDraft called on button click', () => {
 	const wrapper = mount(
 		<MockedProvider>
 			<StaticRouter context={{}}>
-				<UserDraft createDraft={() => {
-						return mockedData
-					}}/>
+				<UserDraft createDraft={createDraft} draftList={mockedData}/>
 			</StaticRouter>
 		</MockedProvider>
 
 	);
 
-	//console.log(JSON.stringify(wrapper));
-
-	wrapper.find('button').forEach(child => {
-		console.log("SIMULATED");
-		child.simulate('click');
-	});
-	//expect(handleDelete.calledOnce).toBe(true);
+	let section = wrapper.find('div.create')
+	let createButton = section.find('Button')
+	createButton.simulate('click')
+	expect(createDraft).toHaveBeenCalledTimes(1);
 	expect(toJson(wrapper)).toMatchSnapshot();
 });

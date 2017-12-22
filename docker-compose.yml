@@ -6,7 +6,6 @@ services:
       - ./front/src:/reactApp/src
       - ./front/public:/reactApp/public
       - ./front/package.json:/reactApp/package.json
-      - ./front/coverage:/reactApp/coverage
     ports:
       - "3000:3000"
     links:

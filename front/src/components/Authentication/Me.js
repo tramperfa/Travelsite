@@ -9,72 +9,70 @@ import {withStyles} from 'material-ui/styles';
 import Logout from './Logout';
 
 const styles = theme => ({
-  textField: {
-    textDecoration: 'none'
-  }
+	textField: {
+		textDecoration: 'none'
+	}
 });
 
 class Me extends React.Component {
-  state = {
-    anchorEl: null,
-    open: false
-  };
+	state = {
+		anchorEl: null,
+		open: false
+	};
 
-  handleClick = event => {
-    this.setState({open: true, anchorEl: event.currentTarget});
-  };
+	handleClick = event => {
+		this.setState({open: true, anchorEl: event.currentTarget});
+	};
 
-  handleRequestClose = () => {
-    this.setState({open: false});
-  };
+	handleRequestClose = () => {
+		this.setState({open: false});
+	};
 
-  render() {
+	render() {
 
-    return (
-      <div>
-        <Button
-          aria-owns={this.state.open
-            ? 'simple-menu'
-            : null}
-          aria-haspopup="true"
-          onClick={this.handleClick}
-          color="contrast">
-          {this.props.me.fullName}
-        </Button>
-        <Menu
-          id="simple-menu"
-          anchorEl={this.state.anchorEl}
-          open={this.state.open}
-          onRequestClose={this.handleRequestClose}>
-          <MenuItem onClick={this.handleRequestClose}>
-            <Link
-              className={this.props.classes.textField}
-              to={`/user/${this.props.me._id}`}>
-              My Profile
-            </Link>
-          </MenuItem>
-          <MenuItem onClick={this.handleRequestClose}>
-            <Link
-              className={this.props.classes.textField}
-              to={`/userdraft/${this.props.me._id}`}>
-              Write a Story
-            </Link>
-          </MenuItem>
-          <Link className={this.props.classes.textField} to="/">
-            <Logout
-              handleResetStore={this.props.handleResetStore}
-              onLogout={this.props.onLogout}
-              handleRedirect={this.handleRedirect}/>
-          </Link>
-        </Menu>
-      </div>
-    );
-  }
+		return (
+			<div>
+				<Button
+					aria-owns={this.state.open
+						? 'simple-menu'
+						: null}
+					aria-haspopup="true"
+					onClick={this.handleClick}
+					color="contrast">
+					{this.props.me.fullName}
+				</Button>
+				<Menu
+					id="simple-menu"
+					anchorEl={this.state.anchorEl}
+					open={this.state.open}
+					onRequestClose={this.handleRequestClose}>
+					<MenuItem onClick={this.handleRequestClose}>
+						<Link
+							className={this.props.classes.textField}
+							to={`/user/${this.props.me._id}`}>
+							My Profile
+						</Link>
+					</MenuItem>
+					<MenuItem onClick={this.handleRequestClose}>
+						<Link className={this.props.classes.textField} to={`/mydraft`}>
+							Write a Story
+						</Link>
+					</MenuItem>
+					<Link className={this.props.classes.textField} to="/">
+						<Logout
+							handleResetStore={this.props.handleResetStore}
+							onLogout={this.props.onLogout}
+							handleRedirect={this.handleRedirect}/>
+					</Link>
+				</Menu>
+			</div>
+		);
+	}
 }
 
 Me.propTypes = {
-  me: PropTypes.object.isRequired,
-  onLogout: PropTypes.func.isRequired
+	me: PropTypes.object.isRequired,
+	onLogout: PropTypes.func.isRequired
 }
 
 export default withStyles(styles)(Me);
