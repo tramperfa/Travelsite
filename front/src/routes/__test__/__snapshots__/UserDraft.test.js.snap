@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Mount renders correctly 1`] = `
+exports[`Mount renders correctly, createDraft called on button click 1`] = `
 <MockedProvider>
   <ApolloProvider
     client={
@@ -18,383 +18,7 @@ exports[`Mount renders correctly 1`] = `
           },
           "optimistic": Array [],
           "silenceBroadcast": false,
-          "watches": Array [
-            Object {
-              "callback": [Function],
-              "optimistic": true,
-              "previousResult": [Function],
-              "query": Object {
-                "definitions": Array [
-                  Object {
-                    "directives": Array [],
-                    "kind": "OperationDefinition",
-                    "name": Object {
-                      "kind": "Name",
-                      "value": "DraftQuery",
-                    },
-                    "operation": "query",
-                    "selectionSet": Object {
-                      "kind": "SelectionSet",
-                      "selections": Array [
-                        Object {
-                          "alias": null,
-                          "arguments": Array [],
-                          "directives": Array [],
-                          "kind": "Field",
-                          "name": Object {
-                            "kind": "Name",
-                            "value": "myDrafts",
-                          },
-                          "selectionSet": Object {
-                            "kind": "SelectionSet",
-                            "selections": Array [
-                              Object {
-                                "directives": Array [],
-                                "kind": "FragmentSpread",
-                                "name": Object {
-                                  "kind": "Name",
-                                  "value": "draftCard",
-                                },
-                              },
-                              Object {
-                                "kind": "Field",
-                                "name": Object {
-                                  "kind": "Name",
-                                  "value": "__typename",
-                                },
-                              },
-                            ],
-                          },
-                        },
-                      ],
-                    },
-                    "variableDefinitions": Array [],
-                  },
-                  Object {
-                    "directives": Array [],
-                    "kind": "FragmentDefinition",
-                    "name": Object {
-                      "kind": "Name",
-                      "value": "draftCard",
-                    },
-                    "selectionSet": Object {
-                      "kind": "SelectionSet",
-                      "selections": Array [
-                        Object {
-                          "alias": null,
-                          "arguments": Array [],
-                          "directives": Array [],
-                          "kind": "Field",
-                          "name": Object {
-                            "kind": "Name",
-                            "value": "_id",
-                          },
-                          "selectionSet": null,
-                        },
-                        Object {
-                          "alias": null,
-                          "arguments": Array [],
-                          "directives": Array [],
-                          "kind": "Field",
-                          "name": Object {
-                            "kind": "Name",
-                            "value": "title",
-                          },
-                          "selectionSet": null,
-                        },
-                        Object {
-                          "alias": null,
-                          "arguments": Array [],
-                          "directives": Array [],
-                          "kind": "Field",
-                          "name": Object {
-                            "kind": "Name",
-                            "value": "lastUpdate",
-                          },
-                          "selectionSet": null,
-                        },
-                        Object {
-                          "alias": null,
-                          "arguments": Array [],
-                          "directives": Array [],
-                          "kind": "Field",
-                          "name": Object {
-                            "kind": "Name",
-                            "value": "coverImage",
-                          },
-                          "selectionSet": Object {
-                            "kind": "SelectionSet",
-                            "selections": Array [
-                              Object {
-                                "directives": Array [],
-                                "kind": "FragmentSpread",
-                                "name": Object {
-                                  "kind": "Name",
-                                  "value": "coverImage",
-                                },
-                              },
-                              Object {
-                                "kind": "Field",
-                                "name": Object {
-                                  "kind": "Name",
-                                  "value": "__typename",
-                                },
-                              },
-                            ],
-                          },
-                        },
-                        Object {
-                          "kind": "Field",
-                          "name": Object {
-                            "kind": "Name",
-                            "value": "__typename",
-                          },
-                        },
-                      ],
-                    },
-                    "typeCondition": Object {
-                      "kind": "NamedType",
-                      "name": Object {
-                        "kind": "Name",
-                        "value": "Draft",
-                      },
-                    },
-                  },
-                  Object {
-                    "directives": Array [],
-                    "kind": "FragmentDefinition",
-                    "name": Object {
-                      "kind": "Name",
-                      "value": "coverImage",
-                    },
-                    "selectionSet": Object {
-                      "kind": "SelectionSet",
-                      "selections": Array [
-                        Object {
-                          "alias": null,
-                          "arguments": Array [],
-                          "directives": Array [],
-                          "kind": "Field",
-                          "name": Object {
-                            "kind": "Name",
-                            "value": "_id",
-                          },
-                          "selectionSet": null,
-                        },
-                        Object {
-                          "alias": null,
-                          "arguments": Array [],
-                          "directives": Array [],
-                          "kind": "Field",
-                          "name": Object {
-                            "kind": "Name",
-                            "value": "browserCoverImage",
-                          },
-                          "selectionSet": Object {
-                            "kind": "SelectionSet",
-                            "selections": Array [
-                              Object {
-                                "directives": Array [],
-                                "kind": "FragmentSpread",
-                                "name": Object {
-                                  "kind": "Name",
-                                  "value": "image",
-                                },
-                              },
-                              Object {
-                                "kind": "Field",
-                                "name": Object {
-                                  "kind": "Name",
-                                  "value": "__typename",
-                                },
-                              },
-                            ],
-                          },
-                        },
-                        Object {
-                          "alias": null,
-                          "arguments": Array [],
-                          "directives": Array [],
-                          "kind": "Field",
-                          "name": Object {
-                            "kind": "Name",
-                            "value": "browserUserHomeCoverImage",
-                          },
-                          "selectionSet": Object {
-                            "kind": "SelectionSet",
-                            "selections": Array [
-                              Object {
-                                "directives": Array [],
-                                "kind": "FragmentSpread",
-                                "name": Object {
-                                  "kind": "Name",
-                                  "value": "image",
-                                },
-                              },
-                              Object {
-                                "kind": "Field",
-                                "name": Object {
-                                  "kind": "Name",
-                                  "value": "__typename",
-                                },
-                              },
-                            ],
-                          },
-                        },
-                        Object {
-                          "kind": "Field",
-                          "name": Object {
-                            "kind": "Name",
-                            "value": "__typename",
-                          },
-                        },
-                      ],
-                    },
-                    "typeCondition": Object {
-                      "kind": "NamedType",
-                      "name": Object {
-                        "kind": "Name",
-                        "value": "Image",
-                      },
-                    },
-                  },
-                  Object {
-                    "directives": Array [],
-                    "kind": "FragmentDefinition",
-                    "name": Object {
-                      "kind": "Name",
-                      "value": "image",
-                    },
-                    "selectionSet": Object {
-                      "kind": "SelectionSet",
-                      "selections": Array [
-                        Object {
-                          "alias": null,
-                          "arguments": Array [],
-                          "directives": Array [],
-                          "kind": "Field",
-                          "name": Object {
-                            "kind": "Name",
-                            "value": "filename",
-                          },
-                          "selectionSet": null,
-                        },
-                        Object {
-                          "alias": null,
-                          "arguments": Array [],
-                          "directives": Array [],
-                          "kind": "Field",
-                          "name": Object {
-                            "kind": "Name",
-                            "value": "size",
-                          },
-                          "selectionSet": Object {
-                            "kind": "SelectionSet",
-                            "selections": Array [
-                              Object {
-                                "alias": null,
-                                "arguments": Array [],
-                                "directives": Array [],
-                                "kind": "Field",
-                                "name": Object {
-                                  "kind": "Name",
-                                  "value": "width",
-                                },
-                                "selectionSet": null,
-                              },
-                              Object {
-                                "alias": null,
-                                "arguments": Array [],
-                                "directives": Array [],
-                                "kind": "Field",
-                                "name": Object {
-                                  "kind": "Name",
-                                  "value": "height",
-                                },
-                                "selectionSet": null,
-                              },
-                              Object {
-                                "kind": "Field",
-                                "name": Object {
-                                  "kind": "Name",
-                                  "value": "__typename",
-                                },
-                              },
-                            ],
-                          },
-                        },
-                        Object {
-                          "kind": "Field",
-                          "name": Object {
-                            "kind": "Name",
-                            "value": "__typename",
-                          },
-                        },
-                      ],
-                    },
-                    "typeCondition": Object {
-                      "kind": "NamedType",
-                      "name": Object {
-                        "kind": "Name",
-                        "value": "ImageFile",
-                      },
-                    },
-                  },
-                ],
-                "kind": "Document",
-                "loc": Object {
-                  "end": 503,
-                  "source": Object {
-                    "body": "
-        query DraftQuery {
-          myDrafts {
-            ...draftCard
-          }
-        }
-        
-          fragment draftCard on Draft {
-            _id
-            title
-            lastUpdate
-            coverImage{
-              ...coverImage
-            }
-      
-          }
-          
-            fragment coverImage on Image {
-              _id
-              browserCoverImage{
-                ...image
-              }
-              browserUserHomeCoverImage{
-                ...image
-              }
-            }
-            
-          fragment image on ImageFile {
-              filename
-              size{
-                width
-                height
-              }
-          }
-      
-      
-      
-      ",
-                    "locationOffset": Object {
-                      "column": 1,
-                      "line": 1,
-                    },
-                    "name": "GraphQL request",
-                  },
-                  "start": 0,
-                },
-              },
-              "variables": undefined,
-            },
-          ],
+          "watches": Array [],
         },
         "defaultOptions": Object {},
         "disableNetworkFetches": false,
@@ -404,1547 +28,6 @@ exports[`Mount renders correctly 1`] = `
         "mutate": [Function],
         "query": [Function],
         "queryDeduplication": true,
-        "queryManager": QueryManager {
-          "dataStore": DataStore {
-            "cache": InMemoryCache {
-              "addTypename": true,
-              "config": Object {
-                "addTypename": true,
-                "dataIdFromObject": [Function],
-                "fragmentMatcher": HeuristicFragmentMatcher {},
-                "storeFactory": [Function],
-              },
-              "data": ObjectCache {
-                "data": Object {},
-              },
-              "optimistic": Array [],
-              "silenceBroadcast": false,
-              "watches": Array [
-                Object {
-                  "callback": [Function],
-                  "optimistic": true,
-                  "previousResult": [Function],
-                  "query": Object {
-                    "definitions": Array [
-                      Object {
-                        "directives": Array [],
-                        "kind": "OperationDefinition",
-                        "name": Object {
-                          "kind": "Name",
-                          "value": "DraftQuery",
-                        },
-                        "operation": "query",
-                        "selectionSet": Object {
-                          "kind": "SelectionSet",
-                          "selections": Array [
-                            Object {
-                              "alias": null,
-                              "arguments": Array [],
-                              "directives": Array [],
-                              "kind": "Field",
-                              "name": Object {
-                                "kind": "Name",
-                                "value": "myDrafts",
-                              },
-                              "selectionSet": Object {
-                                "kind": "SelectionSet",
-                                "selections": Array [
-                                  Object {
-                                    "directives": Array [],
-                                    "kind": "FragmentSpread",
-                                    "name": Object {
-                                      "kind": "Name",
-                                      "value": "draftCard",
-                                    },
-                                  },
-                                  Object {
-                                    "kind": "Field",
-                                    "name": Object {
-                                      "kind": "Name",
-                                      "value": "__typename",
-                                    },
-                                  },
-                                ],
-                              },
-                            },
-                          ],
-                        },
-                        "variableDefinitions": Array [],
-                      },
-                      Object {
-                        "directives": Array [],
-                        "kind": "FragmentDefinition",
-                        "name": Object {
-                          "kind": "Name",
-                          "value": "draftCard",
-                        },
-                        "selectionSet": Object {
-                          "kind": "SelectionSet",
-                          "selections": Array [
-                            Object {
-                              "alias": null,
-                              "arguments": Array [],
-                              "directives": Array [],
-                              "kind": "Field",
-                              "name": Object {
-                                "kind": "Name",
-                                "value": "_id",
-                              },
-                              "selectionSet": null,
-                            },
-                            Object {
-                              "alias": null,
-                              "arguments": Array [],
-                              "directives": Array [],
-                              "kind": "Field",
-                              "name": Object {
-                                "kind": "Name",
-                                "value": "title",
-                              },
-                              "selectionSet": null,
-                            },
-                            Object {
-                              "alias": null,
-                              "arguments": Array [],
-                              "directives": Array [],
-                              "kind": "Field",
-                              "name": Object {
-                                "kind": "Name",
-                                "value": "lastUpdate",
-                              },
-                              "selectionSet": null,
-                            },
-                            Object {
-                              "alias": null,
-                              "arguments": Array [],
-                              "directives": Array [],
-                              "kind": "Field",
-                              "name": Object {
-                                "kind": "Name",
-                                "value": "coverImage",
-                              },
-                              "selectionSet": Object {
-                                "kind": "SelectionSet",
-                                "selections": Array [
-                                  Object {
-                                    "directives": Array [],
-                                    "kind": "FragmentSpread",
-                                    "name": Object {
-                                      "kind": "Name",
-                                      "value": "coverImage",
-                                    },
-                                  },
-                                  Object {
-                                    "kind": "Field",
-                                    "name": Object {
-                                      "kind": "Name",
-                                      "value": "__typename",
-                                    },
-                                  },
-                                ],
-                              },
-                            },
-                            Object {
-                              "kind": "Field",
-                              "name": Object {
-                                "kind": "Name",
-                                "value": "__typename",
-                              },
-                            },
-                          ],
-                        },
-                        "typeCondition": Object {
-                          "kind": "NamedType",
-                          "name": Object {
-                            "kind": "Name",
-                            "value": "Draft",
-                          },
-                        },
-                      },
-                      Object {
-                        "directives": Array [],
-                        "kind": "FragmentDefinition",
-                        "name": Object {
-                          "kind": "Name",
-                          "value": "coverImage",
-                        },
-                        "selectionSet": Object {
-                          "kind": "SelectionSet",
-                          "selections": Array [
-                            Object {
-                              "alias": null,
-                              "arguments": Array [],
-                              "directives": Array [],
-                              "kind": "Field",
-                              "name": Object {
-                                "kind": "Name",
-                                "value": "_id",
-                              },
-                              "selectionSet": null,
-                            },
-                            Object {
-                              "alias": null,
-                              "arguments": Array [],
-                              "directives": Array [],
-                              "kind": "Field",
-                              "name": Object {
-                                "kind": "Name",
-                                "value": "browserCoverImage",
-                              },
-                              "selectionSet": Object {
-                                "kind": "SelectionSet",
-                                "selections": Array [
-                                  Object {
-                                    "directives": Array [],
-                                    "kind": "FragmentSpread",
-                                    "name": Object {
-                                      "kind": "Name",
-                                      "value": "image",
-                                    },
-                                  },
-                                  Object {
-                                    "kind": "Field",
-                                    "name": Object {
-                                      "kind": "Name",
-                                      "value": "__typename",
-                                    },
-                                  },
-                                ],
-                              },
-                            },
-                            Object {
-                              "alias": null,
-                              "arguments": Array [],
-                              "directives": Array [],
-                              "kind": "Field",
-                              "name": Object {
-                                "kind": "Name",
-                                "value": "browserUserHomeCoverImage",
-                              },
-                              "selectionSet": Object {
-                                "kind": "SelectionSet",
-                                "selections": Array [
-                                  Object {
-                                    "directives": Array [],
-                                    "kind": "FragmentSpread",
-                                    "name": Object {
-                                      "kind": "Name",
-                                      "value": "image",
-                                    },
-                                  },
-                                  Object {
-                                    "kind": "Field",
-                                    "name": Object {
-                                      "kind": "Name",
-                                      "value": "__typename",
-                                    },
-                                  },
-                                ],
-                              },
-                            },
-                            Object {
-                              "kind": "Field",
-                              "name": Object {
-                                "kind": "Name",
-                                "value": "__typename",
-                              },
-                            },
-                          ],
-                        },
-                        "typeCondition": Object {
-                          "kind": "NamedType",
-                          "name": Object {
-                            "kind": "Name",
-                            "value": "Image",
-                          },
-                        },
-                      },
-                      Object {
-                        "directives": Array [],
-                        "kind": "FragmentDefinition",
-                        "name": Object {
-                          "kind": "Name",
-                          "value": "image",
-                        },
-                        "selectionSet": Object {
-                          "kind": "SelectionSet",
-                          "selections": Array [
-                            Object {
-                              "alias": null,
-                              "arguments": Array [],
-                              "directives": Array [],
-                              "kind": "Field",
-                              "name": Object {
-                                "kind": "Name",
-                                "value": "filename",
-                              },
-                              "selectionSet": null,
-                            },
-                            Object {
-                              "alias": null,
-                              "arguments": Array [],
-                              "directives": Array [],
-                              "kind": "Field",
-                              "name": Object {
-                                "kind": "Name",
-                                "value": "size",
-                              },
-                              "selectionSet": Object {
-                                "kind": "SelectionSet",
-                                "selections": Array [
-                                  Object {
-                                    "alias": null,
-                                    "arguments": Array [],
-                                    "directives": Array [],
-                                    "kind": "Field",
-                                    "name": Object {
-                                      "kind": "Name",
-                                      "value": "width",
-                                    },
-                                    "selectionSet": null,
-                                  },
-                                  Object {
-                                    "alias": null,
-                                    "arguments": Array [],
-                                    "directives": Array [],
-                                    "kind": "Field",
-                                    "name": Object {
-                                      "kind": "Name",
-                                      "value": "height",
-                                    },
-                                    "selectionSet": null,
-                                  },
-                                  Object {
-                                    "kind": "Field",
-                                    "name": Object {
-                                      "kind": "Name",
-                                      "value": "__typename",
-                                    },
-                                  },
-                                ],
-                              },
-                            },
-                            Object {
-                              "kind": "Field",
-                              "name": Object {
-                                "kind": "Name",
-                                "value": "__typename",
-                              },
-                            },
-                          ],
-                        },
-                        "typeCondition": Object {
-                          "kind": "NamedType",
-                          "name": Object {
-                            "kind": "Name",
-                            "value": "ImageFile",
-                          },
-                        },
-                      },
-                    ],
-                    "kind": "Document",
-                    "loc": Object {
-                      "end": 503,
-                      "source": Object {
-                        "body": "
-        query DraftQuery {
-          myDrafts {
-            ...draftCard
-          }
-        }
-        
-          fragment draftCard on Draft {
-            _id
-            title
-            lastUpdate
-            coverImage{
-              ...coverImage
-            }
-      
-          }
-          
-            fragment coverImage on Image {
-              _id
-              browserCoverImage{
-                ...image
-              }
-              browserUserHomeCoverImage{
-                ...image
-              }
-            }
-            
-          fragment image on ImageFile {
-              filename
-              size{
-                width
-                height
-              }
-          }
-      
-      
-      
-      ",
-                        "locationOffset": Object {
-                          "column": 1,
-                          "line": 1,
-                        },
-                        "name": "GraphQL request",
-                      },
-                      "start": 0,
-                    },
-                  },
-                  "variables": undefined,
-                },
-              ],
-            },
-          },
-          "deduplicator": ApolloLink {
-            "request": [Function],
-          },
-          "fetchQueryPromises": Map {
-            "2" => Object {
-              "promise": undefined,
-              "reject": [Function],
-              "resolve": [Function],
-            },
-          },
-          "idCounter": 3,
-          "link": ApolloLink {
-            "request": [Function],
-          },
-          "mutationStore": MutationStore {
-            "store": Object {},
-          },
-          "onBroadcast": [Function],
-          "queries": Map {
-            "1" => Object {
-              "cancel": [Function],
-              "document": Object {
-                "definitions": Array [
-                  Object {
-                    "directives": Array [],
-                    "kind": "OperationDefinition",
-                    "name": Object {
-                      "kind": "Name",
-                      "value": "DraftQuery",
-                    },
-                    "operation": "query",
-                    "selectionSet": Object {
-                      "kind": "SelectionSet",
-                      "selections": Array [
-                        Object {
-                          "alias": null,
-                          "arguments": Array [],
-                          "directives": Array [],
-                          "kind": "Field",
-                          "name": Object {
-                            "kind": "Name",
-                            "value": "myDrafts",
-                          },
-                          "selectionSet": Object {
-                            "kind": "SelectionSet",
-                            "selections": Array [
-                              Object {
-                                "directives": Array [],
-                                "kind": "FragmentSpread",
-                                "name": Object {
-                                  "kind": "Name",
-                                  "value": "draftCard",
-                                },
-                              },
-                              Object {
-                                "kind": "Field",
-                                "name": Object {
-                                  "kind": "Name",
-                                  "value": "__typename",
-                                },
-                              },
-                            ],
-                          },
-                        },
-                      ],
-                    },
-                    "variableDefinitions": Array [],
-                  },
-                  Object {
-                    "directives": Array [],
-                    "kind": "FragmentDefinition",
-                    "name": Object {
-                      "kind": "Name",
-                      "value": "draftCard",
-                    },
-                    "selectionSet": Object {
-                      "kind": "SelectionSet",
-                      "selections": Array [
-                        Object {
-                          "alias": null,
-                          "arguments": Array [],
-                          "directives": Array [],
-                          "kind": "Field",
-                          "name": Object {
-                            "kind": "Name",
-                            "value": "_id",
-                          },
-                          "selectionSet": null,
-                        },
-                        Object {
-                          "alias": null,
-                          "arguments": Array [],
-                          "directives": Array [],
-                          "kind": "Field",
-                          "name": Object {
-                            "kind": "Name",
-                            "value": "title",
-                          },
-                          "selectionSet": null,
-                        },
-                        Object {
-                          "alias": null,
-                          "arguments": Array [],
-                          "directives": Array [],
-                          "kind": "Field",
-                          "name": Object {
-                            "kind": "Name",
-                            "value": "lastUpdate",
-                          },
-                          "selectionSet": null,
-                        },
-                        Object {
-                          "alias": null,
-                          "arguments": Array [],
-                          "directives": Array [],
-                          "kind": "Field",
-                          "name": Object {
-                            "kind": "Name",
-                            "value": "coverImage",
-                          },
-                          "selectionSet": Object {
-                            "kind": "SelectionSet",
-                            "selections": Array [
-                              Object {
-                                "directives": Array [],
-                                "kind": "FragmentSpread",
-                                "name": Object {
-                                  "kind": "Name",
-                                  "value": "coverImage",
-                                },
-                              },
-                              Object {
-                                "kind": "Field",
-                                "name": Object {
-                                  "kind": "Name",
-                                  "value": "__typename",
-                                },
-                              },
-                            ],
-                          },
-                        },
-                        Object {
-                          "kind": "Field",
-                          "name": Object {
-                            "kind": "Name",
-                            "value": "__typename",
-                          },
-                        },
-                      ],
-                    },
-                    "typeCondition": Object {
-                      "kind": "NamedType",
-                      "name": Object {
-                        "kind": "Name",
-                        "value": "Draft",
-                      },
-                    },
-                  },
-                  Object {
-                    "directives": Array [],
-                    "kind": "FragmentDefinition",
-                    "name": Object {
-                      "kind": "Name",
-                      "value": "coverImage",
-                    },
-                    "selectionSet": Object {
-                      "kind": "SelectionSet",
-                      "selections": Array [
-                        Object {
-                          "alias": null,
-                          "arguments": Array [],
-                          "directives": Array [],
-                          "kind": "Field",
-                          "name": Object {
-                            "kind": "Name",
-                            "value": "_id",
-                          },
-                          "selectionSet": null,
-                        },
-                        Object {
-                          "alias": null,
-                          "arguments": Array [],
-                          "directives": Array [],
-                          "kind": "Field",
-                          "name": Object {
-                            "kind": "Name",
-                            "value": "browserCoverImage",
-                          },
-                          "selectionSet": Object {
-                            "kind": "SelectionSet",
-                            "selections": Array [
-                              Object {
-                                "directives": Array [],
-                                "kind": "FragmentSpread",
-                                "name": Object {
-                                  "kind": "Name",
-                                  "value": "image",
-                                },
-                              },
-                              Object {
-                                "kind": "Field",
-                                "name": Object {
-                                  "kind": "Name",
-                                  "value": "__typename",
-                                },
-                              },
-                            ],
-                          },
-                        },
-                        Object {
-                          "alias": null,
-                          "arguments": Array [],
-                          "directives": Array [],
-                          "kind": "Field",
-                          "name": Object {
-                            "kind": "Name",
-                            "value": "browserUserHomeCoverImage",
-                          },
-                          "selectionSet": Object {
-                            "kind": "SelectionSet",
-                            "selections": Array [
-                              Object {
-                                "directives": Array [],
-                                "kind": "FragmentSpread",
-                                "name": Object {
-                                  "kind": "Name",
-                                  "value": "image",
-                                },
-                              },
-                              Object {
-                                "kind": "Field",
-                                "name": Object {
-                                  "kind": "Name",
-                                  "value": "__typename",
-                                },
-                              },
-                            ],
-                          },
-                        },
-                        Object {
-                          "kind": "Field",
-                          "name": Object {
-                            "kind": "Name",
-                            "value": "__typename",
-                          },
-                        },
-                      ],
-                    },
-                    "typeCondition": Object {
-                      "kind": "NamedType",
-                      "name": Object {
-                        "kind": "Name",
-                        "value": "Image",
-                      },
-                    },
-                  },
-                  Object {
-                    "directives": Array [],
-                    "kind": "FragmentDefinition",
-                    "name": Object {
-                      "kind": "Name",
-                      "value": "image",
-                    },
-                    "selectionSet": Object {
-                      "kind": "SelectionSet",
-                      "selections": Array [
-                        Object {
-                          "alias": null,
-                          "arguments": Array [],
-                          "directives": Array [],
-                          "kind": "Field",
-                          "name": Object {
-                            "kind": "Name",
-                            "value": "filename",
-                          },
-                          "selectionSet": null,
-                        },
-                        Object {
-                          "alias": null,
-                          "arguments": Array [],
-                          "directives": Array [],
-                          "kind": "Field",
-                          "name": Object {
-                            "kind": "Name",
-                            "value": "size",
-                          },
-                          "selectionSet": Object {
-                            "kind": "SelectionSet",
-                            "selections": Array [
-                              Object {
-                                "alias": null,
-                                "arguments": Array [],
-                                "directives": Array [],
-                                "kind": "Field",
-                                "name": Object {
-                                  "kind": "Name",
-                                  "value": "width",
-                                },
-                                "selectionSet": null,
-                              },
-                              Object {
-                                "alias": null,
-                                "arguments": Array [],
-                                "directives": Array [],
-                                "kind": "Field",
-                                "name": Object {
-                                  "kind": "Name",
-                                  "value": "height",
-                                },
-                                "selectionSet": null,
-                              },
-                              Object {
-                                "kind": "Field",
-                                "name": Object {
-                                  "kind": "Name",
-                                  "value": "__typename",
-                                },
-                              },
-                            ],
-                          },
-                        },
-                        Object {
-                          "kind": "Field",
-                          "name": Object {
-                            "kind": "Name",
-                            "value": "__typename",
-                          },
-                        },
-                      ],
-                    },
-                    "typeCondition": Object {
-                      "kind": "NamedType",
-                      "name": Object {
-                        "kind": "Name",
-                        "value": "ImageFile",
-                      },
-                    },
-                  },
-                ],
-                "kind": "Document",
-                "loc": Object {
-                  "end": 503,
-                  "source": Object {
-                    "body": "
-        query DraftQuery {
-          myDrafts {
-            ...draftCard
-          }
-        }
-        
-          fragment draftCard on Draft {
-            _id
-            title
-            lastUpdate
-            coverImage{
-              ...coverImage
-            }
-      
-          }
-          
-            fragment coverImage on Image {
-              _id
-              browserCoverImage{
-                ...image
-              }
-              browserUserHomeCoverImage{
-                ...image
-              }
-            }
-            
-          fragment image on ImageFile {
-              filename
-              size{
-                width
-                height
-              }
-          }
-      
-      
-      
-      ",
-                    "locationOffset": Object {
-                      "column": 1,
-                      "line": 1,
-                    },
-                    "name": "GraphQL request",
-                  },
-                  "start": 0,
-                },
-              },
-              "invalidate": false,
-              "invalidated": false,
-              "lastRequestId": 2,
-              "listeners": Array [
-                [Function],
-              ],
-              "newData": null,
-              "observableQuery": ObservableQuery {
-                "_subscriber": [Function],
-                "isCurrentlyPolling": false,
-                "isTornDown": false,
-                "observers": Array [
-                  Object {
-                    "_subscription": Object {
-                      "_cleanup": [Function],
-                      "_observer": Object {
-                        "error": [Function],
-                        "next": [Function],
-                      },
-                    },
-                  },
-                ],
-                "options": Object {
-                  "fetchPolicy": "network-only",
-                  "metadata": Object {
-                    "reactComponent": Object {
-                      "displayName": "Apollo(draftsList)",
-                    },
-                  },
-                  "notifyOnNetworkStatusChange": false,
-                  "query": Object {
-                    "definitions": Array [
-                      Object {
-                        "directives": Array [],
-                        "kind": "OperationDefinition",
-                        "name": Object {
-                          "kind": "Name",
-                          "value": "DraftQuery",
-                        },
-                        "operation": "query",
-                        "selectionSet": Object {
-                          "kind": "SelectionSet",
-                          "selections": Array [
-                            Object {
-                              "alias": null,
-                              "arguments": Array [],
-                              "directives": Array [],
-                              "kind": "Field",
-                              "name": Object {
-                                "kind": "Name",
-                                "value": "myDrafts",
-                              },
-                              "selectionSet": Object {
-                                "kind": "SelectionSet",
-                                "selections": Array [
-                                  Object {
-                                    "directives": Array [],
-                                    "kind": "FragmentSpread",
-                                    "name": Object {
-                                      "kind": "Name",
-                                      "value": "draftCard",
-                                    },
-                                  },
-                                ],
-                              },
-                            },
-                          ],
-                        },
-                        "variableDefinitions": Array [],
-                      },
-                      Object {
-                        "directives": Array [],
-                        "kind": "FragmentDefinition",
-                        "name": Object {
-                          "kind": "Name",
-                          "value": "draftCard",
-                        },
-                        "selectionSet": Object {
-                          "kind": "SelectionSet",
-                          "selections": Array [
-                            Object {
-                              "alias": null,
-                              "arguments": Array [],
-                              "directives": Array [],
-                              "kind": "Field",
-                              "name": Object {
-                                "kind": "Name",
-                                "value": "_id",
-                              },
-                              "selectionSet": null,
-                            },
-                            Object {
-                              "alias": null,
-                              "arguments": Array [],
-                              "directives": Array [],
-                              "kind": "Field",
-                              "name": Object {
-                                "kind": "Name",
-                                "value": "title",
-                              },
-                              "selectionSet": null,
-                            },
-                            Object {
-                              "alias": null,
-                              "arguments": Array [],
-                              "directives": Array [],
-                              "kind": "Field",
-                              "name": Object {
-                                "kind": "Name",
-                                "value": "lastUpdate",
-                              },
-                              "selectionSet": null,
-                            },
-                            Object {
-                              "alias": null,
-                              "arguments": Array [],
-                              "directives": Array [],
-                              "kind": "Field",
-                              "name": Object {
-                                "kind": "Name",
-                                "value": "coverImage",
-                              },
-                              "selectionSet": Object {
-                                "kind": "SelectionSet",
-                                "selections": Array [
-                                  Object {
-                                    "directives": Array [],
-                                    "kind": "FragmentSpread",
-                                    "name": Object {
-                                      "kind": "Name",
-                                      "value": "coverImage",
-                                    },
-                                  },
-                                ],
-                              },
-                            },
-                          ],
-                        },
-                        "typeCondition": Object {
-                          "kind": "NamedType",
-                          "name": Object {
-                            "kind": "Name",
-                            "value": "Draft",
-                          },
-                        },
-                      },
-                      Object {
-                        "directives": Array [],
-                        "kind": "FragmentDefinition",
-                        "name": Object {
-                          "kind": "Name",
-                          "value": "coverImage",
-                        },
-                        "selectionSet": Object {
-                          "kind": "SelectionSet",
-                          "selections": Array [
-                            Object {
-                              "alias": null,
-                              "arguments": Array [],
-                              "directives": Array [],
-                              "kind": "Field",
-                              "name": Object {
-                                "kind": "Name",
-                                "value": "_id",
-                              },
-                              "selectionSet": null,
-                            },
-                            Object {
-                              "alias": null,
-                              "arguments": Array [],
-                              "directives": Array [],
-                              "kind": "Field",
-                              "name": Object {
-                                "kind": "Name",
-                                "value": "browserCoverImage",
-                              },
-                              "selectionSet": Object {
-                                "kind": "SelectionSet",
-                                "selections": Array [
-                                  Object {
-                                    "directives": Array [],
-                                    "kind": "FragmentSpread",
-                                    "name": Object {
-                                      "kind": "Name",
-                                      "value": "image",
-                                    },
-                                  },
-                                ],
-                              },
-                            },
-                            Object {
-                              "alias": null,
-                              "arguments": Array [],
-                              "directives": Array [],
-                              "kind": "Field",
-                              "name": Object {
-                                "kind": "Name",
-                                "value": "browserUserHomeCoverImage",
-                              },
-                              "selectionSet": Object {
-                                "kind": "SelectionSet",
-                                "selections": Array [
-                                  Object {
-                                    "directives": Array [],
-                                    "kind": "FragmentSpread",
-                                    "name": Object {
-                                      "kind": "Name",
-                                      "value": "image",
-                                    },
-                                  },
-                                ],
-                              },
-                            },
-                          ],
-                        },
-                        "typeCondition": Object {
-                          "kind": "NamedType",
-                          "name": Object {
-                            "kind": "Name",
-                            "value": "Image",
-                          },
-                        },
-                      },
-                      Object {
-                        "directives": Array [],
-                        "kind": "FragmentDefinition",
-                        "name": Object {
-                          "kind": "Name",
-                          "value": "image",
-                        },
-                        "selectionSet": Object {
-                          "kind": "SelectionSet",
-                          "selections": Array [
-                            Object {
-                              "alias": null,
-                              "arguments": Array [],
-                              "directives": Array [],
-                              "kind": "Field",
-                              "name": Object {
-                                "kind": "Name",
-                                "value": "filename",
-                              },
-                              "selectionSet": null,
-                            },
-                            Object {
-                              "alias": null,
-                              "arguments": Array [],
-                              "directives": Array [],
-                              "kind": "Field",
-                              "name": Object {
-                                "kind": "Name",
-                                "value": "size",
-                              },
-                              "selectionSet": Object {
-                                "kind": "SelectionSet",
-                                "selections": Array [
-                                  Object {
-                                    "alias": null,
-                                    "arguments": Array [],
-                                    "directives": Array [],
-                                    "kind": "Field",
-                                    "name": Object {
-                                      "kind": "Name",
-                                      "value": "width",
-                                    },
-                                    "selectionSet": null,
-                                  },
-                                  Object {
-                                    "alias": null,
-                                    "arguments": Array [],
-                                    "directives": Array [],
-                                    "kind": "Field",
-                                    "name": Object {
-                                      "kind": "Name",
-                                      "value": "height",
-                                    },
-                                    "selectionSet": null,
-                                  },
-                                ],
-                              },
-                            },
-                          ],
-                        },
-                        "typeCondition": Object {
-                          "kind": "NamedType",
-                          "name": Object {
-                            "kind": "Name",
-                            "value": "ImageFile",
-                          },
-                        },
-                      },
-                    ],
-                    "kind": "Document",
-                    "loc": Object {
-                      "end": 503,
-                      "start": 0,
-                    },
-                  },
-                },
-                "queryId": "1",
-                "queryManager": [Circular],
-                "scheduler": QueryScheduler {
-                  "inFlightQueries": Object {},
-                  "intervalQueries": Object {},
-                  "pollingTimers": Object {},
-                  "queryManager": [Circular],
-                  "registeredQueries": Object {},
-                  "ssrMode": false,
-                },
-                "shouldSubscribe": true,
-                "subscriptionHandles": Array [],
-                "variables": Object {},
-              },
-              "subscriptions": Array [],
-            },
-          },
-          "queryDeduplication": true,
-          "queryIdsByName": Object {
-            "DraftQuery": Array [
-              "1",
-            ],
-          },
-          "queryStore": QueryStore {
-            "store": Object {
-              "1": Object {
-                "document": Object {
-                  "definitions": Array [
-                    Object {
-                      "directives": Array [],
-                      "kind": "OperationDefinition",
-                      "name": Object {
-                        "kind": "Name",
-                        "value": "DraftQuery",
-                      },
-                      "operation": "query",
-                      "selectionSet": Object {
-                        "kind": "SelectionSet",
-                        "selections": Array [
-                          Object {
-                            "alias": null,
-                            "arguments": Array [],
-                            "directives": Array [],
-                            "kind": "Field",
-                            "name": Object {
-                              "kind": "Name",
-                              "value": "myDrafts",
-                            },
-                            "selectionSet": Object {
-                              "kind": "SelectionSet",
-                              "selections": Array [
-                                Object {
-                                  "directives": Array [],
-                                  "kind": "FragmentSpread",
-                                  "name": Object {
-                                    "kind": "Name",
-                                    "value": "draftCard",
-                                  },
-                                },
-                                Object {
-                                  "kind": "Field",
-                                  "name": Object {
-                                    "kind": "Name",
-                                    "value": "__typename",
-                                  },
-                                },
-                              ],
-                            },
-                          },
-                        ],
-                      },
-                      "variableDefinitions": Array [],
-                    },
-                    Object {
-                      "directives": Array [],
-                      "kind": "FragmentDefinition",
-                      "name": Object {
-                        "kind": "Name",
-                        "value": "draftCard",
-                      },
-                      "selectionSet": Object {
-                        "kind": "SelectionSet",
-                        "selections": Array [
-                          Object {
-                            "alias": null,
-                            "arguments": Array [],
-                            "directives": Array [],
-                            "kind": "Field",
-                            "name": Object {
-                              "kind": "Name",
-                              "value": "_id",
-                            },
-                            "selectionSet": null,
-                          },
-                          Object {
-                            "alias": null,
-                            "arguments": Array [],
-                            "directives": Array [],
-                            "kind": "Field",
-                            "name": Object {
-                              "kind": "Name",
-                              "value": "title",
-                            },
-                            "selectionSet": null,
-                          },
-                          Object {
-                            "alias": null,
-                            "arguments": Array [],
-                            "directives": Array [],
-                            "kind": "Field",
-                            "name": Object {
-                              "kind": "Name",
-                              "value": "lastUpdate",
-                            },
-                            "selectionSet": null,
-                          },
-                          Object {
-                            "alias": null,
-                            "arguments": Array [],
-                            "directives": Array [],
-                            "kind": "Field",
-                            "name": Object {
-                              "kind": "Name",
-                              "value": "coverImage",
-                            },
-                            "selectionSet": Object {
-                              "kind": "SelectionSet",
-                              "selections": Array [
-                                Object {
-                                  "directives": Array [],
-                                  "kind": "FragmentSpread",
-                                  "name": Object {
-                                    "kind": "Name",
-                                    "value": "coverImage",
-                                  },
-                                },
-                                Object {
-                                  "kind": "Field",
-                                  "name": Object {
-                                    "kind": "Name",
-                                    "value": "__typename",
-                                  },
-                                },
-                              ],
-                            },
-                          },
-                          Object {
-                            "kind": "Field",
-                            "name": Object {
-                              "kind": "Name",
-                              "value": "__typename",
-                            },
-                          },
-                        ],
-                      },
-                      "typeCondition": Object {
-                        "kind": "NamedType",
-                        "name": Object {
-                          "kind": "Name",
-                          "value": "Draft",
-                        },
-                      },
-                    },
-                    Object {
-                      "directives": Array [],
-                      "kind": "FragmentDefinition",
-                      "name": Object {
-                        "kind": "Name",
-                        "value": "coverImage",
-                      },
-                      "selectionSet": Object {
-                        "kind": "SelectionSet",
-                        "selections": Array [
-                          Object {
-                            "alias": null,
-                            "arguments": Array [],
-                            "directives": Array [],
-                            "kind": "Field",
-                            "name": Object {
-                              "kind": "Name",
-                              "value": "_id",
-                            },
-                            "selectionSet": null,
-                          },
-                          Object {
-                            "alias": null,
-                            "arguments": Array [],
-                            "directives": Array [],
-                            "kind": "Field",
-                            "name": Object {
-                              "kind": "Name",
-                              "value": "browserCoverImage",
-                            },
-                            "selectionSet": Object {
-                              "kind": "SelectionSet",
-                              "selections": Array [
-                                Object {
-                                  "directives": Array [],
-                                  "kind": "FragmentSpread",
-                                  "name": Object {
-                                    "kind": "Name",
-                                    "value": "image",
-                                  },
-                                },
-                                Object {
-                                  "kind": "Field",
-                                  "name": Object {
-                                    "kind": "Name",
-                                    "value": "__typename",
-                                  },
-                                },
-                              ],
-                            },
-                          },
-                          Object {
-                            "alias": null,
-                            "arguments": Array [],
-                            "directives": Array [],
-                            "kind": "Field",
-                            "name": Object {
-                              "kind": "Name",
-                              "value": "browserUserHomeCoverImage",
-                            },
-                            "selectionSet": Object {
-                              "kind": "SelectionSet",
-                              "selections": Array [
-                                Object {
-                                  "directives": Array [],
-                                  "kind": "FragmentSpread",
-                                  "name": Object {
-                                    "kind": "Name",
-                                    "value": "image",
-                                  },
-                                },
-                                Object {
-                                  "kind": "Field",
-                                  "name": Object {
-                                    "kind": "Name",
-                                    "value": "__typename",
-                                  },
-                                },
-                              ],
-                            },
-                          },
-                          Object {
-                            "kind": "Field",
-                            "name": Object {
-                              "kind": "Name",
-                              "value": "__typename",
-                            },
-                          },
-                        ],
-                      },
-                      "typeCondition": Object {
-                        "kind": "NamedType",
-                        "name": Object {
-                          "kind": "Name",
-                          "value": "Image",
-                        },
-                      },
-                    },
-                    Object {
-                      "directives": Array [],
-                      "kind": "FragmentDefinition",
-                      "name": Object {
-                        "kind": "Name",
-                        "value": "image",
-                      },
-                      "selectionSet": Object {
-                        "kind": "SelectionSet",
-                        "selections": Array [
-                          Object {
-                            "alias": null,
-                            "arguments": Array [],
-                            "directives": Array [],
-                            "kind": "Field",
-                            "name": Object {
-                              "kind": "Name",
-                              "value": "filename",
-                            },
-                            "selectionSet": null,
-                          },
-                          Object {
-                            "alias": null,
-                            "arguments": Array [],
-                            "directives": Array [],
-                            "kind": "Field",
-                            "name": Object {
-                              "kind": "Name",
-                              "value": "size",
-                            },
-                            "selectionSet": Object {
-                              "kind": "SelectionSet",
-                              "selections": Array [
-                                Object {
-                                  "alias": null,
-                                  "arguments": Array [],
-                                  "directives": Array [],
-                                  "kind": "Field",
-                                  "name": Object {
-                                    "kind": "Name",
-                                    "value": "width",
-                                  },
-                                  "selectionSet": null,
-                                },
-                                Object {
-                                  "alias": null,
-                                  "arguments": Array [],
-                                  "directives": Array [],
-                                  "kind": "Field",
-                                  "name": Object {
-                                    "kind": "Name",
-                                    "value": "height",
-                                  },
-                                  "selectionSet": null,
-                                },
-                                Object {
-                                  "kind": "Field",
-                                  "name": Object {
-                                    "kind": "Name",
-                                    "value": "__typename",
-                                  },
-                                },
-                              ],
-                            },
-                          },
-                          Object {
-                            "kind": "Field",
-                            "name": Object {
-                              "kind": "Name",
-                              "value": "__typename",
-                            },
-                          },
-                        ],
-                      },
-                      "typeCondition": Object {
-                        "kind": "NamedType",
-                        "name": Object {
-                          "kind": "Name",
-                          "value": "ImageFile",
-                        },
-                      },
-                    },
-                  ],
-                  "kind": "Document",
-                  "loc": Object {
-                    "end": 503,
-                    "source": Object {
-                      "body": "
-        query DraftQuery {
-          myDrafts {
-            ...draftCard
-          }
-        }
-        
-          fragment draftCard on Draft {
-            _id
-            title
-            lastUpdate
-            coverImage{
-              ...coverImage
-            }
-      
-          }
-          
-            fragment coverImage on Image {
-              _id
-              browserCoverImage{
-                ...image
-              }
-              browserUserHomeCoverImage{
-                ...image
-              }
-            }
-            
-          fragment image on ImageFile {
-              filename
-              size{
-                width
-                height
-              }
-          }
-      
-      
-      
-      ",
-                      "locationOffset": Object {
-                        "column": 1,
-                        "line": 1,
-                      },
-                      "name": "GraphQL request",
-                    },
-                    "start": 0,
-                  },
-                },
-                "graphQLErrors": Array [],
-                "metadata": Object {
-                  "reactComponent": Object {
-                    "displayName": "Apollo(draftsList)",
-                  },
-                },
-                "networkError": null,
-                "networkStatus": 1,
-                "previousVariables": null,
-                "queryString": "query DraftQuery {
-        myDrafts {
-          ...draftCard
-          __typename
-        }
-      }
-      
-      fragment draftCard on Draft {
-        _id
-        title
-        lastUpdate
-        coverImage {
-          ...coverImage
-          __typename
-        }
-        __typename
-      }
-      
-      fragment coverImage on Image {
-        _id
-        browserCoverImage {
-          ...image
-          __typename
-        }
-        browserUserHomeCoverImage {
-          ...image
-          __typename
-        }
-        __typename
-      }
-      
-      fragment image on ImageFile {
-        filename
-        size {
-          width
-          height
-          __typename
-        }
-        __typename
-      }
-      ",
-                "variables": Object {},
-              },
-            },
-          },
-          "scheduler": QueryScheduler {
-            "inFlightQueries": Object {},
-            "intervalQueries": Object {},
-            "pollingTimers": Object {},
-            "queryManager": [Circular],
-            "registeredQueries": Object {},
-            "ssrMode": false,
-          },
-        },
         "reFetchObservableQueries": [Function],
         "resetStore": [Function],
         "ssrMode": false,
@@ -1962,383 +45,7 @@ exports[`Mount renders correctly 1`] = `
             },
             "optimistic": Array [],
             "silenceBroadcast": false,
-            "watches": Array [
-              Object {
-                "callback": [Function],
-                "optimistic": true,
-                "previousResult": [Function],
-                "query": Object {
-                  "definitions": Array [
-                    Object {
-                      "directives": Array [],
-                      "kind": "OperationDefinition",
-                      "name": Object {
-                        "kind": "Name",
-                        "value": "DraftQuery",
-                      },
-                      "operation": "query",
-                      "selectionSet": Object {
-                        "kind": "SelectionSet",
-                        "selections": Array [
-                          Object {
-                            "alias": null,
-                            "arguments": Array [],
-                            "directives": Array [],
-                            "kind": "Field",
-                            "name": Object {
-                              "kind": "Name",
-                              "value": "myDrafts",
-                            },
-                            "selectionSet": Object {
-                              "kind": "SelectionSet",
-                              "selections": Array [
-                                Object {
-                                  "directives": Array [],
-                                  "kind": "FragmentSpread",
-                                  "name": Object {
-                                    "kind": "Name",
-                                    "value": "draftCard",
-                                  },
-                                },
-                                Object {
-                                  "kind": "Field",
-                                  "name": Object {
-                                    "kind": "Name",
-                                    "value": "__typename",
-                                  },
-                                },
-                              ],
-                            },
-                          },
-                        ],
-                      },
-                      "variableDefinitions": Array [],
-                    },
-                    Object {
-                      "directives": Array [],
-                      "kind": "FragmentDefinition",
-                      "name": Object {
-                        "kind": "Name",
-                        "value": "draftCard",
-                      },
-                      "selectionSet": Object {
-                        "kind": "SelectionSet",
-                        "selections": Array [
-                          Object {
-                            "alias": null,
-                            "arguments": Array [],
-                            "directives": Array [],
-                            "kind": "Field",
-                            "name": Object {
-                              "kind": "Name",
-                              "value": "_id",
-                            },
-                            "selectionSet": null,
-                          },
-                          Object {
-                            "alias": null,
-                            "arguments": Array [],
-                            "directives": Array [],
-                            "kind": "Field",
-                            "name": Object {
-                              "kind": "Name",
-                              "value": "title",
-                            },
-                            "selectionSet": null,
-                          },
-                          Object {
-                            "alias": null,
-                            "arguments": Array [],
-                            "directives": Array [],
-                            "kind": "Field",
-                            "name": Object {
-                              "kind": "Name",
-                              "value": "lastUpdate",
-                            },
-                            "selectionSet": null,
-                          },
-                          Object {
-                            "alias": null,
-                            "arguments": Array [],
-                            "directives": Array [],
-                            "kind": "Field",
-                            "name": Object {
-                              "kind": "Name",
-                              "value": "coverImage",
-                            },
-                            "selectionSet": Object {
-                              "kind": "SelectionSet",
-                              "selections": Array [
-                                Object {
-                                  "directives": Array [],
-                                  "kind": "FragmentSpread",
-                                  "name": Object {
-                                    "kind": "Name",
-                                    "value": "coverImage",
-                                  },
-                                },
-                                Object {
-                                  "kind": "Field",
-                                  "name": Object {
-                                    "kind": "Name",
-                                    "value": "__typename",
-                                  },
-                                },
-                              ],
-                            },
-                          },
-                          Object {
-                            "kind": "Field",
-                            "name": Object {
-                              "kind": "Name",
-                              "value": "__typename",
-                            },
-                          },
-                        ],
-                      },
-                      "typeCondition": Object {
-                        "kind": "NamedType",
-                        "name": Object {
-                          "kind": "Name",
-                          "value": "Draft",
-                        },
-                      },
-                    },
-                    Object {
-                      "directives": Array [],
-                      "kind": "FragmentDefinition",
-                      "name": Object {
-                        "kind": "Name",
-                        "value": "coverImage",
-                      },
-                      "selectionSet": Object {
-                        "kind": "SelectionSet",
-                        "selections": Array [
-                          Object {
-                            "alias": null,
-                            "arguments": Array [],
-                            "directives": Array [],
-                            "kind": "Field",
-                            "name": Object {
-                              "kind": "Name",
-                              "value": "_id",
-                            },
-                            "selectionSet": null,
-                          },
-                          Object {
-                            "alias": null,
-                            "arguments": Array [],
-                            "directives": Array [],
-                            "kind": "Field",
-                            "name": Object {
-                              "kind": "Name",
-                              "value": "browserCoverImage",
-                            },
-                            "selectionSet": Object {
-                              "kind": "SelectionSet",
-                              "selections": Array [
-                                Object {
-                                  "directives": Array [],
-                                  "kind": "FragmentSpread",
-                                  "name": Object {
-                                    "kind": "Name",
-                                    "value": "image",
-                                  },
-                                },
-                                Object {
-                                  "kind": "Field",
-                                  "name": Object {
-                                    "kind": "Name",
-                                    "value": "__typename",
-                                  },
-                                },
-                              ],
-                            },
-                          },
-                          Object {
-                            "alias": null,
-                            "arguments": Array [],
-                            "directives": Array [],
-                            "kind": "Field",
-                            "name": Object {
-                              "kind": "Name",
-                              "value": "browserUserHomeCoverImage",
-                            },
-                            "selectionSet": Object {
-                              "kind": "SelectionSet",
-                              "selections": Array [
-                                Object {
-                                  "directives": Array [],
-                                  "kind": "FragmentSpread",
-                                  "name": Object {
-                                    "kind": "Name",
-                                    "value": "image",
-                                  },
-                                },
-                                Object {
-                                  "kind": "Field",
-                                  "name": Object {
-                                    "kind": "Name",
-                                    "value": "__typename",
-                                  },
-                                },
-                              ],
-                            },
-                          },
-                          Object {
-                            "kind": "Field",
-                            "name": Object {
-                              "kind": "Name",
-                              "value": "__typename",
-                            },
-                          },
-                        ],
-                      },
-                      "typeCondition": Object {
-                        "kind": "NamedType",
-                        "name": Object {
-                          "kind": "Name",
-                          "value": "Image",
-                        },
-                      },
-                    },
-                    Object {
-                      "directives": Array [],
-                      "kind": "FragmentDefinition",
-                      "name": Object {
-                        "kind": "Name",
-                        "value": "image",
-                      },
-                      "selectionSet": Object {
-                        "kind": "SelectionSet",
-                        "selections": Array [
-                          Object {
-                            "alias": null,
-                            "arguments": Array [],
-                            "directives": Array [],
-                            "kind": "Field",
-                            "name": Object {
-                              "kind": "Name",
-                              "value": "filename",
-                            },
-                            "selectionSet": null,
-                          },
-                          Object {
-                            "alias": null,
-                            "arguments": Array [],
-                            "directives": Array [],
-                            "kind": "Field",
-                            "name": Object {
-                              "kind": "Name",
-                              "value": "size",
-                            },
-                            "selectionSet": Object {
-                              "kind": "SelectionSet",
-                              "selections": Array [
-                                Object {
-                                  "alias": null,
-                                  "arguments": Array [],
-                                  "directives": Array [],
-                                  "kind": "Field",
-                                  "name": Object {
-                                    "kind": "Name",
-                                    "value": "width",
-                                  },
-                                  "selectionSet": null,
-                                },
-                                Object {
-                                  "alias": null,
-                                  "arguments": Array [],
-                                  "directives": Array [],
-                                  "kind": "Field",
-                                  "name": Object {
-                                    "kind": "Name",
-                                    "value": "height",
-                                  },
-                                  "selectionSet": null,
-                                },
-                                Object {
-                                  "kind": "Field",
-                                  "name": Object {
-                                    "kind": "Name",
-                                    "value": "__typename",
-                                  },
-                                },
-                              ],
-                            },
-                          },
-                          Object {
-                            "kind": "Field",
-                            "name": Object {
-                              "kind": "Name",
-                              "value": "__typename",
-                            },
-                          },
-                        ],
-                      },
-                      "typeCondition": Object {
-                        "kind": "NamedType",
-                        "name": Object {
-                          "kind": "Name",
-                          "value": "ImageFile",
-                        },
-                      },
-                    },
-                  ],
-                  "kind": "Document",
-                  "loc": Object {
-                    "end": 503,
-                    "source": Object {
-                      "body": "
-        query DraftQuery {
-          myDrafts {
-            ...draftCard
-          }
-        }
-        
-          fragment draftCard on Draft {
-            _id
-            title
-            lastUpdate
-            coverImage{
-              ...coverImage
-            }
-      
-          }
-          
-            fragment coverImage on Image {
-              _id
-              browserCoverImage{
-                ...image
-              }
-              browserUserHomeCoverImage{
-                ...image
-              }
-            }
-            
-          fragment image on ImageFile {
-              filename
-              size{
-                width
-                height
-              }
-          }
-      
-      
-      
-      ",
-                      "locationOffset": Object {
-                        "column": 1,
-                        "line": 1,
-                      },
-                      "name": "GraphQL request",
-                    },
-                    "start": 0,
-                  },
-                },
-                "variables": undefined,
-              },
-            ],
+            "watches": Array [],
           },
         },
         "version": "2.0.4",
@@ -2374,154 +81,748 @@ exports[`Mount renders correctly 1`] = `
         >
           <UserDraft
             createDraft={[Function]}
+            draftList={
+              Object {
+                "myDrafts": Array [
+                  Object {
+                    "__typename": "Draft",
+                    "_id": "test001",
+                    "lastUpdate": "Thu Dec 07 2017 04:49:49 GMT+0000 (UTC)",
+                    "title": "trip to test1",
+                  },
+                ],
+              }
+            }
           >
             <div>
-              <Apollo(draftsList)>
-                <draftsList
-                  data={
-                    Object {
-                      "error": undefined,
-                      "fetchMore": [Function],
-                      "loading": true,
-                      "networkStatus": 1,
-                      "refetch": [Function],
-                      "startPolling": [Function],
-                      "stopPolling": [Function],
-                      "subscribeToMore": [Function],
-                      "updateQuery": [Function],
-                      "variables": Object {},
-                    }
-                  }
+              <div>
+                <div
+                  className="draft"
+                  key="test001"
                 >
-                  <p>
-                    Loading ...
-                  </p>
-                </draftsList>
-              </Apollo(draftsList)>
-              <withStyles(Button)
-                color="primary"
-                label="draftCreate"
-                onClick={[Function]}
-                raised="raised"
-              >
-                <Button
-                  classes={
-                    Object {
-                      "colorInherit": "MuiButton-colorInherit-7",
-                      "dense": "MuiButton-dense-2",
-                      "disabled": "MuiButton-disabled-13",
-                      "fab": "MuiButton-fab-14",
-                      "flatAccent": "MuiButton-flatAccent-5",
-                      "flatContrast": "MuiButton-flatContrast-6",
-                      "flatPrimary": "MuiButton-flatPrimary-4",
-                      "keyboardFocused": "MuiButton-keyboardFocused-9",
-                      "label": "MuiButton-label-3",
-                      "raised": "MuiButton-raised-8",
-                      "raisedAccent": "MuiButton-raisedAccent-11",
-                      "raisedContrast": "MuiButton-raisedContrast-12",
-                      "raisedPrimary": "MuiButton-raisedPrimary-10",
-                      "root": "MuiButton-root-1",
+                  <Apollo(withStyles(Component))
+                    draft={
+                      Object {
+                        "__typename": "Draft",
+                        "_id": "test001",
+                        "lastUpdate": "Thu Dec 07 2017 04:49:49 GMT+0000 (UTC)",
+                        "title": "trip to test1",
+                      }
                     }
-                  }
+                  >
+                    <withStyles(Component)
+                      deleteDraft={[Function]}
+                      draft={
+                        Object {
+                          "__typename": "Draft",
+                          "_id": "test001",
+                          "lastUpdate": "Thu Dec 07 2017 04:49:49 GMT+0000 (UTC)",
+                          "title": "trip to test1",
+                        }
+                      }
+                    >
+                      <Component
+                        classes={
+                          Object {
+                            "card": "Component-card-1",
+                            "content": "Component-content-3",
+                            "cover": "Component-cover-4",
+                            "details": "Component-details-2",
+                            "textField": "Component-textField-5",
+                          }
+                        }
+                        deleteDraft={[Function]}
+                        draft={
+                          Object {
+                            "__typename": "Draft",
+                            "_id": "test001",
+                            "lastUpdate": "Thu Dec 07 2017 04:49:49 GMT+0000 (UTC)",
+                            "title": "trip to test1",
+                          }
+                        }
+                      >
+                        <div>
+                          <Card
+                            className="Component-card-1"
+                            raised={false}
+                          >
+                            <withStyles(Paper)
+                              className="Component-card-1"
+                              elevation={2}
+                            >
+                              <Paper
+                                className="Component-card-1"
+                                classes={
+                                  Object {
+                                    "root": "MuiPaper-root-6",
+                                    "rounded": "MuiPaper-rounded-7",
+                                    "shadow0": "MuiPaper-shadow0-8",
+                                    "shadow1": "MuiPaper-shadow1-9",
+                                    "shadow10": "MuiPaper-shadow10-18",
+                                    "shadow11": "MuiPaper-shadow11-19",
+                                    "shadow12": "MuiPaper-shadow12-20",
+                                    "shadow13": "MuiPaper-shadow13-21",
+                                    "shadow14": "MuiPaper-shadow14-22",
+                                    "shadow15": "MuiPaper-shadow15-23",
+                                    "shadow16": "MuiPaper-shadow16-24",
+                                    "shadow17": "MuiPaper-shadow17-25",
+                                    "shadow18": "MuiPaper-shadow18-26",
+                                    "shadow19": "MuiPaper-shadow19-27",
+                                    "shadow2": "MuiPaper-shadow2-10",
+                                    "shadow20": "MuiPaper-shadow20-28",
+                                    "shadow21": "MuiPaper-shadow21-29",
+                                    "shadow22": "MuiPaper-shadow22-30",
+                                    "shadow23": "MuiPaper-shadow23-31",
+                                    "shadow24": "MuiPaper-shadow24-32",
+                                    "shadow3": "MuiPaper-shadow3-11",
+                                    "shadow4": "MuiPaper-shadow4-12",
+                                    "shadow5": "MuiPaper-shadow5-13",
+                                    "shadow6": "MuiPaper-shadow6-14",
+                                    "shadow7": "MuiPaper-shadow7-15",
+                                    "shadow8": "MuiPaper-shadow8-16",
+                                    "shadow9": "MuiPaper-shadow9-17",
+                                  }
+                                }
+                                component="div"
+                                elevation={2}
+                                square={false}
+                              >
+                                <div
+                                  className="MuiPaper-root-6 MuiPaper-shadow2-10 MuiPaper-rounded-7 Component-card-1"
+                                >
+                                  <Link
+                                    className="Component-textField-5"
+                                    replace={false}
+                                    to="/edit/test001"
+                                  >
+                                    <a
+                                      className="Component-textField-5"
+                                      href="/edit/test001"
+                                      onClick={[Function]}
+                                    >
+                                      <withStyles(CardMedia)
+                                        className="Component-cover-4"
+                                        image="b.jpg"
+                                        title="Live from space album cover"
+                                      >
+                                        <CardMedia
+                                          className="Component-cover-4"
+                                          classes={
+                                            Object {
+                                              "root": "MuiCardMedia-root-33",
+                                              "rootMedia": "MuiCardMedia-rootMedia-34",
+                                            }
+                                          }
+                                          component="div"
+                                          image="b.jpg"
+                                          title="Live from space album cover"
+                                        >
+                                          <div
+                                            className="MuiCardMedia-root-33 Component-cover-4"
+                                            style={
+                                              Object {
+                                                "backgroundImage": "url(b.jpg)",
+                                              }
+                                            }
+                                            title="Live from space album cover"
+                                          />
+                                        </CardMedia>
+                                      </withStyles(CardMedia)>
+                                    </a>
+                                  </Link>
+                                  <div
+                                    className="Component-details-2"
+                                  >
+                                    <Link
+                                      className="Component-textField-5"
+                                      replace={false}
+                                      to="/edit/test001"
+                                    >
+                                      <a
+                                        className="Component-textField-5"
+                                        href="/edit/test001"
+                                        onClick={[Function]}
+                                      >
+                                        <withStyles(CardContent)
+                                          className="Component-content-3"
+                                        >
+                                          <CardContent
+                                            className="Component-content-3"
+                                            classes={
+                                              Object {
+                                                "root": "MuiCardContent-root-35",
+                                              }
+                                            }
+                                          >
+                                            <div
+                                              className="MuiCardContent-root-35 Component-content-3"
+                                            >
+                                              <withStyles(Typography)
+                                                type="headline"
+                                              >
+                                                <Typography
+                                                  align="inherit"
+                                                  classes={
+                                                    Object {
+                                                      "alignCenter": "MuiTypography-alignCenter-49",
+                                                      "alignJustify": "MuiTypography-alignJustify-51",
+                                                      "alignLeft": "MuiTypography-alignLeft-48",
+                                                      "alignRight": "MuiTypography-alignRight-50",
+                                                      "body1": "MuiTypography-body1-45",
+                                                      "body2": "MuiTypography-body2-44",
+                                                      "button": "MuiTypography-button-47",
+                                                      "caption": "MuiTypography-caption-46",
+                                                      "colorAccent": "MuiTypography-colorAccent-58",
+                                                      "colorError": "MuiTypography-colorError-59",
+                                                      "colorInherit": "MuiTypography-colorInherit-55",
+                                                      "colorPrimary": "MuiTypography-colorPrimary-56",
+                                                      "colorSecondary": "MuiTypography-colorSecondary-57",
+                                                      "display1": "MuiTypography-display1-40",
+                                                      "display2": "MuiTypography-display2-39",
+                                                      "display3": "MuiTypography-display3-38",
+                                                      "display4": "MuiTypography-display4-37",
+                                                      "gutterBottom": "MuiTypography-gutterBottom-53",
+                                                      "headline": "MuiTypography-headline-41",
+                                                      "noWrap": "MuiTypography-noWrap-52",
+                                                      "paragraph": "MuiTypography-paragraph-54",
+                                                      "root": "MuiTypography-root-36",
+                                                      "subheading": "MuiTypography-subheading-43",
+                                                      "title": "MuiTypography-title-42",
+                                                    }
+                                                  }
+                                                  color="default"
+                                                  gutterBottom={false}
+                                                  headlineMapping={
+                                                    Object {
+                                                      "body1": "p",
+                                                      "body2": "aside",
+                                                      "display1": "h1",
+                                                      "display2": "h1",
+                                                      "display3": "h1",
+                                                      "display4": "h1",
+                                                      "headline": "h1",
+                                                      "subheading": "h3",
+                                                      "title": "h2",
+                                                    }
+                                                  }
+                                                  noWrap={false}
+                                                  paragraph={false}
+                                                  type="headline"
+                                                >
+                                                  <h1
+                                                    className="MuiTypography-root-36 MuiTypography-headline-41"
+                                                  >
+                                                    trip to test1
+                                                  </h1>
+                                                </Typography>
+                                              </withStyles(Typography)>
+                                              <withStyles(Typography)
+                                                color="secondary"
+                                                type="subheading"
+                                              >
+                                                <Typography
+                                                  align="inherit"
+                                                  classes={
+                                                    Object {
+                                                      "alignCenter": "MuiTypography-alignCenter-49",
+                                                      "alignJustify": "MuiTypography-alignJustify-51",
+                                                      "alignLeft": "MuiTypography-alignLeft-48",
+                                                      "alignRight": "MuiTypography-alignRight-50",
+                                                      "body1": "MuiTypography-body1-45",
+                                                      "body2": "MuiTypography-body2-44",
+                                                      "button": "MuiTypography-button-47",
+                                                      "caption": "MuiTypography-caption-46",
+                                                      "colorAccent": "MuiTypography-colorAccent-58",
+                                                      "colorError": "MuiTypography-colorError-59",
+                                                      "colorInherit": "MuiTypography-colorInherit-55",
+                                                      "colorPrimary": "MuiTypography-colorPrimary-56",
+                                                      "colorSecondary": "MuiTypography-colorSecondary-57",
+                                                      "display1": "MuiTypography-display1-40",
+                                                      "display2": "MuiTypography-display2-39",
+                                                      "display3": "MuiTypography-display3-38",
+                                                      "display4": "MuiTypography-display4-37",
+                                                      "gutterBottom": "MuiTypography-gutterBottom-53",
+                                                      "headline": "MuiTypography-headline-41",
+                                                      "noWrap": "MuiTypography-noWrap-52",
+                                                      "paragraph": "MuiTypography-paragraph-54",
+                                                      "root": "MuiTypography-root-36",
+                                                      "subheading": "MuiTypography-subheading-43",
+                                                      "title": "MuiTypography-title-42",
+                                                    }
+                                                  }
+                                                  color="secondary"
+                                                  gutterBottom={false}
+                                                  headlineMapping={
+                                                    Object {
+                                                      "body1": "p",
+                                                      "body2": "aside",
+                                                      "display1": "h1",
+                                                      "display2": "h1",
+                                                      "display3": "h1",
+                                                      "display4": "h1",
+                                                      "headline": "h1",
+                                                      "subheading": "h3",
+                                                      "title": "h2",
+                                                    }
+                                                  }
+                                                  noWrap={false}
+                                                  paragraph={false}
+                                                  type="subheading"
+                                                >
+                                                  <h3
+                                                    className="MuiTypography-root-36 MuiTypography-subheading-43 MuiTypography-colorSecondary-57"
+                                                  >
+                                                    <div>
+                                                      Last Updated: 
+                                                      2017-12-07 04:49
+                                                    </div>
+                                                  </h3>
+                                                </Typography>
+                                              </withStyles(Typography)>
+                                            </div>
+                                          </CardContent>
+                                        </withStyles(CardContent)>
+                                      </a>
+                                    </Link>
+                                    <div>
+                                      Continue Writing
+                                      <withStyles(IconButton)
+                                        aria-label="Edit"
+                                      >
+                                        <IconButton
+                                          aria-label="Edit"
+                                          classes={
+                                            Object {
+                                              "colorAccent": "MuiIconButton-colorAccent-61",
+                                              "colorContrast": "MuiIconButton-colorContrast-62",
+                                              "colorInherit": "MuiIconButton-colorInherit-64",
+                                              "colorPrimary": "MuiIconButton-colorPrimary-63",
+                                              "disabled": "MuiIconButton-disabled-65",
+                                              "icon": "MuiIconButton-icon-67",
+                                              "keyboardFocused": "MuiIconButton-keyboardFocused-68",
+                                              "label": "MuiIconButton-label-66",
+                                              "root": "MuiIconButton-root-60",
+                                            }
+                                          }
+                                          color="default"
+                                          disableRipple={false}
+                                          disabled={false}
+                                        >
+                                          <withStyles(ButtonBase)
+                                            aria-label="Edit"
+                                            centerRipple={true}
+                                            className="MuiIconButton-root-60"
+                                            disableRipple={false}
+                                            disabled={false}
+                                            keyboardFocusedClassName="MuiIconButton-keyboardFocused-68"
+                                          >
+                                            <ButtonBase
+                                              aria-label="Edit"
+                                              centerRipple={true}
+                                              className="MuiIconButton-root-60"
+                                              classes={
+                                                Object {
+                                                  "disabled": "MuiButtonBase-disabled-70",
+                                                  "root": "MuiButtonBase-root-69",
+                                                }
+                                              }
+                                              disableRipple={false}
+                                              disabled={false}
+                                              focusRipple={false}
+                                              keyboardFocusedClassName="MuiIconButton-keyboardFocused-68"
+                                              tabIndex={0}
+                                              type="button"
+                                            >
+                                              <button
+                                                aria-label="Edit"
+                                                className="MuiButtonBase-root-69 MuiIconButton-root-60"
+                                                disabled={false}
+                                                onBlur={[Function]}
+                                                onFocus={[Function]}
+                                                onKeyDown={[Function]}
+                                                onKeyUp={[Function]}
+                                                onMouseDown={[Function]}
+                                                onMouseLeave={[Function]}
+                                                onMouseUp={[Function]}
+                                                onTouchEnd={[Function]}
+                                                onTouchMove={[Function]}
+                                                onTouchStart={[Function]}
+                                                role="button"
+                                                tabIndex={0}
+                                                type="button"
+                                              >
+                                                <span
+                                                  className="MuiIconButton-label-66"
+                                                >
+                                                  <pure(Edit)
+                                                    className="MuiIconButton-icon-67"
+                                                    key=".0"
+                                                  >
+                                                    <Edit
+                                                      className="MuiIconButton-icon-67"
+                                                    >
+                                                      <withStyles(SvgIcon)
+                                                        className="MuiIconButton-icon-67"
+                                                      >
+                                                        <SvgIcon
+                                                          className="MuiIconButton-icon-67"
+                                                          classes={
+                                                            Object {
+                                                              "colorAccent": "MuiSvgIcon-colorAccent-72",
+                                                              "colorAction": "MuiSvgIcon-colorAction-73",
+                                                              "colorContrast": "MuiSvgIcon-colorContrast-74",
+                                                              "colorDisabled": "MuiSvgIcon-colorDisabled-75",
+                                                              "colorError": "MuiSvgIcon-colorError-76",
+                                                              "colorPrimary": "MuiSvgIcon-colorPrimary-77",
+                                                              "root": "MuiSvgIcon-root-71",
+                                                            }
+                                                          }
+                                                          color="inherit"
+                                                          viewBox="0 0 24 24"
+                                                        >
+                                                          <svg
+                                                            aria-hidden="true"
+                                                            className="MuiSvgIcon-root-71 MuiIconButton-icon-67"
+                                                            focusable="false"
+                                                            viewBox="0 0 24 24"
+                                                          >
+                                                            <path
+                                                              d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
+                                                            />
+                                                          </svg>
+                                                        </SvgIcon>
+                                                      </withStyles(SvgIcon)>
+                                                    </Edit>
+                                                  </pure(Edit)>
+                                                </span>
+                                                <withStyles(TouchRipple)
+                                                  center={true}
+                                                  innerRef={[Function]}
+                                                >
+                                                  <TouchRipple
+                                                    center={true}
+                                                    classes={
+                                                      Object {
+                                                        "ripple": "MuiTouchRipple-ripple-82",
+                                                        "rippleFast": "MuiTouchRipple-rippleFast-84",
+                                                        "rippleVisible": "MuiTouchRipple-rippleVisible-83",
+                                                        "root": "MuiTouchRipple-root-78",
+                                                        "wrapper": "MuiTouchRipple-wrapper-79",
+                                                        "wrapperLeaving": "MuiTouchRipple-wrapperLeaving-80",
+                                                        "wrapperPulsating": "MuiTouchRipple-wrapperPulsating-81",
+                                                      }
+                                                    }
+                                                  >
+                                                    <TransitionGroup
+                                                      childFactory={[Function]}
+                                                      className="MuiTouchRipple-root-78"
+                                                      component="span"
+                                                      enter={true}
+                                                      exit={true}
+                                                    >
+                                                      <span
+                                                        className="MuiTouchRipple-root-78"
+                                                      />
+                                                    </TransitionGroup>
+                                                  </TouchRipple>
+                                                </withStyles(TouchRipple)>
+                                              </button>
+                                            </ButtonBase>
+                                          </withStyles(ButtonBase)>
+                                        </IconButton>
+                                      </withStyles(IconButton)>
+                                      <withStyles(IconButton)
+                                        aria-label="Delete"
+                                        onClick={[Function]}
+                                      >
+                                        <IconButton
+                                          aria-label="Delete"
+                                          classes={
+                                            Object {
+                                              "colorAccent": "MuiIconButton-colorAccent-61",
+                                              "colorContrast": "MuiIconButton-colorContrast-62",
+                                              "colorInherit": "MuiIconButton-colorInherit-64",
+                                              "colorPrimary": "MuiIconButton-colorPrimary-63",
+                                              "disabled": "MuiIconButton-disabled-65",
+                                              "icon": "MuiIconButton-icon-67",
+                                              "keyboardFocused": "MuiIconButton-keyboardFocused-68",
+                                              "label": "MuiIconButton-label-66",
+                                              "root": "MuiIconButton-root-60",
+                                            }
+                                          }
+                                          color="default"
+                                          disableRipple={false}
+                                          disabled={false}
+                                          onClick={[Function]}
+                                        >
+                                          <withStyles(ButtonBase)
+                                            aria-label="Delete"
+                                            centerRipple={true}
+                                            className="MuiIconButton-root-60"
+                                            disableRipple={false}
+                                            disabled={false}
+                                            keyboardFocusedClassName="MuiIconButton-keyboardFocused-68"
+                                            onClick={[Function]}
+                                          >
+                                            <ButtonBase
+                                              aria-label="Delete"
+                                              centerRipple={true}
+                                              className="MuiIconButton-root-60"
+                                              classes={
+                                                Object {
+                                                  "disabled": "MuiButtonBase-disabled-70",
+                                                  "root": "MuiButtonBase-root-69",
+                                                }
+                                              }
+                                              disableRipple={false}
+                                              disabled={false}
+                                              focusRipple={false}
+                                              keyboardFocusedClassName="MuiIconButton-keyboardFocused-68"
+                                              onClick={[Function]}
+                                              tabIndex={0}
+                                              type="button"
+                                            >
+                                              <button
+                                                aria-label="Delete"
+                                                className="MuiButtonBase-root-69 MuiIconButton-root-60"
+                                                disabled={false}
+                                                onBlur={[Function]}
+                                                onClick={[Function]}
+                                                onFocus={[Function]}
+                                                onKeyDown={[Function]}
+                                                onKeyUp={[Function]}
+                                                onMouseDown={[Function]}
+                                                onMouseLeave={[Function]}
+                                                onMouseUp={[Function]}
+                                                onTouchEnd={[Function]}
+                                                onTouchMove={[Function]}
+                                                onTouchStart={[Function]}
+                                                role="button"
+                                                tabIndex={0}
+                                                type="button"
+                                              >
+                                                <span
+                                                  className="MuiIconButton-label-66"
+                                                >
+                                                  <pure(Delete)
+                                                    className="MuiIconButton-icon-67"
+                                                    key=".0"
+                                                  >
+                                                    <Delete
+                                                      className="MuiIconButton-icon-67"
+                                                    >
+                                                      <withStyles(SvgIcon)
+                                                        className="MuiIconButton-icon-67"
+                                                      >
+                                                        <SvgIcon
+                                                          className="MuiIconButton-icon-67"
+                                                          classes={
+                                                            Object {
+                                                              "colorAccent": "MuiSvgIcon-colorAccent-72",
+                                                              "colorAction": "MuiSvgIcon-colorAction-73",
+                                                              "colorContrast": "MuiSvgIcon-colorContrast-74",
+                                                              "colorDisabled": "MuiSvgIcon-colorDisabled-75",
+                                                              "colorError": "MuiSvgIcon-colorError-76",
+                                                              "colorPrimary": "MuiSvgIcon-colorPrimary-77",
+                                                              "root": "MuiSvgIcon-root-71",
+                                                            }
+                                                          }
+                                                          color="inherit"
+                                                          viewBox="0 0 24 24"
+                                                        >
+                                                          <svg
+                                                            aria-hidden="true"
+                                                            className="MuiSvgIcon-root-71 MuiIconButton-icon-67"
+                                                            focusable="false"
+                                                            viewBox="0 0 24 24"
+                                                          >
+                                                            <path
+                                                              d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"
+                                                            />
+                                                          </svg>
+                                                        </SvgIcon>
+                                                      </withStyles(SvgIcon)>
+                                                    </Delete>
+                                                  </pure(Delete)>
+                                                </span>
+                                                <withStyles(TouchRipple)
+                                                  center={true}
+                                                  innerRef={[Function]}
+                                                >
+                                                  <TouchRipple
+                                                    center={true}
+                                                    classes={
+                                                      Object {
+                                                        "ripple": "MuiTouchRipple-ripple-82",
+                                                        "rippleFast": "MuiTouchRipple-rippleFast-84",
+                                                        "rippleVisible": "MuiTouchRipple-rippleVisible-83",
+                                                        "root": "MuiTouchRipple-root-78",
+                                                        "wrapper": "MuiTouchRipple-wrapper-79",
+                                                        "wrapperLeaving": "MuiTouchRipple-wrapperLeaving-80",
+                                                        "wrapperPulsating": "MuiTouchRipple-wrapperPulsating-81",
+                                                      }
+                                                    }
+                                                  >
+                                                    <TransitionGroup
+                                                      childFactory={[Function]}
+                                                      className="MuiTouchRipple-root-78"
+                                                      component="span"
+                                                      enter={true}
+                                                      exit={true}
+                                                    >
+                                                      <span
+                                                        className="MuiTouchRipple-root-78"
+                                                      />
+                                                    </TransitionGroup>
+                                                  </TouchRipple>
+                                                </withStyles(TouchRipple)>
+                                              </button>
+                                            </ButtonBase>
+                                          </withStyles(ButtonBase)>
+                                        </IconButton>
+                                      </withStyles(IconButton)>
+                                    </div>
+                                  </div>
+                                </div>
+                              </Paper>
+                            </withStyles(Paper)>
+                          </Card>
+                        </div>
+                      </Component>
+                    </withStyles(Component)>
+                  </Apollo(withStyles(Component))>
+                </div>
+              </div>
+              <div
+                className="create"
+              >
+                <withStyles(Button)
                   color="primary"
-                  dense={false}
-                  disableFocusRipple={false}
-                  disableRipple={false}
-                  disabled={false}
-                  fab={false}
                   label="draftCreate"
                   onClick={[Function]}
                   raised="raised"
-                  type="button"
                 >
-                  <withStyles(ButtonBase)
-                    className="MuiButton-root-1 MuiButton-raised-8 MuiButton-raisedPrimary-10"
+                  <Button
+                    classes={
+                      Object {
+                        "colorInherit": "MuiButton-colorInherit-91",
+                        "dense": "MuiButton-dense-86",
+                        "disabled": "MuiButton-disabled-97",
+                        "fab": "MuiButton-fab-98",
+                        "flatAccent": "MuiButton-flatAccent-89",
+                        "flatContrast": "MuiButton-flatContrast-90",
+                        "flatPrimary": "MuiButton-flatPrimary-88",
+                        "keyboardFocused": "MuiButton-keyboardFocused-93",
+                        "label": "MuiButton-label-87",
+                        "mini": "MuiButton-mini-99",
+                        "raised": "MuiButton-raised-92",
+                        "raisedAccent": "MuiButton-raisedAccent-95",
+                        "raisedContrast": "MuiButton-raisedContrast-96",
+                        "raisedPrimary": "MuiButton-raisedPrimary-94",
+                        "root": "MuiButton-root-85",
+                      }
+                    }
+                    color="primary"
+                    dense={false}
+                    disableFocusRipple={false}
                     disableRipple={false}
                     disabled={false}
-                    focusRipple={true}
-                    keyboardFocusedClassName="MuiButton-keyboardFocused-9"
+                    fab={false}
                     label="draftCreate"
+                    mini={false}
                     onClick={[Function]}
+                    raised="raised"
                     type="button"
                   >
-                    <ButtonBase
-                      centerRipple={false}
-                      className="MuiButton-root-1 MuiButton-raised-8 MuiButton-raisedPrimary-10"
-                      classes={
-                        Object {
-                          "disabled": "MuiButtonBase-disabled-16",
-                          "root": "MuiButtonBase-root-15",
-                        }
-                      }
+                    <withStyles(ButtonBase)
+                      className="MuiButton-root-85 MuiButton-raised-92 MuiButton-raisedPrimary-94"
                       disableRipple={false}
                       disabled={false}
                       focusRipple={true}
-                      keyboardFocusedClassName="MuiButton-keyboardFocused-9"
+                      keyboardFocusedClassName="MuiButton-keyboardFocused-93"
                       label="draftCreate"
                       onClick={[Function]}
-                      tabIndex={0}
                       type="button"
                     >
-                      <button
-                        className="MuiButtonBase-root-15 MuiButton-root-1 MuiButton-raised-8 MuiButton-raisedPrimary-10"
+                      <ButtonBase
+                        centerRipple={false}
+                        className="MuiButton-root-85 MuiButton-raised-92 MuiButton-raisedPrimary-94"
+                        classes={
+                          Object {
+                            "disabled": "MuiButtonBase-disabled-70",
+                            "root": "MuiButtonBase-root-69",
+                          }
+                        }
+                        disableRipple={false}
                         disabled={false}
+                        focusRipple={true}
+                        keyboardFocusedClassName="MuiButton-keyboardFocused-93"
                         label="draftCreate"
-                        onBlur={[Function]}
                         onClick={[Function]}
-                        onFocus={[Function]}
-                        onKeyDown={[Function]}
-                        onKeyUp={[Function]}
-                        onMouseDown={[Function]}
-                        onMouseLeave={[Function]}
-                        onMouseUp={[Function]}
-                        onTouchEnd={[Function]}
-                        onTouchMove={[Function]}
-                        onTouchStart={[Function]}
-                        role="button"
                         tabIndex={0}
                         type="button"
                       >
-                        <span
-                          className="MuiButton-label-3"
+                        <button
+                          className="MuiButtonBase-root-69 MuiButton-root-85 MuiButton-raised-92 MuiButton-raisedPrimary-94"
+                          disabled={false}
+                          label="draftCreate"
+                          onBlur={[Function]}
+                          onClick={[Function]}
+                          onFocus={[Function]}
+                          onKeyDown={[Function]}
+                          onKeyUp={[Function]}
+                          onMouseDown={[Function]}
+                          onMouseLeave={[Function]}
+                          onMouseUp={[Function]}
+                          onTouchEnd={[Function]}
+                          onTouchMove={[Function]}
+                          onTouchStart={[Function]}
+                          role="button"
+                          tabIndex={0}
+                          type="button"
                         >
-                          CREATE NEW DRAFT
-                        </span>
-                        <withStyles(TouchRipple)
-                          center={false}
-                          innerRef={[Function]}
-                        >
-                          <TouchRipple
-                            center={false}
-                            classes={
-                              Object {
-                                "ripple": "MuiTouchRipple-ripple-21",
-                                "rippleFast": "MuiTouchRipple-rippleFast-23",
-                                "rippleVisible": "MuiTouchRipple-rippleVisible-22",
-                                "root": "MuiTouchRipple-root-17",
-                                "wrapper": "MuiTouchRipple-wrapper-18",
-                                "wrapperLeaving": "MuiTouchRipple-wrapperLeaving-19",
-                                "wrapperPulsating": "MuiTouchRipple-wrapperPulsating-20",
-                              }
-                            }
+                          <span
+                            className="MuiButton-label-87"
                           >
-                            <TransitionGroup
-                              childFactory={[Function]}
-                              className="MuiTouchRipple-root-17"
-                              component="span"
-                              enter={true}
-                              exit={true}
+                            CREATE NEW DRAFT
+                          </span>
+                          <withStyles(TouchRipple)
+                            center={false}
+                            innerRef={[Function]}
+                          >
+                            <TouchRipple
+                              center={false}
+                              classes={
+                                Object {
+                                  "ripple": "MuiTouchRipple-ripple-82",
+                                  "rippleFast": "MuiTouchRipple-rippleFast-84",
+                                  "rippleVisible": "MuiTouchRipple-rippleVisible-83",
+                                  "root": "MuiTouchRipple-root-78",
+                                  "wrapper": "MuiTouchRipple-wrapper-79",
+                                  "wrapperLeaving": "MuiTouchRipple-wrapperLeaving-80",
+                                  "wrapperPulsating": "MuiTouchRipple-wrapperPulsating-81",
+                                }
+                              }
                             >
-                              <span
-                                className="MuiTouchRipple-root-17"
-                              />
-                            </TransitionGroup>
-                          </TouchRipple>
-                        </withStyles(TouchRipple)>
-                      </button>
-                    </ButtonBase>
-                  </withStyles(ButtonBase)>
-                </Button>
-              </withStyles(Button)>
+                              <TransitionGroup
+                                childFactory={[Function]}
+                                className="MuiTouchRipple-root-78"
+                                component="span"
+                                enter={true}
+                                exit={true}
+                              >
+                                <span
+                                  className="MuiTouchRipple-root-78"
+                                />
+                              </TransitionGroup>
+                            </TouchRipple>
+                          </withStyles(TouchRipple)>
+                        </button>
+                      </ButtonBase>
+                    </withStyles(ButtonBase)>
+                  </Button>
+                </withStyles(Button)>
+              </div>
             </div>
           </UserDraft>
         </Router>

@@ -21,7 +21,18 @@ export const DRAFT_DETAILS_QUERY = gql `
   ${HEADLINE_IMAGE_FRG}
 `;
 
-export const DRAFTS_LIST_QUERY = gql `
+export const WithDraftDetailsQuery = graphql(DRAFT_DETAILS_QUERY, {
+	options: (props) => ({
+		variables: {
+			draftID: props.match.params._id
+		},
+		fetchPolicy: 'network-only'
+	}),
+	name: 'draftData'
+
+})
+
+export const DRAFT_LIST_QUERY = gql `
   query DraftQuery {
     myDrafts {
       ...draftCard
@@ -29,6 +40,13 @@ export const DRAFTS_LIST_QUERY = gql `
   }
   ${DRAFT_CARD_FRG}
 `;
+
+export const WithDraftListQuery = graphql(DRAFT_LIST_QUERY, {
+	options: {
+		fetchPolicy: 'network-only'
+	},
+	name: 'draftList'
+})
 
 export const DRAFT_IMAGE_ARRAY_QUERY = gql `
 query DraftQuery($draftID : ID!) {
@@ -50,6 +68,16 @@ export const PUBLISH_DRAFT_MUTATION = gql `
     }
   }
 `;
+
+export const WithPublishDraftMutation = graphql(PUBLISH_DRAFT_MUTATION, {
+	props: ({mutate}) => ({
+		publishDraft: (draftID) => mutate({
+			variables: {
+				draftID: draftID
+			}
+		})
+	})
+})
 
 export const UPDATE_CONTENT_MUTATION = gql `
 mutation updateContent($input: updateContentInput!) {
@@ -84,7 +112,7 @@ export const WithCreateDraftMutation = graphql(CREATE_DRAFT_MUTATION, {
 		createDraft: () => mutate({
 			refetchQueries: [
 				{
-					query: DRAFTS_LIST_QUERY
+					query: DRAFT_LIST_QUERY
 				}
 			]
 		})
@@ -107,7 +135,7 @@ export const WithDeleteDraftMutation = graphql(DELETE_DRAFT_MUTATION, {
 			},
 			refetchQueries: [
 				{
-					query: DRAFTS_LIST_QUERY
+					query: DRAFT_LIST_QUERY
 				}
 			]
 		})

@@ -1,11 +1,13 @@
 import React from 'react';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-import {graphql} from 'react-apollo';
 import Button from 'material-ui/Button';
 import {Redirect} from 'react-router-dom';
+import {compose} from 'recompose';
 
-import {DRAFT_DETAILS_QUERY, PUBLISH_DRAFT_MUTATION} from '../graphql/draft';
+//
+import {renderWhileLoading, graphQLQueryLoading} from '../lib/apolloHelper';
+import {WithDraftDetailsQuery, WithPublishDraftMutation} from '../graphql/draft';
 
 import Editor from '../components/StoryEditor/Editor';
 import StoryTitle from '../components/StoryTitle';
@@ -14,8 +16,7 @@ import StoryHeadline from '../components/StoryHeadline';
 class Draft extends React.Component {
 	state = {
 		publishRedirect: false,
-		linkedStoryID: undefined,
-		errorMessage: null
+		linkedStoryID: undefined
 	}
 
 	handlePublish = async () => {
@@ -26,7 +27,7 @@ class Draft extends React.Component {
 				{publishRedirect: true, linkedStoryID: data.data.publishDraft.story}
 			)
 		} catch (e) {
-			this.setState({errorMessage: e.graphQLErrors[0].message})
+			console.log("TBD Error Handler");
 		} finally {}
 	}
 
@@ -35,12 +36,6 @@ class Draft extends React.Component {
 		if (this.state.publishRedirect) {
 			return <Redirect push={true} to={`/story/${this.state.linkedStoryID}`}/>;
 		}
-
-		if (this.props.draftData.loading) {
-			return (<div>Loading</div>)
-		}
-
-		//console.log(this.props.draftData.draft);
 
 		return (
 
@@ -75,25 +70,8 @@ Draft.propTypes = {
 	draftData: PropTypes.object.isRequired
 }
 
-export const WithDraftData = graphql(DRAFT_DETAILS_QUERY, {
-	options: (props) => ({
-		variables: {
-			draftID: props.match.params._id
-		},
-		fetchPolicy: 'network-only'
-	}),
-	name: 'draftData'
-
-})
-
-export const WithPublish = graphql(PUBLISH_DRAFT_MUTATION, {
-	props: ({mutate}) => ({
-		publishDraft: (draftID) => mutate({
-			variables: {
-				draftID: draftID
-			}
-		})
-	})
-})
-
-export default WithPublish(WithDraftData(Draft))
+export default compose(
+	WithPublishDraftMutation,
+	WithDraftDetailsQuery,
+	renderWhileLoading(graphQLQueryLoading, "draftData")
+)(Draft)

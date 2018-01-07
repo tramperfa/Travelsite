@@ -1,14 +1,16 @@
-import React from 'react'
-import {graphql} from 'react-apollo';
+import React from 'react';
 import Button from 'material-ui/Button';
 import PropTypes from 'prop-types';
 import {Redirect} from 'react-router-dom';
+import {compose} from 'recompose';
 
 //
-import {WithCreateDraftMutation} from '../graphql/draft';
+import {renderWhileLoading, graphQLQueryLoading} from '../lib/apolloHelper';
+import {setRefetchProp, renderForError, GraphQLErrorComponent} from '../lib/apolloHelper';
+import {WithCreateDraftMutation, WithDraftListQuery} from '../graphql/draft';
 
 //
-import DraftList from '../components/DraftList';
+import DraftCard from '../components/DraftCard';
 
 export class UserDraft extends React.Component {
 	state = {
@@ -16,10 +18,8 @@ export class UserDraft extends React.Component {
 	}
 
 	handleCreate = async () => {
-		this.props.createDraft().then((data) => {
-			//console.log(JSON.stringify(data));
-			this.setState({newDraftID: data.data.createDraft._id})
-		})
+		let data = await this.props.createDraft()
+		this.setState({newDraftID: data.data.createDraft._id})
 	}
 
 	render() {
@@ -29,22 +29,39 @@ export class UserDraft extends React.Component {
 
 		return (
 			<div>
-				<DraftList/>
-				<Button
-					raised="raised"
-					color="primary"
-					onClick={this.handleCreate}
-					label='draftCreate'>
-					CREATE NEW DRAFT
-				</Button>
+				<div>
+					{
+						this.props.draftList.myDrafts.map(draft => (
+							<div key={draft._id} className='draft'>
+								<DraftCard draft={draft}/>
+							</div>
+						))
+					}
+				</div>
+				<div className='create'>
+					<Button
+						raised="raised"
+						color="primary"
+						onClick={this.handleCreate}
+						label='draftCreate'>
+						CREATE NEW DRAFT
+					</Button>
+				</div>
+
 			</div>
 		)
 	}
-
 }
 
 UserDraft.propTypes = {
-	createDraft: PropTypes.func.isRequired
+	createDraft: PropTypes.func.isRequired,
+	draftList: PropTypes.object.isRequired
 }
 
-export default WithCreateDraftMutation(UserDraft)
+export default compose(
+	WithCreateDraftMutation,
+	WithDraftListQuery,
+	renderWhileLoading(graphQLQueryLoading, "draftList"),
+	setRefetchProp("draftList"),
+	renderForError(GraphQLErrorComponent, "draftList")
+)(UserDraft)

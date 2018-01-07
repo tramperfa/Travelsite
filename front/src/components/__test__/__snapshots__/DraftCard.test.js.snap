@@ -100,33 +100,33 @@ exports[`Mount renders correctly 1`] = `
                   <Paper
                     classes={
                       Object {
-                        "root": "MuiPaper-root-6",
-                        "rounded": "MuiPaper-rounded-7",
-                        "shadow0": "MuiPaper-shadow0-8",
-                        "shadow1": "MuiPaper-shadow1-9",
-                        "shadow10": "MuiPaper-shadow10-18",
-                        "shadow11": "MuiPaper-shadow11-19",
-                        "shadow12": "MuiPaper-shadow12-20",
-                        "shadow13": "MuiPaper-shadow13-21",
-                        "shadow14": "MuiPaper-shadow14-22",
-                        "shadow15": "MuiPaper-shadow15-23",
-                        "shadow16": "MuiPaper-shadow16-24",
-                        "shadow17": "MuiPaper-shadow17-25",
-                        "shadow18": "MuiPaper-shadow18-26",
-                        "shadow19": "MuiPaper-shadow19-27",
-                        "shadow2": "MuiPaper-shadow2-10",
-                        "shadow20": "MuiPaper-shadow20-28",
-                        "shadow21": "MuiPaper-shadow21-29",
-                        "shadow22": "MuiPaper-shadow22-30",
-                        "shadow23": "MuiPaper-shadow23-31",
-                        "shadow24": "MuiPaper-shadow24-32",
-                        "shadow3": "MuiPaper-shadow3-11",
-                        "shadow4": "MuiPaper-shadow4-12",
-                        "shadow5": "MuiPaper-shadow5-13",
-                        "shadow6": "MuiPaper-shadow6-14",
-                        "shadow7": "MuiPaper-shadow7-15",
-                        "shadow8": "MuiPaper-shadow8-16",
-                        "shadow9": "MuiPaper-shadow9-17",
+                        "root": "MuiPaper-root-1",
+                        "rounded": "MuiPaper-rounded-2",
+                        "shadow0": "MuiPaper-shadow0-3",
+                        "shadow1": "MuiPaper-shadow1-4",
+                        "shadow10": "MuiPaper-shadow10-13",
+                        "shadow11": "MuiPaper-shadow11-14",
+                        "shadow12": "MuiPaper-shadow12-15",
+                        "shadow13": "MuiPaper-shadow13-16",
+                        "shadow14": "MuiPaper-shadow14-17",
+                        "shadow15": "MuiPaper-shadow15-18",
+                        "shadow16": "MuiPaper-shadow16-19",
+                        "shadow17": "MuiPaper-shadow17-20",
+                        "shadow18": "MuiPaper-shadow18-21",
+                        "shadow19": "MuiPaper-shadow19-22",
+                        "shadow2": "MuiPaper-shadow2-5",
+                        "shadow20": "MuiPaper-shadow20-23",
+                        "shadow21": "MuiPaper-shadow21-24",
+                        "shadow22": "MuiPaper-shadow22-25",
+                        "shadow23": "MuiPaper-shadow23-26",
+                        "shadow24": "MuiPaper-shadow24-27",
+                        "shadow3": "MuiPaper-shadow3-6",
+                        "shadow4": "MuiPaper-shadow4-7",
+                        "shadow5": "MuiPaper-shadow5-8",
+                        "shadow6": "MuiPaper-shadow6-9",
+                        "shadow7": "MuiPaper-shadow7-10",
+                        "shadow8": "MuiPaper-shadow8-11",
+                        "shadow9": "MuiPaper-shadow9-12",
                       }
                     }
                     component="div"
@@ -134,7 +134,7 @@ exports[`Mount renders correctly 1`] = `
                     square={false}
                   >
                     <div
-                      className="MuiPaper-root-6 MuiPaper-shadow2-10 MuiPaper-rounded-7"
+                      className="MuiPaper-root-1 MuiPaper-shadow2-5 MuiPaper-rounded-2"
                     >
                       <Link
                         replace={false}
@@ -151,8 +151,8 @@ exports[`Mount renders correctly 1`] = `
                             <CardMedia
                               classes={
                                 Object {
-                                  "root": "MuiCardMedia-root-33",
-                                  "rootMedia": "MuiCardMedia-rootMedia-34",
+                                  "root": "MuiCardMedia-root-28",
+                                  "rootMedia": "MuiCardMedia-rootMedia-29",
                                 }
                               }
                               component="div"
@@ -160,7 +160,7 @@ exports[`Mount renders correctly 1`] = `
                               title="Live from space album cover"
                             >
                               <div
-                                className="MuiCardMedia-root-33"
+                                className="MuiCardMedia-root-28"
                                 style={
                                   Object {
                                     "backgroundImage": "url(b.jpg)",
@@ -185,12 +185,12 @@ exports[`Mount renders correctly 1`] = `
                               <CardContent
                                 classes={
                                   Object {
-                                    "root": "MuiCardContent-root-35",
+                                    "root": "MuiCardContent-root-30",
                                   }
                                 }
                               >
                                 <div
-                                  className="MuiCardContent-root-35"
+                                  className="MuiCardContent-root-30"
                                 >
                                   <withStyles(Typography)
                                     type="headline"
@@ -199,30 +199,30 @@ exports[`Mount renders correctly 1`] = `
                                       align="inherit"
                                       classes={
                                         Object {
-                                          "alignCenter": "MuiTypography-alignCenter-49",
-                                          "alignJustify": "MuiTypography-alignJustify-51",
-                                          "alignLeft": "MuiTypography-alignLeft-48",
-                                          "alignRight": "MuiTypography-alignRight-50",
-                                          "body1": "MuiTypography-body1-45",
-                                          "body2": "MuiTypography-body2-44",
-                                          "button": "MuiTypography-button-47",
-                                          "caption": "MuiTypography-caption-46",
-                                          "colorAccent": "MuiTypography-colorAccent-58",
-                                          "colorError": "MuiTypography-colorError-59",
-                                          "colorInherit": "MuiTypography-colorInherit-55",
-                                          "colorPrimary": "MuiTypography-colorPrimary-56",
-                                          "colorSecondary": "MuiTypography-colorSecondary-57",
-                                          "display1": "MuiTypography-display1-40",
-                                          "display2": "MuiTypography-display2-39",
-                                          "display3": "MuiTypography-display3-38",
-                                          "display4": "MuiTypography-display4-37",
-                                          "gutterBottom": "MuiTypography-gutterBottom-53",
-                                          "headline": "MuiTypography-headline-41",
-                                          "noWrap": "MuiTypography-noWrap-52",
-                                          "paragraph": "MuiTypography-paragraph-54",
-                                          "root": "MuiTypography-root-36",
-                                          "subheading": "MuiTypography-subheading-43",
-                                          "title": "MuiTypography-title-42",
+                                          "alignCenter": "MuiTypography-alignCenter-44",
+                                          "alignJustify": "MuiTypography-alignJustify-46",
+                                          "alignLeft": "MuiTypography-alignLeft-43",
+                                          "alignRight": "MuiTypography-alignRight-45",
+                                          "body1": "MuiTypography-body1-40",
+                                          "body2": "MuiTypography-body2-39",
+                                          "button": "MuiTypography-button-42",
+                                          "caption": "MuiTypography-caption-41",
+                                          "colorAccent": "MuiTypography-colorAccent-53",
+                                          "colorError": "MuiTypography-colorError-54",
+                                          "colorInherit": "MuiTypography-colorInherit-50",
+                                          "colorPrimary": "MuiTypography-colorPrimary-51",
+                                          "colorSecondary": "MuiTypography-colorSecondary-52",
+                                          "display1": "MuiTypography-display1-35",
+                                          "display2": "MuiTypography-display2-34",
+                                          "display3": "MuiTypography-display3-33",
+                                          "display4": "MuiTypography-display4-32",
+                                          "gutterBottom": "MuiTypography-gutterBottom-48",
+                                          "headline": "MuiTypography-headline-36",
+                                          "noWrap": "MuiTypography-noWrap-47",
+                                          "paragraph": "MuiTypography-paragraph-49",
+                                          "root": "MuiTypography-root-31",
+                                          "subheading": "MuiTypography-subheading-38",
+                                          "title": "MuiTypography-title-37",
                                         }
                                       }
                                       color="default"
@@ -245,7 +245,7 @@ exports[`Mount renders correctly 1`] = `
                                       type="headline"
                                     >
                                       <h1
-                                        className="MuiTypography-root-36 MuiTypography-headline-41"
+                                        className="MuiTypography-root-31 MuiTypography-headline-36"
                                       >
                                         trip to test0
                                       </h1>
@@ -259,30 +259,30 @@ exports[`Mount renders correctly 1`] = `
                                       align="inherit"
                                       classes={
                                         Object {
-                                          "alignCenter": "MuiTypography-alignCenter-49",
-                                          "alignJustify": "MuiTypography-alignJustify-51",
-                                          "alignLeft": "MuiTypography-alignLeft-48",
-                                          "alignRight": "MuiTypography-alignRight-50",
-                                          "body1": "MuiTypography-body1-45",
-                                          "body2": "MuiTypography-body2-44",
-                                          "button": "MuiTypography-button-47",
-                                          "caption": "MuiTypography-caption-46",
-                                          "colorAccent": "MuiTypography-colorAccent-58",
-                                          "colorError": "MuiTypography-colorError-59",
-                                          "colorInherit": "MuiTypography-colorInherit-55",
-                                          "colorPrimary": "MuiTypography-colorPrimary-56",
-                                          "colorSecondary": "MuiTypography-colorSecondary-57",
-                                          "display1": "MuiTypography-display1-40",
-                                          "display2": "MuiTypography-display2-39",
-                                          "display3": "MuiTypography-display3-38",
-                                          "display4": "MuiTypography-display4-37",
-                                          "gutterBottom": "MuiTypography-gutterBottom-53",
-                                          "headline": "MuiTypography-headline-41",
-                                          "noWrap": "MuiTypography-noWrap-52",
-                                          "paragraph": "MuiTypography-paragraph-54",
-                                          "root": "MuiTypography-root-36",
-                                          "subheading": "MuiTypography-subheading-43",
-                                          "title": "MuiTypography-title-42",
+                                          "alignCenter": "MuiTypography-alignCenter-44",
+                                          "alignJustify": "MuiTypography-alignJustify-46",
+                                          "alignLeft": "MuiTypography-alignLeft-43",
+                                          "alignRight": "MuiTypography-alignRight-45",
+                                          "body1": "MuiTypography-body1-40",
+                                          "body2": "MuiTypography-body2-39",
+                                          "button": "MuiTypography-button-42",
+                                          "caption": "MuiTypography-caption-41",
+                                          "colorAccent": "MuiTypography-colorAccent-53",
+                                          "colorError": "MuiTypography-colorError-54",
+                                          "colorInherit": "MuiTypography-colorInherit-50",
+                                          "colorPrimary": "MuiTypography-colorPrimary-51",
+                                          "colorSecondary": "MuiTypography-colorSecondary-52",
+                                          "display1": "MuiTypography-display1-35",
+                                          "display2": "MuiTypography-display2-34",
+                                          "display3": "MuiTypography-display3-33",
+                                          "display4": "MuiTypography-display4-32",
+                                          "gutterBottom": "MuiTypography-gutterBottom-48",
+                                          "headline": "MuiTypography-headline-36",
+                                          "noWrap": "MuiTypography-noWrap-47",
+                                          "paragraph": "MuiTypography-paragraph-49",
+                                          "root": "MuiTypography-root-31",
+                                          "subheading": "MuiTypography-subheading-38",
+                                          "title": "MuiTypography-title-37",
                                         }
                                       }
                                       color="secondary"
@@ -305,7 +305,7 @@ exports[`Mount renders correctly 1`] = `
                                       type="subheading"
                                     >
                                       <h3
-                                        className="MuiTypography-root-36 MuiTypography-subheading-43 MuiTypography-colorSecondary-57"
+                                        className="MuiTypography-root-31 MuiTypography-subheading-38 MuiTypography-colorSecondary-52"
                                       >
                                         <div>
                                           Last Updated: 
@@ -328,15 +328,15 @@ exports[`Mount renders correctly 1`] = `
                               aria-label="Edit"
                               classes={
                                 Object {
-                                  "colorAccent": "MuiIconButton-colorAccent-61",
-                                  "colorContrast": "MuiIconButton-colorContrast-62",
-                                  "colorInherit": "MuiIconButton-colorInherit-64",
-                                  "colorPrimary": "MuiIconButton-colorPrimary-63",
-                                  "disabled": "MuiIconButton-disabled-65",
-                                  "icon": "MuiIconButton-icon-67",
-                                  "keyboardFocused": "MuiIconButton-keyboardFocused-68",
-                                  "label": "MuiIconButton-label-66",
-                                  "root": "MuiIconButton-root-60",
+                                  "colorAccent": "MuiIconButton-colorAccent-56",
+                                  "colorContrast": "MuiIconButton-colorContrast-57",
+                                  "colorInherit": "MuiIconButton-colorInherit-59",
+                                  "colorPrimary": "MuiIconButton-colorPrimary-58",
+                                  "disabled": "MuiIconButton-disabled-60",
+                                  "icon": "MuiIconButton-icon-62",
+                                  "keyboardFocused": "MuiIconButton-keyboardFocused-63",
+                                  "label": "MuiIconButton-label-61",
+                                  "root": "MuiIconButton-root-55",
                                 }
                               }
                               color="default"
@@ -346,31 +346,31 @@ exports[`Mount renders correctly 1`] = `
                               <withStyles(ButtonBase)
                                 aria-label="Edit"
                                 centerRipple={true}
-                                className="MuiIconButton-root-60"
+                                className="MuiIconButton-root-55"
                                 disableRipple={false}
                                 disabled={false}
-                                keyboardFocusedClassName="MuiIconButton-keyboardFocused-68"
+                                keyboardFocusedClassName="MuiIconButton-keyboardFocused-63"
                               >
                                 <ButtonBase
                                   aria-label="Edit"
                                   centerRipple={true}
-                                  className="MuiIconButton-root-60"
+                                  className="MuiIconButton-root-55"
                                   classes={
                                     Object {
-                                      "disabled": "MuiButtonBase-disabled-70",
-                                      "root": "MuiButtonBase-root-69",
+                                      "disabled": "MuiButtonBase-disabled-65",
+                                      "root": "MuiButtonBase-root-64",
                                     }
                                   }
                                   disableRipple={false}
                                   disabled={false}
                                   focusRipple={false}
-                                  keyboardFocusedClassName="MuiIconButton-keyboardFocused-68"
+                                  keyboardFocusedClassName="MuiIconButton-keyboardFocused-63"
                                   tabIndex={0}
                                   type="button"
                                 >
                                   <button
                                     aria-label="Edit"
-                                    className="MuiButtonBase-root-69 MuiIconButton-root-60"
+                                    className="MuiButtonBase-root-64 MuiIconButton-root-55"
                                     disabled={false}
                                     onBlur={[Function]}
                                     onFocus={[Function]}
@@ -387,30 +387,37 @@ exports[`Mount renders correctly 1`] = `
                                     type="button"
                                   >
                                     <span
-                                      className="MuiIconButton-label-66"
+                                      className="MuiIconButton-label-61"
                                     >
                                       <pure(Edit)
-                                        className="MuiIconButton-icon-67"
+                                        className="MuiIconButton-icon-62"
                                         key=".0"
                                       >
                                         <Edit
-                                          className="MuiIconButton-icon-67"
+                                          className="MuiIconButton-icon-62"
                                         >
                                           <withStyles(SvgIcon)
-                                            className="MuiIconButton-icon-67"
+                                            className="MuiIconButton-icon-62"
                                           >
                                             <SvgIcon
-                                              className="MuiIconButton-icon-67"
+                                              className="MuiIconButton-icon-62"
                                               classes={
                                                 Object {
-                                                  "root": "MuiSvgIcon-root-71",
+                                                  "colorAccent": "MuiSvgIcon-colorAccent-67",
+                                                  "colorAction": "MuiSvgIcon-colorAction-68",
+                                                  "colorContrast": "MuiSvgIcon-colorContrast-69",
+                                                  "colorDisabled": "MuiSvgIcon-colorDisabled-70",
+                                                  "colorError": "MuiSvgIcon-colorError-71",
+                                                  "colorPrimary": "MuiSvgIcon-colorPrimary-72",
+                                                  "root": "MuiSvgIcon-root-66",
                                                 }
                                               }
+                                              color="inherit"
                                               viewBox="0 0 24 24"
                                             >
                                               <svg
                                                 aria-hidden="true"
-                                                className="MuiSvgIcon-root-71 MuiIconButton-icon-67"
+                                                className="MuiSvgIcon-root-66 MuiIconButton-icon-62"
                                                 focusable="false"
                                                 viewBox="0 0 24 24"
                                               >
@@ -431,25 +438,25 @@ exports[`Mount renders correctly 1`] = `
                                         center={true}
                                         classes={
                                           Object {
-                                            "ripple": "MuiTouchRipple-ripple-76",
-                                            "rippleFast": "MuiTouchRipple-rippleFast-78",
-                                            "rippleVisible": "MuiTouchRipple-rippleVisible-77",
-                                            "root": "MuiTouchRipple-root-72",
-                                            "wrapper": "MuiTouchRipple-wrapper-73",
-                                            "wrapperLeaving": "MuiTouchRipple-wrapperLeaving-74",
-                                            "wrapperPulsating": "MuiTouchRipple-wrapperPulsating-75",
+                                            "ripple": "MuiTouchRipple-ripple-77",
+                                            "rippleFast": "MuiTouchRipple-rippleFast-79",
+                                            "rippleVisible": "MuiTouchRipple-rippleVisible-78",
+                                            "root": "MuiTouchRipple-root-73",
+                                            "wrapper": "MuiTouchRipple-wrapper-74",
+                                            "wrapperLeaving": "MuiTouchRipple-wrapperLeaving-75",
+                                            "wrapperPulsating": "MuiTouchRipple-wrapperPulsating-76",
                                           }
                                         }
                                       >
                                         <TransitionGroup
                                           childFactory={[Function]}
-                                          className="MuiTouchRipple-root-72"
+                                          className="MuiTouchRipple-root-73"
                                           component="span"
                                           enter={true}
                                           exit={true}
                                         >
                                           <span
-                                            className="MuiTouchRipple-root-72"
+                                            className="MuiTouchRipple-root-73"
                                           />
                                         </TransitionGroup>
                                       </TouchRipple>
@@ -467,15 +474,15 @@ exports[`Mount renders correctly 1`] = `
                               aria-label="Delete"
                               classes={
                                 Object {
-                                  "colorAccent": "MuiIconButton-colorAccent-61",
-                                  "colorContrast": "MuiIconButton-colorContrast-62",
-                                  "colorInherit": "MuiIconButton-colorInherit-64",
-                                  "colorPrimary": "MuiIconButton-colorPrimary-63",
-                                  "disabled": "MuiIconButton-disabled-65",
-                                  "icon": "MuiIconButton-icon-67",
-                                  "keyboardFocused": "MuiIconButton-keyboardFocused-68",
-                                  "label": "MuiIconButton-label-66",
-                                  "root": "MuiIconButton-root-60",
+                                  "colorAccent": "MuiIconButton-colorAccent-56",
+                                  "colorContrast": "MuiIconButton-colorContrast-57",
+                                  "colorInherit": "MuiIconButton-colorInherit-59",
+                                  "colorPrimary": "MuiIconButton-colorPrimary-58",
+                                  "disabled": "MuiIconButton-disabled-60",
+                                  "icon": "MuiIconButton-icon-62",
+                                  "keyboardFocused": "MuiIconButton-keyboardFocused-63",
+                                  "label": "MuiIconButton-label-61",
+                                  "root": "MuiIconButton-root-55",
                                 }
                               }
                               color="default"
@@ -486,33 +493,33 @@ exports[`Mount renders correctly 1`] = `
                               <withStyles(ButtonBase)
                                 aria-label="Delete"
                                 centerRipple={true}
-                                className="MuiIconButton-root-60"
+                                className="MuiIconButton-root-55"
                                 disableRipple={false}
                                 disabled={false}
-                                keyboardFocusedClassName="MuiIconButton-keyboardFocused-68"
+                                keyboardFocusedClassName="MuiIconButton-keyboardFocused-63"
                                 onClick={[Function]}
                               >
                                 <ButtonBase
                                   aria-label="Delete"
                                   centerRipple={true}
-                                  className="MuiIconButton-root-60"
+                                  className="MuiIconButton-root-55"
                                   classes={
                                     Object {
-                                      "disabled": "MuiButtonBase-disabled-70",
-                                      "root": "MuiButtonBase-root-69",
+                                      "disabled": "MuiButtonBase-disabled-65",
+                                      "root": "MuiButtonBase-root-64",
                                     }
                                   }
                                   disableRipple={false}
                                   disabled={false}
                                   focusRipple={false}
-                                  keyboardFocusedClassName="MuiIconButton-keyboardFocused-68"
+                                  keyboardFocusedClassName="MuiIconButton-keyboardFocused-63"
                                   onClick={[Function]}
                                   tabIndex={0}
                                   type="button"
                                 >
                                   <button
                                     aria-label="Delete"
-                                    className="MuiButtonBase-root-69 MuiIconButton-root-60"
+                                    className="MuiButtonBase-root-64 MuiIconButton-root-55"
                                     disabled={false}
                                     onBlur={[Function]}
                                     onClick={[Function]}
@@ -530,30 +537,37 @@ exports[`Mount renders correctly 1`] = `
                                     type="button"
                                   >
                                     <span
-                                      className="MuiIconButton-label-66"
+                                      className="MuiIconButton-label-61"
                                     >
                                       <pure(Delete)
-                                        className="MuiIconButton-icon-67"
+                                        className="MuiIconButton-icon-62"
                                         key=".0"
                                       >
                                         <Delete
-                                          className="MuiIconButton-icon-67"
+                                          className="MuiIconButton-icon-62"
                                         >
                                           <withStyles(SvgIcon)
-                                            className="MuiIconButton-icon-67"
+                                            className="MuiIconButton-icon-62"
                                           >
                                             <SvgIcon
-                                              className="MuiIconButton-icon-67"
+                                              className="MuiIconButton-icon-62"
                                               classes={
                                                 Object {
-                                                  "root": "MuiSvgIcon-root-71",
+                                                  "colorAccent": "MuiSvgIcon-colorAccent-67",
+                                                  "colorAction": "MuiSvgIcon-colorAction-68",
+                                                  "colorContrast": "MuiSvgIcon-colorContrast-69",
+                                                  "colorDisabled": "MuiSvgIcon-colorDisabled-70",
+                                                  "colorError": "MuiSvgIcon-colorError-71",
+                                                  "colorPrimary": "MuiSvgIcon-colorPrimary-72",
+                                                  "root": "MuiSvgIcon-root-66",
                                                 }
                                               }
+                                              color="inherit"
                                               viewBox="0 0 24 24"
                                             >
                                               <svg
                                                 aria-hidden="true"
-                                                className="MuiSvgIcon-root-71 MuiIconButton-icon-67"
+                                                className="MuiSvgIcon-root-66 MuiIconButton-icon-62"
                                                 focusable="false"
                                                 viewBox="0 0 24 24"
                                               >
@@ -574,25 +588,25 @@ exports[`Mount renders correctly 1`] = `
                                         center={true}
                                         classes={
                                           Object {
-                                            "ripple": "MuiTouchRipple-ripple-76",
-                                            "rippleFast": "MuiTouchRipple-rippleFast-78",
-                                            "rippleVisible": "MuiTouchRipple-rippleVisible-77",
-                                            "root": "MuiTouchRipple-root-72",
-                                            "wrapper": "MuiTouchRipple-wrapper-73",
-                                            "wrapperLeaving": "MuiTouchRipple-wrapperLeaving-74",
-                                            "wrapperPulsating": "MuiTouchRipple-wrapperPulsating-75",
+                                            "ripple": "MuiTouchRipple-ripple-77",
+                                            "rippleFast": "MuiTouchRipple-rippleFast-79",
+                                            "rippleVisible": "MuiTouchRipple-rippleVisible-78",
+                                            "root": "MuiTouchRipple-root-73",
+                                            "wrapper": "MuiTouchRipple-wrapper-74",
+                                            "wrapperLeaving": "MuiTouchRipple-wrapperLeaving-75",
+                                            "wrapperPulsating": "MuiTouchRipple-wrapperPulsating-76",
                                           }
                                         }
                                       >
                                         <TransitionGroup
                                           childFactory={[Function]}
-                                          className="MuiTouchRipple-root-72"
+                                          className="MuiTouchRipple-root-73"
                                           component="span"
                                           enter={true}
                                           exit={true}
                                         >
                                           <span
-                                            className="MuiTouchRipple-root-72"
+                                            className="MuiTouchRipple-root-73"
                                           />
                                         </TransitionGroup>
                                       </TouchRipple>
@@ -620,15 +634,15 @@ exports[`Mount renders correctly 1`] = `
 exports[`Tree renders correctly 1`] = `
 <div>
   <div
-    className="MuiPaper-root-6 MuiPaper-shadow2-10 MuiPaper-rounded-7 Component-card-1"
+    className="MuiPaper-root-1 MuiPaper-shadow2-5 MuiPaper-rounded-2"
   >
     <a
-      className="Component-textField-5"
+      className={undefined}
       href="/edit/test000"
       onClick={[Function]}
     >
       <div
-        className="MuiCardMedia-root-33 Component-cover-4"
+        className="MuiCardMedia-root-28"
         src={undefined}
         style={
           Object {
@@ -639,21 +653,21 @@ exports[`Tree renders correctly 1`] = `
       />
     </a>
     <div
-      className="Component-details-2"
+      className={undefined}
     >
       <a
-        className="Component-textField-5"
+        className={undefined}
         href="/edit/test000"
         onClick={[Function]}
       >
         <div
-          className="MuiCardContent-root-35 Component-content-3"
+          className="MuiCardContent-root-30"
         >
           <h1
-            className="MuiTypography-root-36 MuiTypography-headline-41"
+            className="MuiTypography-root-31 MuiTypography-headline-36"
           />
           <h3
-            className="MuiTypography-root-36 MuiTypography-subheading-43 MuiTypography-colorSecondary-57"
+            className="MuiTypography-root-31 MuiTypography-subheading-38 MuiTypography-colorSecondary-52"
           >
             <div>
               Last Updated: 
@@ -668,7 +682,7 @@ exports[`Tree renders correctly 1`] = `
         Continue Writing
         <button
           aria-label="Edit"
-          className="MuiButtonBase-root-69 MuiIconButton-root-60"
+          className="MuiButtonBase-root-64 MuiIconButton-root-55"
           disabled={false}
           onBlur={[Function]}
           onFocus={[Function]}
@@ -685,11 +699,11 @@ exports[`Tree renders correctly 1`] = `
           type="button"
         >
           <span
-            className="MuiIconButton-label-66"
+            className="MuiIconButton-label-61"
           >
             <svg
               aria-hidden="true"
-              className="MuiSvgIcon-root-71 MuiIconButton-icon-67"
+              className="MuiSvgIcon-root-66 MuiIconButton-icon-62"
               focusable="false"
               viewBox="0 0 24 24"
             >
@@ -699,12 +713,12 @@ exports[`Tree renders correctly 1`] = `
             </svg>
           </span>
           <span
-            className="MuiTouchRipple-root-72"
+            className="MuiTouchRipple-root-73"
           />
         </button>
         <button
           aria-label="Delete"
-          className="MuiButtonBase-root-69 MuiIconButton-root-60"
+          className="MuiButtonBase-root-64 MuiIconButton-root-55"
           disabled={false}
           onBlur={[Function]}
           onClick={[Function]}
@@ -722,11 +736,11 @@ exports[`Tree renders correctly 1`] = `
           type="button"
         >
           <span
-            className="MuiIconButton-label-66"
+            className="MuiIconButton-label-61"
           >
             <svg
               aria-hidden="true"
-              className="MuiSvgIcon-root-71 MuiIconButton-icon-67"
+              className="MuiSvgIcon-root-66 MuiIconButton-icon-62"
               focusable="false"
               viewBox="0 0 24 24"
             >
@@ -736,7 +750,7 @@ exports[`Tree renders correctly 1`] = `
             </svg>
           </span>
           <span
-            className="MuiTouchRipple-root-72"
+            className="MuiTouchRipple-root-73"
           />
         </button>
       </div>

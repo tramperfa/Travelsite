@@ -53,11 +53,13 @@ test('Mount renders correctly', () => {
 			</StaticRouter>
 		</MockedProvider>
 	);
-	//expect(toJson(wrapper)).toMatchSnapshot();
+
 	wrapper.find('button').forEach(child => {
 		//console.log("SIMULATED");
 		child.simulate('click');
 	});
+
 	expect(deleteDraft).toBeCalledWith('test000');
+	expect(deleteDraft).toHaveBeenCalledTimes(1);
 	expect(toJson(wrapper)).toMatchSnapshot();
 });

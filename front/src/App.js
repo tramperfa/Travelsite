@@ -123,7 +123,7 @@ class App extends Component {
 											me={this.state.me}/>
 									)}/>
 								<Route path="/user/:_id" component={UserHome}/>
-								<Route path="/userdraft/:_id" component={UserDraft}/>
+								<Route path="/mydraft" component={UserDraft}/>
 								<Route path="/edit/:_id" component={EditPage}/>
 								<Route path="/signup" component={Signup} key="signup"/>
 								<Route path="/dest" component={null} key="dest"/>

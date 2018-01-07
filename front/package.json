@@ -37,7 +37,8 @@
     "react-cropper": "^1.0.1",
     "react-lazyload":"^2.3.0",
     "fast-deep-equal":"^1.0.0",
-    "immutable": "^3.8.2"
+    "immutable": "^3.8.2",
+    "recompose": "^0.26.0"
   },
   "scripts": {
     "start": "react-scripts start",

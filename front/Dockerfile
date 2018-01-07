@@ -1,5 +1,5 @@
 
-FROM node:boron
+FROM node:9.3
 
 ENV NPM_CONFIG_LOGLEVEL warn
 ARG app_env
