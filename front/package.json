@@ -20,7 +20,6 @@
     "draft-js": "^0.10.4",
     "draft-js-emoji-plugin": "^2.0.0-rc8",
     "draft-js-plugins-editor": "^2.0.0-rc8",
-    "draft-js-video-plugin": "^2.0.0-rc8",
     "localforage": "1.5.0",
     "material-ui": "1.0.0-beta.23",
     "material-ui-icons": "^1.0.0-beta.17",

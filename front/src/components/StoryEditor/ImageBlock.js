@@ -25,7 +25,6 @@ export default class extends Component {
 		const block = this.props.block
 		const {src, width, height} = this.props.blockProps
 		const centerX = width - ICONWIDTH
-		const centerY = 0
 		if (src) {
 			return (
 				<div
@@ -35,20 +34,22 @@ export default class extends Component {
 					}}
 					onMouseEnter={this.onMouseEnter}
 					onMouseLeave={this.onMouseLeave}>
-					{
-						this.state.onHover && <IconButton
-								onClick={() => this.onDelete(block.getKey())}
-								style={{
-									position: "relative",
-									top: 0,
-									left: centerX,
-									backgroundColor: "#FFFFFF",
-									opacity: 0.75,
-									zIndex: 10
-								}}>
-								<Clear/>
-							</IconButton>
-					}
+					<IconButton
+						onClick={() => this.onDelete(block.getKey())}
+						style={{
+							position: "relative",
+							top: 0,
+							left: centerX,
+							backgroundColor: "#FFFFFF",
+							opacity: 0.75,
+							zIndex: 10,
+							display: this.state.onHover
+								? "block"
+								: "none"
+						}}>
+						<Clear/>
+					</IconButton>
+
 					<div
 						style={{
 							position: "relative",
