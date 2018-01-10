@@ -10,9 +10,9 @@ export const graphQLQueryLoading = () => {
 	return (<div>Loading</div>)
 }
 
-export const setRefetchProp = (propName = "data") => withProps(props => ({
-	refetch: props[propName] && props[propName].data
-}))
+export const setRefetchProp = (propName = "data") => withProps(
+	props => ({errorInfo: props[propName].error.graphQLErrors[0].message})
+)
 
 export const renderForError = (component, propName = "data") => branch(
 	props => props[propName] && props[propName].error,
@@ -21,7 +21,9 @@ export const renderForError = (component, propName = "data") => branch(
 
 export const GraphQLErrorComponent = props => (
 	<span>
-		Something went wrong, you can try to
-		<button onClick={props.refetch}>refetch</button>
+		Something went wrong
+		<div>
+			{props.errorInfo}
+		</div>
 	</span>
 )

@@ -52,19 +52,6 @@ class Login extends React.Component {
 			this.setState({name: '', password: ''})
 		}
 
-		// /////////////////////////////////////////////
-		// this.props.localLogin(emailorusername, password).then(({data}) => {   return
-		// persist.willSetSessionUser(data.localLogin.me) }).then((me) => {   return
-		// this.props.onLogin(me) }).then((me) => {   return
-		// this.props.handleRequestClose() }).then(() => {    console.log("RESET
-		// STORE");    console.log(this.props.client);   return
-		// this.props.client.resetStore() }).catch((error) => {   console.log('there was
-		// an error during login', error);   console.log(JSON.stringify(error))
-		// this.setState({errorMessage: error.graphQLErrors[0].message}) });
-		//
-		//
-		// this.setState({name: '', password: ''})
-		// ////////////////////////////////////////////////////////////
 	}
 
 	handleChange = name => event => {
