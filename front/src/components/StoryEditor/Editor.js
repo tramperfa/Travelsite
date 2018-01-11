@@ -16,8 +16,8 @@ import {
 import debounce from 'lodash/debounce';
 // import Editor from 'draft-js-plugins-editor' {createEditorStateWithText,
 // composeDecorators} from 'draft-js-plugins-editor'; import createEmojiPlugin
-// from 'draft-js-emoji-plugin';
-import createVideoPlugin from 'draft-js-video-plugin';
+// from 'draft-js-emoji-plugin'; import createVideoPlugin from
+// 'draft-js-video-plugin';
 import styled from 'styled-components'
 import PropTypes from 'prop-types';
 import {graphql} from 'react-apollo'
@@ -38,6 +38,7 @@ import TitleBlock from './TitleBlock';
 import ImageInsert from './ImageInsert';
 import ImageBlock from './ImageBlock'
 import VideoInsert from './VideoInsert'
+import VideoBlock from './VideoBlock'
 import TitleInsert from './TitleInsert'
 import SubTitleList from './SubTitleList'
 
@@ -45,11 +46,9 @@ import CONFIG from '../../lib/config'
 import searchImage from '../../lib/searchImage'
 
 // const emojiPlugin = createEmojiPlugin(); const {EmojiSuggestions,
-// EmojiSelect} = emojiPlugin;
-const videoPlugin = createVideoPlugin();
-// const plugins = [emojiPlugin, videoPlugin]
-const plugins = [videoPlugin]
-const {types} = videoPlugin;
+// EmojiSelect} = emojiPlugin; const videoPlugin = createVideoPlugin(); const
+// plugins = [emojiPlugin, videoPlugin] const plugins = [videoPlugin] const
+// {types} = videoPlugin;
 
 const PLACEHOLDERTEXT = "Your story starts here"
 const BUCKET_NAME = CONFIG.BUCKET_NAME
@@ -80,7 +79,6 @@ class MyEditor extends Component {
 	}
 
 	onChange = (editorState) => {
-		// console.log(this.state.editorState.getSelection());
 		const currentContent = this.state.editorState.getCurrentContent()
 		const newContent = editorState.getCurrentContent()
 		if (!equal(currentContent, newContent)) {
@@ -168,7 +166,6 @@ class MyEditor extends Component {
 			data
 		);
 		const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
-		// console.log(entityKey)
 		const newEditorState = AtomicBlockUtils.insertAtomicBlock(
 			editorState,
 			entityKey,
@@ -181,16 +178,7 @@ class MyEditor extends Component {
 	}
 
 	addVideoBlock = (url) => {
-		// console.log(url)
-		const editorState = this.state.editorState;
-		const contentState = editorState.getCurrentContent();
-		const contentStateWithEntity = contentState.createEntity(
-			types.VIDEOTYPE,
-			'IMMUTABLE',
-			{src: url}
-		);
-		const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
-		this.onChange(AtomicBlockUtils.insertAtomicBlock(editorState, entityKey, ' '));
+		this.addAtomicBlock('video', {src: url})
 	}
 
 	addSubTitleBlock = (text) => {
@@ -252,8 +240,6 @@ class MyEditor extends Component {
 
 	deleteAtomicBlockV3 = (blockKey) => {
 		const contentState = this.state.editorState.getCurrentContent()
-		const selectionState = this.state.editorState.getSelection()
-		const blockKeyAfter = contentState.getKeyAfter(blockKey)
 
 		//create empty block
 		const newBlock = new ContentBlock(
@@ -289,12 +275,9 @@ class MyEditor extends Component {
 		const selectionState = editorState.getSelection()
 
 		// Start Updating Content State
-		const selectAtomic = selectionState.merge({
-			anchorKey: blockKeyBefore, anchorOffset: contentState.getBlockForKey(blockKeyBefore).getLength(),
-			//
-			focusKey: blockKey,
-			focusOffset: contentState.getBlockForKey(blockKey).getLength()
-		})
+		const selectAtomic = selectionState.merge(
+			{anchorKey: blockKeyBefore, anchorOffset: contentState.getBlockForKey(blockKeyBefore).getLength(), focusKey: blockKey, focusOffset: contentState.getBlockForKey(blockKey).getLength()}
+		)
 		const contentStateAfterRemoval = Modifier.removeRange(
 			contentState,
 			selectAtomic,
@@ -311,8 +294,7 @@ class MyEditor extends Component {
 			contentWithSeletAfter,
 			'remove-range'
 		)
-		// const newState = EditorState.createWithContent(contentStateAfterRemoval)
-		// console.log(newState.getSelection());
+
 		this.onChange(newState)
 	}
 
@@ -345,7 +327,7 @@ class MyEditor extends Component {
 					editable: false,
 					props: {
 						openSubTitleEditor: this.openSubTitleEditor,
-						deleteAtomicBlock: this.deleteSubTitle
+						deleteBlock: this.deleteSubTitle
 					}
 				}
 			} else if (entityType === 'image') {
@@ -358,7 +340,8 @@ class MyEditor extends Component {
 						props: {
 							src: BUCKET_NAME + imageData.browserStoryImage.filename,
 							width: imageData.browserStoryImage.size.width,
-							height: imageData.browserStoryImage.size.height
+							height: imageData.browserStoryImage.size.height,
+							deleteBlock: this.deleteAtomicBlock
 						}
 					}
 				} else {
@@ -369,6 +352,14 @@ class MyEditor extends Component {
 							width: entityData.width,
 							height: entityData.height
 						}
+					}
+				}
+			} else if (entityType === 'video') {
+				return {
+					component: VideoBlock,
+					editable: false,
+					props: {
+						deleteBlock: this.deleteAtomicBlock
 					}
 				}
 			}
@@ -423,7 +414,6 @@ class MyEditor extends Component {
 						editorState={this.state.editorState}
 						onChange={this.onChange}
 						placeholder={PLACEHOLDERTEXT}
-						plugins={plugins}
 						blockStyleFn={this.myBlockStyleFn}
 						blockRendererFn={this.myBlockRenderer}
 						handleReturn={this.handleReturn}

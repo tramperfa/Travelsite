@@ -4,19 +4,25 @@ import IconButton from 'material-ui/IconButton'
 import Delete from 'material-ui-icons/Delete'
 import Edit from 'material-ui-icons/Edit'
 
+const ICONWIDTH = 48
+
 export default class extends Component {
+	state = {
+		onHover: false
+	}
 	onMouseEnter = () => {
-		// console.log("Mouse Enter!")
+		this.setState({onHover: true})
 	}
 
 	onMouseLeave = () => {
-		// console.log("Mouse Leave!")
+		this.setState({onHover: false})
 	}
+
 	onEdit = (blockKey, entityKey, currentTitle) => {
 		this.props.blockProps.openSubTitleEditor(blockKey, entityKey, currentTitle)
 	}
 	onDelete = (blockKey) => {
-		this.props.blockProps.deleteAtomicBlock(blockKey)
+		this.props.blockProps.deleteBlock(blockKey)
 	}
 
 	render() {
@@ -25,7 +31,12 @@ export default class extends Component {
 		const entityKey = block.getEntityAt(0)
 		const {title} = contentState.getEntity(entityKey).getData()
 		return (
-			<TitleBlock onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave}>
+			<TitleBlock
+				onMouseEnter={this.onMouseEnter}
+				onMouseLeave={this.onMouseLeave}
+				style={{
+					height: ICONWIDTH
+				}}>
 				<div>
 					<a name={block.getKey()}></a>
 					<h1 style={{
@@ -34,14 +45,16 @@ export default class extends Component {
 						{title}
 					</h1>
 				</div>
-				<TitleAction>
-					<IconButton onClick={() => this.onEdit(block.getKey(), entityKey, title)}>
-						<Edit/>
-					</IconButton>
-					<IconButton onClick={() => this.onDelete(block.getKey())}>
-						<Delete/>
-					</IconButton>
-				</TitleAction>
+				{
+					this.state.onHover && <TitleAction>
+							<IconButton onClick={() => this.onEdit(block.getKey(), entityKey, title)}>
+								<Edit/>
+							</IconButton>
+							<IconButton onClick={() => this.onDelete(block.getKey())}>
+								<Delete/>
+							</IconButton>
+						</TitleAction>
+				}
 			</TitleBlock>
 		)
 	}
