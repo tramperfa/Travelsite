@@ -20,6 +20,7 @@ import Signup from './routes/Signup';
 
 //Library
 import persist from './lib/persist';
+import {THEME} from './lib/config';
 
 //GraphQL
 import client from './graphql/graphql';
@@ -39,7 +40,7 @@ class App extends Component {
 		me: {
 			looading: true
 		},
-		openLogin: false
+		//openLogin: false
 	}
 
 	componentDidMount() {
@@ -64,42 +65,8 @@ class App extends Component {
 		this.setState({me: {}})
 	}
 
-	handleClickOpen = () => {
-		this.setState({openLogin: true});
-	}
-
-	handleTriggerOpen = () => {
-		persist.willRomveSessionUser().then(() => {
-			this.setState({openLogin: true, me: {}});
-		})
-	}
-
-	handleRequestClose = () => {
-		this.setState({openLogin: false});
-	}
-
-	handleResetStore = () => {
-		client.resetStore()
-	}
-
-	//Overwrite Material-UI Theme
 	theme(outerTheme) {
-		return createMuiTheme({
-			typography: {
-				fontFamily: '"SF Pro Text", "Myriad Set Pro", "SF Pro Icons", "Helvetica Neue", Helvetica, ' +
-						'Arial, sans-serif',
-				body1: {
-					fontWeight: 'normal'
-				},
-				button: {
-					fontFamily: '"SF Pro Text", "Myriad Set Pro", "SF Pro Icons", "Helvetica Neue", Helvetica, ' +
-							'Arial, sans-serif',
-					textTransform: 'none',
-					fontWeight: 300,
-					labelColor: '#f9f9f9'
-				}
-			}
-		});
+		return createMuiTheme(THEME);
 	}
 
 	render() {
@@ -110,26 +77,13 @@ class App extends Component {
 					<BrowserRouter>
 						<MuiThemeProvider theme={this.theme}>
 							<div>
-								<NavBar
-									handleResetStore={this.handleResetStore}
-									me={this.state.me}
-									onLogout={this.onLogout}
-									handleClickOpen={this.handleClickOpen}/>
-								<Login
-									handleResetStore={this.handleResetStore}
-									onLogin={this.onLogin}
-									openLogin={this.state.openLogin}
-									handleRequestClose={this.handleRequestClose}/>
+								<NavBar me={this.state.me} onLogout={this.onLogout}/>
+								<Login onLogin={this.onLogin}/>
 								<Switch>
 									<Route exact={true} path="/" component={Homepage}/>
 									<Route
 										path='/story/:_id'
-										render={(props) => (
-											<StoryReader
-												{...props}
-												handleTriggerOpen={this.handleTriggerOpen}
-												me={this.state.me}/>
-										)}/>
+										render={(props) => (<StoryReader {...props} me={this.state.me}/>)}/>
 									<Route path="/user/:_id" component={UserHome}/>
 									<Route path="/mydraft" component={UserDraft}/>
 									<Route path="/edit/:_id" component={EditPage}/>

@@ -6,7 +6,7 @@ import {compose} from 'recompose';
 
 //
 import {renderWhileLoading, graphQLQueryLoading} from '../lib/apolloHelper';
-import {setRefetchProp, renderForError, GraphQLErrorComponent} from '../lib/apolloHelper';
+import {setErrorMessage, renderForError, GraphQLErrorComponent} from '../lib/apolloHelper';
 import {WithCreateDraftMutation, WithDraftListQuery} from '../graphql/draft';
 
 //
@@ -62,6 +62,7 @@ export default compose(
 	WithCreateDraftMutation,
 	WithDraftListQuery,
 	renderWhileLoading(graphQLQueryLoading, "draftList"),
-	setRefetchProp("draftList"),
+	setErrorMessage("draftList"),
 	renderForError(GraphQLErrorComponent, "draftList")
+
 )(UserDraft)

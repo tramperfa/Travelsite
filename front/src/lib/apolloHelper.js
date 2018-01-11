@@ -10,9 +10,11 @@ export const graphQLQueryLoading = () => {
 	return (<div>Loading</div>)
 }
 
-export const setRefetchProp = (propName = "data") => withProps(
-	props => ({errorInfo: props[propName].error.graphQLErrors[0].message})
-)
+export const setErrorMessage = (propName = "data") => withProps(props => {
+	if (props[propName] && props[propName].error && props[propName].error.graphQLErrors[0]) {
+		return ({errorInfo: props[propName].error.graphQLErrors[0].message})
+	}
+})
 
 export const renderForError = (component, propName = "data") => branch(
 	props => props[propName] && props[propName].error,

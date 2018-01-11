@@ -1,15 +1,19 @@
 import React from 'react';
-import {graphql} from 'react-apollo';
 import PropTypes from 'prop-types';
 import Button from 'material-ui/Button';
 import Dialog, {DialogActions, DialogContent, DialogTitle} from 'material-ui/Dialog';
 import Slide from 'material-ui/transitions/Slide';
 import {withStyles} from 'material-ui/styles';
 import TextField from 'material-ui/TextField';
+import {compose} from 'recompose';
+import {connect} from 'react-redux';
 
 //
 import persist from '../../lib/persist';
-import {LOGIN_MUTATION} from '../../graphql/user';
+import {WithLoginMuation} from '../../graphql/user';
+import {resetApolloStore} from '../../graphql/graphql';
+import {setErrorMessage, renderForError, GraphQLErrorComponent} from '../../lib/apolloHelper';
+import {closeLoginDialog} from '../../redux/actions';
 
 const styles = theme => ({
 	container: {
@@ -31,7 +35,7 @@ class Login extends React.Component {
 	state = {
 		name: '',
 		password: '',
-		errorMessage: null
+		//errorMessage: null
 	}
 
 	handleSubmit = async () => {
@@ -42,12 +46,12 @@ class Login extends React.Component {
 			let data = await this.props.localLogin(emailorusername, password)
 			let me = await persist.willSetSessionUser(data.data.localLogin.me)
 			await this.props.onLogin(me)
-			await this.props.handleRequestClose()
+			await this.props.handleCloseLoginDialog()
 			//console.log("RESET STORE");
-			await this.props.handleResetStore()
+			await resetApolloStore()
 		} catch (error) {
 			console.log('there was an error during login', error);
-			this.setState({errorMessage: error.graphQLErrors[0].message})
+			//this.setState({errorMessage: error.graphQLErrors[0].message})
 		} finally {
 			this.setState({name: '', password: ''})
 		}
@@ -61,15 +65,14 @@ class Login extends React.Component {
 	onKeyPress = (event) => {
 		if (event.charCode === 13) { // enter key pressed
 			event.preventDefault()
-			// do something here
 			this.handleSubmit()
 		}
 	}
 
 	handleClose = () => {
 
-		this.props.handleRequestClose()
-		this.setState({name: '', password: '', errorMessage: null})
+		this.props.handleCloseLoginDialog()
+		this.setState({name: '', password: ''})
 	}
 
 	render() {
@@ -107,9 +110,7 @@ class Login extends React.Component {
 						</DialogContent>
 						<div style={{
 								color: 'red'
-							}}>
-							{this.state.errorMessage}
-						</div>
+							}}></div>
 					</form>
 					<DialogActions>
 						<Button onClick={this.handleSubmit} color="primary">
@@ -131,21 +132,17 @@ Login.propTypes = {
 	classes: PropTypes.object.isRequired,
 	onLogin: PropTypes.func.isRequired,
 	openLogin: PropTypes.bool.isRequired,
-	handleRequestClose: PropTypes.func.isRequired,
-	handleResetStore: PropTypes.func.isRequired
+	handleCloseLoginDialog: PropTypes.func.isRequired
 }
 
-const LoginWithMuation = graphql(LOGIN_MUTATION, {
-	props: ({mutate}) => ({
-		localLogin: (emailorusername, password) => mutate({
-			variables: {
-				input: {
-					emailorusername: emailorusername,
-					password: password
-				}
-			}
-		})
-	})
-})(Login)
+const mapStateToProps = (state) => ({openLogin: state.login.openLogin})
 
-export default withStyles(styles)(LoginWithMuation);
+const mapDispatchToProps = ({handleCloseLoginDialog: closeLoginDialog})
+
+export default compose(
+	WithLoginMuation,
+	withStyles(styles),
+	connect(mapStateToProps, mapDispatchToProps),
+	setErrorMessage("data"),
+	renderForError(GraphQLErrorComponent, "data")
+)(Login)

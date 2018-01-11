@@ -24,4 +24,8 @@ const client = new ApolloClient({
 	queryDeduplication: true
 });
 
+export const resetApolloStore = () => {
+	client.resetStore()
+}
+
 export default client

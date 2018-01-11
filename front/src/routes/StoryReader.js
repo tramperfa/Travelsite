@@ -52,8 +52,8 @@ class Story extends React.Component {
 			this.setState({liked: true})
 		}).catch((e) => {
 			if (e.graphQLErrors[0].message === "User Not Logged In") {
-				//console.log("TRIGGER LOGIN");
-				this.props.handleTriggerOpen()
+				console.log("TRIGGER LOGIN");
+				//this.props.handleTriggerOpen()
 			}
 			this.setState({errorMessage: e.graphQLErrors[0].message})
 		})
@@ -65,8 +65,8 @@ class Story extends React.Component {
 			this.setState({archived: true})
 		}).catch((e) => {
 			if (e.graphQLErrors[0].message === "User Not Logged In") {
-				//console.log("TRIGGER LOGIN");
-				this.props.handleTriggerOpen()
+				console.log("TRIGGER LOGIN");
+				//this.props.handleTriggerOpen()
 			}
 			this.setState({errorMessage: e.graphQLErrors[0].message})
 		})
@@ -157,7 +157,7 @@ Story.propTypes = {
 	match: PropTypes.object.isRequired,
 	location: PropTypes.object.isRequired,
 	storyData: PropTypes.object.isRequired,
-	handleTriggerOpen: PropTypes.func.isRequired,
+	//handleTriggerOpen: PropTypes.func.isRequired,
 	MeData: PropTypes.object.isRequired
 }
 
@@ -165,16 +165,13 @@ export const WithData = graphql(STORY_DETAILS_QUERY, {
 	options: (props) => ({
 		variables: {
 			_id: props.match.params._id
-		},
-		//notifyOnNetworkStatusChange: true
+		}
 	}),
 	name: 'storyData'
 })
 
 export const WithMeData = graphql(ME_QUERY, {
-	options: {
-		//notifyOnNetworkStatusChange: true
-	},
+	options: {},
 	name: 'MeData'
 })
 
