@@ -5,9 +5,8 @@ import {Redirect} from 'react-router-dom';
 import {compose} from 'recompose';
 
 //
-import {renderWhileLoading, graphQLQueryLoading} from '../lib/apolloHelper';
-import {setErrorMessage, renderForError, GraphQLErrorComponent} from '../lib/apolloHelper';
 import {WithCreateDraftMutation, WithDraftListQuery} from '../graphql/draft';
+import ComposeQuery from '../lib/hoc';
 
 //
 import DraftCard from '../components/DraftCard';
@@ -58,11 +57,8 @@ UserDraft.propTypes = {
 	draftList: PropTypes.object.isRequired
 }
 
-export default compose(
-	WithCreateDraftMutation,
-	WithDraftListQuery,
-	renderWhileLoading(graphQLQueryLoading, "draftList"),
-	setErrorMessage("draftList"),
-	renderForError(GraphQLErrorComponent, "draftList")
+const UserDraftWithQuery = ComposeQuery(UserDraft, 'draftList')
 
-)(UserDraft)
+export default compose(WithCreateDraftMutation, WithDraftListQuery)(
+	UserDraftWithQuery
+)

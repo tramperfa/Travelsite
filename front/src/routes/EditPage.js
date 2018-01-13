@@ -6,7 +6,7 @@ import {Redirect} from 'react-router-dom';
 import {compose} from 'recompose';
 
 //
-import {renderWhileLoading, graphQLQueryLoading} from '../lib/apolloHelper';
+import {renderWhileLoading, graphQLQueryLoading} from '../lib/apollo';
 import {WithDraftDetailsQuery, WithPublishDraftMutation} from '../graphql/draft';
 
 import Editor from '../components/StoryEditor/Editor';
@@ -70,8 +70,9 @@ Draft.propTypes = {
 	draftData: PropTypes.object.isRequired
 }
 
-export default compose(
+const temp = compose(
 	WithPublishDraftMutation,
-	WithDraftDetailsQuery,
 	renderWhileLoading(graphQLQueryLoading, "draftData")
 )(Draft)
+
+export default compose(WithDraftDetailsQuery)(temp)

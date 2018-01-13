@@ -9,11 +9,11 @@ import {compose} from 'recompose';
 import {connect} from 'react-redux';
 
 //
-import persist from '../../lib/persist';
-import {WithLoginMuation} from '../../graphql/user';
-import {resetApolloStore} from '../../graphql/graphql';
-import {setErrorMessage, renderForError, GraphQLErrorComponent} from '../../lib/apolloHelper';
-import {closeLoginDialog} from '../../redux/actions';
+import persist from '../lib/persist';
+import {WithLoginMuation} from '../graphql/user';
+import {resetApolloStore} from '../graphql/graphql';
+import {setErrorMessage, renderForError, GraphQLErrorComponent} from '../lib/apollo';
+import {closeLoginDialog, loadMe} from '../redux/actions';
 
 const styles = theme => ({
 	container: {
@@ -30,16 +30,14 @@ const styles = theme => ({
 	}
 });
 
-class Login extends React.Component {
+class AuthSignupDialogContainer extends React.Component {
 
 	state = {
 		name: '',
-		password: '',
-		//errorMessage: null
+		password: ''
 	}
 
 	handleSubmit = async () => {
-
 		const emailorusername = this.state.name
 		const password = this.state.password
 		try {
@@ -47,12 +45,8 @@ class Login extends React.Component {
 			let me = await persist.willSetSessionUser(data.data.localLogin.me)
 			await this.props.onLogin(me)
 			await this.props.handleCloseLoginDialog()
-			//console.log("RESET STORE");
 			await resetApolloStore()
-		} catch (error) {
-			console.log('there was an error during login', error);
-			//this.setState({errorMessage: error.graphQLErrors[0].message})
-		} finally {
+		} catch (error) {} finally {
 			this.setState({name: '', password: ''})
 		}
 
@@ -62,7 +56,7 @@ class Login extends React.Component {
 		this.setState({[name]: event.target.value});
 	};
 
-	onKeyPress = (event) => {
+	handleKeyPress = (event) => {
 		if (event.charCode === 13) { // enter key pressed
 			event.preventDefault()
 			this.handleSubmit()
@@ -70,7 +64,6 @@ class Login extends React.Component {
 	}
 
 	handleClose = () => {
-
 		this.props.handleCloseLoginDialog()
 		this.setState({name: '', password: ''})
 	}
@@ -84,7 +77,7 @@ class Login extends React.Component {
 					open={this.props.openLogin}
 					transition={Slide}
 					onRequestClose={this.handleClose}
-					onKeyPress={this.onKeyPress}>
+					onKeyPress={this.handleKeyPress}>
 					<DialogTitle>{"Login"}</DialogTitle>
 					<form
 						className={this.props.classes.container}
@@ -125,9 +118,10 @@ class Login extends React.Component {
 			</div>
 		)
 	}
+	//
 }
 
-Login.propTypes = {
+AuthSignupDialogContainer.propTypes = {
 	localLogin: PropTypes.func.isRequired,
 	classes: PropTypes.object.isRequired,
 	onLogin: PropTypes.func.isRequired,
@@ -135,9 +129,11 @@ Login.propTypes = {
 	handleCloseLoginDialog: PropTypes.func.isRequired
 }
 
-const mapStateToProps = (state) => ({openLogin: state.login.openLogin})
+const mapStateToProps = (state) => ({openLogin: state.loginDialog.openLogin})
 
-const mapDispatchToProps = ({handleCloseLoginDialog: closeLoginDialog})
+const mapDispatchToProps = (
+	{handleCloseLoginDialog: closeLoginDialog, onLogin: loadMe}
+)
 
 export default compose(
 	WithLoginMuation,
@@ -145,4 +141,4 @@ export default compose(
 	connect(mapStateToProps, mapDispatchToProps),
 	setErrorMessage("data"),
 	renderForError(GraphQLErrorComponent, "data")
-)(Login)
+)(AuthSignupDialogContainer)

@@ -2,7 +2,7 @@ const initialState = {
 	openLogin: false
 }
 
-const login = (state = initialState, action) => {
+const loginDialog = (state = initialState, action) => {
 	switch (action.type) {
 		case 'OPEN_LOGIN':
 			return Object.assign({}, state, {openLogin: true})
@@ -11,7 +11,6 @@ const login = (state = initialState, action) => {
 		default:
 			return state;
 	}
-
 }
 
-export default login
+export default loginDialog

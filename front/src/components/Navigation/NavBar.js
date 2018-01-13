@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {withStyles} from 'material-ui/styles';
 import AppBar from 'material-ui/AppBar';
@@ -10,7 +10,8 @@ import {compose} from 'recompose';
 import {connect} from 'react-redux';
 
 //
-import {openLoginDialog} from '../../redux/actions';
+import {openLoginDialog, logoutMe, loadMe} from '../../redux/actions';
+import persist from '../../lib/persist';
 // import IconButton from 'material-ui/IconButton'; import Drafts from
 // "material-ui-icons/Drafts";
 
@@ -52,52 +53,68 @@ const MyLogin = ({handleOpenLoginDialog}) => {
 	)
 }
 
-const ButtonAppBar = (props) => {
+//const NavBar = (props) => {
 
-	return (
-		<div className={props.classes.root}>
-			<AppBar position="static" className={props.classes.appbar}>
-				<Toolbar className={props.classes.toolbar}>
-					<div className={props.classes.navsection}>
+class NavBar extends Component {
 
-						<NavLink to="/" exact={true} activeClassName="active">
-							<Button color="contrast">Home</Button>
-						</NavLink>
-						<NavLink to="/dest" exact={true} activeClassName="active">
-							<Button color="contrast">Destination</Button>
-						</NavLink>
-						<NavLink to="/hotel" exact={true} activeClassName="active">
-							<Button color="contrast">Hotel</Button>
-						</NavLink>
+	componentDidMount() {
+		persist.willGetSessionUser().then((value) => {
+			this.props.loadMe(value)
+// console.log(value); console.log("AAAAA"); console.log(this.props.me);
+		})
+	}
 
-					</div>
-					<div className={props.classes.login}>
-						{
-							!props.me.looading && (
-								props.me.fullName
-									? <Me me={props.me} onLogout={props.onLogout}/>
-									: <MyLogin handleOpenLoginDialog={props.handleOpenLoginDialog}/>
-							)
-						}
-					</div>
-				</Toolbar>
-			</AppBar>
-		</div>
-	);
+	render() {
+		return (
+
+			<div className={this.props.classes.root}>
+				<AppBar position="static" className={this.props.classes.appbar}>
+					<Toolbar className={this.props.classes.toolbar}>
+						<div className={this.props.classes.navsection}>
+
+							<NavLink to="/" exact={true} activeClassName="active">
+								<Button color="contrast">Home</Button>
+							</NavLink>
+							<NavLink to="/dest" exact={true} activeClassName="active">
+								<Button color="contrast">Destination</Button>
+							</NavLink>
+							<NavLink to="/hotel" exact={true} activeClassName="active">
+								<Button color="contrast">Hotel</Button>
+							</NavLink>
+
+						</div>
+						<div className={this.props.classes.login}>
+							{
+								!this.props.me.loading && (
+									this.props.me.me && this.props.me.me.fullName
+										? <Me me={this.props.me.me} onLogout={this.props.handleLogout}/>
+										: <MyLogin handleOpenLoginDialog={this.props.handleOpenLoginDialog}/>
+								)
+							}
+						</div>
+					</Toolbar>
+				</AppBar>
+			</div>
+		);
+		//
+	}
+
 }
 
-ButtonAppBar.propTypes = {
+NavBar.propTypes = {
 	classes: PropTypes.object.isRequired,
 	me: PropTypes.object.isRequired,
-	onLogout: PropTypes.func.isRequired,
+	handleLogout: PropTypes.func.isRequired,
 	handleOpenLoginDialog: PropTypes.func.isRequired
 };
 
-const mapDispatchToProps = ({handleOpenLoginDialog: openLoginDialog})
+const mapStateToProps = (state) => ({me: state.auth})
 
-// const ButtonAppBarBefore = withStyles(styles)(ButtonAppBar); export default
-// withStyles(styles)(ButtonAppBar);
-
-export default compose(withStyles(styles), connect(null, mapDispatchToProps))(
-	ButtonAppBar
+const mapDispatchToProps = (
+	{handleOpenLoginDialog: openLoginDialog, handleLogout: logoutMe, loadMe: loadMe}
 )
+
+export default compose(
+	withStyles(styles),
+	connect(mapStateToProps, mapDispatchToProps)
+)(NavBar)
