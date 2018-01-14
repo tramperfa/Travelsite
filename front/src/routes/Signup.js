@@ -5,8 +5,6 @@ import Button from 'material-ui/Button';
 import {withStyles} from 'material-ui/styles';
 import TextField from 'material-ui/TextField';
 import {Redirect} from 'react-router-dom';
-// import createHistory from 'history/createBrowserHistory' const history =
-// createHistory()
 
 import {REGISTER_USER_MUTATION} from '../graphql/user';
 
@@ -149,3 +147,6 @@ const WithRegisterUserMutation = graphql(REGISTER_USER_MUTATION, {
 })
 
 export default WithRegisterUserMutation(withStyles(styles)(Signup))
+
+// import createHistory from 'history/createBrowserHistory' const history =
+// createHistory()

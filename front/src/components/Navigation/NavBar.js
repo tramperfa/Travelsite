@@ -10,7 +10,7 @@ import {compose} from 'recompose';
 import {connect} from 'react-redux';
 
 //
-import {openLoginDialog, logoutMe, loadMe} from '../../redux/actions';
+import {openLoginDialog, logoutUserInfo, loadUserInfo} from '../../redux/actions';
 import persist from '../../lib/persist';
 // import IconButton from 'material-ui/IconButton'; import Drafts from
 // "material-ui-icons/Drafts";
@@ -59,8 +59,8 @@ class NavBar extends Component {
 
 	componentDidMount() {
 		persist.willGetSessionUser().then((value) => {
-			this.props.loadMe(value)
-// console.log(value); console.log("AAAAA"); console.log(this.props.me);
+			this.props.loadUserInfo(value)
+			// console.log("AAAAA"); console.log(value); console.log("AAAAA");
 		})
 	}
 
@@ -111,7 +111,7 @@ NavBar.propTypes = {
 const mapStateToProps = (state) => ({me: state.auth})
 
 const mapDispatchToProps = (
-	{handleOpenLoginDialog: openLoginDialog, handleLogout: logoutMe, loadMe: loadMe}
+	{handleOpenLoginDialog: openLoginDialog, handleLogout: logoutUserInfo, loadUserInfo: loadUserInfo}
 )
 
 export default compose(

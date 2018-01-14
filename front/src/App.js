@@ -10,8 +10,9 @@ import {Provider} from 'react-redux';
 import './App.css';
 import {THEME} from './lib/config';
 
-// Routes and components
-import AuthSignupDialogContainer from './containers/AuthSignupDialogContainer';
+// Routes and components import AuthSignupDialogContainer from
+// './containers/AuthSignupDialogContainer';
+import AuthSignupDialog from './components/AuthSignup/AuthSignupDialog';
 import NavBar from './components/Navigation/NavBar';
 import Homepage from './routes/Homepage';
 import NotFound from './routes/NotFound';
@@ -26,7 +27,10 @@ import client from './graphql/graphql';
 
 //Redux
 import reducer from './redux/reducers';
-const store = createStore(reducer)
+const store = createStore(
+	reducer,
+	window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+)
 
 const App = () => {
 	return (
@@ -36,7 +40,7 @@ const App = () => {
 					<MuiThemeProvider theme={createMuiTheme(THEME)}>
 						<div>
 							<NavBar/>
-							<AuthSignupDialogContainer/>
+							<AuthSignupDialog/>
 							<Switch>
 								<Route exact={true} path="/" component={Homepage}/>
 								<Route path='/story/:_id' component={StoryReader}/>

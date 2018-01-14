@@ -44,6 +44,7 @@ class AuthSignupDialogContainer extends React.Component {
 			let data = await this.props.localLogin(emailorusername, password)
 			let me = await persist.willSetSessionUser(data.data.localLogin.me)
 			await this.props.onLogin(me)
+			console.log(me);
 			await this.props.handleCloseLoginDialog()
 			await resetApolloStore()
 		} catch (error) {} finally {
@@ -76,13 +77,14 @@ class AuthSignupDialogContainer extends React.Component {
 				<Dialog
 					open={this.props.openLogin}
 					transition={Slide}
-					onRequestClose={this.handleClose}
-					onKeyPress={this.handleKeyPress}>
+					onRequestClose={this.handleClose}>
+
 					<DialogTitle>{"Login"}</DialogTitle>
 					<form
 						className={this.props.classes.container}
 						noValidate="noValidate"
-						autoComplete="off">
+						autoComplete="off"
+						onKeyPress={this.handleKeyPress}>
 						<DialogContent>
 							<TextField
 								id="name"
