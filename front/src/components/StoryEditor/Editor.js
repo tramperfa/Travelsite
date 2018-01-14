@@ -5,7 +5,6 @@ import {
 	EditorState,
 	ContentState,
 	SelectionState,
-	AtomicBlockUtils,
 	convertFromRaw,
 	convertToRaw,
 	getDefaultKeyBinding,
@@ -30,19 +29,18 @@ import './BlockStyles.css'
 import willUploadImage from '../../lib/ImageUpload'
 import willExtractOrientation from './util/ExtractOrientation'
 import willExtractSize from './util/ExtractSize'
+import insertAtomicBlock from './util/insertAtomicBlock'
 import client from '../../graphql/graphql';
 import {DRAFT_IMAGE_ARRAY_QUERY} from '../../graphql/draft';
 import {UPDATE_CONTENT_MUTATION} from '../../graphql/draft';
 
-import TitleBlock from './TitleBlock';
 import ImageInsert from './ImageInsert';
-import ImageBlock from './ImageBlock'
 import VideoInsert from './VideoInsert'
-import VideoBlock from './VideoBlock'
 import TitleInsert from './TitleInsert'
 import SubTitleList from './SubTitleList'
-
-import CONFIG from '../../lib/config'
+import Atomic from './Atomic'
+import defaultPlugins from './plugins/default'
+import CONSTS from '../../lib/consts'
 import searchImage from '../../lib/searchImage'
 
 // const emojiPlugin = createEmojiPlugin(); const {EmojiSuggestions,
@@ -51,28 +49,43 @@ import searchImage from '../../lib/searchImage'
 // {types} = videoPlugin;
 
 const PLACEHOLDERTEXT = "Your story starts here"
-const BUCKET_NAME = CONFIG.BUCKET_NAME
-const DRAFT_WIDTH = CONFIG.DRAFT_WIDTH
+const BUCKET_NAME = CONSTS.BUCKET_NAME
+const DRAFT_WIDTH = CONSTS.DRAFT_WIDTH
+const VIDEO_WIDTH = CONSTS.DRAFT_WIDTH
+const VIDEO_HEIGHT = VIDEO_WIDTH * 9 / 16
+const SUBTITLE_HEIGHT = CONSTS.SUBTITLE_HEIGHT
 
 class MyEditor extends Component {
 
-	state = {
-		editorState: this.props.startingContent
-			? EditorState.createWithContent(convertFromRaw(this.props.startingContent))
-			: EditorState.createEmpty(),
-		images: this.props.startingImages
-			? this.props.startingImages
-			: undefined,
-		subTitleList: this.props.startingContent
-			? getSubTitleList(convertFromRaw(this.props.startingContent))
-			: undefined,
-		titleOpen: false,
-		titleBlockKeyOnEdit: '',
-		titleEntityKeyOnEdit: '',
-		currentTitle: ''
+	constructor(props) {
+		super(props)
+		this.state = {
+			editorState: this.props.startingContent
+				? EditorState.createWithContent(convertFromRaw(this.props.startingContent))
+				: EditorState.createEmpty(),
+			images: this.props.startingImages
+				? this.props.startingImages
+				: undefined,
+			subTitleList: this.props.startingContent
+				? getSubTitleList(convertFromRaw(this.props.startingContent))
+				: undefined,
+			titleOpen: false,
+			titleBlockKeyOnEdit: '',
+			currentTitle: ''
+		}
+		// EditorState.createWithContent(convertFromRaw(initialState))
+		// createEditorStateWithText(initialText) EditorState.createEmpty()
+		this.plugins = this.getDefaultPlugins(defaultPlugins)
+
 	}
-	// EditorState.createWithContent(convertFromRaw(initialState))
-	// createEditorStateWithText(initialText) EditorState.createEmpty()
+
+	getDefaultPlugins = (defaultPlugins) => {
+		let plugins = {}
+		for (let p of defaultPlugins) {
+			plugins[p.type] = p
+		}
+		return plugins
+	}
 
 	onClick = () => {
 		this.editor.focus()
@@ -81,10 +94,10 @@ class MyEditor extends Component {
 	onChange = (editorState) => {
 		const currentContent = this.state.editorState.getCurrentContent()
 		const newContent = editorState.getCurrentContent()
+		this.setState({editorState: editorState})
 		if (!equal(currentContent, newContent)) {
 			this.saveContent(newContent)
 		}
-		this.setState({editorState: editorState})
 	}
 
 	saveContent = debounce((newContent) => {
@@ -102,21 +115,6 @@ class MyEditor extends Component {
 		// example localImageSize {width: 100, height: 100}
 		let localImageSize = await willExtractSize(localImageData)
 
-		let editorStateWithPlaceholder = this.addAtomicBlock('image', {
-			width: localImageSize.width > DRAFT_WIDTH
-				? DRAFT_WIDTH
-				: localImageSize.width,
-			height: localImageSize.width > DRAFT_WIDTH
-				? localImageSize.height / localImageSize.width * DRAFT_WIDTH
-				: localImageSize.height
-		})
-		// console.log(convertToRaw(editorStateWithPlaceholder.getCurrentContent()));
-		this.setState({editorState: editorStateWithPlaceholder})
-		const contentStateWithPlaceHolder = editorStateWithPlaceholder.getCurrentContent()
-		const recentEntityKey = contentStateWithPlaceHolder.getLastCreatedEntityKey()
-		// console.log(convertToRaw(tempState.getCurrentContent()));
-		// console.log(recentEntityKey);
-
 		const uploadedImage = await willUploadImage(
 			file,
 			0,
@@ -128,22 +126,13 @@ class MyEditor extends Component {
 		let data = this.getCachedDraft()
 		data.draft.images.push(uploadedImage)
 		client.writeQuery({query: DRAFT_IMAGE_ARRAY_QUERY, data: data})
-		const imageID = uploadedImage._id
-		const contentStateWithRemoteImage = contentStateWithPlaceHolder.replaceEntityData(
-			recentEntityKey,
-			{_id: imageID}
-		)
 
-		// force rerender can be removed when draft update to v0.11. automatically
-		// re-render after replaceEntityData
-		this.setState({
-			editorState: EditorState.forceSelection(
-				this.state.editorState,
-				this.state.editorState.getSelection()
-			)
+		const editorState = this.state.editorState
+		const newEditorState = insertAtomicBlock(editorState, {
+			"type": "image",
+			"_id": uploadedImage._id
 		})
-
-		this.saveContent(contentStateWithRemoteImage)
+		this.onChange(newEditorState)
 	}
 
 	getCachedDraft = () => {
@@ -157,40 +146,32 @@ class MyEditor extends Component {
 		return data
 	}
 
-	addAtomicBlock = (entityType, data) => {
-		const editorState = this.state.editorState
-		const contentState = editorState.getCurrentContent();
-		const contentStateWithEntity = contentState.createEntity(
-			entityType,
-			'IMMUTABLE',
-			data
-		);
-		const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
-		const newEditorState = AtomicBlockUtils.insertAtomicBlock(
-			editorState,
-			entityKey,
-			' '
-		);
-		if (entityType !== 'image') {
-			this.onChange(newEditorState)
-		}
-		return newEditorState
-	}
-
 	addVideoBlock = (url) => {
-		this.addAtomicBlock('video', {src: url})
+		const editorState = this.state.editorState
+		const newEditorState = insertAtomicBlock(editorState, {
+			"type": "video",
+			"src": url
+		})
+		this.onChange(newEditorState)
 	}
 
 	addSubTitleBlock = (text) => {
-		let newEditorState = this.addAtomicBlock('subTitle', {title: text})
+		const editorState = this.state.editorState
+		const newEditorState = insertAtomicBlock(editorState, {
+			"type": "subTitle",
+			"title": text
+		})
+		this.onChange(newEditorState)
+
+		//update subTitle Elevator
 		this.setState({
 			subTitleList: getSubTitleList(newEditorState.getCurrentContent())
 		})
 	}
 
-	openSubTitleEditor = (titleBlockKeyOnEdit, titleEntityKeyOnEdit, currentTitle) => {
+	openSubTitleEditor = (titleBlockKeyOnEdit, currentTitle) => {
 		this.setState(
-			{titleOpen: true, titleBlockKeyOnEdit: titleBlockKeyOnEdit, titleEntityKeyOnEdit: titleEntityKeyOnEdit, currentTitle: currentTitle}
+			{titleOpen: true, titleBlockKeyOnEdit: titleBlockKeyOnEdit, currentTitle: currentTitle}
 		)
 	}
 
@@ -199,19 +180,29 @@ class MyEditor extends Component {
 	}
 
 	updateSubTitle = (newTitle) => {
-		let origES = this.state.editorState
-		const contentState = origES.getCurrentContent()
-		const newContentState = contentState.replaceEntityData(
-			this.state.titleEntityKeyOnEdit,
+		const editorState = this.state.editorState
+		const contentState = editorState.getCurrentContent()
+		const blockKey = this.state.titleBlockKeyOnEdit
+		const newSelection = new SelectionState(
+			{anchorKey: blockKey, anchorOffset: 0, focusKey: blockKey, focusOffset: 0}
+		)
+		const newContentState = Modifier.mergeBlockData(
+			contentState,
+			newSelection,
 			{title: newTitle}
 		)
+		const newEditorState = EditorState.push(
+			editorState,
+			newContentState,
+			"change-block-data"
+		)
+		this.onChange(newEditorState)
+
 		const newTitleList = this.state.subTitleList.update(
 			this.state.titleBlockKeyOnEdit,
 			value => newTitle
 		)
 		this.setState({subTitleList: newTitleList})
-		this.editor.focus()
-		this.saveContent(newContentState)
 	}
 
 	anotherDeleteAtomicBlock = (blockKey) => {
@@ -267,6 +258,26 @@ class MyEditor extends Component {
 		this.onChange(newState)
 	}
 
+	deleteAtomicBlockV2 = (blockKey) => {
+		console.log("deleteAtomicBlockV2 Called");
+		const editorState = this.state.editorState
+		const selection = editorState.getSelection()
+		const content = editorState.getCurrentContent()
+		const keyAfter = content.getKeyAfter(blockKey);
+		const blockMap = content.getBlockMap().delete(blockKey);
+		const withoutAtomicBlock = content.merge({blockMap, selectionAfter: selection});
+		const newState = EditorState.push(
+			editorState,
+			withoutAtomicBlock,
+			"remove-range"
+		);
+		const newSelection = new SelectionState(
+			{anchorKey: keyAfter, anchorOffset: 0, focusKey: keyAfter, focusOffset: content.getBlockForKey(blockKey).getLength()}
+		);
+		const newEditorState = EditorState.forceSelection(newState, newSelection);
+		this.onChange(newEditorState)
+	}
+
 	deleteAtomicBlock = (blockKey) => {
 		const editorState = this.state.editorState
 		const contentState = editorState.getCurrentContent()
@@ -294,7 +305,6 @@ class MyEditor extends Component {
 			contentWithSeletAfter,
 			'remove-range'
 		)
-
 		this.onChange(newState)
 	}
 
@@ -314,52 +324,52 @@ class MyEditor extends Component {
 	myBlockRenderer = (contentBlock) => {
 		const type = contentBlock.getType()
 		if (type === 'atomic') {
-			// console.log("A subtitle")
-			const entity = contentBlock.getEntityAt(0);
-			if (!entity) {
-				return null
-			}
-			const contentState = this.state.editorState.getCurrentContent()
-			const entityType = contentState.getEntity(entity).getType()
-			if (entityType === 'subTitle') {
-				return {
-					component: TitleBlock,
-					editable: false,
-					props: {
-						openSubTitleEditor: this.openSubTitleEditor,
-						deleteBlock: this.deleteSubTitle
-					}
-				}
-			} else if (entityType === 'image') {
-				const entityData = contentState.getEntity(entity).getData()
-				if (entityData._id) {
-					const imageData = searchImage(entityData._id, this.props.startingImages)
+
+			const pluginType = contentBlock.getData().toObject().type
+			const plugin = this.plugins[pluginType]
+			if (plugin) {
+				if (pluginType === "image") {
+					const imageData = searchImage(
+						contentBlock.getData().toObject()._id,
+						this.props.startingImages
+					)
 					return {
-						component: ImageBlock,
+						component: Atomic,
 						editable: false,
 						props: {
+							plugin: plugin,
+							onChange: this.onChange,
+							editorState: this.state.editorState,
 							src: BUCKET_NAME + imageData.browserStoryImage.filename,
 							width: imageData.browserStoryImage.size.width,
-							height: imageData.browserStoryImage.size.height,
-							deleteBlock: this.deleteAtomicBlock
+							height: imageData.browserStoryImage.size.height
 						}
 					}
-				} else {
+				} else if (pluginType === "video") {
 					return {
-						component: ImageBlock,
+						component: Atomic,
 						editable: false,
 						props: {
-							width: entityData.width,
-							height: entityData.height
+							plugin: plugin,
+							onChange: this.onChange,
+							editorState: this.state.editorState,
+							width: VIDEO_WIDTH,
+							height: VIDEO_HEIGHT
 						}
 					}
-				}
-			} else if (entityType === 'video') {
-				return {
-					component: VideoBlock,
-					editable: false,
-					props: {
-						deleteBlock: this.deleteAtomicBlock
+				} else if (pluginType === "subTitle") {
+					return {
+						component: Atomic,
+						editable: false,
+						props: {
+							plugin: plugin,
+							onChange: this.onChange,
+							editorState: this.state.editorState,
+							openSubTitleEditor: this.openSubTitleEditor,
+							deleteSubTitle: this.deleteSubTitle,
+							width: DRAFT_WIDTH,
+							height: SUBTITLE_HEIGHT
+						}
 					}
 				}
 			}
@@ -448,14 +458,13 @@ const getSubTitleList = (contentState) => {
 
 	let subTitleBlocks = contentState.getBlockMap().filter((block) => {
 		return (block.getType() === 'atomic') && (
-			contentState.getEntity(block.getEntityAt(0)).getType() === 'subTitle'
+			block.getData().toObject().type === 'subTitle'
 		)
 	})
 	let subTitleList = subTitleBlocks.map((block, key) => {
 		// console.log(key); console.log(block);
-		return contentState.getEntity(block.getEntityAt(0)).getData().title
+		return block.getData().toObject().title
 	})
-	// console.log(subTitleList);
 	return subTitleList
 }
 

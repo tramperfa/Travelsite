@@ -7,7 +7,7 @@ import VideoCall from 'material-ui-icons/VideoCall';
 import Input from 'material-ui/Input';
 
 const HINTTEXT = "Paste/Type a youtube video url and press 'Enter'"
-const re = /\/\/(?:www\.)?youtu(?:\.be|be\.com)\/(?:watch\?v=|embed\/)?([a-z0-9_\-]+)/i
+const re = /\/\/(?:www\.)?youtu(?:\.be|be\.com)\/(?:watch\?v=|embed\/)?([a-z0-9_-]+)/i
 export default class extends Component {
 
 	state = {

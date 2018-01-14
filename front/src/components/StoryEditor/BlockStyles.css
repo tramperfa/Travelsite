@@ -8,3 +8,22 @@
   margin-left: 0px;
   margin-right: 0px;
 }
+
+.atomicActionGroup{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.atomicActionItem{
+  background-color: #FFFFFF;
+  opacity: 0.75;
+  z-index: 10;
+  cursor: pointer;
+}
+
+.h1 {
+  margin: 0px;
+  background-color: #e4f0f5
+}
