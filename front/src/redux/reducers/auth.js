@@ -12,6 +12,7 @@ const auth = (state = initialState, action) => {
 	//console.log(action);
 	switch (action.type) {
 		case 'LOAD_ME':
+			//console.log(action.me);
 			return Object.assign({}, state, {
 				loading: false,
 				me: action.me

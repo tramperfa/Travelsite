@@ -24,8 +24,9 @@ export const renderForError = (component, propName = "data") => branch(
 export const GraphQLErrorComponent = props => (
 	<span>
 		Something went wrong
-		<div>
+{/* <div>
 			{props.errorInfo}
-		</div>
+		</div> */
+}
 	</span>
 )
