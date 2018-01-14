@@ -13,16 +13,11 @@ import {
 	genKey
 } from 'draft-js';
 import debounce from 'lodash/debounce';
-// import Editor from 'draft-js-plugins-editor' {createEditorStateWithText,
-// composeDecorators} from 'draft-js-plugins-editor'; import createEmojiPlugin
-// from 'draft-js-emoji-plugin'; import createVideoPlugin from
-// 'draft-js-video-plugin';
 import styled from 'styled-components'
 import PropTypes from 'prop-types';
 import {graphql} from 'react-apollo'
 import equal from 'fast-deep-equal'
 
-// import 'draft-js-emoji-plugin/lib/plugin.css';
 import 'draft-js/dist/Draft.css'
 import './BlockStyles.css'
 
@@ -43,11 +38,6 @@ import defaultPlugins from './plugins/default'
 import CONSTS from '../../lib/consts'
 import searchImage from '../../lib/searchImage'
 
-// const emojiPlugin = createEmojiPlugin(); const {EmojiSuggestions,
-// EmojiSelect} = emojiPlugin; const videoPlugin = createVideoPlugin(); const
-// plugins = [emojiPlugin, videoPlugin] const plugins = [videoPlugin] const
-// {types} = videoPlugin;
-
 const PLACEHOLDERTEXT = "Your story starts here"
 const BUCKET_NAME = CONSTS.BUCKET_NAME
 const DRAFT_WIDTH = CONSTS.DRAFT_WIDTH
@@ -61,8 +51,11 @@ class MyEditor extends Component {
 		super(props)
 		this.state = {
 			editorState: this.props.startingContent
-				? EditorState.createWithContent(convertFromRaw(this.props.startingContent))
-				: EditorState.createEmpty(),
+				? EditorState.set(
+					EditorState.createWithContent(convertFromRaw(this.props.startingContent)),
+					{allowUndo: false}
+				)
+				: EditorState.set(EditorState.createEmpty(), {allowUndo: false}),
 			images: this.props.startingImages
 				? this.props.startingImages
 				: undefined,

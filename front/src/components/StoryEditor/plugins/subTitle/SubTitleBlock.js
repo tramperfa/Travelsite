@@ -25,12 +25,14 @@ export default class SubTitleBlock extends Component {
 		return (
 			<CommonBlock {...this.props} actions={this.actions}>
 				<BlockContent>
-					<a name={blockKey} style={{
-							display: 'none'
-						}}>#</a>
-					<h1 className="h1">
-						{this.props.data.title}
-					</h1>
+					<div className="subTitleContent">
+						<a name={blockKey} style={{
+								opacity: 0
+							}}>#</a>
+						<h1 className="h1">
+							{this.props.data.title}
+						</h1>
+					</div>
 				</BlockContent>
 			</CommonBlock>
 		)

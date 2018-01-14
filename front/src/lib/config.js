@@ -16,5 +16,3 @@ export const THEME = {
 	}
 
 }
-
-export default CONFIG
