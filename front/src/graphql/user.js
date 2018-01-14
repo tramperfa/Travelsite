@@ -1,4 +1,5 @@
 import gql from 'graphql-tag';
+import {graphql} from 'react-apollo';
 
 ////// QUERY
 export const ME_QUERY = gql `
@@ -36,6 +37,19 @@ export const LOGIN_MUTATION = gql `
      }
    }
   `;
+
+export const WithLoginMuation = graphql(LOGIN_MUTATION, {
+	props: ({mutate}) => ({
+		localLogin: (emailorusername, password) => mutate({
+			variables: {
+				input: {
+					emailorusername: emailorusername,
+					password: password
+				}
+			}
+		})
+	})
+})
 
 export const LOGOUT_MUTATION = gql `
   mutation logout($name: String){

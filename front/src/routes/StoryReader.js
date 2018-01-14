@@ -12,9 +12,11 @@ import Edit from "material-ui-icons/Edit";
 import Delete from "material-ui-icons/Delete";
 import {Redirect} from 'react-router-dom';
 import {Link} from 'react-router-dom';
+import {connect} from 'react-redux';
 // import Reply from "material-ui-icons/Reply"; import {createBrowserHistory}
 // from 'history'; const history = createBrowserHistory()
 
+import {openLoginDialog} from '../redux/actions';
 import {STORY_DETAILS_QUERY, LIKE_STORY_MUTATION, ARCHIVE_STORY_MUTATION, DELETE_STORY_MUTATION} from '../graphql/story';
 import {ME_QUERY} from '../graphql/user';
 
@@ -22,7 +24,6 @@ class Story extends React.Component {
 	state = {
 		deleteRedirect: false,
 		owner: false,
-		errorMessage: null,
 		liked: false,
 		archived: false
 	}
@@ -50,12 +51,6 @@ class Story extends React.Component {
 		var storyID = this.props.match.params._id
 		this.props.likeStory(storyID).then(() => {
 			this.setState({liked: true})
-		}).catch((e) => {
-			if (e.graphQLErrors[0].message === "User Not Logged In") {
-				//console.log("TRIGGER LOGIN");
-				this.props.handleTriggerOpen()
-			}
-			this.setState({errorMessage: e.graphQLErrors[0].message})
 		})
 	}
 
@@ -63,12 +58,6 @@ class Story extends React.Component {
 		var storyID = this.props.match.params._id
 		this.props.archiveStory(storyID).then(() => {
 			this.setState({archived: true})
-		}).catch((e) => {
-			if (e.graphQLErrors[0].message === "User Not Logged In") {
-				//console.log("TRIGGER LOGIN");
-				this.props.handleTriggerOpen()
-			}
-			this.setState({errorMessage: e.graphQLErrors[0].message})
 		})
 	}
 
@@ -76,8 +65,6 @@ class Story extends React.Component {
 		var storyID = this.props.match.params._id
 		this.props.deleteStory(storyID).then(() => {
 			this.setState({deleteRedirect: true})
-		}).catch((e) => {
-			this.setState({errorMessage: e.graphQLErrors[0].message})
 		})
 	}
 
@@ -105,9 +92,7 @@ class Story extends React.Component {
 					<div>{story.archiveStoryCount + "Archives"}</div>
 					<div style={{
 							color: 'red'
-						}}>
-						{this.state.errorMessage}
-					</div>
+						}}></div>
 					<div>
 						{moment(new Date(story.lastUpdate)).utc().local().format("YYYY-MM-DD HH:mm")}
 					</div>
@@ -157,7 +142,7 @@ Story.propTypes = {
 	match: PropTypes.object.isRequired,
 	location: PropTypes.object.isRequired,
 	storyData: PropTypes.object.isRequired,
-	handleTriggerOpen: PropTypes.func.isRequired,
+	handleOpenLoginDialog: PropTypes.func.isRequired,
 	MeData: PropTypes.object.isRequired
 }
 
@@ -165,16 +150,13 @@ export const WithData = graphql(STORY_DETAILS_QUERY, {
 	options: (props) => ({
 		variables: {
 			_id: props.match.params._id
-		},
-		//notifyOnNetworkStatusChange: true
+		}
 	}),
 	name: 'storyData'
 })
 
 export const WithMeData = graphql(ME_QUERY, {
-	options: {
-		//notifyOnNetworkStatusChange: true
-	},
+	options: {},
 	name: 'MeData'
 })
 
@@ -209,4 +191,7 @@ export const WithDelete = graphql(DELETE_STORY_MUTATION, {
 	})
 })
 
-export default WithDelete(WithArchive(WithLike(WithData(WithMeData(Story)))))
+const mapDispatchToProps = ({handleOpenLoginDialog: openLoginDialog})
+
+const temp = WithDelete(WithArchive(WithLike(WithData(WithMeData(Story)))))
+export default connect(null, mapDispatchToProps)(temp)

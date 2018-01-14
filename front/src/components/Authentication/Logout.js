@@ -6,6 +6,7 @@ import {MenuItem} from 'material-ui/Menu';
 //
 import persist from '../../lib/persist';
 import {LOGOUT_MUTATION} from '../../graphql/user';
+import {resetApolloStore} from '../../graphql/graphql';
 
 class Logout extends React.Component {
 
@@ -14,7 +15,7 @@ class Logout extends React.Component {
 			await this.props.logout()
 			await persist.willRomveSessionUser()
 			await this.props.onLogout()
-			await this.props.handleResetStore()
+			await resetApolloStore()
 		} catch (e) {
 			console.log('there was an error during logout', e);
 			console.log(JSON.stringify(e));
@@ -39,8 +40,7 @@ class Logout extends React.Component {
 
 Logout.propTypes = {
 	logout: PropTypes.func.isRequired,
-	onLogout: PropTypes.func.isRequired,
-	handleResetStore: PropTypes.func.isRequired
+	onLogout: PropTypes.func.isRequired
 }
 
 export default graphql(LOGOUT_MUTATION, {
