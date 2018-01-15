@@ -8,7 +8,7 @@ const initialState = {
 	}
 }
 
-const auth = (state = initialState, action) => {
+const userLocalStore = (state = initialState, action) => {
 	//console.log(action);
 	switch (action.type) {
 		case 'LOAD_ME':
@@ -28,4 +28,4 @@ const auth = (state = initialState, action) => {
 
 }
 
-export default auth
+export default userLocalStore

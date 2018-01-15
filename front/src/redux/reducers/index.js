@@ -1,7 +1,7 @@
 import {combineReducers} from 'redux'
 import loginDialog from './loginDialog'
-import auth from './auth'
+import userLocalStore from './userLocalStore'
 
-const rootReducer = combineReducers({loginDialog, auth})
+const rootReducer = combineReducers({loginDialog, userLocalStore})
 
 export default rootReducer

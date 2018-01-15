@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 
 //
 import persist from '../lib/persist';
-import {WithLoginMuation} from '../graphql/user';
+import {WithLoginMutation} from '../graphql/user';
 import {resetApolloStore} from '../graphql/graphql';
 import {setErrorMessage, renderForError, GraphQLErrorComponent} from '../lib/apollo';
 import {closeLoginDialog, loadUserInfo} from '../redux/actions';
@@ -75,7 +75,7 @@ const mapDispatchToProps = (
 )
 
 export default compose(
-	WithLoginMuation,
+	WithLoginMutation,
 	connect(null, mapDispatchToProps),
 	setErrorMessage("data"),
 	renderForError(GraphQLErrorComponent, "data")

@@ -10,10 +10,10 @@ import {Provider} from 'react-redux';
 import './App.css';
 import {THEME} from './lib/config';
 
-// Routes and components import AuthSignupDialogContainer from
-// './containers/AuthSignupDialogContainer';
-import AuthSignupDialog from './components/AuthSignup/AuthSignupDialog';
-import NavBar from './components/Navigation/NavBar';
+// Routes and components
+
+import AuthSignupDialogContainer from './containers/AuthSignupDialogContainer';
+import HeaderContainer from './containers/HeaderContainer';
 import Homepage from './routes/Homepage';
 import NotFound from './routes/NotFound';
 import EditPage from './routes/EditPage';
@@ -39,8 +39,8 @@ const App = () => {
 				<BrowserRouter>
 					<MuiThemeProvider theme={createMuiTheme(THEME)}>
 						<div>
-							<NavBar/>
-							<AuthSignupDialog/>
+							<HeaderContainer/>
+							<AuthSignupDialogContainer/>
 							<Switch>
 								<Route exact={true} path="/" component={Homepage}/>
 								<Route path='/story/:_id' component={StoryReader}/>

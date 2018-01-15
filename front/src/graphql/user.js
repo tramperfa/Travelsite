@@ -32,15 +32,15 @@ export const LOGIN_MUTATION = gql `
        me {
            fullName
            _id
-likeStory
-archiveStory
+           likeStory
+           archiveStory
            #avatar
        }
      }
    }
   `;
 
-export const WithLoginMuation = graphql(LOGIN_MUTATION, {
+export const WithLoginMutation = graphql(LOGIN_MUTATION, {
 	props: ({mutate}) => ({
 		localLogin: (emailorusername, password) => mutate({
 			variables: {
@@ -60,6 +60,12 @@ export const LOGOUT_MUTATION = gql `
     }
   }
   `;
+
+export const WithLogoutMutation = graphql(LOGOUT_MUTATION, {
+	props: ({mutate}) => ({
+		logout: () => mutate()
+	})
+})
 
 export const REGISTER_USER_MUTATION = gql `
    mutation registerUser($input: registerUserInput!) {
