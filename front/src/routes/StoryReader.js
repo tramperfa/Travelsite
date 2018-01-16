@@ -33,6 +33,7 @@ class Story extends React.Component {
 		if (this.props.MeData.me && (prevProps.MeData.me !== this.props.MeData.me)) {
 
 			if (this.props.MeData.me.likeStory.indexOf(this.props.match.params._id) >= 0) {
+				console.log(this.props.MeData.me);
 				this.setState({liked: true})
 			}
 			if (this.props.MeData.me.archiveStory.indexOf(this.props.match.params._id) >= 0) {

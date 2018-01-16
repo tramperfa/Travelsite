@@ -75,4 +75,19 @@ export const REGISTER_USER_MUTATION = gql `
    }
   `;
 
+export const WithRegisterUserMutation = graphql(REGISTER_USER_MUTATION, {
+	props: ({mutate}) => ({
+		registerUser: (username, displayname, email, password) => mutate({
+			variables: {
+				input: {
+					username: username,
+					fullName: displayname,
+					email: email,
+					password: password
+				}
+			}
+		})
+	})
+})
+
 export default LOGIN_MUTATION

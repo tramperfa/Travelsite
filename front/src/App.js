@@ -14,13 +14,15 @@ import {THEME} from './lib/config';
 
 import AuthSignupDialogContainer from './containers/AuthSignupDialogContainer';
 import HeaderContainer from './containers/HeaderContainer';
-import Homepage from './routes/Homepage';
-import EditPage from './routes/EditPage';
 import StoryReader from './routes/StoryReader';
+import Homepage from './components/Homepage/Homepage';
+
+import EditPage from './routes/EditPage';
 import UserHome from './routes/UserHome';
 import UserDraft from './routes/UserDraft';
-import Signup from './routes/Signup';
-import NotFound from './routes/NotFound';
+
+import SignupContainer from './containers//SignupContainer';
+import NotFound from './components/NotFound';
 
 //GraphQL
 import client from './graphql/graphql';
@@ -47,7 +49,7 @@ const App = () => {
 								<Route path="/user/:_id" component={UserHome}/>
 								<Route path="/mydraft" component={UserDraft}/>
 								<Route path="/edit/:_id" component={EditPage}/>
-								<Route path="/signup" component={Signup} key="signup"/>
+								<Route path="/signup" component={SignupContainer} key="signup"/>
 								<Route path="/dest" component={null} key="dest"/>
 								<Route path="/hotel" component={null} key="hotel"/>
 								<Route component={NotFound}/>

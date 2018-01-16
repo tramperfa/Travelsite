@@ -20,7 +20,7 @@ const AuthSignupDialog = ({loginDialogState, closeDialogDispatch}) => {
 			<Dialog
 				open={loginDialogState.openLogin}
 				transition={Slide}
-				onRequestClose={closeDialogDispatch}>
+				onClose={closeDialogDispatch}>
 				{
 					loginDialogState.switchToSignup
 						? <SignupDialogContainer/>

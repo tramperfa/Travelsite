@@ -8,7 +8,8 @@ import Typography from 'material-ui/Typography';
 import Share from "material-ui-icons/Share";
 import Comment from "material-ui-icons/Comment";
 
-import imageTest from '../images/cardtest.jpeg';
+import imageTest from '../../images/cardtest.jpeg';
+
 const styles = theme => ({
 	card: {
 		display: 'flex',
@@ -32,9 +33,7 @@ const styles = theme => ({
 	}
 });
 
-function StoryCard(props) {
-	const {classes, story} = props;
-
+const StoryCard = ({classes, story}) => {
 	return (
 		<div>
 			<Card className={classes.card}>
@@ -53,9 +52,11 @@ function StoryCard(props) {
 							<Typography type="subheading" color="secondary">
 								{story.author.fullName}
 							</Typography>
-							<div>{story.archiveStoryCount}
+							<div>
+								{story.archiveStoryCount}
 								Archives {story.likeStoryCount}
-								Likes</div>
+								Likes
+							</div>
 						</CardContent>
 					</Link>
 					<div className={classes.controls}>
@@ -71,16 +72,14 @@ function StoryCard(props) {
 						</IconButton>
 					</div>
 				</div>
-
 			</Card>
 		</div>
-	);
+	)
 }
 
 StoryCard.propTypes = {
 	classes: PropTypes.object.isRequired,
-	//theme: PropTypes.object.isRequired,
 	story: PropTypes.object.isRequired
 };
 
-export default withStyles(styles, {withTheme: true})(StoryCard);
+export default withStyles(styles)(StoryCard);

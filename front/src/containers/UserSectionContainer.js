@@ -1,9 +1,12 @@
 import React, {Component} from 'react';
-//import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+import {compose} from 'recompose';
+
 //
 import {logoutUserInfo} from '../redux/actions';
 import {resetApolloStore} from '../graphql/graphql';
+import {WithLogoutMutation} from '../graphql/user';
 import persist from '../lib/persist';
 
 import UserSection from '../components/Header/UserSection';
@@ -22,8 +25,9 @@ class UserSectionContainer extends Component {
 	}
 
 	handleUserLogout = async () => {
-		await this.props.logoutUserInfoDispatch()
+		await this.props.logout()
 		await persist.willRomveSessionUser()
+		await this.props.logoutUserInfoDispatch()
 		await resetApolloStore()
 	}
 
@@ -38,6 +42,12 @@ class UserSectionContainer extends Component {
 	}
 }
 
+UserSectionContainer.propTypes = {
+	logout: PropTypes.func.isRequired
+}
+
 const mapDispatchToProps = ({logoutUserInfoDispatch: logoutUserInfo})
 
-export default connect(null, mapDispatchToProps)(UserSectionContainer)
+export default compose(connect(null, mapDispatchToProps), WithLogoutMutation)(
+	UserSectionContainer
+)
