@@ -1,4 +1,5 @@
 import gql from 'graphql-tag';
+import {graphql} from 'react-apollo';
 import {STORY_CARD_FRG, STORY_IMAGE_ARRAY} from './storyFragment';
 
 ////// QUERY
@@ -23,6 +24,8 @@ export const STORIES_LIST_QUERY = gql `
   }
   ${STORY_CARD_FRG}
 `;
+
+export const WithStoryListQuery = graphql(STORIES_LIST_QUERY)
 
 export const MY_STORY_QUERY = gql `
   query myStoryQuery {

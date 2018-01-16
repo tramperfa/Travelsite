@@ -15,12 +15,12 @@ import {THEME} from './lib/config';
 import AuthSignupDialogContainer from './containers/AuthSignupDialogContainer';
 import HeaderContainer from './containers/HeaderContainer';
 import Homepage from './routes/Homepage';
-import NotFound from './routes/NotFound';
 import EditPage from './routes/EditPage';
 import StoryReader from './routes/StoryReader';
 import UserHome from './routes/UserHome';
 import UserDraft from './routes/UserDraft';
 import Signup from './routes/Signup';
+import NotFound from './routes/NotFound';
 
 //GraphQL
 import client from './graphql/graphql';

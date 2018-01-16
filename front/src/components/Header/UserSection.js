@@ -5,8 +5,11 @@ import {compose} from 'recompose';
 //
 import Button from 'material-ui/Button';
 import {Link} from 'react-router-dom';
-import Menu, {MenuItem} from 'material-ui/Menu';
+import {MenuItem, MenuList} from 'material-ui/Menu';
+import Grow from 'material-ui/transitions/Grow';
+import Paper from 'material-ui/Paper';
 import {withStyles} from 'material-ui/styles';
+import {Manager, Target, Popper} from 'react-popper';
 
 const styles = theme => ({
 	textField: {
@@ -15,7 +18,7 @@ const styles = theme => ({
 });
 
 const UserSection = ({
-	onHover,
+	menuOpen,
 	onMouseEnter,
 	onMouseLeave,
 	classes,
@@ -23,36 +26,53 @@ const UserSection = ({
 	handleUserLogout
 }) => {
 	return (
-		//
+
 		<div onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
-			<Button
-				aria-owns={onHover
-					? 'simple-menu'
-					: null}
-				aria-haspopup="true"
-				color="contrast">
-				{userLocalStoreState.me.fullName}
-			</Button>
-			<Menu id="simple-menu"
-				// anchorEl={this.state.anchorEl}
-				open={onHover}>
-				<MenuItem>
-					<Link
-						className={classes.textField}
-						to={`/user/${userLocalStoreState.me._id}`}
-						target="_blank">
-						My Profile
-					</Link>
-				</MenuItem>
-				<MenuItem>
-					<Link className={classes.textField} to={`/mydraft`} target="_blank">
-						Write a Story
-					</Link>
-				</MenuItem>
-				<Link className={classes.textField} to="/">
-					<MenuItem onClick={handleUserLogout}>Logout</MenuItem>
-				</Link>
-			</Menu>
+			<Manager>
+				<Target>
+					<Button
+						aria-owns={menuOpen
+							? 'menu-list'
+							: null}
+						aria-haspopup="true"
+						color="contrast">
+						{userLocalStoreState.me.fullName}
+					</Button>
+				</Target>
+				<Popper placement="bottom-start" eventsEnabled={menuOpen}>
+
+					<Grow
+						in={menuOpen}
+						id="menu-list"
+						style={{
+							transformOrigin: '0 0 0'
+						}}>
+						<Paper>
+							<MenuList role="menu">
+								<MenuItem>
+									<Link
+										className={classes.textField}
+										to={`/user/${userLocalStoreState.me._id}`}
+										target="_blank">
+										My Profile
+									</Link>
+								</MenuItem>
+								<MenuItem>
+									<Link className={classes.textField} to={`/mydraft`} target="_blank">
+										Write a Story
+									</Link>
+								</MenuItem>
+								<MenuItem onClick={handleUserLogout}>
+									<Link className={classes.textField} to="/">
+										Logout
+									</Link>
+								</MenuItem>
+							</MenuList>
+						</Paper>
+					</Grow>
+
+				</Popper>
+			</Manager>
 		</div>
 	)
 }
@@ -64,3 +84,7 @@ const mapStateToProps = (state) => (
 export default compose(withStyles(styles), connect(mapStateToProps, null))(
 	UserSection
 );
+
+/* <Link className={classes.textField} to="/">
+  <MenuItem onClick={handleUserLogout}>Logout</MenuItem>
+</Link> */

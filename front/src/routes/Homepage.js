@@ -1,41 +1,25 @@
 import React from 'react'
-import {graphql} from 'react-apollo';
 import StoryCard from '../components/StoryCard';
 //import Highlight from './Highlight';
 
-import {STORIES_LIST_QUERY} from '../graphql/story';
+import {WithStoryListQuery} from '../graphql/story';
+import ComposeQuery from '../lib/hoc';
 
-const storiesList = ({
-	data: {
-		loading,
-		error,
-		stories
-	}
-}) => {
-
-	// TODO Refactor loading animation
-	if (loading) {
-		return <p>Loading ...</p>;
-	}
-
-	if (error) {
-		return <p>{error.message}</p>;
-	}
-
+const HomePage = ({data}) => {
 	return (
 		<div>
-
 			{/* <div><Highlight/></div> */}
-
 			{
-				stories.map(story => (
+				data.stories.map(story => (
 					<div className="storyList" key={story._id}>
 						<StoryCard story={story}/>
 					</div>
 				))
 			}
 		</div>
-	);
-};
+	)
+}
 
-export default graphql(STORIES_LIST_QUERY)(storiesList);
+const HomePageWithQuery = ComposeQuery(HomePage)
+
+export default WithStoryListQuery(HomePageWithQuery)

@@ -32,8 +32,8 @@ export const LOGIN_MUTATION = gql `
        me {
            fullName
            _id
-           likeStory
-           archiveStory
+           #likeStory
+           #archiveStory
            #avatar
        }
      }

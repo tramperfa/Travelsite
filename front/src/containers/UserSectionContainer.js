@@ -10,13 +10,15 @@ import UserSection from '../components/Header/UserSection';
 
 class UserSectionContainer extends Component {
 	state = {
-		onHover: false
+		menuOpen: false
 	}
 	onMouseEnter = () => {
-		this.setState({onHover: true})
+		//console.log("Mouse enter");
+		this.setState({menuOpen: true})
 	}
 	onMouseLeave = () => {
-		this.setState({onHover: false})
+		//console.log("Mouse leave");
+		this.setState({menuOpen: false})
 	}
 
 	handleUserLogout = async () => {
@@ -30,7 +32,7 @@ class UserSectionContainer extends Component {
 			<UserSection
 				onMouseEnter={this.onMouseEnter}
 				onMouseLeave={this.onMouseLeave}
-				onHover={this.state.onHover}
+				menuOpen={this.state.menuOpen}
 				handleUserLogout={this.handleUserLogout}/>
 		)
 	}
