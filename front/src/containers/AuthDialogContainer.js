@@ -11,7 +11,7 @@ import {setErrorMessage, renderForError, GraphQLErrorComponent} from '../lib/apo
 import {closeLoginDialog, loadUserInfo} from '../redux/actions';
 
 //
-import AuthDialog from '../components/AuthSignup/AuthDialog';
+import AuthDialog from '../components/Homepage/AuthDialog';
 
 class AuthDialogContainer extends React.Component {
 

@@ -14,7 +14,7 @@ import {THEME} from './lib/config';
 
 import AuthSignupDialogContainer from './containers/AuthSignupDialogContainer';
 import HeaderContainer from './containers/HeaderContainer';
-import StoryReader from './routes/StoryReader';
+import StoryReaderContainer from './containers/StoryReaderContainer';
 import Homepage from './components/Homepage/Homepage';
 
 import EditPage from './routes/EditPage';
@@ -45,7 +45,7 @@ const App = () => {
 							<AuthSignupDialogContainer/>
 							<Switch>
 								<Route exact={true} path="/" component={Homepage}/>
-								<Route path='/story/:_id' component={StoryReader}/>
+								<Route path='/story/:_id' component={StoryReaderContainer}/>
 								<Route path="/user/:_id" component={UserHome}/>
 								<Route path="/mydraft" component={UserDraft}/>
 								<Route path="/edit/:_id" component={EditPage}/>

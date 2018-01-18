@@ -57,8 +57,8 @@ UserDraft.propTypes = {
 	draftList: PropTypes.object.isRequired
 }
 
-const UserDraftWithQuery = ComposeQuery(UserDraft, 'draftList')
+const UserDraftWithComposeQuery = ComposeQuery(UserDraft, 'draftList')
 
 export default compose(WithCreateDraftMutation, WithDraftListQuery)(
-	UserDraftWithQuery
+	UserDraftWithComposeQuery
 )

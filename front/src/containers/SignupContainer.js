@@ -4,7 +4,7 @@ import {Redirect} from 'react-router-dom';
 
 //
 import {WithRegisterUserMutation} from '../graphql/user';
-import Signup from '../components/AuthSignup/Signup';
+import Signup from '../components/Signup';
 
 class SignupContainer extends React.Component {
 

@@ -1,8 +1,9 @@
 import React from 'react'
-import StoryCard from './StoryCard';
 
 import {WithStoryListQuery} from '../../graphql/story';
 import ComposeQuery from '../../lib/hoc';
+
+import StoryCard from './StoryCard';
 
 const HomePage = ({data}) => {
 	return (

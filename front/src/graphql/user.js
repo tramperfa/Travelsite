@@ -12,6 +12,11 @@ export const ME_QUERY = gql `
   }
 `;
 
+export const WithMeQuery = graphql(ME_QUERY, {
+	options: {},
+	name: 'MeData'
+})
+
 export const USER_DETAIL_QUERY = gql `
    query userDetailsQuery($_id : ID!) {
      user(_id: $_id) {
