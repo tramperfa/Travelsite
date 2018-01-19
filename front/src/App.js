@@ -17,7 +17,7 @@ import HeaderContainer from './containers/HeaderContainer';
 import StoryReaderContainer from './containers/StoryReaderContainer';
 import Homepage from './components/Homepage/Homepage';
 
-import EditPage from './routes/EditPage';
+import StoryEditorContainer from './containers/StoryEditorContainer';
 import UserHome from './routes/UserHome';
 import UserDraft from './routes/UserDraft';
 
@@ -48,7 +48,7 @@ const App = () => {
 								<Route path='/story/:_id' component={StoryReaderContainer}/>
 								<Route path="/user/:_id" component={UserHome}/>
 								<Route path="/mydraft" component={UserDraft}/>
-								<Route path="/edit/:_id" component={EditPage}/>
+								<Route path="/edit/:_id" component={StoryEditorContainer}/>
 								<Route path="/signup" component={SignupContainer} key="signup"/>
 								<Route path="/dest" component={null} key="dest"/>
 								<Route path="/hotel" component={null} key="hotel"/>

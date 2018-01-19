@@ -63,7 +63,7 @@ class StoryHeadline extends Component {
 		try {
 			let {x, y, width, height} = this.state.cropBox
 			let {cropImage} = this.props
-			// console.log("SUBMIT"); console.log(this.state.tempCropImage);
+			//console.log("SUBMIT"); console.log(this.state.tempCropImage);
 			cropImage(this.state.tempCropImage._id, x, y, width, height)
 		} catch (e) {
 			console.log(e);
@@ -92,10 +92,8 @@ class StoryHeadline extends Component {
 		return (
 			<div>
 				{
-					tempCropImage && tempCropImage.originalImage && <Dialog
-							open={cropOpen}
-							transition={Slide}
-							onRequestClose={this.handleCloseCropper}
+					tempCropImage && tempCropImage.originalImage && <Dialog open={cropOpen} transition={Slide}
+							//onRequestClose={this.handleCloseCropper}
 							onKeyPress={this.onKeyPress}>
 							<DialogContent>
 								<ImageCrop

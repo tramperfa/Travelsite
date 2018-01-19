@@ -39,7 +39,7 @@ export class UserDraft extends React.Component {
 				</div>
 				<div className='create'>
 					<Button
-						raised="raised"
+						raised={true}
 						color="primary"
 						onClick={this.handleCreate}
 						label='draftCreate'>

@@ -6,14 +6,14 @@ import {Redirect} from 'react-router-dom';
 import {compose} from 'recompose';
 
 //
-import {renderWhileLoading, graphQLQueryLoading} from '../lib/apollo';
+import ComposeQuery from '../lib/hoc';
 import {WithDraftDetailsQuery, WithPublishDraftMutation} from '../graphql/draft';
 
 import Editor from '../components/StoryEditor/Editor';
 import StoryTitle from '../components/StoryTitle';
 import StoryHeadline from '../components/StoryHeadline';
 
-class Draft extends React.Component {
+class StoryEditorContainer extends React.Component {
 	state = {
 		publishRedirect: false,
 		linkedStoryID: undefined
@@ -45,7 +45,7 @@ class Draft extends React.Component {
 				<div>
 					{
 						moment(new Date(this.props.draftData.draft.lastUpdate)).utc().local().format(
-							"YYYY-MM-DD HH:mm"
+							"YYYY-MM-DD HH:mm:ss"
 						)
 					}
 				</div>
@@ -57,22 +57,24 @@ class Draft extends React.Component {
 						match={this.props.match}/>
 				</div>
 				<Button color="primary" onClick={this.handlePublish}>
-					Publish Travel Draft
+					Publish Story
 				</Button>
 			</div>
 		)
 	}
 }
 
-Draft.propTypes = {
+StoryEditorContainer.propTypes = {
 	publishDraft: PropTypes.func.isRequired,
 	match: PropTypes.object.isRequired,
 	draftData: PropTypes.object.isRequired
 }
 
-const temp = compose(
-	WithPublishDraftMutation,
-	renderWhileLoading(graphQLQueryLoading, "draftData")
-)(Draft)
+const StoryEditorContainerWithComposeQuery = ComposeQuery(
+	StoryEditorContainer,
+	'draftData'
+)
 
-export default compose(WithDraftDetailsQuery)(temp)
+export default compose(WithDraftDetailsQuery, WithPublishDraftMutation)(
+	StoryEditorContainerWithComposeQuery
+)

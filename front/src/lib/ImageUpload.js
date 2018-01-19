@@ -3,7 +3,7 @@ import upload from 'superagent';
 const willUploadImage = (file, imageCatergory, draftID, origWidth, origHeight) => new Promise(
 	(resolve, reject) => {
 		const extension = file.name.split('.').pop()
-		//console.log(file);
+		console.log(imageCatergory);
 		upload.post('http://localhost:8080/upload')
 		//
 			.attach('imageupload', file).withCredentials()
@@ -17,6 +17,7 @@ const willUploadImage = (file, imageCatergory, draftID, origWidth, origHeight) =
 		//
 			.end((err, res) => {
 			if (err) {
+				console.log(err);
 				return reject(new Error(err))
 			}
 			console.log("Returned Image Object: ");
@@ -29,10 +30,9 @@ const willUploadImage = (file, imageCatergory, draftID, origWidth, origHeight) =
 
 export default willUploadImage
 
-// /////////////////////////////////////////////////////////////////////////
-// /////////// Hold off Progress .on('progress', event => {
-// console.log('Percentage done: ', event.percent); console.log('Total File
-// Size: ', event.total); /* the event is:   {     direction: "upload" or
-// "download"     percent: 0 to 100  may be missing if file size is unknown
-// total:  total file size, may be missing     loaded:  bytes downloaded or
-// uploaded so far   } */ })
+// ///////////////////////////////////////////////////////////////////// ///////
+// Hold off Progress .on('progress', event => { console.log('Percentage done: ',
+// event.percent); console.log('Total File Size: ', event.total); /* the event
+// is:   {     direction: "upload" or "download"     percent: 0 to 100  may be
+// missing if file size is unknown total:  total file size, may be missing
+// loaded:  bytes downloaded or uploaded so far   } */ })
