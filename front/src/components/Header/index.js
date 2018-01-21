@@ -4,11 +4,11 @@ import {compose} from 'recompose';
 import {connect} from 'react-redux';
 
 //
-import {loadUserInfo} from '../redux/actions';
-import persist from '../lib/persist';
+import {loadUserInfo} from '../../redux/actions';
+import persist from '../../lib/persist';
 
 //
-import Header from '../components/Header/Header';
+import Header from './Header';
 
 class HeaderContainer extends Component {
 

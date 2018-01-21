@@ -17,9 +17,9 @@ import Delete from "material-ui-icons/Delete";
 // import Reply from "material-ui-icons/Reply"; import {createBrowserHistory}
 
 //
-import ComposeQuery from '../lib/hoc';
-import {WithMeQuery} from '../graphql/user'
-import {WithLikeStoryMutation, WithArchiveStoryMutation, WithDeleteStoryMutation} from '../graphql/story'
+import ComposeQuery from '../../lib/hoc';
+import {WithMeQuery} from '../../graphql/user'
+import {WithLikeStoryMutation, WithArchiveStoryMutation, WithDeleteStoryMutation} from '../../graphql/story'
 
 //import {openLoginDialog} from '../redux/actions';
 

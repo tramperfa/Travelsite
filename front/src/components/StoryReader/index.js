@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 //import {connect} from 'react-redux';
 
 //
-import {WithStoryDetialsQuery} from '../graphql/story'
-import ComposeQuery from '../lib/hoc';
+import {WithStoryDetialsQuery} from '../../graphql/story'
+import ComposeQuery from '../../lib/hoc';
 
 //
-import HeadlineSection from '../components/StoryReader/HeadlineSection';
+import HeadlineSection from './HeadlineSection';
+import ContentSection from './ContentSection';
 import FunctionSectionContainer from './FunctionSectionContainer';
-import ContentSection from '../components/StoryReader/ContentSection';
 
 class StoryReaderContainer extends React.Component {
 

@@ -4,12 +4,12 @@ import {connect} from 'react-redux';
 import {compose} from 'recompose';
 
 //
-import {logoutUserInfo} from '../redux/actions';
-import {resetApolloStore} from '../graphql/graphql';
-import {WithLogoutMutation} from '../graphql/user';
-import persist from '../lib/persist';
+import {logoutUserInfo} from '../../redux/actions';
+import {resetApolloStore} from '../../graphql/graphql';
+import {WithLogoutMutation} from '../../graphql/user';
+import persist from '../../lib/persist';
 
-import UserSection from '../components/Header/UserSection';
+import UserSection from './UserSection';
 
 class UserSectionContainer extends Component {
 	state = {

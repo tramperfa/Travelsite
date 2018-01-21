@@ -6,12 +6,12 @@ import {Redirect} from 'react-router-dom';
 import {compose} from 'recompose';
 
 //
-import ComposeQuery from '../lib/hoc';
-import {WithDraftDetailsQuery, WithPublishDraftMutation} from '../graphql/draft';
+import ComposeQuery from '../../lib/hoc';
+import {WithDraftDetailsQuery, WithPublishDraftMutation} from '../../graphql/draft';
 
-import Editor from '../components/StoryEditor/Editor';
-import StoryTitle from '../components/StoryTitle';
-import StoryHeadline from '../components/StoryHeadline';
+import Editor from './Editor';
+import StoryTitle from './StoryTitle';
+import StoryHeadlineContainer from './StoryHeadlineContainer';
 
 class StoryEditorContainer extends React.Component {
 	state = {
@@ -40,7 +40,9 @@ class StoryEditorContainer extends React.Component {
 		return (
 
 			<div>
-				<StoryHeadline draft={this.props.draftData.draft} match={this.props.match}/>
+				<StoryHeadlineContainer
+					draft={this.props.draftData.draft}
+					match={this.props.match}/>
 				<StoryTitle title={this.props.draftData.draft.title} match={this.props.match}/>
 				<div>
 					{

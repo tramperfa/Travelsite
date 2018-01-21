@@ -4,14 +4,14 @@ import {compose} from 'recompose';
 import {connect} from 'react-redux';
 
 //
-import persist from '../lib/persist';
-import {WithLoginMutation} from '../graphql/user';
-import {resetApolloStore} from '../graphql/graphql';
-import {setErrorMessage, renderForError, GraphQLErrorComponent} from '../lib/apollo';
-import {closeLoginDialog, loadUserInfo} from '../redux/actions';
+import persist from '../../lib/persist';
+import {WithLoginMutation} from '../../graphql/user';
+import {resetApolloStore} from '../../graphql/graphql';
+import {setErrorMessage, renderForError, GraphQLErrorComponent} from '../../lib/apollo';
+import {closeLoginDialog, loadUserInfo} from '../../redux/actions';
 
 //
-import AuthDialog from '../components/Homepage/AuthDialog';
+import AuthDialog from './AuthDialog';
 
 class AuthDialogContainer extends React.Component {
 

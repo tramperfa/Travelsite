@@ -1,78 +1,63 @@
 import React from 'react';
-import Button from 'material-ui/Button';
-import {withStyles} from 'material-ui/styles';
-import TextField from 'material-ui/TextField';
+import PropTypes from 'prop-types';
+import {Redirect} from 'react-router-dom';
 
-const styles = theme => ({
-	container: {
-		display: 'flex',
-		flexWrap: 'wrap'
-	},
-	textField: {
-		marginLeft: theme.spacing.unit,
-		marginRight: theme.spacing.unit,
-		width: 200
-	},
-	menu: {
-		width: 200
+//
+import {WithRegisterUserMutation} from '../graphql/user';
+import Signup from '../components/Signup';
+
+class SignupContainer extends React.Component {
+
+	state = {
+		username: '',
+		displayname: '',
+		email: '',
+		password: '',
+		redirect: false
 	}
-})
 
-const Signup = ({classes, state, handleChange, handleSubmit, handleSwitch}) => {
-	return (
-		<div>
-			<form className={classes.container} noValidate="noValidate" autoComplete="off">
-				<TextField
-					required={true}
-					id="username"
-					label="Username"
-					className={classes.textField}
-					value={state.name}
-					onChange={handleChange('username')}
-					margin="normal"/>
-				<TextField
-					required={true}
-					id="displayname"
-					label="Displayname"
-					className={classes.textField}
-					value={state.name}
-					onChange={handleChange('displayname')}
-					margin="normal"/>
-				<TextField
-					required={true}
-					id="email"
-					label="Email"
-					className={classes.textField}
-					value={state.name}
-					onChange={handleChange('email')}
-					margin="normal"/>
-				<TextField
-					required={true}
-					id="password"
-					label="Password"
-					className={classes.textField}
-					type="password"
-					autoComplete="current-password"
-					value={state.password}
-					onChange={handleChange('password')}
-					margin="normal"/> {/* <div style={{
-						color: 'red'
-					}}>
-					{state.errorMessage}
-				</div> */
-				}
-			</form>
-			<Button onClick={handleSubmit} color="primary">
-				SUBMIT
-			</Button>
-			<Button onClick={handleSwitch} color="primary">
-				SIGNIN
-			</Button>
-		</div>
-	)
+	handleSubmit = () => {
+
+		const {username, displayname, email, password} = this.state;
+		this.props.registerUser(username, displayname, email, password).then(() => {
+			this.setState(
+				{username: '', displayname: '', email: '', password: '', redirect: true}
+			)
+		}).catch((error) => {
+			//console.log('there was an error during login', error);
+		})
+
+	}
+
+	handleChange = name => event => {
+		this.setState({[name]: event.target.value});
+	};
+
+	onKeyPress = (event) => {
+		if (event.charCode === 13) {
+			event.preventDefault()
+			this.handleSubmit()
+		}
+	}
+
+	handleSwitch = () => {
+		console.log("TBD: switch to signin");
+	}
+
+	render() {
+		if (this.state.redirect) {
+			return <Redirect replace="replace" to="/"/>;
+		}
+		return <Signup
+			state={this.state}
+			handleChange={this.handleChange}
+			handleSubmit={this.handleSubmit}
+			handleSwitch={this.handleSwitch}/>
+	}
 }
 
-export default withStyles(styles)(Signup)
+SignupContainer.propTypes = {
+	registerUser: PropTypes.func.isRequired
+}
 
-// import createHistory from 'history/createBrowserHistory' const history =
-// createHistory()
+export default WithRegisterUserMutation(SignupContainer)

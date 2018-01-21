@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {graphql} from 'react-apollo';
 import TextField from 'material-ui/TextField';
 
 //
-import {UPDATE_TITLE_MUTATION} from '../graphql/draft';
+import {WithUpdateTitleMuation} from '../../graphql/draft';
 
 class StoryTitle extends React.Component {
 	state = {
@@ -42,7 +41,6 @@ class StoryTitle extends React.Component {
 				onChange={this.handleChange('title')}/>
 		)
 	}
-
 }
 
 StoryTitle.propTypes = {
@@ -51,17 +49,4 @@ StoryTitle.propTypes = {
 	title: PropTypes.string.isRequired
 }
 
-export const WithTitleMuation = graphql(UPDATE_TITLE_MUTATION, {
-	props: ({mutate}) => ({
-		updateTitle: (draftID, newTitle) => mutate({
-			variables: {
-				input: {
-					draftID: draftID,
-					newTitle: newTitle
-				}
-			}
-		})
-	})
-})
-
-export default WithTitleMuation(StoryTitle)
+export default WithUpdateTitleMuation(StoryTitle)

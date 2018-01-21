@@ -98,6 +98,19 @@ mutation updateTitle($input: updateTitleInput!) {
   }
 `;
 
+export const WithUpdateTitleMuation = graphql(UPDATE_TITLE_MUTATION, {
+	props: ({mutate}) => ({
+		updateTitle: (draftID, newTitle) => mutate({
+			variables: {
+				input: {
+					draftID: draftID,
+					newTitle: newTitle
+				}
+			}
+		})
+	})
+})
+
 export const CREATE_DRAFT_MUTATION = gql `
   mutation createDraft($ID: ID){
     createDraft(userID: $ID) {

@@ -6,12 +6,11 @@ import Slide from 'material-ui/transitions/Slide';
 import Dialog from 'material-ui/Dialog';
 
 //
-import AuthDialogContainer from './AuthDialogContainer';
-import SignupDialogContainer from './SignupDialogContainer';
+import {closeLoginDialog} from '../../redux/actions';
 
 //
-
-import {closeLoginDialog} from '../redux/actions';
+import AuthDialogContainer from './AuthDialogContainer';
+import SignupDialogContainer from './SignupDialogContainer';
 
 const AuthSignupDialog = ({loginDialogState, closeDialogDispatch}) => {
 

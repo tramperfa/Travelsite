@@ -11,17 +11,17 @@ import './App.css';
 import {THEME} from './lib/config';
 
 // Routes and components
+import StoryEditor from './components/StoryEditor';
+import StoryReader from './components/StoryReader';
+import Header from './components/Header';
+import Homepage from './components/Homepage';
+import AuthSignupDialog from './components/AuthSignupDialog';
+import Signup from './components/Signup';
 
-import AuthSignupDialogContainer from './containers/AuthSignupDialogContainer';
-import HeaderContainer from './containers/HeaderContainer';
-import StoryReaderContainer from './containers/StoryReaderContainer';
-import Homepage from './components/Homepage/Homepage';
-
-import StoryEditorContainer from './containers/StoryEditorContainer';
 import UserHome from './routes/UserHome';
 import UserDraft from './routes/UserDraft';
 
-import SignupContainer from './containers//SignupContainer';
+//TBD
 import NotFound from './components/NotFound';
 
 //GraphQL
@@ -41,15 +41,15 @@ const App = () => {
 				<BrowserRouter>
 					<MuiThemeProvider theme={createMuiTheme(THEME)}>
 						<div>
-							<HeaderContainer/>
-							<AuthSignupDialogContainer/>
+							<Header/>
+							<AuthSignupDialog/>
 							<Switch>
 								<Route exact={true} path="/" component={Homepage}/>
-								<Route path='/story/:_id' component={StoryReaderContainer}/>
+								<Route path='/story/:_id' component={StoryReader}/>
 								<Route path="/user/:_id" component={UserHome}/>
 								<Route path="/mydraft" component={UserDraft}/>
-								<Route path="/edit/:_id" component={StoryEditorContainer}/>
-								<Route path="/signup" component={SignupContainer} key="signup"/>
+								<Route path="/edit/:_id" component={StoryEditor}/>
+								<Route path="/signup" component={Signup} key="signup"/>
 								<Route path="/dest" component={null} key="dest"/>
 								<Route path="/hotel" component={null} key="hotel"/>
 								<Route component={NotFound}/>

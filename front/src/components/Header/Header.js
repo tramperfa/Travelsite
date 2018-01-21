@@ -6,7 +6,7 @@ import Toolbar from 'material-ui/Toolbar';
 //
 import NavSection from './NavSection';
 import LoginSection from './LoginSection';
-import UserSectionContainer from '../../containers/UserSectionContainer';
+import UserSectionContainer from './UserSectionContainer';
 
 const styles = theme => ({
 	root: {
