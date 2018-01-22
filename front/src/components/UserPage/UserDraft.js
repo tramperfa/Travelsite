@@ -5,11 +5,11 @@ import {Redirect} from 'react-router-dom';
 import {compose} from 'recompose';
 
 //
-import {WithCreateDraftMutation, WithDraftListQuery} from '../graphql/draft';
-import ComposeQuery from '../lib/hoc';
+import {WithCreateDraftMutation, WithDraftListQuery} from '../../graphql/draft';
+import ComposeQuery from '../../lib/hoc';
 
 //
-import DraftCard from '../components/DraftCard';
+import DraftCard from './DraftCard';
 
 export class UserDraft extends React.Component {
 	state = {

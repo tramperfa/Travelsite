@@ -17,9 +17,8 @@ import Header from './components/Header';
 import Homepage from './components/Homepage';
 import AuthSignupDialog from './components/AuthSignupDialog';
 import Signup from './components/Signup';
-
-import UserHome from './routes/UserHome';
-import UserDraft from './routes/UserDraft';
+import UserPage from './components/UserPage';
+import UserDraft from './components/UserPage/UserDraft';
 
 //TBD
 import NotFound from './components/NotFound';
@@ -46,7 +45,7 @@ const App = () => {
 							<Switch>
 								<Route exact={true} path="/" component={Homepage}/>
 								<Route path='/story/:_id' component={StoryReader}/>
-								<Route path="/user/:_id" component={UserHome}/>
+								<Route path="/user/:_id" component={UserPage}/>
 								<Route path="/mydraft" component={UserDraft}/>
 								<Route path="/edit/:_id" component={StoryEditor}/>
 								<Route path="/signup" component={Signup} key="signup"/>

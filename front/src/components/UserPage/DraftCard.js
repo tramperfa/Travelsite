@@ -10,10 +10,10 @@ import Edit from "material-ui-icons/Edit";
 import Delete from "material-ui-icons/Delete";
 
 //
-import {WithDeleteDraftMutation} from '../graphql/draft';
+import {WithDeleteDraftMutation} from '../../graphql/draft';
 
 //
-import imageTest from '../images/b.jpg';
+import imageTest from '../../images/b.jpg';
 
 export const styles = theme => ({
 	card: {

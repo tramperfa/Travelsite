@@ -1,16 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {graphql} from 'react-apollo';
+import {compose} from 'recompose';
+//
 import {withStyles} from 'material-ui/styles';
 import Card, {CardContent, CardMedia} from 'material-ui/Card';
 import IconButton from 'material-ui/IconButton';
 import Typography from 'material-ui/Typography';
 import Undo from "material-ui-icons/Undo";
 
-import {RECOVER_STORY_MUTATION} from '../graphql/story';
-import {MY_DELETE_STORY_QUERY} from '../graphql/story';
+import {WithRecoverStoryMutation} from '../../graphql/story';
 
-import imageTest from '../images/g.jpeg';
+import imageTest from '../../images/g.jpeg';
 
 const styles = theme => ({
 	card: {
@@ -35,11 +35,10 @@ const styles = theme => ({
 	}
 });
 
-function StoryCard(props) {
-	const {classes, story} = props;
+const UserDeleteStoryCard = ({classes, story, recoverStory}) => {
 
 	const handleRecover = () => {
-		props.recoverStory(story._id)
+		recoverStory(story._id)
 		console.log("TBD Recover");
 	}
 
@@ -67,30 +66,15 @@ function StoryCard(props) {
 				</div>
 			</Card>
 		</div>
-	);
+	)
 }
 
-StoryCard.propTypes = {
+UserDeleteStoryCard.propTypes = {
 	classes: PropTypes.object.isRequired,
-	//theme: PropTypes.object.isRequired,
 	recoverStory: PropTypes.func.isRequired,
 	story: PropTypes.object.isRequired
-};
+}
 
-//NO REFETCH NEEDED
-export const WithRecover = graphql(RECOVER_STORY_MUTATION, {
-	props: ({mutate}) => ({
-		recoverStory: (storyID) => mutate({
-			variables: {
-				storyID: storyID
-			},
-			refetchQueries: [
-				{
-					query: MY_DELETE_STORY_QUERY
-				}
-			]
-		})
-	})
-})
-
-export default WithRecover(withStyles(styles, {withTheme: true})(StoryCard))
+export default compose(WithRecoverStoryMutation, withStyles(styles))(
+	UserDeleteStoryCard
+)

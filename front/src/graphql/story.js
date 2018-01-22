@@ -45,6 +45,13 @@ export const MY_STORY_QUERY = gql `
   ${STORY_CARD_FRG}
 `;
 
+export const WithMyStoryQuery = graphql(MY_STORY_QUERY, {
+	options: {
+		fetchPolicy: 'network-only'
+	},
+	name: 'myStoryData'
+})
+
 export const MY_DELETE_STORY_QUERY = gql `
   query myDeleteStoryQuery {
     myDeletedStories {
@@ -53,6 +60,13 @@ export const MY_DELETE_STORY_QUERY = gql `
   }
 ${STORY_CARD_FRG}
 `;
+
+export const WithMyDeleteStoryQuery = graphql(MY_DELETE_STORY_QUERY, {
+	options: {
+		fetchPolicy: 'network-only'
+	},
+	name: 'myDeleteStoryData'
+})
 
 /////// MUTATION
 
@@ -123,5 +137,21 @@ export const RECOVER_STORY_MUTATION = gql `
     }
   }
 `;
+
+//NO REFETCH NEEDED
+export const WithRecoverStoryMutation = graphql(RECOVER_STORY_MUTATION, {
+	props: ({mutate}) => ({
+		recoverStory: (storyID) => mutate({
+			variables: {
+				storyID: storyID
+			},
+			refetchQueries: [
+				{
+					query: MY_DELETE_STORY_QUERY
+				}
+			]
+		})
+	})
+})
 
 export default RECOVER_STORY_MUTATION

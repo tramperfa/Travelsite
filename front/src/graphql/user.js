@@ -29,6 +29,15 @@ export const USER_DETAIL_QUERY = gql `
    }
  `;
 
+export const withUserDetailQuery = graphql(USER_DETAIL_QUERY, {
+	options: (props) => ({
+		variables: {
+			_id: props.match.params._id
+		}
+	}),
+	name: 'userData'
+})
+
 ////// MUTATION
 
 export const LOGIN_MUTATION = gql `
