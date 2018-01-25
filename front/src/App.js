@@ -10,17 +10,18 @@ import {Provider} from 'react-redux';
 import './App.css';
 import {THEME} from './lib/config';
 
-// Routes and components import AuthSignupDialogContainer from
-// './containers/AuthSignupDialogContainer';
-import AuthSignupDialog from './components/AuthSignup/AuthSignupDialog';
-import NavBar from './components/Navigation/NavBar';
-import Homepage from './routes/Homepage';
-import NotFound from './routes/NotFound';
-import EditPage from './routes/EditPage';
-import StoryReader from './routes/StoryReader';
-import UserHome from './routes/UserHome';
-import UserDraft from './routes/UserDraft';
-import Signup from './routes/Signup';
+// Routes and components
+import StoryEditor from './components/StoryEditor';
+import StoryReader from './components/StoryReader';
+import Header from './components/Header';
+import Homepage from './components/Homepage';
+import AuthSignupDialog from './components/AuthSignupDialog';
+import Signup from './components/Signup';
+import UserPage from './components/UserPage';
+import UserDraft from './components/UserPage/UserDraft';
+
+//TBD
+import NotFound from './components/NotFound';
 
 //GraphQL
 import client from './graphql/graphql';
@@ -39,14 +40,14 @@ const App = () => {
 				<BrowserRouter>
 					<MuiThemeProvider theme={createMuiTheme(THEME)}>
 						<div>
-							<NavBar/>
+							<Header/>
 							<AuthSignupDialog/>
 							<Switch>
 								<Route exact={true} path="/" component={Homepage}/>
 								<Route path='/story/:_id' component={StoryReader}/>
-								<Route path="/user/:_id" component={UserHome}/>
+								<Route path="/user/:_id" component={UserPage}/>
 								<Route path="/mydraft" component={UserDraft}/>
-								<Route path="/edit/:_id" component={EditPage}/>
+								<Route path="/edit/:_id" component={StoryEditor}/>
 								<Route path="/signup" component={Signup} key="signup"/>
 								<Route path="/dest" component={null} key="dest"/>
 								<Route path="/hotel" component={null} key="hotel"/>

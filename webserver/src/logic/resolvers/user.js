@@ -32,6 +32,7 @@ module.exports = {
 				args.input.emailorusername,
 				args.input.password
 			)
+
 			await willCreateSession(context.req, user)
 			var result = {
 				me: user
