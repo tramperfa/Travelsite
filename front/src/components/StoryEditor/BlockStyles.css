@@ -27,3 +27,55 @@
   flex-direction: row;
   background-color: #e4f0f5
 }
+
+.emojiSelect {
+  position: absolute;
+  cursor: pointer;
+  z-index: 10;
+  background-color: #ffffff
+}
+
+.emojiGroupTitle {
+  margin-top: 8px;
+  margin-bottom: 8px;
+  color: #cccccc
+}
+
+.emojiGroup {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.emojiNavBar {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  margin-right: 12px;
+  display: flex;
+  flex-direction: row;
+}
+
+.navEntryActive .navEntry .emoji {
+  width: 32px;
+  height: 32px
+}
+
+.navEntryActive {
+  opacity: 1.0
+}
+
+.navEntry {
+  opacity: 0.75
+}
+.navEntry:hover {
+  opacity: 1.0;
+  background-color: #e1e1ea
+}
+
+.emoji:hover {
+  background-color: #e1e1ea
+}
+
+.emojiImg {
+  width: 28px;
+  height: 28px
+}

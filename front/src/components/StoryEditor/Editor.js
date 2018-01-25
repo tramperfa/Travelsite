@@ -29,6 +29,7 @@ import client from '../../graphql/graphql';
 import {DRAFT_IMAGE_ARRAY_QUERY} from '../../graphql/draft';
 import {UPDATE_CONTENT_MUTATION} from '../../graphql/draft';
 
+import EmojiInsert from './EmojiInsert'
 import ImageInsert from './ImageInsert';
 import VideoInsert from './VideoInsert'
 import TitleInsert from './TitleInsert'
@@ -428,7 +429,7 @@ class MyEditor extends Component {
 
 				</StoryEditor>
 				<ToolsWrapper>
-					{/* <EmojiSelect/> */}
+					<EmojiInsert/>
 					<ImageInsert uploadFile={this.uploadFile}/>
 					<VideoInsert addVideoBlock={this.addVideoBlock}/>
 					<TitleInsert

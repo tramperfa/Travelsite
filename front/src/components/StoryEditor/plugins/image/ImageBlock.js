@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import LazyLoad from 'react-lazyload'
+import Book from 'material-ui-icons/Book'
 import Clear from 'material-ui-icons/Clear'
 import CommonBlock from '../../CommonBlock'
 import BlockContent from '../../BlockContent'
@@ -10,6 +11,10 @@ export default class ImageBlock extends Component {
 		super(props)
 		this.actions = [
 			{
+				"key": "setAsCoverPhoto",
+				"icon": Book,
+				"action": this.props.container.setAsCoverPhoto
+			}, {
 				"key": "delete",
 				"icon": Clear,
 				"action": this.props.container.remove
