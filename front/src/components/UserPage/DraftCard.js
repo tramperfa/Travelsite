@@ -1,11 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
+import moment from 'moment';
+import {compose} from 'recompose';
+
+//
 import {withStyles} from 'material-ui/styles';
 import Card, {CardContent, CardMedia} from 'material-ui/Card';
 import IconButton from 'material-ui/IconButton';
 import Typography from 'material-ui/Typography';
-import moment from 'moment';
 import Edit from "material-ui-icons/Edit";
 import Delete from "material-ui-icons/Delete";
 
@@ -38,7 +41,7 @@ export const styles = theme => ({
 	}
 });
 
-export var DraftCard = function (props) {
+export const DraftCard = function (props) {
 	//console.log(props);
 
 	const handleDelete = () => {
@@ -80,14 +83,11 @@ export var DraftCard = function (props) {
 						<IconButton aria-label="Edit">
 							<Edit/>
 						</IconButton>
-
 						<IconButton aria-label="Delete" onClick={handleDelete}>
 							<Delete/>
 						</IconButton>
-
 					</div>
 				</div>
-
 			</Card>
 		</div>
 	);
@@ -99,4 +99,4 @@ DraftCard.propTypes = {
 	draft: PropTypes.object.isRequired
 };
 
-export default WithDeleteDraftMutation(withStyles(styles)(DraftCard))
+export default compose(WithDeleteDraftMutation, withStyles(styles))(DraftCard)

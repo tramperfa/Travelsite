@@ -26,7 +26,6 @@ type Mutation {
   updateHeadline(input: updateHeadlineInput!): Draft
   publishDraft(draftID: ID!): Draft
   deleteDraft(draftID: ID!): Draft
-  setImageAsCover(imageID: ID!): Image
 }
 
 input updateTitleInput {
@@ -47,4 +46,8 @@ input updateCoverInput {
 input updateHeadlineInput {
   draftID: ID!
   newHeadline: ID!
+}
+
+input setImageAsCoverInput {
+
 }

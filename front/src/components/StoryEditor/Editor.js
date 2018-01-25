@@ -15,8 +15,8 @@ import {
 import debounce from 'lodash/debounce';
 import styled from 'styled-components'
 import PropTypes from 'prop-types';
-import {graphql} from 'react-apollo'
-import equal from 'fast-deep-equal'
+import equal from 'fast-deep-equal';
+import {compose} from 'recompose';
 
 import 'draft-js/dist/Draft.css'
 import './BlockStyles.css'
@@ -27,7 +27,7 @@ import willExtractSize from './util/ExtractSize'
 import insertAtomicBlock from './util/insertAtomicBlock'
 import client from '../../graphql/graphql';
 import {DRAFT_IMAGE_ARRAY_QUERY} from '../../graphql/draft';
-import {UPDATE_CONTENT_MUTATION} from '../../graphql/draft';
+import {WithUpdateContentMutation, WithUpdateCoverMuation} from '../../graphql/draft';
 
 import ImageInsert from './ImageInsert';
 import VideoInsert from './VideoInsert'
@@ -463,25 +463,15 @@ const getSubTitleList = (contentState) => {
 
 MyEditor.propTypes = {
 	updateContent: PropTypes.func.isRequired,
+	updateCover: PropTypes.func.isRequired,
 	match: PropTypes.object.isRequired,
 	startingContent: PropTypes.object,
 	startingImages: PropTypes.array.isRequired
 }
 
-export const WithContentMuation = graphql(UPDATE_CONTENT_MUTATION, {
-	props: ({mutate}) => ({
-		updateContent: (draftID, newContent) => mutate({
-			variables: {
-				input: {
-					draftID: draftID,
-					newContent: newContent
-				}
-			}
-		})
-	})
-})
-
-export default WithContentMuation(MyEditor)
+export default compose(WithUpdateContentMutation, WithUpdateCoverMuation)(
+	MyEditor
+)
 
 const StoryEditorWrapper = styled.div `
   display: flex;

@@ -88,6 +88,19 @@ mutation updateContent($input: updateContentInput!) {
   }
 `;
 
+export const WithUpdateContentMutation = graphql(UPDATE_CONTENT_MUTATION, {
+	props: ({mutate}) => ({
+		updateContent: (draftID, newContent) => mutate({
+			variables: {
+				input: {
+					draftID: draftID,
+					newContent: newContent
+				}
+			}
+		})
+	})
+})
+
 export const UPDATE_TITLE_MUTATION = gql `
 mutation updateTitle($input: updateTitleInput!) {
   updateTitle(input: $input) {
@@ -105,6 +118,28 @@ export const WithUpdateTitleMuation = graphql(UPDATE_TITLE_MUTATION, {
 				input: {
 					draftID: draftID,
 					newTitle: newTitle
+				}
+			}
+		})
+	})
+})
+
+export const UPDATE_COVER_MUTATION = gql `
+mutation updateCover($input: updateCoverInput!) {
+  updateCover(input: $input) {
+      _id
+      coverImage
+    }
+  }
+`;
+
+export const WithUpdateCoverMuation = graphql(UPDATE_COVER_MUTATION, {
+	props: ({mutate}) => ({
+		updateCover: (draftID, newCover) => mutate({
+			variables: {
+				input: {
+					draftID: draftID,
+					newCover: newCover
 				}
 			}
 		})
