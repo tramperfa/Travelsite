@@ -8,14 +8,15 @@ import Card, {CardContent, CardMedia} from 'material-ui/Card';
 import Typography from 'material-ui/Typography';
 
 //
-import imageTest from '../../images/d.jpg';
+import CONSTS from '../../lib/consts';
+import defaultBrowserUserHomeCoverImage from '../../images/browserUserHomeCoverImage.png';
 
 const styles = theme => ({
 	card: {
 		display: 'flex',
 		marginTop: 24,
-		width: 640,
-		height: 300
+		width: 680,
+		height: 400
 	},
 	details: {
 		display: 'flex',
@@ -25,8 +26,8 @@ const styles = theme => ({
 		flex: '1 0 auto'
 	},
 	cover: {
-		width: 440,
-		height: 300
+		width: 680,
+		height: 400
 	},
 	textField: {
 		textDecoration: 'none'
@@ -41,8 +42,9 @@ const UserStoryCard = ({classes, story}) => {
 				<Link className={classes.textField} to={`/story/${story._id}`} target="_blank">
 					<CardMedia
 						className={classes.cover}
-						image={imageTest}
-						title="Live from space album cover"/>
+						image={story.coverImage
+							? CONSTS.BUCKET_NAME + story.coverImage.browserUserHomeCoverImage.filename
+							: defaultBrowserUserHomeCoverImage}/>
 				</Link>
 				<div className={classes.details} href={`/story/${story._id}`} target="_blank">
 					<Link className={classes.textField} to={`/story/${story._id}`} target="_blank">
@@ -64,7 +66,6 @@ const UserStoryCard = ({classes, story}) => {
 		</div>
 	)
 }
-
 UserStoryCard.propTypes = {
 	classes: PropTypes.object.isRequired,
 	story: PropTypes.object.isRequired

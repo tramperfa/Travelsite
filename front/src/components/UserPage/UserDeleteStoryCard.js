@@ -10,7 +10,8 @@ import Undo from "material-ui-icons/Undo";
 
 import {WithRecoverStoryMutation} from '../../graphql/story';
 
-import imageTest from '../../images/g.jpeg';
+import CONSTS from '../../lib/consts';
+import defaultBrowserUserHomeCoverImage from '../../images/browserUserHomeCoverImage.png';
 
 const styles = theme => ({
 	card: {
@@ -45,7 +46,11 @@ const UserDeleteStoryCard = ({classes, story, recoverStory}) => {
 	return (
 		<div>
 			<Card className={classes.card}>
-				<CardMedia className={classes.cover} image={imageTest}/>
+				<CardMedia
+					className={classes.cover}
+					image={story.coverImage
+						? CONSTS.BUCKET_NAME + story.coverImage.browserUserHomeCoverImage.filename
+						: defaultBrowserUserHomeCoverImage}/>
 				<div className={classes.details}>
 					<CardContent className={classes.content}>
 						<Typography type="headline">

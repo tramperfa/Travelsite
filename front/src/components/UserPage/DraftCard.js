@@ -14,9 +14,10 @@ import Delete from "material-ui-icons/Delete";
 
 //
 import {WithDeleteDraftMutation} from '../../graphql/draft';
+import CONSTS from '../../lib/consts';
 
 //
-import imageTest from '../../images/b.jpg';
+import defaultbrowserCoverImage from '../../images/browserCoverImage.png';
 
 export const styles = theme => ({
 	card: {
@@ -62,8 +63,9 @@ export const DraftCard = function (props) {
 				<Link className={classes.textField} to={`/edit/${draft._id}`}>
 					<CardMedia
 						className={classes.cover}
-						image={imageTest}
-						title="Live from space album cover"/>
+						image={draft.coverImage
+							? CONSTS.BUCKET_NAME + draft.coverImage.browserCoverImage.filename
+							: defaultbrowserCoverImage}/>
 				</Link>
 				<div className={classes.details}>
 					<Link className={classes.textField} to={`/edit/${draft._id}`}>
