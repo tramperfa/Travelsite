@@ -8,7 +8,7 @@ import Edit from "material-ui-icons/Edit";
 import Dialog, {DialogActions, DialogContent} from 'material-ui/Dialog';
 
 //
-import BUCKET_NAME from '../../lib/consts';
+import CONSTS from '../../lib/consts';
 import ImageInsert from './ImageInsert';
 import ImageCrop from './ImageCrop';
 import imageHeadline from '../../images/headlineImage.jpg';
@@ -36,7 +36,7 @@ const StoryHeadline = ({
 							<ImageCrop
 								updateCropBox={updateCropBox}
 								minCropWidthOnCanvas={120}
-								src={BUCKET_NAME + tempCropImage.originalImage.filename}/>
+								src={CONSTS.BUCKET_NAME + tempCropImage.originalImage.filename}/>
 						</DialogContent>
 						<div>
 							Current Croping Area: {cropBox.width}
@@ -67,7 +67,7 @@ const StoryHeadline = ({
 }
 
 const HeadlineWithUserImage = (props) => {
-	var imageSource = 'https://s3.amazonaws.com/thetripbeyond/' + props.headlineImage.browserHeadlineImage.filename
+	var imageSource = CONSTS.BUCKET_NAME + props.headlineImage.browserHeadlineImage.filename
 	var headlineImage = props.headlineImage
 	return (
 		<div>
