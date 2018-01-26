@@ -26,6 +26,8 @@ export class UserDraft extends React.Component {
 			return <Redirect push={true} to={`/edit/${this.state.newDraftID}`}/>;
 		}
 
+		//console.log(this.props.draftList.myDrafts);
+
 		return (
 			<div>
 				<div>
@@ -59,6 +61,6 @@ UserDraft.propTypes = {
 
 const UserDraftWithComposeQuery = ComposeQuery(UserDraft, 'draftList')
 
-export default compose(WithCreateDraftMutation, WithDraftListQuery)(
+export default compose(WithDraftListQuery, WithCreateDraftMutation)(
 	UserDraftWithComposeQuery
 )

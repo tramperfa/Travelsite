@@ -37,6 +37,7 @@ export default class Atomic extends Component {
 	setAsCoverPhoto = () => {
 		const data = this.props.block.getData().toJS()
 		console.log(data._id);
+		this.props.blockProps.setAsCoverPhoto(data._id)
 	}
 
 	render() {

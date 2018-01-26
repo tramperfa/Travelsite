@@ -48,7 +48,7 @@ const App = () => {
 								<Route path="/user/:_id" component={UserPage}/>
 								<Route path="/mydraft" component={UserDraft}/>
 								<Route path="/edit/:_id" component={StoryEditor}/>
-								<Route path="/signup" component={Signup} key="signup"/>
+								<Route path="/signup" component={Signup}/>
 								<Route path="/dest" component={null} key="dest"/>
 								<Route path="/hotel" component={null} key="hotel"/>
 								<Route component={NotFound}/>

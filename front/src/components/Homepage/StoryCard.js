@@ -8,7 +8,10 @@ import Typography from 'material-ui/Typography';
 import Share from "material-ui-icons/Share";
 import Comment from "material-ui-icons/Comment";
 
-import imageTest from '../../images/cardtest.jpeg';
+import CONSTS from '../../lib/consts';
+
+//const defaultbrowserCoverImage = '../../images/browserCoverImage.png';
+import defaultbrowserCoverImage from '../../images/browserCoverImage.png';
 
 const styles = theme => ({
 	card: {
@@ -26,7 +29,7 @@ const styles = theme => ({
 	},
 	cover: {
 		width: 220,
-		height: 150
+		height: 140
 	},
 	textField: {
 		textDecoration: 'none'
@@ -34,14 +37,18 @@ const styles = theme => ({
 });
 
 const StoryCard = ({classes, story}) => {
+
+	//console.log(story.title); console.log(story.coverImage.browserCoverImage);
 	return (
 		<div>
 			<Card className={classes.card}>
 				<Link className={classes.textField} to={`story/${story._id}`} target="_blank">
 					<CardMedia
 						className={classes.cover}
-						image={imageTest}
-						title="Live from space album cover"/>
+						image={story.coverImage
+							? CONSTS.BUCKET_NAME + story.coverImage.browserCoverImage.filename
+							: defaultbrowserCoverImage}/>
+
 				</Link>
 				<div className={classes.details}>
 					<Link className={classes.textField} to={`story/${story._id}`} target="_blank">
@@ -76,7 +83,6 @@ const StoryCard = ({classes, story}) => {
 		</div>
 	)
 }
-
 StoryCard.propTypes = {
 	classes: PropTypes.object.isRequired,
 	story: PropTypes.object.isRequired

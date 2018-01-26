@@ -129,6 +129,14 @@ class MyEditor extends Component {
 		this.onChange(newEditorState)
 	}
 
+	setCoverPhoto = (imageID) => {
+		this.props.updateCover(this.props.match.params._id, imageID);
+		console.log(
+			"Set cover photo of draft: " + this.props.match.params._id + " as image: " +
+			imageID
+		);
+	}
+
 	getCachedDraft = () => {
 		let data = client.readQuery({
 			query: DRAFT_IMAGE_ARRAY_QUERY,
@@ -336,7 +344,8 @@ class MyEditor extends Component {
 							editorState: this.state.editorState,
 							src: BUCKET_NAME + imageData.browserStoryImage.filename,
 							width: imageData.browserStoryImage.size.width,
-							height: imageData.browserStoryImage.size.height
+							height: imageData.browserStoryImage.size.height,
+							setAsCoverPhoto: this.setCoverPhoto
 						}
 					}
 				} else if (pluginType === "video") {

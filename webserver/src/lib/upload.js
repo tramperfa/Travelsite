@@ -28,7 +28,7 @@ const imageSize = {
 	},
 	browserCoverImage: {
 		width: 220,
-		height: 140
+		height: 150
 	},
 	browserUserHomeCoverImage: {
 		width: 680,
@@ -201,12 +201,12 @@ const autoCropUpload = async (inputBuffer, extension, imageType, image) => {
 
 // / / Hold off GPS feature if (result.tags.GPSLatitude &&
 // result.tags.GPSLongitude) { image.takenLocation = {     latitude:
-// result.tags.GPSLatitude, longitude: result.tags.GPSLongitude } } ////////
+// result.tags.GPSLatitude, longitude: result.tags.GPSLongitude } } //////
 // Double check height calculation is correct
 // sharp(inputBuffer).rotate().resize(requireSize.width,
 // requireSize.height).toBuffer(function(err, data, info) {   console.log(info);
-// }) //////// const parseSize
+// }) ////// const parseSize
 // = (buffer, image) => {   var result =
 // parser.create(buffer).enableImageSize(true).parse()   return
-// result.getImageSize() } //////// Get The Right Size After Taking Orientation
+// result.getImageSize() } ////// Get The Right Size After Taking Orientation
 // Through .rotate() var origSize = parseSize(buffer, image)

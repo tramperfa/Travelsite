@@ -128,7 +128,6 @@ export const UPDATE_COVER_MUTATION = gql `
 mutation updateCover($input: updateCoverInput!) {
   updateCover(input: $input) {
       _id
-      coverImage
     }
   }
 `;

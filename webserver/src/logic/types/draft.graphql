@@ -47,7 +47,3 @@ input updateHeadlineInput {
   draftID: ID!
   newHeadline: ID!
 }
-
-input setImageAsCoverInput {
-
-}

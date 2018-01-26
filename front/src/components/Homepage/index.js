@@ -6,6 +6,7 @@ import ComposeQuery from '../../lib/hoc';
 import StoryCard from './StoryCard';
 
 const HomePage = ({data}) => {
+
 	return (
 		<div>
 			{
