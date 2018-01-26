@@ -29,7 +29,7 @@ const styles = theme => ({
 	},
 	cover: {
 		width: 220,
-		height: 140
+		height: 150
 	},
 	textField: {
 		textDecoration: 'none'
