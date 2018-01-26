@@ -207,79 +207,6 @@ class MyEditor extends Component {
 		this.setState({subTitleList: newTitleList})
 	}
 
-	anotherDeleteAtomicBlock = (blockKey) => {
-		const contentState = this.state.editorState.getCurrentContent()
-		const selectionState = this.state.editorState.getSelection()
-		const blockKeyAfter = contentState.getKeyAfter(blockKey)
-
-		const blockMap = contentState.getBlockMap().delete(blockKey)
-		const contentStateAfterRemoval = contentState.merge(
-			{blockMap, selectionAfter: selectionState}
-		)
-
-		const newState = EditorState.push(
-			this.state.editorState,
-			contentStateAfterRemoval,
-			'remove-range'
-		)
-
-		const newSelection = new SelectionState(
-			{anchorKey: blockKeyAfter, anchorOffset: 0, focusKey: blockKeyAfter, focusOffset: 0}
-		)
-
-		const newEditorState = EditorState.forceSelection(newState, newSelection)
-		this.onChange(newEditorState)
-	}
-
-	deleteAtomicBlockV3 = (blockKey) => {
-		const contentState = this.state.editorState.getCurrentContent()
-
-		//create empty block
-		const newBlock = new ContentBlock(
-			{key: genKey(), type: "unstyled", text: "", characterList: List()}
-		)
-
-		const blockMap = contentState.getBlockMap().set(newBlock.key, newBlock)
-		const newState = EditorState.push(
-			this.state.editorState,
-			ContentState.createFromBlockArray(blockMap.toArray()).set('selectionBefore', contentState.getSelectionBefore()).set('selectionAfter', contentState.getSelectionAfter())
-		)
-		/*
-		const blockMap = contentState.getBlockMap().delete(blockKey)
-		const contentStateAfterRemoval = contentState.merge(
-			{blockMap, selectionAfter: selectionState}
-		)
-
-		const newState = EditorState.push(
-			this.state.editorState,
-			contentStateAfterRemoval,
-			'remove-range'
-		)
-*/
-
-		this.onChange(newState)
-	}
-
-	deleteAtomicBlockV2 = (blockKey) => {
-		console.log("deleteAtomicBlockV2 Called");
-		const editorState = this.state.editorState
-		const selection = editorState.getSelection()
-		const content = editorState.getCurrentContent()
-		const keyAfter = content.getKeyAfter(blockKey);
-		const blockMap = content.getBlockMap().delete(blockKey);
-		const withoutAtomicBlock = content.merge({blockMap, selectionAfter: selection});
-		const newState = EditorState.push(
-			editorState,
-			withoutAtomicBlock,
-			"remove-range"
-		);
-		const newSelection = new SelectionState(
-			{anchorKey: keyAfter, anchorOffset: 0, focusKey: keyAfter, focusOffset: content.getBlockForKey(blockKey).getLength()}
-		);
-		const newEditorState = EditorState.forceSelection(newState, newSelection);
-		this.onChange(newEditorState)
-	}
-
 	deleteAtomicBlock = (blockKey) => {
 		const editorState = this.state.editorState
 		const contentState = editorState.getCurrentContent()
@@ -311,7 +238,7 @@ class MyEditor extends Component {
 	}
 
 	deleteSubTitle = (blockKey) => {
-		this.deleteAtomicBlock(blockKey)
+		// this.deleteAtomicBlock(blockKey)
 		const newList = this.state.subTitleList.delete(blockKey)
 		this.setState({subTitleList: newList})
 	}

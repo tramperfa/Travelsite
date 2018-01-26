@@ -10,9 +10,14 @@ export default class extends Component {
 				<h3 className="emojiGroupTitle">{groupTitle}</h3>
 				<div className="emojiGroup">
 					{
-						emojiList.map(
-							(emoji, index) => (<Emoji key={groupTitle + "_" + index} img={emoji}/>)
-						)
+						emojiList.map((emoji, index) => (
+							<Emoji
+								key={groupTitle + "_" + index}
+								img={emoji}
+								onClick={() => {
+									console.log(groupTitle + "_" + index + " is clicked");
+								}}/>
+						))
 					}
 				</div>
 			</div>
