@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
-import CommonBlock from '../../CommonBlock'
-import BlockContent from '../../BlockContent'
+import CommonBlock from '../../atomicblock/CommonBlock'
+import BlockContent from '../../atomicblock/BlockContent'
 import Delete from 'material-ui-icons/Delete'
 import Edit from 'material-ui-icons/Edit'
 

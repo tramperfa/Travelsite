@@ -2,9 +2,9 @@ import React, {Component} from 'react'
 import LazyLoad from 'react-lazyload'
 import Book from 'material-ui-icons/Book'
 import Clear from 'material-ui-icons/Clear'
-import CommonBlock from '../../CommonBlock'
-import BlockContent from '../../BlockContent'
-import ImagePlaceHolder from '../../ImagePlaceHolder'
+import CommonBlock from '../../atomicblock/CommonBlock'
+import BlockContent from '../../atomicblock/BlockContent'
+import ImagePlaceHolder from '../imageplaceholder/ImagePlaceHolder'
 
 export default class ImageBlock extends Component {
 	constructor(props) {

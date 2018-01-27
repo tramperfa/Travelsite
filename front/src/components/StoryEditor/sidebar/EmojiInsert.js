@@ -3,7 +3,7 @@ import React, {Component} from 'react'
 import IconButton from 'material-ui/IconButton'
 import Mood from 'material-ui-icons/Mood'
 
-import EmojiSelect from './plugins/emoji/EmojiSelect'
+import EmojiSelect from '../plugins/emoji/EmojiSelect'
 
 export default class extends Component {
 	state = {

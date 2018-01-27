@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import Clear from 'material-ui-icons/Clear'
-import CommonBlock from '../../CommonBlock'
-import BlockContent from '../../BlockContent'
+import CommonBlock from '../../atomicblock/CommonBlock'
+import BlockContent from '../../atomicblock/BlockContent'
 
 export default class VideoBlock extends Component {
 	constructor(props) {

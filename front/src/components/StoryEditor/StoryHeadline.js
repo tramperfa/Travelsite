@@ -9,7 +9,7 @@ import Dialog, {DialogActions, DialogContent} from 'material-ui/Dialog';
 
 //
 import CONSTS from '../../lib/consts';
-import ImageInsert from './ImageInsert';
+import ImageInsert from './sidebar/ImageInsert';
 import ImageCrop from './ImageCrop';
 import imageHeadline from '../../images/headlineImage.jpg';
 

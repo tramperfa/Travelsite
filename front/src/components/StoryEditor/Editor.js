@@ -29,12 +29,12 @@ import client from '../../graphql/graphql';
 import {DRAFT_IMAGE_ARRAY_QUERY} from '../../graphql/draft';
 import {WithUpdateContentMutation, WithUpdateCoverMuation} from '../../graphql/draft';
 
-import EmojiInsert from './EmojiInsert'
-import ImageInsert from './ImageInsert';
-import VideoInsert from './VideoInsert'
-import TitleInsert from './TitleInsert'
-import SubTitleList from './SubTitleList'
-import Atomic from './Atomic'
+import EmojiInsert from './sidebar/EmojiInsert'
+import ImageInsert from './sidebar/ImageInsert'
+import VideoInsert from './sidebar/VideoInsert'
+import TitleInsert from './sidebar/TitleInsert'
+import SubTitleList from './sidebar/SubTitleList'
+import Atomic from './atomicblock/Atomic'
 import defaultPlugins from './plugins/default'
 import CONSTS from '../../lib/consts'
 import searchImage from '../../lib/searchImage'

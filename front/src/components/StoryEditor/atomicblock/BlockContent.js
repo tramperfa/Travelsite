@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 
-import CONSTS from '../../lib/consts'
+import CONSTS from '../../../lib/consts'
 
 const ACTION_HEIGHT = CONSTS.ACTION_HEIGHT
 export default class BlockContent extends Component {
