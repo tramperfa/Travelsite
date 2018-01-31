@@ -11,11 +11,20 @@ export default class extends Component {
 		this.setState({activeGroup: activeGroup})
 	}
 
+	onGroupSelect = (index) => {
+		this.groups.scrollToGroup(index)
+	}
+
 	render() {
 		return (
 			<div className="emojiSelect">
-				<GroupsContainer onScroll={this.onScroll}/>
-				<Nav activeGroup={this.state.activeGroup}/>
+				<GroupsContainer
+					onScroll={this.onScroll}
+					onEmojiClick={this.props.onEmojiClick}
+					ref={(element) => {
+						this.groups = element
+					}}/>
+				<Nav activeGroup={this.state.activeGroup} onGroupSelect={this.onGroupSelect}/>
 			</div>
 		)
 	}

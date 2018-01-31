@@ -13,7 +13,9 @@ export default class extends Component {
 						<Entry
 							key={group.title + "_" + index}
 							group={group}
-							isActive={index === this.props.activeGroup}/>
+							index={index}
+							isActive={index === this.props.activeGroup}
+							onGroupSelect={this.props.onGroupSelect}/>
 					))
 				}
 			</div>

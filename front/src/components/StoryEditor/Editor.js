@@ -1,16 +1,12 @@
-import React, {Component} from 'react';
-import {List} from 'immutable'
+import React, {Component} from 'react'
 import {
 	Editor,
 	EditorState,
-	ContentState,
 	SelectionState,
 	convertFromRaw,
 	convertToRaw,
 	getDefaultKeyBinding,
-	Modifier,
-	ContentBlock,
-	genKey
+	Modifier
 } from 'draft-js';
 import debounce from 'lodash/debounce';
 import styled from 'styled-components'
@@ -34,6 +30,8 @@ import ImageInsert from './sidebar/ImageInsert'
 import VideoInsert from './sidebar/VideoInsert'
 import TitleInsert from './sidebar/TitleInsert'
 import SubTitleList from './sidebar/SubTitleList'
+
+import {defaultDecorator} from './decorators/defaultDecorator'
 import Atomic from './atomicblock/Atomic'
 import defaultPlugins from './plugins/default'
 import CONSTS from '../../lib/consts'
@@ -53,10 +51,13 @@ class MyEditor extends Component {
 		this.state = {
 			editorState: this.props.startingContent
 				? EditorState.set(
-					EditorState.createWithContent(convertFromRaw(this.props.startingContent)),
+					EditorState.createWithContent(convertFromRaw(this.props.startingContent), defaultDecorator),
 					{allowUndo: false}
 				)
-				: EditorState.set(EditorState.createEmpty(), {allowUndo: false}),
+				: EditorState.set(
+					EditorState.createEmpty(defaultDecorator),
+					{allowUndo: false}
+				),
 			images: this.props.startingImages
 				? this.props.startingImages
 				: undefined,
@@ -207,40 +208,27 @@ class MyEditor extends Component {
 		this.setState({subTitleList: newTitleList})
 	}
 
-	deleteAtomicBlock = (blockKey) => {
-		const editorState = this.state.editorState
-		const contentState = editorState.getCurrentContent()
-		const blockKeyBefore = contentState.getKeyBefore(blockKey)
-		const blockKeyAfter = contentState.getKeyAfter(blockKey)
-		const selectionState = editorState.getSelection()
-
-		// Start Updating Content State
-		const selectAtomic = selectionState.merge(
-			{anchorKey: blockKeyBefore, anchorOffset: contentState.getBlockForKey(blockKeyBefore).getLength(), focusKey: blockKey, focusOffset: contentState.getBlockForKey(blockKey).getLength()}
-		)
-		const contentStateAfterRemoval = Modifier.removeRange(
-			contentState,
-			selectAtomic,
-			'forward'
-		)
-		const selectAfter = selectAtomic.merge(
-			{anchorKey: blockKeyAfter, anchorOffset: 0, focusKey: blockKeyAfter, focusOffset: 0}
-		)
-		const contentWithSeletAfter = contentStateAfterRemoval.merge(
-			{selectionAfter: selectAfter}
-		)
-		const newState = EditorState.push(
-			this.state.editorState,
-			contentWithSeletAfter,
-			'remove-range'
-		)
-		this.onChange(newState)
-	}
-
 	deleteSubTitle = (blockKey) => {
-		// this.deleteAtomicBlock(blockKey)
 		const newList = this.state.subTitleList.delete(blockKey)
 		this.setState({subTitleList: newList})
+	}
+
+	addEmoji = (group, index) => {
+		const emojiString = '{' + group + '[' + index + ']}'
+		// console.log(emojiString);
+		const contantState = this.state.editorState.getCurrentContent()
+		const selectionState = this.state.editorState.getSelection()
+		const contantStateWithEmoji = Modifier.insertText(
+			contantState,
+			selectionState,
+			emojiString
+		)
+		const editorStateWithEmoji = EditorState.push(
+			this.state.editorState,
+			contantStateWithEmoji,
+			'insert-characters'
+		)
+		this.onChange(editorStateWithEmoji)
 	}
 
 	myBlockStyleFn = (contentBlock) => {
@@ -365,7 +353,7 @@ class MyEditor extends Component {
 
 				</StoryEditor>
 				<ToolsWrapper>
-					<EmojiInsert/>
+					<EmojiInsert onEmojiClick={this.addEmoji}/>
 					<ImageInsert uploadFile={this.uploadFile}/>
 					<VideoInsert addVideoBlock={this.addVideoBlock}/>
 					<TitleInsert

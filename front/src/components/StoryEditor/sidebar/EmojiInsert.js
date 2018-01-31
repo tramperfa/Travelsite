@@ -26,7 +26,7 @@ export default class extends Component {
 				<IconButton onClick={this.onClick}>
 					<Mood/>
 				</IconButton>
-				{this.state.active && <EmojiSelect/>}
+				{this.state.active && <EmojiSelect onEmojiClick={this.props.onEmojiClick}/>}
 			</div>
 		)
 	}
