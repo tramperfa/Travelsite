@@ -168,7 +168,7 @@ StorySchema.statics = {
 
 			//.populate('comments')
 			//
-				.populate('coverImage').populate('images')
+				.populate('coverImage').populate('images').populate('headlineImage')
 			//
 				.exec((err, res) => {
 				err

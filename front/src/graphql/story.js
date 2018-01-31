@@ -1,6 +1,7 @@
 import gql from 'graphql-tag';
 import {graphql} from 'react-apollo';
 import {STORY_CARD_FRG, STORY_IMAGE_ARRAY} from './storyFragment';
+import {HEADLINE_IMAGE_FRG} from './imageFragment';
 
 ////// QUERY
 
@@ -9,10 +10,15 @@ export const STORY_DETAILS_QUERY = gql `
     story(_id: $_id) {
       ...storyCard
       content
+      draft
+      headlineImage{
+        ...headlineImage
+      }    
       ...storyImageArray
     }
   }
   ${STORY_CARD_FRG}
+  ${HEADLINE_IMAGE_FRG}
   ${STORY_IMAGE_ARRAY}
 `;
 

@@ -1,9 +1,22 @@
 import React from 'react';
 
-const HeadlineSection = ({title}) => {
+import CONSTS from '../../lib/consts';
+import defaultImageHeadline from '../../images/headlineImage.jpg';
+
+const HeadlineSection = ({title, headlineImage}) => {
 	return (
 		//
-		<div>{"Tiltle: " + title}</div>
+		<div>
+			{"Tiltle(To be moved on top of image): " + title}
+			<span>
+				<img
+					className="headlineImage"
+					src={headlineImage
+						? CONSTS.BUCKET_NAME + headlineImage.browserHeadlineImage.filename
+						: defaultImageHeadline}
+					alt='headline'/>
+			</span>
+		</div>
 	)
 };
 

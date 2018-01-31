@@ -10,22 +10,25 @@ import ComposeQuery from '../../lib/hoc';
 import HeadlineSection from './HeadlineSection';
 import ContentSection from './ContentSection';
 import FunctionSectionContainer from './FunctionSectionContainer';
+import CommentSection from './CommentSection';
 
 class StoryReaderContainer extends React.Component {
-
 	render() {
 		const story = this.props.storyDetailData.story;
 		return (
 			<div>
-				<HeadlineSection title={story.title}/>
+				<HeadlineSection title={story.title} headlineImage={story.headlineImage}/>
 				<FunctionSectionContainer
 					match={this.props.match}
 					storyDetailData={this.props.storyDetailData}/>
-				<ContentSection story={story}/>
+				<ContentSection content={story.content}/>
+				<CommentSection/>
 			</div>
 		)
 	}
 }
+
+//
 
 StoryReaderContainer.propTypes = {
 	match: PropTypes.object.isRequired,
