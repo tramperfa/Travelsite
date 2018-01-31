@@ -30,6 +30,7 @@ exports[`Mount renders correctly 1`] = `
         "queryDeduplication": true,
         "reFetchObservableQueries": [Function],
         "resetStore": [Function],
+        "resetStoreCallbacks": Array [],
         "ssrMode": false,
         "store": DataStore {
           "cache": InMemoryCache {
@@ -48,7 +49,7 @@ exports[`Mount renders correctly 1`] = `
             "watches": Array [],
           },
         },
-        "version": "2.0.4",
+        "version": "2.2.0",
         "watchQuery": [Function],
       }
     }
@@ -94,7 +95,7 @@ exports[`Mount renders correctly 1`] = `
               <Card
                 raised={false}
               >
-                <withStyles(Paper)
+                <WithStyles(Paper)
                   elevation={2}
                 >
                   <Paper
@@ -144,9 +145,8 @@ exports[`Mount renders correctly 1`] = `
                           href="/edit/test000"
                           onClick={[Function]}
                         >
-                          <withStyles(CardMedia)
-                            image="b.jpg"
-                            title="Live from space album cover"
+                          <WithStyles(CardMedia)
+                            image="browserCoverImage.png"
                           >
                             <CardMedia
                               classes={
@@ -156,20 +156,18 @@ exports[`Mount renders correctly 1`] = `
                                 }
                               }
                               component="div"
-                              image="b.jpg"
-                              title="Live from space album cover"
+                              image="browserCoverImage.png"
                             >
                               <div
                                 className="MuiCardMedia-root-28"
                                 style={
                                   Object {
-                                    "backgroundImage": "url(b.jpg)",
+                                    "backgroundImage": "url(browserCoverImage.png)",
                                   }
                                 }
-                                title="Live from space album cover"
                               />
                             </CardMedia>
-                          </withStyles(CardMedia)>
+                          </WithStyles(CardMedia)>
                         </a>
                       </Link>
                       <div>
@@ -181,7 +179,7 @@ exports[`Mount renders correctly 1`] = `
                             href="/edit/test000"
                             onClick={[Function]}
                           >
-                            <withStyles(CardContent)>
+                            <WithStyles(CardContent)>
                               <CardContent
                                 classes={
                                   Object {
@@ -192,7 +190,7 @@ exports[`Mount renders correctly 1`] = `
                                 <div
                                   className="MuiCardContent-root-30"
                                 >
-                                  <withStyles(Typography)
+                                  <WithStyles(Typography)
                                     type="headline"
                                   >
                                     <Typography
@@ -250,8 +248,8 @@ exports[`Mount renders correctly 1`] = `
                                         trip to test0
                                       </h1>
                                     </Typography>
-                                  </withStyles(Typography)>
-                                  <withStyles(Typography)
+                                  </WithStyles(Typography)>
+                                  <WithStyles(Typography)
                                     color="secondary"
                                     type="subheading"
                                   >
@@ -313,15 +311,15 @@ exports[`Mount renders correctly 1`] = `
                                         </div>
                                       </h3>
                                     </Typography>
-                                  </withStyles(Typography)>
+                                  </WithStyles(Typography)>
                                 </div>
                               </CardContent>
-                            </withStyles(CardContent)>
+                            </WithStyles(CardContent)>
                           </a>
                         </Link>
                         <div>
                           Continue Writing
-                          <withStyles(IconButton)
+                          <WithStyles(IconButton)
                             aria-label="Edit"
                           >
                             <IconButton
@@ -343,7 +341,7 @@ exports[`Mount renders correctly 1`] = `
                               disableRipple={false}
                               disabled={false}
                             >
-                              <withStyles(ButtonBase)
+                              <WithStyles(ButtonBase)
                                 aria-label="Edit"
                                 centerRipple={true}
                                 className="MuiIconButton-root-55"
@@ -396,7 +394,7 @@ exports[`Mount renders correctly 1`] = `
                                         <Edit
                                           className="MuiIconButton-icon-62"
                                         >
-                                          <withStyles(SvgIcon)
+                                          <WithStyles(SvgIcon)
                                             className="MuiIconButton-icon-62"
                                           >
                                             <SvgIcon
@@ -426,11 +424,11 @@ exports[`Mount renders correctly 1`] = `
                                                 />
                                               </svg>
                                             </SvgIcon>
-                                          </withStyles(SvgIcon)>
+                                          </WithStyles(SvgIcon)>
                                         </Edit>
                                       </pure(Edit)>
                                     </span>
-                                    <withStyles(TouchRipple)
+                                    <WithStyles(TouchRipple)
                                       center={true}
                                       innerRef={[Function]}
                                     >
@@ -460,13 +458,13 @@ exports[`Mount renders correctly 1`] = `
                                           />
                                         </TransitionGroup>
                                       </TouchRipple>
-                                    </withStyles(TouchRipple)>
+                                    </WithStyles(TouchRipple)>
                                   </button>
                                 </ButtonBase>
-                              </withStyles(ButtonBase)>
+                              </WithStyles(ButtonBase)>
                             </IconButton>
-                          </withStyles(IconButton)>
-                          <withStyles(IconButton)
+                          </WithStyles(IconButton)>
+                          <WithStyles(IconButton)
                             aria-label="Delete"
                             onClick={[Function]}
                           >
@@ -490,7 +488,7 @@ exports[`Mount renders correctly 1`] = `
                               disabled={false}
                               onClick={[Function]}
                             >
-                              <withStyles(ButtonBase)
+                              <WithStyles(ButtonBase)
                                 aria-label="Delete"
                                 centerRipple={true}
                                 className="MuiIconButton-root-55"
@@ -546,7 +544,7 @@ exports[`Mount renders correctly 1`] = `
                                         <Delete
                                           className="MuiIconButton-icon-62"
                                         >
-                                          <withStyles(SvgIcon)
+                                          <WithStyles(SvgIcon)
                                             className="MuiIconButton-icon-62"
                                           >
                                             <SvgIcon
@@ -576,11 +574,11 @@ exports[`Mount renders correctly 1`] = `
                                                 />
                                               </svg>
                                             </SvgIcon>
-                                          </withStyles(SvgIcon)>
+                                          </WithStyles(SvgIcon)>
                                         </Delete>
                                       </pure(Delete)>
                                     </span>
-                                    <withStyles(TouchRipple)
+                                    <WithStyles(TouchRipple)
                                       center={true}
                                       innerRef={[Function]}
                                     >
@@ -610,17 +608,17 @@ exports[`Mount renders correctly 1`] = `
                                           />
                                         </TransitionGroup>
                                       </TouchRipple>
-                                    </withStyles(TouchRipple)>
+                                    </WithStyles(TouchRipple)>
                                   </button>
                                 </ButtonBase>
-                              </withStyles(ButtonBase)>
+                              </WithStyles(ButtonBase)>
                             </IconButton>
-                          </withStyles(IconButton)>
+                          </WithStyles(IconButton)>
                         </div>
                       </div>
                     </div>
                   </Paper>
-                </withStyles(Paper)>
+                </WithStyles(Paper)>
               </Card>
             </div>
           </Component>
@@ -646,10 +644,9 @@ exports[`Tree renders correctly 1`] = `
         src={undefined}
         style={
           Object {
-            "backgroundImage": "url(b.jpg)",
+            "backgroundImage": "url(browserCoverImage.png)",
           }
         }
-        title="Live from space album cover"
       />
     </a>
     <div
@@ -704,6 +701,7 @@ exports[`Tree renders correctly 1`] = `
             <svg
               aria-hidden="true"
               className="MuiSvgIcon-root-66 MuiIconButton-icon-62"
+              color={undefined}
               focusable="false"
               viewBox="0 0 24 24"
             >
@@ -741,6 +739,7 @@ exports[`Tree renders correctly 1`] = `
             <svg
               aria-hidden="true"
               className="MuiSvgIcon-root-66 MuiIconButton-icon-62"
+              color={undefined}
               focusable="false"
               viewBox="0 0 24 24"
             >

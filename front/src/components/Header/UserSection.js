@@ -30,14 +30,16 @@ const UserSection = ({
 		<div onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
 			<Manager>
 				<Target>
-					<Button
-						aria-owns={menuOpen
-							? 'menu-list'
-							: null}
-						aria-haspopup="true"
-						color="contrast">
-						{userLocalStoreState.me.fullName}
-					</Button>
+					<Link className={classes.textField} to={`/user/${userLocalStoreState.me._id}`}>
+						<Button
+							aria-owns={menuOpen
+								? 'menu-list'
+								: null}
+							aria-haspopup="true"
+							color="contrast">
+							{userLocalStoreState.me.fullName}
+						</Button>
+					</Link>
 				</Target>
 				<Popper placement="bottom-start" eventsEnabled={menuOpen}>
 
@@ -50,10 +52,7 @@ const UserSection = ({
 						<Paper>
 							<MenuList role="menu">
 								<MenuItem>
-									<Link
-										className={classes.textField}
-										to={`/user/${userLocalStoreState.me._id}`}
-										target="_blank">
+									<Link className={classes.textField} to={`/user/${userLocalStoreState.me._id}`}>
 										My Profile
 									</Link>
 								</MenuItem>

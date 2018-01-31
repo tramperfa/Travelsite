@@ -30,6 +30,7 @@ exports[`Mount renders correctly, createDraft called on button click 1`] = `
         "queryDeduplication": true,
         "reFetchObservableQueries": [Function],
         "resetStore": [Function],
+        "resetStoreCallbacks": Array [],
         "ssrMode": false,
         "store": DataStore {
           "cache": InMemoryCache {
@@ -48,7 +49,7 @@ exports[`Mount renders correctly, createDraft called on button click 1`] = `
             "watches": Array [],
           },
         },
-        "version": "2.0.4",
+        "version": "2.2.0",
         "watchQuery": [Function],
       }
     }
@@ -100,7 +101,7 @@ exports[`Mount renders correctly, createDraft called on button click 1`] = `
                   className="draft"
                   key="test001"
                 >
-                  <Apollo(withStyles(Component))
+                  <Apollo(WithStyles(Component))
                     draft={
                       Object {
                         "__typename": "Draft",
@@ -110,7 +111,7 @@ exports[`Mount renders correctly, createDraft called on button click 1`] = `
                       }
                     }
                   >
-                    <withStyles(Component)
+                    <WithStyles(Component)
                       deleteDraft={[Function]}
                       draft={
                         Object {
@@ -146,7 +147,7 @@ exports[`Mount renders correctly, createDraft called on button click 1`] = `
                             className="Component-card-1"
                             raised={false}
                           >
-                            <withStyles(Paper)
+                            <WithStyles(Paper)
                               className="Component-card-1"
                               elevation={2}
                             >
@@ -200,10 +201,9 @@ exports[`Mount renders correctly, createDraft called on button click 1`] = `
                                       href="/edit/test001"
                                       onClick={[Function]}
                                     >
-                                      <withStyles(CardMedia)
+                                      <WithStyles(CardMedia)
                                         className="Component-cover-4"
-                                        image="b.jpg"
-                                        title="Live from space album cover"
+                                        image="browserCoverImage.png"
                                       >
                                         <CardMedia
                                           className="Component-cover-4"
@@ -214,20 +214,18 @@ exports[`Mount renders correctly, createDraft called on button click 1`] = `
                                             }
                                           }
                                           component="div"
-                                          image="b.jpg"
-                                          title="Live from space album cover"
+                                          image="browserCoverImage.png"
                                         >
                                           <div
                                             className="MuiCardMedia-root-33 Component-cover-4"
                                             style={
                                               Object {
-                                                "backgroundImage": "url(b.jpg)",
+                                                "backgroundImage": "url(browserCoverImage.png)",
                                               }
                                             }
-                                            title="Live from space album cover"
                                           />
                                         </CardMedia>
-                                      </withStyles(CardMedia)>
+                                      </WithStyles(CardMedia)>
                                     </a>
                                   </Link>
                                   <div
@@ -243,7 +241,7 @@ exports[`Mount renders correctly, createDraft called on button click 1`] = `
                                         href="/edit/test001"
                                         onClick={[Function]}
                                       >
-                                        <withStyles(CardContent)
+                                        <WithStyles(CardContent)
                                           className="Component-content-3"
                                         >
                                           <CardContent
@@ -257,7 +255,7 @@ exports[`Mount renders correctly, createDraft called on button click 1`] = `
                                             <div
                                               className="MuiCardContent-root-35 Component-content-3"
                                             >
-                                              <withStyles(Typography)
+                                              <WithStyles(Typography)
                                                 type="headline"
                                               >
                                                 <Typography
@@ -315,8 +313,8 @@ exports[`Mount renders correctly, createDraft called on button click 1`] = `
                                                     trip to test1
                                                   </h1>
                                                 </Typography>
-                                              </withStyles(Typography)>
-                                              <withStyles(Typography)
+                                              </WithStyles(Typography)>
+                                              <WithStyles(Typography)
                                                 color="secondary"
                                                 type="subheading"
                                               >
@@ -378,15 +376,15 @@ exports[`Mount renders correctly, createDraft called on button click 1`] = `
                                                     </div>
                                                   </h3>
                                                 </Typography>
-                                              </withStyles(Typography)>
+                                              </WithStyles(Typography)>
                                             </div>
                                           </CardContent>
-                                        </withStyles(CardContent)>
+                                        </WithStyles(CardContent)>
                                       </a>
                                     </Link>
                                     <div>
                                       Continue Writing
-                                      <withStyles(IconButton)
+                                      <WithStyles(IconButton)
                                         aria-label="Edit"
                                       >
                                         <IconButton
@@ -408,7 +406,7 @@ exports[`Mount renders correctly, createDraft called on button click 1`] = `
                                           disableRipple={false}
                                           disabled={false}
                                         >
-                                          <withStyles(ButtonBase)
+                                          <WithStyles(ButtonBase)
                                             aria-label="Edit"
                                             centerRipple={true}
                                             className="MuiIconButton-root-60"
@@ -461,7 +459,7 @@ exports[`Mount renders correctly, createDraft called on button click 1`] = `
                                                     <Edit
                                                       className="MuiIconButton-icon-67"
                                                     >
-                                                      <withStyles(SvgIcon)
+                                                      <WithStyles(SvgIcon)
                                                         className="MuiIconButton-icon-67"
                                                       >
                                                         <SvgIcon
@@ -491,11 +489,11 @@ exports[`Mount renders correctly, createDraft called on button click 1`] = `
                                                             />
                                                           </svg>
                                                         </SvgIcon>
-                                                      </withStyles(SvgIcon)>
+                                                      </WithStyles(SvgIcon)>
                                                     </Edit>
                                                   </pure(Edit)>
                                                 </span>
-                                                <withStyles(TouchRipple)
+                                                <WithStyles(TouchRipple)
                                                   center={true}
                                                   innerRef={[Function]}
                                                 >
@@ -525,13 +523,13 @@ exports[`Mount renders correctly, createDraft called on button click 1`] = `
                                                       />
                                                     </TransitionGroup>
                                                   </TouchRipple>
-                                                </withStyles(TouchRipple)>
+                                                </WithStyles(TouchRipple)>
                                               </button>
                                             </ButtonBase>
-                                          </withStyles(ButtonBase)>
+                                          </WithStyles(ButtonBase)>
                                         </IconButton>
-                                      </withStyles(IconButton)>
-                                      <withStyles(IconButton)
+                                      </WithStyles(IconButton)>
+                                      <WithStyles(IconButton)
                                         aria-label="Delete"
                                         onClick={[Function]}
                                       >
@@ -555,7 +553,7 @@ exports[`Mount renders correctly, createDraft called on button click 1`] = `
                                           disabled={false}
                                           onClick={[Function]}
                                         >
-                                          <withStyles(ButtonBase)
+                                          <WithStyles(ButtonBase)
                                             aria-label="Delete"
                                             centerRipple={true}
                                             className="MuiIconButton-root-60"
@@ -611,7 +609,7 @@ exports[`Mount renders correctly, createDraft called on button click 1`] = `
                                                     <Delete
                                                       className="MuiIconButton-icon-67"
                                                     >
-                                                      <withStyles(SvgIcon)
+                                                      <WithStyles(SvgIcon)
                                                         className="MuiIconButton-icon-67"
                                                       >
                                                         <SvgIcon
@@ -641,11 +639,11 @@ exports[`Mount renders correctly, createDraft called on button click 1`] = `
                                                             />
                                                           </svg>
                                                         </SvgIcon>
-                                                      </withStyles(SvgIcon)>
+                                                      </WithStyles(SvgIcon)>
                                                     </Delete>
                                                   </pure(Delete)>
                                                 </span>
-                                                <withStyles(TouchRipple)
+                                                <WithStyles(TouchRipple)
                                                   center={true}
                                                   innerRef={[Function]}
                                                 >
@@ -675,32 +673,32 @@ exports[`Mount renders correctly, createDraft called on button click 1`] = `
                                                       />
                                                     </TransitionGroup>
                                                   </TouchRipple>
-                                                </withStyles(TouchRipple)>
+                                                </WithStyles(TouchRipple)>
                                               </button>
                                             </ButtonBase>
-                                          </withStyles(ButtonBase)>
+                                          </WithStyles(ButtonBase)>
                                         </IconButton>
-                                      </withStyles(IconButton)>
+                                      </WithStyles(IconButton)>
                                     </div>
                                   </div>
                                 </div>
                               </Paper>
-                            </withStyles(Paper)>
+                            </WithStyles(Paper)>
                           </Card>
                         </div>
                       </Component>
-                    </withStyles(Component)>
-                  </Apollo(withStyles(Component))>
+                    </WithStyles(Component)>
+                  </Apollo(WithStyles(Component))>
                 </div>
               </div>
               <div
                 className="create"
               >
-                <withStyles(Button)
+                <WithStyles(Button)
                   color="primary"
                   label="draftCreate"
                   onClick={[Function]}
-                  raised="raised"
+                  raised={true}
                 >
                   <Button
                     classes={
@@ -731,10 +729,10 @@ exports[`Mount renders correctly, createDraft called on button click 1`] = `
                     label="draftCreate"
                     mini={false}
                     onClick={[Function]}
-                    raised="raised"
+                    raised={true}
                     type="button"
                   >
-                    <withStyles(ButtonBase)
+                    <WithStyles(ButtonBase)
                       className="MuiButton-root-85 MuiButton-raised-92 MuiButton-raisedPrimary-94"
                       disableRipple={false}
                       disabled={false}
@@ -786,7 +784,7 @@ exports[`Mount renders correctly, createDraft called on button click 1`] = `
                           >
                             CREATE NEW DRAFT
                           </span>
-                          <withStyles(TouchRipple)
+                          <WithStyles(TouchRipple)
                             center={false}
                             innerRef={[Function]}
                           >
@@ -816,12 +814,12 @@ exports[`Mount renders correctly, createDraft called on button click 1`] = `
                                 />
                               </TransitionGroup>
                             </TouchRipple>
-                          </withStyles(TouchRipple)>
+                          </WithStyles(TouchRipple)>
                         </button>
                       </ButtonBase>
-                    </withStyles(ButtonBase)>
+                    </WithStyles(ButtonBase)>
                   </Button>
-                </withStyles(Button)>
+                </WithStyles(Button)>
               </div>
             </div>
           </UserDraft>
