@@ -4,7 +4,7 @@ import {compose} from 'recompose';
 //
 import {renderWhileLoading, graphQLQueryLoading, setErrorMessage, renderForError, GraphQLErrorComponent} from './apollo';
 
-const ComposeQuery = (component, propName = "data") => (compose(
+export const ComposeQuery = (component, propName = "data") => (compose(
 	renderWhileLoading(graphQLQueryLoading, propName),
 	setErrorMessage(propName),
 	renderForError(GraphQLErrorComponent, propName)

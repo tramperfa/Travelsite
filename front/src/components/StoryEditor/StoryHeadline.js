@@ -11,7 +11,7 @@ import Dialog, {DialogActions, DialogContent} from 'material-ui/Dialog';
 import CONSTS from '../../lib/consts';
 import ImageInsert from './ImageInsert';
 import ImageCrop from './ImageCrop';
-import imageHeadline from '../../images/headlineImage.jpg';
+import defaultImageHeadline from '../../images/headlineImage.jpg';
 
 const StoryHeadline = ({
 	state,
@@ -89,7 +89,7 @@ const HeadlineWithoutUserImage = (props) => {
 	return (
 		<div className="headlineImage">
 			<span>
-				<img className="headlineImage" src={imageHeadline} alt='headline'/>
+				<img className="headlineImage" src={defaultImageHeadline} alt='headline'/>
 				<ImageInsert uploadFile={props.uploadFile} comment='Upload Headline Image'/>
 				Suggest Use Original Image or Image Higher than 1980px
 			</span>

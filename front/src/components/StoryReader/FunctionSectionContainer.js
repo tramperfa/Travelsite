@@ -2,31 +2,32 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {compose} from 'recompose';
 import {Redirect} from 'react-router-dom';
-import {Link} from 'react-router-dom';
-
-//
-import IconButton from 'material-ui/IconButton';
-import FavoriteBorder from "material-ui-icons/FavoriteBorder";
-import StarBorder from "material-ui-icons/StarBorder";
-import Favorite from "material-ui-icons/Favorite";
-import Star from "material-ui-icons/Star";
-import Comment from "material-ui-icons/Comment";
-import Edit from "material-ui-icons/Edit";
-import Delete from "material-ui-icons/Delete";
-
-// import Reply from "material-ui-icons/Reply"; import {createBrowserHistory}
 
 //
 import ComposeQuery from '../../lib/hoc';
-import {WithMeQuery} from '../../graphql/user'
-import {WithLikeStoryMutation, WithArchiveStoryMutation, WithDeleteStoryMutation} from '../../graphql/story'
+import {WithMeQuery} from '../../graphql/user';
+import {WithLikeStoryMutation, WithArchiveStoryMutation, WithDeleteStoryMutation} from '../../graphql/story';
 
+import FunctionSection from './FunctionSection';
 //import {openLoginDialog} from '../redux/actions';
 
 class FunctionSectionContainer extends React.Component {
+	constructor(props) {
+		super(props);
 
-	state = {
-		deleteRedirect: false
+		this.state = {
+			deleteRedirect: false,
+			archived: this.props.MeData.me && (
+				this.props.MeData.me.archiveStory.indexOf(this.props.match.params._id) >= 0
+			),
+			liked: this.props.MeData.me && (
+				this.props.MeData.me.likeStory.indexOf(this.props.match.params._id) >= 0
+			),
+			isAuthor: this.props.MeData.me && (
+				props.MeData.me._id === props.storyDetailData.story.author._id
+			)
+		}
+		// console.log(this.state.isAuthor); console.log(this.state.liked);
 	}
 
 	handleLike = () => {
@@ -51,55 +52,20 @@ class FunctionSectionContainer extends React.Component {
 	}
 
 	render() {
+		//console.log(this.props);
 
 		if (this.state.deleteRedirect) {
 			return <Redirect push={true} to="/"/>;
 		}
 
 		return (
-			<div>
-				<IconButton aria-label="Like" onClick={this.handleLike}>
-					{
-
-						(
-							this.props.MeData.me && this.props.MeData.me.likeStory.indexOf(this.props.match.params._id) >= 0
-						)
-							? <Favorite/>
-							: <FavoriteBorder/>
-					}
-
-				</IconButton>
-				<IconButton aria-label="Archive" onClick={this.handleArchive}>
-					{
-						(
-							this.props.MeData.me && this.props.MeData.me.archiveStory.indexOf(this.props.match.params._id) >= 0
-						)
-							? <Star/>
-							: <StarBorder/>
-					}
-				</IconButton>
-				<IconButton aria-label="Comment">
-					<Comment/>
-				</IconButton>
-				{
-					(
-						this.props.MeData.me && (this.props.MeData.me._id === this.props.storyDetailData.story.author._id)
-					) && (
-						<span>
-							<Link to={`/edit/${this.props.storyDetailData.story.draft}`}>
-								<IconButton aria-label="Edit">
-									<Edit/>
-								</IconButton>
-							</Link>
-							<IconButton aria-label="Delete" onClick={this.handleDelete}>
-								<Delete/>
-							</IconButton>
-						</span>
-
-					)
-
-				}
-			</div>
+			<FunctionSection
+				state={this.state}
+				draft={this.props.storyDetailData.story.draft}
+				story={this.props.storyDetailData.story}
+				handleDelete={this.handleDelete}
+				handleLike={this.handleLike}
+				handleArchive={this.handleArchive}/>
 		)
 	}
 }
