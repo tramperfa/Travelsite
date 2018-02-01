@@ -6,6 +6,8 @@ services:
       - ./front/src:/reactApp/src
       - ./front/public:/reactApp/public
       - ./front/package.json:/reactApp/package.json
+      - ./front/build.js:/reactApp/build.js
+      - ./front/build:/reactApp/build
     ports:
       - "3000:3000"
     links:
