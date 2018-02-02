@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import moment from 'moment';
+import format from 'date-fns/format';
 
 //
 import IconButton from 'material-ui/IconButton';
@@ -22,7 +22,8 @@ const FunctionSection = (
 		<div>
 			<div>
 				{story.author.fullName + ' '}
-				{moment(new Date(story.lastUpdate)).utc().local().format("YYYY-MM-DD HH:mm")}
+				{format(new Date(story.lastUpdate), "YYYY-MM-DD HH:mm")}
+
 				{' TBD ViewCount'}
 			</div>
 			<div>

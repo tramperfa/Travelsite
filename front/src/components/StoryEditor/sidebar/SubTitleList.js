@@ -1,7 +1,7 @@
 // import React, {Component} from 'react';
 import React from 'react';
 import {Immutable} from "draft-js";
-const {List} = Immutable
+import {List} from 'immutable';
 //import {List} from 'immutable'
 
 const SubTitleList = (props) => {

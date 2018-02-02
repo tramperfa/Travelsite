@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
-import moment from 'moment';
+import format from 'date-fns/format'
 import {compose} from 'recompose';
 
 //
@@ -75,7 +75,7 @@ export const DraftCard = function (props) {
 							</Typography>
 							<Typography type="subheading" color="secondary">
 								<div>
-									Last Updated: {moment(new Date(draft.lastUpdate)).utc().local().format("YYYY-MM-DD HH:mm")}
+									Last Updated: {format(new Date(draft.lastUpdate), "YYYY-MM-DD HH:mm")}
 								</div>
 							</Typography>
 						</CardContent>
@@ -94,6 +94,8 @@ export const DraftCard = function (props) {
 		</div>
 	);
 }
+
+// {moment(new Date(draft.lastUpdate)).utc().local().format("YYYY-MM-DD HH:mm")}
 
 DraftCard.propTypes = {
 	classes: PropTypes.object.isRequired,

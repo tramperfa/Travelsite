@@ -1,14 +1,5 @@
-//import Immutable from "immutable"
-import {
-	genKey,
-	EditorState,
-	ContentBlock,
-	Modifier,
-	BlockMapBuilder,
-	Immutable
-} from "draft-js"
-
-const {List, Map} = Immutable
+import {List, Map} from "immutable"
+import {genKey, EditorState, ContentBlock, Modifier, BlockMapBuilder} from "draft-js"
 
 function insertAtomicBlock(editorState, data) {
 

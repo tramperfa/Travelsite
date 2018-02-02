@@ -1,9 +1,9 @@
 import React from 'react';
-import moment from 'moment';
 import PropTypes from 'prop-types';
 import Button from 'material-ui/Button';
 import {Redirect} from 'react-router-dom';
 import {compose} from 'recompose';
+import format from 'date-fns/format';
 
 //
 import ComposeQuery from '../../lib/hoc';
@@ -45,11 +45,7 @@ class StoryEditorContainer extends React.Component {
 					match={this.props.match}/>
 				<StoryTitle title={this.props.draftData.draft.title} match={this.props.match}/>
 				<div>
-					{
-						moment(new Date(this.props.draftData.draft.lastUpdate)).utc().local().format(
-							"YYYY-MM-DD HH:mm:ss"
-						)
-					}
+					{format(new Date(this.props.draftData.draft.lastUpdate), "YYYY-MM-DD HH:mm:ss")}
 				</div>
 
 				<div>
