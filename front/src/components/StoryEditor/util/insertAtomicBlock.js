@@ -1,4 +1,4 @@
-import {List, Map} from 'draft-js/node_modules/immutable'
+import {List, Map} from 'immutable'
 import {genKey, EditorState, ContentBlock, Modifier, BlockMapBuilder} from "draft-js"
 
 function insertAtomicBlock(editorState, data) {

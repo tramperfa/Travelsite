@@ -1,6 +1,6 @@
 // import React, {Component} from 'react';
 import React from 'react';
-import {List} from 'draft-js/node_modules/immutable'
+import {List} from 'immutable'
 
 const SubTitleList = (props) => {
 	const list = buildTitleList(props.subTitleList)
