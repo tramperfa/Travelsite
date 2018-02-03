@@ -33,7 +33,6 @@
     "history": "^4.7.2",
     "superagent": "^3.7.0",
     "date-fns": "^1.29.0",
-    "immutable": "^3.8.2",
     "react-cropper": "^1.0.1",
     "react-lazyload":"^2.3.0",
     "react-custom-scrollbars":"^4.2.1",
@@ -41,7 +40,8 @@
     "redux": "^3.7.2",
     "react-redux": "^5.0.6",
     "react-popper": "^0.7.5",
-    "recompose": "^0.26.0"
+    "recompose": "^0.26.0",
+    "react-loadable": "^5.3.1"
   },
   "scripts": {
     "start": "react-scripts start",

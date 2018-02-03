@@ -5,6 +5,7 @@ import {MuiThemeProvider, createMuiTheme} from 'material-ui/styles';
 import {ApolloProvider} from 'react-apollo';
 import {createStore} from 'redux';
 import {Provider} from 'react-redux';
+import Loadable from 'react-loadable';
 
 //Styles
 import './App.css';
