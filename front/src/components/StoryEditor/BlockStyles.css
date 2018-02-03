@@ -1,7 +1,38 @@
+.storyWrapper{
+  display: flex;
+  flex-direction: row;
+}
+
+.storyReader, .storyEditor{
+  margin-left: 80px;
+  margin-right: 80px;
+  padding-top: 16px;
+}
+
+.storyEditor{
+  cursor: text;
+  text-align: left;
+}
+
+.sidebarWrapper{
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: sticky;
+  top: 0px;
+  z-index: 10
+}
+
 .myAtomicStyle{
   width: 100%;
   margin-left: 0px;
   margin-right: 0px;
+}
+
+.atomicReader{
+  margin-top: 16px;
+  margin-bottom: 16px;
 }
 
 .atomicActionGroup{

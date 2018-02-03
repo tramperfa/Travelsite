@@ -24,8 +24,12 @@ export default class ImageBlock extends Component {
 
 	render() {
 		const {src, width, height} = this.props.blockProps
+		const style = {
+			width: width,
+			height: height
+		}
 		return (
-			<CommonBlock {...this.props} actions={this.actions}>
+			<CommonBlock actions={this.actions} style={style}>
 				<BlockContent>
 					<LazyLoad
 						throttle={2000}

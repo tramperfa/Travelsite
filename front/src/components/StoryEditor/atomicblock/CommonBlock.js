@@ -17,10 +17,7 @@ export default class CommonBlock extends Component {
 	render() {
 		return (
 			<BlockWrapper
-				style={{
-					width: this.props.blockProps.width,
-					height: this.props.blockProps.height
-				}}
+				style={this.props.style}
 				onMouseEnter={this.onMouseEnter}
 				onMouseLeave={this.onMouseLeave}>
 				<BlockControls
