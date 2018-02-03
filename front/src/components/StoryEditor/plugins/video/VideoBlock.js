@@ -17,8 +17,12 @@ export default class VideoBlock extends Component {
 
 	render() {
 		const {width, height} = this.props.blockProps
+		const style = {
+			width: width,
+			height: height
+		}
 		return (
-			<CommonBlock {...this.props} actions={this.actions}>
+			<CommonBlock actions={this.actions} style={style}>
 				<BlockContent>
 					<iframe
 						title={this.props.blockKey}

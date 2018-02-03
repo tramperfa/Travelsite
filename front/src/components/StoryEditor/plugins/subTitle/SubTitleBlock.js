@@ -22,8 +22,13 @@ export default class SubTitleBlock extends Component {
 
 	render() {
 		const blockKey = this.props.blockKey
+		const {width, height} = this.props.blockProps
+		const style = {
+			width: width,
+			height: height
+		}
 		return (
-			<CommonBlock {...this.props} actions={this.actions}>
+			<CommonBlock actions={this.actions} style={style}>
 				<BlockContent>
 					<div className="subTitleContent">
 						<a name={blockKey} style={{

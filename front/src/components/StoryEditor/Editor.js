@@ -8,8 +8,7 @@ import {
 	getDefaultKeyBinding,
 	Modifier
 } from 'draft-js';
-import debounce from 'lodash/debounce';
-import styled from 'styled-components'
+import debounce from 'lodash/debounce'
 import PropTypes from 'prop-types';
 import equal from 'fast-deep-equal';
 import {compose} from 'recompose';
@@ -336,8 +335,13 @@ class MyEditor extends Component {
 
 	render() {
 		return (
-			<StoryEditorWrapper>
-				<StoryEditor onClick={this.onClick}>
+			<div className="storyWrapper">
+				<div
+					className="storyEditor"
+					style={{
+						width: DRAFT_WIDTH
+					}}
+					onClick={this.onClick}>
 					<Editor
 						editorState={this.state.editorState}
 						onChange={this.onChange}
@@ -351,8 +355,8 @@ class MyEditor extends Component {
 							this.editor = element
 						}}/> {/* <EmojiSuggestions/> */}
 
-				</StoryEditor>
-				<ToolsWrapper>
+				</div>
+				<div className="sidebarWrapper">
 					<EmojiInsert onEmojiClick={this.addEmoji}/>
 					<ImageInsert uploadFile={this.uploadFile}/>
 					<VideoInsert addVideoBlock={this.addVideoBlock}/>
@@ -364,8 +368,8 @@ class MyEditor extends Component {
 						closeSubTitleEditor={this.closeSubTitleEditor}
 						addSubTitleBlock={this.addSubTitleBlock}/>
 					<SubTitleList subTitleList={this.state.subTitleList}/>
-				</ToolsWrapper>
-			</StoryEditorWrapper>
+				</div>
+			</div>
 
 		)
 	}
@@ -397,31 +401,3 @@ MyEditor.propTypes = {
 export default compose(WithUpdateContentMutation, WithUpdateCoverMuation)(
 	MyEditor
 )
-
-const StoryEditorWrapper = styled.div `
-  display: flex;
-  flex-direction: row;
-`
-
-const StoryEditor = styled.div `
-  cursor: text;
-  text-align: left;
-  margin-left: 80px;
-  margin-right: 80px;
-  padding-top: 16px;
-  padding-bottom: 16px;
-  min-width: 700px;
-  max-width: 700px
-`
-
-const ToolsWrapper = styled.div `
-  padding: 16px;
-  height: fit-content;
-  width: fit-content;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  position: sticky;
-  top: 0px;
-  z-index: 10
-`
