@@ -12,6 +12,7 @@ import debounce from 'lodash/debounce'
 import PropTypes from 'prop-types';
 import equal from 'fast-deep-equal';
 import {compose} from 'recompose';
+import {Map} from 'immutable'
 
 import 'draft-js/dist/Draft.css'
 import './BlockStyles.css'
@@ -109,6 +110,24 @@ class MyEditor extends Component {
 		// example localImageSize {width: 100, height: 100}
 		let localImageSize = await willExtractSize(localImageData)
 
+		const width = localImageSize.width > DRAFT_WIDTH
+			? DRAFT_WIDTH
+			: localImageSize.width
+		const height = localImageSize.width > DRAFT_WIDTH
+			? localImageSize.height / (localImageSize.width / DRAFT_WIDTH)
+			: localImageSize.height
+
+		// Add imagePlaceHolder
+		const editorState = this.state.editorState
+		const editorStateWithPlaceHolder = insertAtomicBlock(editorState, {
+			"type": "imageplaceholder",
+			"width": width,
+			"height": height
+		})
+
+		this.setState({editorState: editorStateWithPlaceHolder})
+
+		// upload image to S3
 		const uploadedImage = await willUploadImage(
 			file,
 			0,
@@ -121,11 +140,32 @@ class MyEditor extends Component {
 		data.draft.images.push(uploadedImage)
 		client.writeQuery({query: DRAFT_IMAGE_ARRAY_QUERY, data: data})
 
-		const editorState = this.state.editorState
-		const newEditorState = insertAtomicBlock(editorState, {
-			"type": "image",
-			"_id": uploadedImage._id
+		// replace imagePlaceHolder with actual image on S3
+		const latestEditorState = this.state.editorState
+		const latestContentState = latestEditorState.getCurrentContent()
+		let placeholderBlock = latestContentState.getBlockMap().filter((block) => {
+			return (block.getType() === 'atomic') && (
+				block.getData().toObject().type === 'imageplaceholder'
+			)
 		})
+		const placeholderKey = placeholderBlock.first().getKey()
+		const selectionState = latestEditorState.getSelection()
+		const selectImagePlaceHolder = selectionState.merge(
+			{anchorKey: placeholderKey, anchorOffset: 0, focusKey: placeholderKey, focusOffset: 0}
+		)
+		const contentStateWithReplacedImage = Modifier.setBlockData(
+			latestContentState,
+			selectImagePlaceHolder,
+			{
+				"type": "image",
+				"_id": uploadedImage._id
+			}
+		)
+		const newEditorState = EditorState.push(
+			latestEditorState,
+			contentStateWithReplacedImage,
+			'change-block-data'
+		)
 		this.onChange(newEditorState)
 	}
 
@@ -260,6 +300,14 @@ class MyEditor extends Component {
 							width: imageData.browserStoryImage.size.width,
 							height: imageData.browserStoryImage.size.height,
 							setAsCoverPhoto: this.setCoverPhoto
+						}
+					}
+				} else if (pluginType === "imageplaceholder") {
+					return {
+						component: Atomic,
+						editable: false,
+						props: {
+							plugin: plugin
 						}
 					}
 				} else if (pluginType === "video") {
