@@ -12,7 +12,8 @@ import './App.css';
 import {THEME} from './lib/config';
 
 // Routes and components
-import StoryEditor from './components/StoryEditor';
+import Loading from './components/Loading';
+//import StoryEditor from './components/StoryEditor';
 import StoryReader from './components/StoryReader';
 import Header from './components/Header';
 import Homepage from './components/Homepage';
@@ -34,6 +35,12 @@ const store = createStore(
 	window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 )
 
+const LoadableStoryEditor = Loadable({
+	loader: () => import (/* webpackChunkName: 'Editor' */
+	'./components/StoryEditor'),
+	loading: Loading
+})
+
 const App = () => {
 	return (
 		<Provider store={store}>
@@ -48,7 +55,7 @@ const App = () => {
 								<Route path='/story/:_id' component={StoryReader}/>
 								<Route path="/user/:_id" component={UserPage}/>
 								<Route path="/mydraft" component={UserDraft}/>
-								<Route path="/edit/:_id" component={StoryEditor}/>
+								<Route path="/edit/:_id" component={LoadableStoryEditor}/>
 								<Route path="/signup" component={Signup}/>
 								<Route path="/dest" component={null} key="dest"/>
 								<Route path="/hotel" component={null} key="hotel"/>
