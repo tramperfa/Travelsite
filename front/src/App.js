@@ -13,13 +13,13 @@ import {THEME} from './lib/config';
 
 // Routes and components
 import Loading from './components/Loading';
-//import StoryEditor from './components/StoryEditor';
-import StoryReader from './components/StoryReader';
+// import StoryEditor from './components/StoryEditor';
+import StoryReader from './components/StoryReader'; // -12KB if Split
 import Header from './components/Header';
 import Homepage from './components/Homepage';
-import AuthSignupDialog from './components/AuthSignupDialog';
+import AuthSignupDialog from './components/AuthSignupDialog'; // -3KB if Split
 import Signup from './components/Signup';
-import UserPage from './components/UserPage';
+import UserPage from './components/UserPage'; // TB Split
 import UserDraft from './components/UserPage/UserDraft';
 
 //TBD
@@ -38,8 +38,13 @@ const store = createStore(
 const LoadableStoryEditor = Loadable({
 	loader: () => import (/* webpackChunkName: 'Editor' */
 	'./components/StoryEditor'),
-	loading: Loading
+	loading: Loading,
+	delay: 1000
 })
+
+// const LoadableStoryReader = Loadable({ 	loader: () => import (/*
+// webpackChunkName: 'Reader' */ 	'./components/StoryReader'), 	loading:
+// Loading, 	delay: 1000 })
 
 const App = () => {
 	return (
