@@ -12,7 +12,6 @@ import debounce from 'lodash/debounce'
 import PropTypes from 'prop-types';
 import equal from 'fast-deep-equal';
 import {compose} from 'recompose';
-import {Map} from 'immutable'
 
 import 'draft-js/dist/Draft.css'
 import './BlockStyles.css'
@@ -252,8 +251,8 @@ class MyEditor extends Component {
 		this.setState({subTitleList: newList})
 	}
 
-	addEmoji = (group, index) => {
-		const emojiString = '{' + group + '[' + index + ']}'
+	addEmoji = (emojiName) => {
+		const emojiString = '{' + emojiName + '}'
 		// console.log(emojiString);
 		const contantState = this.state.editorState.getCurrentContent()
 		const selectionState = this.state.editorState.getSelection()

@@ -34,11 +34,8 @@ export default class ImageBlock extends Component {
 						<LazyLoad
 							throttle={2000}
 							height={height}
-							placeholder={<ImagePlaceHolder width = {
-								width
-							}
-							height = {
-								height
+							placeholder={<ImagePlaceHolder data = {
+								style
 							} />}>
 							<img alt="" src={src}/>
 						</LazyLoad>
