@@ -10,8 +10,7 @@ const UserHome = ({userData}) => {
 	return (
 		<div>
 			<div>
-				<div>{"FullName: " + user.fullName}</div>
-				<div>{"Username: " + user.username}</div>
+				<div>{"Name: " + user.fullName}</div>
 				<div>{user._id}</div>
 				<div>{user.provider}</div>
 			</div>

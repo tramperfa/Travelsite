@@ -41,7 +41,7 @@ const AuthDialog = ({
 				<DialogContent>
 					<TextField
 						id="name"
-						label="Username or Email"
+						label="Email"
 						className={classes.textField}
 						value={state.name}
 						onChange={handleChange('name')}
@@ -58,7 +58,9 @@ const AuthDialog = ({
 				</DialogContent>
 				<div style={{
 						color: 'red'
-					}}></div>
+					}}>
+					{state.errorMessage}
+				</div>
 			</form>
 			<DialogActions>
 				<Button onClick={handleSubmit} color="primary">

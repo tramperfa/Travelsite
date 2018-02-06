@@ -33,7 +33,7 @@ export const WithDraftDetailsQuery = graphql(DRAFT_DETAILS_QUERY, {
 })
 
 export const DRAFT_LIST_QUERY = gql `
-  query DraftQuery {
+  query DraftListQuery {
     myDrafts {
       ...draftCard
     }
@@ -49,7 +49,7 @@ export const WithDraftListQuery = graphql(DRAFT_LIST_QUERY, {
 })
 
 export const DRAFT_IMAGE_ARRAY_QUERY = gql `
-query DraftQuery($draftID : ID!) {
+query DraftListQuery($draftID : ID!) {
   draft(draftID: $draftID) {
     _id
     ...draftImageArray

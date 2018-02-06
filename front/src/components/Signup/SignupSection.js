@@ -26,14 +26,6 @@ const SignupSection = (
 			<form className={classes.container} noValidate="noValidate" autoComplete="off">
 				<TextField
 					required={true}
-					id="username"
-					label="Username"
-					className={classes.textField}
-					value={state.name}
-					onChange={handleChange('username')}
-					margin="normal"/>
-				<TextField
-					required={true}
 					id="displayname"
 					label="Displayname"
 					className={classes.textField}

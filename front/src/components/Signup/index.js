@@ -9,7 +9,6 @@ import SignupSection from './SignupSection';
 class SignupContainer extends React.Component {
 
 	state = {
-		username: '',
 		displayname: '',
 		email: '',
 		password: '',
@@ -19,11 +18,9 @@ class SignupContainer extends React.Component {
 
 	handleSubmit = () => {
 
-		const {username, displayname, email, password} = this.state;
-		this.props.registerUser(username, displayname, email, password).then(() => {
-			this.setState(
-				{username: '', displayname: '', email: '', password: '', redirect: true}
-			)
+		const {displayname, email, password} = this.state;
+		this.props.registerUser(displayname, email, password).then(() => {
+			this.setState({displayname: '', email: '', password: '', redirect: true})
 		}).catch((error) => {
 			//console.log('there was an error during login', error);
 			this.setState({errorMessage: error.graphQLErrors[0].message, password: ''})

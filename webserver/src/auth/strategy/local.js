@@ -12,49 +12,40 @@ const LocalStrategy = require('passport-local').Strategy
  */
 
 module.exports = new LocalStrategy({
-  usernameField: "username",
-  passwordField: "password",
-  passReqToCallback: true,
-}, function(req, username, password, done) {
-  return User.findOne({
-    $or: [
-      {
-        "username": username
-      }, {
-        "email": username
-      },
-    ]
-  }, function(err, user) {
-    if (err) {
-      return done(err);
-    }
+	usernameField: "email",
+	passwordField: "password",
+	passReqToCallback: true
+}, function (req, email, password, done) {
+	return User.findOne({
+		"email": email
+	}, function (err, user) {
+		if (err) {
+			return done(err);
+		}
 
-    if (!user) {
-      return done(null, false, {message: "The username or email does not match password"});
-    }
+		if (!user) {
+			return done(null, false, {message: "User email does not match password"});
+		}
 
-    // if (!user.verified) {
-    //  return done(null, false, { message: "PleaseActivateAccount" });
-    //}
+		// if (!user.verified) {  return done(null, false, { message:
+		// "PleaseActivateAccount" }); } Check that the user is not disabled or deleted
+		if (user.status !== 1) {
+			return done(null, false, {message: "User has been banned"});
+		}
 
-    // Check that the user is not disabled or deleted
-    if (user.status !== 1) {
-      return done(null, false, {message: "This user has been disabled"});
-    }
+		user.comparePassword(password, function (err, isMatch) {
+			if (err) {
+				return done(err);
+			}
 
-    user.comparePassword(password, function(err, isMatch) {
-      if (err) {
-        return done(err);
-      }
+			if (isMatch !== true) {
+				return done(null, false, {message: "User email does not match password"});
+			}
 
-      if (isMatch !== true) {
-        return done(null, false, {message: "The username or email does not match password"});
-      }
+			return done(null, user);
+			//return done(null, user, { message: "successful login via local strategy" });
 
-      return done(null, user);
-      //return done(null, user, { message: "successful login via local strategy" });
+		});
 
-    });
-
-  });
+	});
 });
