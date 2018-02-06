@@ -7,8 +7,8 @@ const CIRCULARSIZE = 40
 export default class extends Component {
 
 	render() {
-		const width = this.props.width
-		const height = this.props.height
+		const width = this.props.data.width
+		const height = this.props.data.height
 		const centerX = (width - CIRCULARSIZE) / 2
 		const centerY = (height - CIRCULARSIZE) / 2
 		return (

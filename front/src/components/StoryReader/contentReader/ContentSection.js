@@ -9,6 +9,9 @@ import SubTitleBlock from './SubTitleBlock'
 import searchImage from '../../../lib/searchImage'
 import CONSTS from '../../../lib/consts'
 
+import {emojiStrategy} from '../../StoryEditor/decorators/emojiStrategy'
+import ReaderEmojiSpan from './ReaderEmojiSpan'
+
 const DRAFT_WIDTH = CONSTS.DRAFT_WIDTH
 const BUCKET_NAME = CONSTS.BUCKET_NAME
 
@@ -33,7 +36,13 @@ const ContentSection = ({content, images}) => {
 					return <SubTitleBlock blockKey={keys[i]} title={data[i].title}/>
 				}
 			})
-		}
+		},
+		decorators: [
+			{
+				strategy: emojiStrategy,
+				component: ({children, decoratedText}) => <ReaderEmojiSpan key={decoratedText} decoratedText={decoratedText}/>
+			}
+		]
 	}
 
 	const converted = redraft(content, rederers)

@@ -13,11 +13,8 @@ export default class extends Component {
 						emojiList.map((emoji, index) => (
 							<Emoji
 								key={groupTitle + "_" + index}
-								img={emoji}
-								onClick={() => {
-									// console.log(groupTitle + "_" + index + " is clicked");
-									onEmojiClick(groupTitle, index)
-								}}/>
+								emoji={emoji}
+								onEmojiClick={onEmojiClick}/>
 						))
 					}
 				</div>
