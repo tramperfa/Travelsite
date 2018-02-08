@@ -2,15 +2,15 @@ import {EmojiGroups} from '../components/StoryEditor/plugins/emoji/constants/Emo
 
 const searchEmoji = (decoratedText) => {
 	const emojiName = decoratedText.replace(/[{|}]/g, '')
-	let matchedEmoji
-	EmojiGroups.map((group) => {
-		group.list.map((emoji) => {
-			if (emoji.name === emojiName) {
-				matchedEmoji = emoji
-			}
-		})
+	let matchedEmoji = []
+
+	EmojiGroups.forEach((group) => {
+		matchedEmoji = matchedEmoji.concat(group.list.filter((emoji) => {
+			return emoji.name === emojiName
+		}))
 	})
-	return matchedEmoji
+
+	return matchedEmoji[0]
 }
 
 export default searchEmoji

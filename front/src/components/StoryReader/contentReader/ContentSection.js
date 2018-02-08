@@ -6,6 +6,7 @@ import '../../StoryEditor/BlockStyles.css'
 import VideoBlock from './VideoBlock'
 import ImageBlock from './ImageBlock'
 import SubTitleBlock from './SubTitleBlock'
+import SubTitleList from './SubTitleList'
 import searchImage from '../../../lib/searchImage'
 import CONSTS from '../../../lib/consts'
 
@@ -49,6 +50,8 @@ const ContentSection = ({content, images}) => {
 	if (!converted) {
 		return (<div>Error in content rendering</div>)
 	}
+	const subTitleList = getSubTitleList(content)
+	getSubTitleList(content)
 	return (
 		<div className="storyWrapper">
 			<div className="storyReader" style={{
@@ -62,8 +65,22 @@ const ContentSection = ({content, images}) => {
 					)
 				}
 			</div>
+			<div className="sidebarWrapper">
+				<SubTitleList subTitleList={subTitleList}/>
+			</div>
 		</div>
 	)
+}
+
+const getSubTitleList = (content) => {
+	let subTitleBlocks = content.blocks.filter((block) => {
+		return (block.data.type === 'subTitle')
+	})
+
+	let subTitleList = subTitleBlocks.map((block) => {
+		return {key: block.key, title: block.data.title}
+	})
+	return subTitleList
 }
 
 export default ContentSection
