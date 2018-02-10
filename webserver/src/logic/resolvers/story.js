@@ -1,7 +1,7 @@
 import GraphQLJSON from 'graphql-type-json';
 import Story from '../models/story'
 import User from '../models/user'
-import {willCheckDocumentOwnerShip} from '../../lib/resolverHelpers';
+import {willCheckDocumentOwnerShip, checkLogin} from '../../lib/resolverHelpers';
 
 module.exports = {
 	Query: {
@@ -19,18 +19,15 @@ module.exports = {
 		},
 
 		myStories: async (parent, args, context) => {
-			if (context.sessionUser) {
-				const options = {
-					criteria: {
-						'author': context.sessionUser.user._id,
-						'status': {
-							$lt: 3
-						}
+			const options = {
+				criteria: {
+					'author': context.sessionUser.user._id,
+					'status': {
+						$lt: 3
 					}
 				}
-				return Story.list(options)
 			}
-			return new Error('You must login')
+			return Story.list(options)
 		},
 
 		myDeletedStories: async (parent, args, context) => {

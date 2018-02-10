@@ -121,6 +121,58 @@ var ImageSchema = new Schema({
 				type: Number
 			}
 		}
+	},
+	avatar124px: {
+		filename: {
+			type: String
+		},
+		size: {
+			width: {
+				type: Number
+			},
+			height: {
+				type: Number
+			}
+		}
+	},
+	avatar48px: {
+		filename: {
+			type: String
+		},
+		size: {
+			width: {
+				type: Number
+			},
+			height: {
+				type: Number
+			}
+		}
+	},
+	avatar36px: {
+		filename: {
+			type: String
+		},
+		size: {
+			width: {
+				type: Number
+			},
+			height: {
+				type: Number
+			}
+		}
+	},
+	avatar20px: {
+		filename: {
+			type: String
+		},
+		size: {
+			width: {
+				type: Number
+			},
+			height: {
+				type: Number
+			}
+		}
 	}
 }, {usePushEach: true});
 

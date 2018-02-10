@@ -19,7 +19,7 @@ const upload = multer({
 	}
 });
 
-const imageSize = {
+export const imageSize = {
 	browserStoryImage: {
 		width: 700
 	},
@@ -33,6 +33,27 @@ const imageSize = {
 	browserUserHomeCoverImage: {
 		width: 680,
 		height: 400
+	},
+	// StoryReader, UserHome
+	avatar124px: {
+		width: 124,
+		height: 124
+	},
+	//Following, Comment, Reply, Review
+	avatar48px: {
+		width: 48,
+		height: 48
+	},
+	//Logged-in User Navigation
+	avatar36px: {
+		width: 36,
+		height: 36
+	},
+
+	//Homepage StoryList
+	avatar20px: {
+		width: 20,
+		height: 20
 	}
 }
 
@@ -201,12 +222,12 @@ const autoCropUpload = async (inputBuffer, extension, imageType, image) => {
 
 // / / Hold off GPS feature if (result.tags.GPSLatitude &&
 // result.tags.GPSLongitude) { image.takenLocation = {     latitude:
-// result.tags.GPSLatitude, longitude: result.tags.GPSLongitude } } //////
-// Double check height calculation is correct
+// result.tags.GPSLatitude, longitude: result.tags.GPSLongitude } }  Double
+// check height calculation is correct
 // sharp(inputBuffer).rotate().resize(requireSize.width,
 // requireSize.height).toBuffer(function(err, data, info) {   console.log(info);
-// }) ////// const parseSize
+// })  const parseSize
 // = (buffer, image) => {   var result =
 // parser.create(buffer).enableImageSize(true).parse()   return
-// result.getImageSize() } ////// Get The Right Size After Taking Orientation
-// Through .rotate() var origSize = parseSize(buffer, image)
+// result.getImageSize() }  Get The Right Size After Taking Orientation Through
+// .rotate() var origSize = parseSize(buffer, image)
