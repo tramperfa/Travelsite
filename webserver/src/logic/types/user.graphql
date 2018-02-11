@@ -2,7 +2,6 @@
 type User {
   _id: ID!
   fullName: String
-  username: String
   provider: String
   profile: JSON
   avatar: Image
@@ -15,13 +14,13 @@ type Me {
   _id: ID!
   fullName: String
   email: String
-  username: String
   provider: String
   profile: JSON
   facebook: String
   google: String
   likeStory: [ID]
   archiveStory: [ID]
+  avatar: Image
   # likedStory:[Story]
   # archivedStory:[Story]
   #avatar(size: PhotoSize): Image
@@ -38,6 +37,7 @@ type Mutation {
   registerUser(input: registerUserInput!): User
   localLogin(input: localLoginInput!): LocalLoginPayload
   logout(fullName: String): LogoutPayload
+  #updateAvatar
   #googleLogin(input: googleLoginInput!): User
 }
 
@@ -48,12 +48,11 @@ type LogoutPayload{
 input registerUserInput {
   fullName: String
   email: String
-  username: String
   password: String
 }
 
 input localLoginInput {
-  emailorusername: String
+  email: String
   password: String
 }
 

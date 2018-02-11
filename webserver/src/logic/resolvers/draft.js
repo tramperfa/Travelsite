@@ -100,7 +100,7 @@ const willPublishDraft = async (draftID, context) => {
 			//console.log("ENTER AAAA ");
 			var story = await Story.findById(draft.story)
 			if (!story.draft.equals(draft._id) || !draft.story.equals(story._id)) {
-				throw new Error('Story and Draft conflicts')
+				throw new Error('Story and Draft Do Not Match')
 			}
 			const fields = [
 				'title',

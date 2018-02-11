@@ -73,6 +73,7 @@ const StoryEditorContainerWithComposeQuery = ComposeQuery(
 	'draftData'
 )
 
+
 export default compose(WithDraftDetailsQuery, WithPublishDraftMutation)(
 	StoryEditorContainerWithComposeQuery
 )

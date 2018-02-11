@@ -29,7 +29,7 @@ module.exports = {
 			// }
 			const user = await willLogin(
 				context.req,
-				args.input.emailorusername,
+				args.input.email,
 				args.input.password
 			)
 
@@ -64,11 +64,10 @@ const willCreateSession = (req, user) => new Promise((resolve, reject) => {
 	}
 })
 
-const willLogin = async (req, usernameoremail, password) => {
+const willLogin = async (req, email, password) => {
 	// To let passport-local consume
-	req.body.username = usernameoremail
+	req.body.email = email
 	req.body.password = password
-
 	return await willAuthenWithPassport('local', req).catch(err => err)
 	// .catch(onError(req))
 }

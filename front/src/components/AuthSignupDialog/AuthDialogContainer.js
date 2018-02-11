@@ -17,20 +17,23 @@ class AuthDialogContainer extends React.Component {
 
 	state = {
 		name: '',
-		password: ''
+		password: '',
+		errorMessage: null
 	}
 
 	handleSubmit = async () => {
-		const emailorusername = this.state.name
+		const email = this.state.name
 		const password = this.state.password
 		try {
-			let data = await this.props.localLogin(emailorusername, password)
+			let data = await this.props.localLogin(email, password)
 			let me = await persist.willSetSessionUser(data.data.localLogin.me)
 			await this.props.loadUserInfoDispatch(me)
 			await this.props.closeDialogDispatch()
 			await resetApolloStore()
-		} catch (error) {} finally {
-			this.setState({name: '', password: ''})
+		} catch (error) {
+			this.setState({errorMessage: error.graphQLErrors[0].message})
+		} finally {
+			this.setState({password: ''})
 		}
 	}
 

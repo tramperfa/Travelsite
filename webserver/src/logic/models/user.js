@@ -33,15 +33,9 @@ const UserSchema = new Schema({
 		match: [/.+\@.+\..+/, "Please fill a valid email address"]
 	},
 
-	username: {
-		type: String,
-		unique: true,
-		index: true,
-		lowercase: true,
-		required: "Please fill in a username",
-		trim: true,
-		match: [/^[\w][\w\-\._\@]*[\w]$/, "Please fill a valid username"]
-	},
+// username: { 	type: String, 	unique: true, 	index: true, 	lowercase: true,
+// required: "Please fill in a username", 	trim: true, 	match:
+// [/^[\w][\w\-\._\@]*[\w]$/, "Please fill a valid username"] },
 	password: {
 		type: String,
 		default: '',
@@ -149,9 +143,9 @@ const UserSchema = new Schema({
 
 UserSchema.pre("save", function (next) {
 	let user = this;
-	if (!user.isModified("password")) 
+	if (!user.isModified("password"))
 		return next();
-	
+
 	bcrypt.genSalt(10, function (err, salt) {
 		bcrypt.hash(user.password, salt, function (err, hash) {
 			user.password = hash;
@@ -180,9 +174,9 @@ UserSchema.methods = {
 
 UserSchema.virtual("Image").get(function () {
 	// Load picture from profile
-	if (this.avatar) 
+	if (this.avatar)
 		return this.avatar;
-	
+
 	// Use default picture
 	return "Default Image ID";
 });
