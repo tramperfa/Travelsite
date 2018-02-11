@@ -111,3 +111,42 @@
   width: 28px;
   height: 28px
 }
+
+.sequenceAdjustor {
+  display: flex;
+  flex-direction: row;
+  position: fixed;
+  top: 50%;
+  left: 100;
+  right: 0
+}
+
+.headlineCropperCord {
+  width: 100px;
+  height: 30px;
+  margin-left: -50px;
+  margin-top: -15px;
+  z-index: 10;
+  background: rgba(255,255,255,0.4);
+  border-radius: 5px;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 30px;
+  font-size: 14px;
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.75);
+  color: #fff
+}
+
+.headlineAction {
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+.headlineActionItem{
+  margin-left: 4px;
+  background: rgba(255,255,255,0.4);
+  border-radius: 5px;
+}

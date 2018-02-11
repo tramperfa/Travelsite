@@ -30,6 +30,8 @@ import VideoInsert from './sidebar/VideoInsert'
 import TitleInsert from './sidebar/TitleInsert'
 import SubTitleList from './sidebar/SubTitleList'
 
+import SequenceAdjustor from './SequenceAdjustor/SequenceAdjustor'
+
 import {defaultDecorator} from './decorators/defaultDecorator'
 import Atomic from './atomicblock/Atomic'
 import defaultPlugins from './plugins/default'
@@ -416,6 +418,7 @@ class MyEditor extends Component {
 						addSubTitleBlock={this.addSubTitleBlock}/>
 					<SubTitleList subTitleList={this.state.subTitleList}/>
 				</div>
+				<SequenceAdjustor/>
 			</div>
 
 		)

@@ -5,8 +5,8 @@ import Slide from 'material-ui/transitions/Slide';
 import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
 import Edit from "material-ui-icons/Edit";
-import Dialog, {DialogActions, DialogContent} from 'material-ui/Dialog';
-
+// import Dialog, {DialogActions, DialogContent} from 'material-ui/Dialog';
+import Dialog, {DialogActions} from 'material-ui/Dialog'
 //
 import CONSTS from '../../lib/consts';
 import ImageInsert from './sidebar/ImageInsert';
@@ -31,25 +31,25 @@ const StoryHeadline = ({
 			{
 				tempCropImage && tempCropImage.originalImage && <Dialog open={cropOpen} transition={Slide}
 						//onRequestClose={handleCloseCropper}
-						onKeyPress={onKeyPress}>
-						<DialogContent>
-							<ImageCrop
-								updateCropBox={updateCropBox}
-								minCropWidthOnCanvas={120}
-								src={CONSTS.BUCKET_NAME + tempCropImage.originalImage.filename}/>
-						</DialogContent>
-						<div>
-							Current Croping Area: {cropBox.width}
-							X {cropBox.height}
+						onKeyPress={onKeyPress} maxWidth={false}>
+						<ImageCrop
+							updateCropBox={updateCropBox}
+							minCropWidthOnCanvas={120}
+							src={CONSTS.BUCKET_NAME + tempCropImage.originalImage.filename}
+							imgSize={tempCropImage.originalImage.size}
+							cropBox={cropBox}/>
+						<div className="headlineAction">
+							<div className="headlineActionItem">
+								<Button color="primary" onClick={handleSubmit}>
+									Submit
+								</Button>
+							</div>
+							<div className="headlineActionItem">
+								<Button color="primary" onClick={handleCloseCropper}>
+									Cancel
+								</Button>
+							</div>
 						</div>
-						<DialogActions>
-							<Button color="primary" onClick={handleSubmit}>
-								Submit
-							</Button>
-							<Button color="primary" onClick={handleCloseCropper}>
-								Cancel
-							</Button>
-						</DialogActions>
 					</Dialog>
 			}
 			<div>
