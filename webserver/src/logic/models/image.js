@@ -125,53 +125,21 @@ var ImageSchema = new Schema({
 	avatar124px: {
 		filename: {
 			type: String
-		},
-		size: {
-			width: {
-				type: Number
-			},
-			height: {
-				type: Number
-			}
 		}
 	},
 	avatar48px: {
 		filename: {
 			type: String
-		},
-		size: {
-			width: {
-				type: Number
-			},
-			height: {
-				type: Number
-			}
 		}
 	},
 	avatar36px: {
 		filename: {
 			type: String
-		},
-		size: {
-			width: {
-				type: Number
-			},
-			height: {
-				type: Number
-			}
 		}
 	},
 	avatar20px: {
 		filename: {
 			type: String
-		},
-		size: {
-			width: {
-				type: Number
-			},
-			height: {
-				type: Number
-			}
 		}
 	}
 }, {usePushEach: true});
@@ -188,19 +156,29 @@ ImageSchema.methods = {
 	newImage: function () {
 		return new Promise((resolve, reject) => {
 			this.save((err, res) => {
-				err
-					? reject(err)
-					: resolve(res)
-			});
+				if (err) {
+					//TODO Log error
+					reject(new Error("Server Inernal Error"))
+				} else if (!res) {
+					reject(new Error("Cannot Create requested image"))
+				} else {
+					resolve(res)
+				}
+			})
 		});
 	},
 
 	load: async function (_id) {
 		return new Promise((resolve, reject) => {
 			this.findOne({_id: _id}).exec((err, res) => {
-				err
-					? reject(new Error("Cannot find requested image"))
-					: resolve(res)
+				if (err) {
+					//TODO Log error
+					reject(new Error("Server Inernal Error"))
+				} else if (!res) {
+					reject(new Error("Cannot find requested image"))
+				} else {
+					resolve(res)
+				}
 			})
 		});
 	}

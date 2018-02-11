@@ -171,9 +171,14 @@ StorySchema.statics = {
 				.populate('coverImage').populate('images').populate('headlineImage')
 			//
 				.exec((err, res) => {
-				err
-					? reject(new Error("Cannot find requested story"))
-					: resolve(res)
+				if (err) {
+					//TODO Log error
+					reject(new Error("Server Inernal Error"))
+				} else if (!res) {
+					reject(new Error("Cannot find requested story"))
+				} else {
+					resolve(res)
+				}
 			})
 		});
 	},
@@ -193,9 +198,14 @@ StorySchema.statics = {
 		return new Promise((resolve, reject) => {
 			this.find(criteria).populate('author').populate('coverImage'). // User model hasn't been defined in Mongoose
 			sort({lastUpdate: -1}).limit(limit).skip(limit * page).exec((err, res) => {
-				err
-					? reject(err)
-					: resolve(res)
+				if (err) {
+					//TODO Log error
+					reject(new Error("Server Inernal Error"))
+				} else if (!res) {
+					reject(new Error("Cannot find requested story"))
+				} else {
+					resolve(res)
+				}
 			})
 		});
 	}

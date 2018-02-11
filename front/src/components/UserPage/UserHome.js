@@ -6,6 +6,7 @@ import ComposeQuery from '../../lib/hoc';
 import {withUserDetailQuery} from '../../graphql/user';
 
 const UserHome = ({userData}) => {
+	console.log(userData);
 	const user = userData.user
 	return (
 		<div>

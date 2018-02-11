@@ -123,8 +123,7 @@ const willCompressUploadSingleAvatar = async (avatarType) => {
 		requireSize.height
 	).toBuffer()
 	image[avatar] = {
-		filename: newName,
-		size: requireSize
+		filename: newName
 	}
 	await willUploadObject(newName, avatarImage)
 }
