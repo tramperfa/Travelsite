@@ -150,3 +150,33 @@
   background: rgba(255,255,255,0.4);
   border-radius: 5px;
 }
+
+.headlineWithoutImage {
+  position: absolute;
+  top: 20%;
+  left: 10%
+}
+
+.headlineWithImage {
+  background: rgba(255,255,255,0.4);
+  padding-left: 6px;
+  border-radius: 5px;
+  position: absolute;
+  bottom: 120px;
+  left: 15%
+}
+
+.headlineContainer {
+  position: relative;
+}
+
+.storyTitle {
+  background: rgba(255,255,255,0.4);
+  border-radius: 5px;
+  padding: 6px;
+  z-index: 10;
+  position: absolute;
+  left: 15%;
+  right: 15%;
+  bottom: 25px;
+}

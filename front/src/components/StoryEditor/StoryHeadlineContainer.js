@@ -9,6 +9,7 @@ import willExtractSize from './util/ExtractSize';
 
 //
 import StoryHeadline from './StoryHeadline';
+import StoryTitle from './StoryTitle'
 
 class StoryHeadlineContainer extends Component {
 	state = {
@@ -77,15 +78,18 @@ class StoryHeadlineContainer extends Component {
 
 	render() {
 		return (
-			<StoryHeadline
-				state={this.state}
-				headlineImage={this.props.draft.headlineImage}
-				onKeyPress={this.onKeyPress}
-				updateCropBox={this.updateCropBox}
-				handleSubmit={this.handleSubmit}
-				handleCloseCropper={this.handleCloseCropper}
-				handleOpenCropper={this.handleOpenCropper}
-				uploadFile={this.uploadFile}/>
+			<div className='headlineContainer'>
+				<StoryTitle title={this.props.draft.title} match={this.props.match}/>
+				<StoryHeadline
+					state={this.state}
+					headlineImage={this.props.draft.headlineImage}
+					onKeyPress={this.onKeyPress}
+					updateCropBox={this.updateCropBox}
+					handleSubmit={this.handleSubmit}
+					handleCloseCropper={this.handleCloseCropper}
+					handleOpenCropper={this.handleOpenCropper}
+					uploadFile={this.uploadFile}/>
+			</div>
 		)
 	}
 }

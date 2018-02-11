@@ -34,7 +34,7 @@ class ImageCrop extends Component {
 					width: imgWidth
 				}}>
 				{
-					cropBox.x != undefined && <div
+					cropBox.x !== undefined && <div
 							className="headlineCropperCord"
 							style={{
 								position: 'absolute',
