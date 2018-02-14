@@ -6,7 +6,7 @@ import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
 import Edit from "material-ui-icons/Edit";
 // import Dialog, {DialogActions, DialogContent} from 'material-ui/Dialog';
-import Dialog, {DialogActions} from 'material-ui/Dialog'
+import Dialog from 'material-ui/Dialog'
 //
 import CONSTS from '../../lib/consts';
 import ImageInsert from './sidebar/ImageInsert';

@@ -3,7 +3,7 @@ import Draft from '../logic/models/draft'
 import Image from '../logic/models/image'
 
 export const checkLogin = (context) => {
-	if (!context.sessionUser) {
+	if (!context.sessionUser || !context.sessionUser.user || !context.sessionUser.user._id) {
 		//TODO Add to Error Log
 		throw new Error('User Not Logged In')
 	}

@@ -60,8 +60,12 @@ export const AVATAR_FRG = gql `
         avatar36px{
             filename
         }
-
-
+        avatar48px{
+            filename
+        }
+        avatar124px{
+            filename
+        }
     }
 `;
 
