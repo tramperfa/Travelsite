@@ -13,13 +13,17 @@ import Header from './Header';
 class HeaderContainer extends Component {
 
 	componentDidMount() {
-		persist.willGetSessionUser().then((value) => {
-			this.props.loadUserInfoDispatch(value)
-			// console.log("AAAAA"); console.log(value); console.log("AAAAA");
-		})
+
+		if (this.props.userLocalStoreState.loading) {
+			persist.willGetSessionUser().then((value) => {
+				this.props.loadUserInfoDispatch(value)
+				// console.log("AAAAA"); console.log(value); console.log("AAAAA");
+			})
+		}
 	}
 
 	render() {
+		//console.log(this.props.userLocalStoreState);
 		return (
 			//
 			<div>

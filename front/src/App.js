@@ -12,39 +12,40 @@ import './App.css';
 import {THEME} from './lib/config';
 
 // Routes and components
-import Loading from './components/Loading';
-// import StoryEditor from './components/StoryEditor';
+import LoadingSplitCode from './lib/LoadingSplitCode';
 import StoryReader from './components/StoryReader'; // -12KB if Split
 import Header from './components/Header';
 import Homepage from './components/Homepage';
 import AuthSignupDialog from './components/AuthSignupDialog'; // -3KB if Split
 import Signup from './components/Signup';
 import UserPage from './components/UserPage'; // TB Split
-import UserDraft from './components/UserPage/UserDraft';
 
-//TBD
 import NotFound from './components/NotFound';
+import Login from './components/Login';
 
 //GraphQL
 import client from './graphql/graphql';
 
 //Redux
 import reducer from './redux/reducers';
+
+import PrivateRoute from './lib/PrivateRoute';
+
 const store = createStore(
 	reducer,
 	window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 )
 
-const LoadableStoryEditor = Loadable({
+const LoadablePrivateUserPage = Loadable({
 	loader: () => import (/* webpackChunkName: 'Editor' */
-	'./components/StoryEditor'),
-	loading: Loading,
+	'./components/PrivateUserPage'),
+	loading: LoadingSplitCode,
 	delay: 1000
 })
 
 // const LoadableStoryReader = Loadable({ 	loader: () => import (/*
 // webpackChunkName: 'Reader' */ 	'./components/StoryReader'), 	loading:
-// Loading, 	delay: 1000 })
+// LoadingSplitCode, 	delay: 1000 })
 
 const App = () => {
 	return (
@@ -59,9 +60,9 @@ const App = () => {
 								<Route exact={true} path="/" component={Homepage}/>
 								<Route path='/story/:_id' component={StoryReader}/>
 								<Route path="/user/:_id" component={UserPage}/>
-								<Route path="/mydraft" component={UserDraft}/>
-								<Route path="/edit/:_id" component={LoadableStoryEditor}/>
+								<PrivateRoute path="/my" component={LoadablePrivateUserPage}/>
 								<Route path="/signup" component={Signup}/>
+								<Route path="/login" component={Login}/>
 								<Route path="/dest" component={null} key="dest"/>
 								<Route path="/hotel" component={null} key="hotel"/>
 								<Route component={NotFound}/>

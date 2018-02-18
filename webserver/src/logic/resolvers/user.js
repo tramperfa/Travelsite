@@ -14,8 +14,8 @@ module.exports = {
 	},
 	Mutation: {
 		registerUser: async (parent, args, context) => {
-			//const user = args.input
-			return User.create(args.input.user)
+			const user = args.input
+			return User.create(user)
 		},
 		localLogin: async (parent, args, context) => {
 			const user = await willLogin(

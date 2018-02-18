@@ -23,8 +23,8 @@ type Commnet {
 type Query {
   story(_id: ID!): Story
   stories: [Story]
-  myStories: [Story]
-  myDeletedStories: [Story]
+  userStories(userID: ID!): [Story]
+  DeletedStories: [Story]
   #storyList(type: $type, offset: $offset, limit: Int = 10) [Story]
 }
 

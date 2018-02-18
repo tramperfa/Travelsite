@@ -11,7 +11,7 @@ import Delete from 'material-ui-icons/Delete';
 //
 import ComposeQuery from '../../lib/hoc';
 import {ItemCount} from '../../lib/utils';
-import {WithMyStoryQuery} from '../../graphql/story';
+import {WithUserStoryQuery} from '../../graphql/story';
 
 //
 import UserStoryCard from './UserStoryCard';
@@ -22,8 +22,9 @@ const styles = theme => ({
 	}
 });
 
-const UserStory = ({myStoryData, classes, match}) => {
-	const stories = myStoryData.myStories
+const UserStory = ({userStoryData, match, classes}) => {
+	console.log(userStoryData);
+	const stories = userStoryData.userStories
 	return (
 		<div>
 			{
@@ -50,11 +51,11 @@ const UserStory = ({myStoryData, classes, match}) => {
 
 UserStory.propTypes = {
 	match: PropTypes.object.isRequired,
-	myStoryData: PropTypes.object.isRequired
+	userStoryData: PropTypes.object.isRequired
 }
 
-const UserStoryWithComposeQuery = ComposeQuery(UserStory, 'myStoryData')
+const UserStoryWithComposeQuery = ComposeQuery(UserStory, 'userStoryData')
 
-export default compose(WithMyStoryQuery, withStyles(styles))(
+export default compose(WithUserStoryQuery, withStyles(styles))(
 	UserStoryWithComposeQuery
 )

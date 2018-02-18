@@ -57,7 +57,7 @@ const UserSection = ({
 									</Link>
 								</MenuItem>
 								<MenuItem>
-									<Link className={classes.textField} to={`/mydraft`} target="_blank">
+									<Link className={classes.textField} to={`/my/draft`} target="_blank">
 										Write a Story
 									</Link>
 								</MenuItem>

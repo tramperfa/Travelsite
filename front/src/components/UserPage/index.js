@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 
 import UserHome from './UserHome';
 import UserStory from './UserStory';
-import UserDeleteStory from './UserDeleteStory';
 import UserHeader from './UserHeader';
 
 const styles = theme => ({
@@ -25,9 +24,7 @@ const UserPage = ({match}) => {
 			<Switch>
 				<Route path={`${match.path}`} exact={true} component={UserHome}/>
 				<Route path={`${match.path}/story`} exact={true} component={UserStory}/>
-				<Route path={`${match.path}/story/delete`} component={UserDeleteStory}/>
-				<Route path={`${match.path}/review`} component={null}/>
-				<Route path={`${match.path}/archive`} component={null}/>
+				<Route path={`${match.path}/review`} exact={true} component={null}/>
 			</Switch>
 		</div>
 	)

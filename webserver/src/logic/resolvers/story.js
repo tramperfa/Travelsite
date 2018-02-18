@@ -1,7 +1,7 @@
 import GraphQLJSON from 'graphql-type-json';
 import Story from '../models/story'
 import User from '../models/user'
-import {willCheckDocumentOwnerShip, checkLogin} from '../../lib/resolverHelpers';
+import {willCheckDocumentOwnerShip, checkLogin, checkLoginBoolean} from '../../lib/resolverHelpers';
 
 module.exports = {
 	Query: {
@@ -18,19 +18,32 @@ module.exports = {
 			return Story.list(options)
 		},
 
-		myStories: async (parent, args, context) => {
-			const options = {
-				criteria: {
-					'author': context.sessionUser.user._id,
-					'status': {
-						$lt: 3
+		userStories: async (parent, args, context) => {
+			// Query Own Story
+			if (checkLoginBoolean(context) && context.sessionUser.user._id.equals(args.userID)) {
+				const options = {
+					criteria: {
+						'author': context.sessionUser.user._id,
+						'status': {
+							$lt: 3
+						}
 					}
 				}
+				return Story.list(options)
+				// Query Someone Else Story
+			} else {
+				const options = {
+					criteria: {
+						'author': args.userID,
+						'status': 2
+					}
+				}
+				return Story.list(options)
 			}
-			return Story.list(options)
+
 		},
 
-		myDeletedStories: async (parent, args, context) => {
+		DeletedStories: async (parent, args, context) => {
 			checkLogin(context)
 			const options = {
 				criteria: {

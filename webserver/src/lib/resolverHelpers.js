@@ -9,6 +9,14 @@ export const checkLogin = (context) => {
 	}
 }
 
+export const checkLoginBoolean = (context) => {
+	if (context.sessionUser && context.sessionUser.user && context.sessionUser.user._id) {
+		return true
+	} else {
+		return false
+	}
+}
+
 export const willCheckDocumentOwnerShip = async (
 	documentID,
 	context,

@@ -4,6 +4,8 @@ const ObjectId = Schema.ObjectId;
 import uniqueValidator from 'mongoose-unique-validator';
 import bcrypt from 'bcrypt';
 
+import errorType from '../../lib/errorType';
+
 let validateLocalStrategyProperty = function (property) {
 	return (this.provider !== "local" && !this.updated) || property.length;
 };
@@ -201,12 +203,12 @@ UserSchema.statics = {
 		return new Promise((resolve, reject) => {
 			this.findOne({_id: _id})
 			//.populate('user')
-				.populate('comments').exec((err, res) => {
+				.exec((err, res) => {
 				if (err) {
 					//TODO Log error
 					reject(new Error("Server Inernal Error"))
 				} else if (!res) {
-					reject(new Error("Cannot find requested user"))
+					reject(errorType(4))
 				} else {
 					resolve(res)
 				}
