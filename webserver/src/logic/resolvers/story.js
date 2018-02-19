@@ -2,6 +2,7 @@ import GraphQLJSON from 'graphql-type-json';
 import Story from '../models/story'
 import User from '../models/user'
 import {willCheckDocumentOwnerShip, checkLogin, checkLoginBoolean} from '../../lib/resolverHelpers';
+import errorType from '../../lib/errorType';
 
 module.exports = {
 	Query: {
@@ -20,7 +21,7 @@ module.exports = {
 
 		userStories: async (parent, args, context) => {
 			// Query Own Story
-			if (checkLoginBoolean(context) && context.sessionUser.user._id.equals(args.userID)) {
+			if (checkLoginBoolean(context) && (context.sessionUser.user._id == args.userID)) {
 				const options = {
 					criteria: {
 						'author': context.sessionUser.user._id,
@@ -78,7 +79,7 @@ const willInteractStory = async (storyID, field, context) => {
 		checkLogin(context)
 		const story = await Story.findById(storyID)
 		if (!story || story.status != 2) {
-			throw new Error('Reqested story does not exist')
+			throw errorType(4)
 		}
 		const interactField = field + 'Story'
 		const user = await User.findById(context.sessionUser.user._id)

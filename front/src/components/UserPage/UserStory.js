@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Link} from 'react-router-dom'
+//import {Link} from 'react-router-dom'
 import {withStyles} from 'material-ui/styles';
 import {compose} from 'recompose';
 
@@ -34,14 +34,6 @@ const UserStory = ({userStoryData, match, classes}) => {
 					</div>
 				))
 			}
-			<div>
-				<Link className={classes.textField} to={`${match.url}/delete`}>
-					<Button raised={true} color="accent">
-						My Deleted Stories
-						<Delete/>
-					</Button>
-				</Link>
-			</div>
 			<div>
 				<ItemCount number={stories.length} singular={'Story'} plural={'Stories'}/>
 			</div>

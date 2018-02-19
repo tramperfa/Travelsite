@@ -40,8 +40,17 @@ const UserPage = ({match}) => {
 	)
 }
 
+
+
+
 UserPage.propTypes = {
 	match: PropTypes.object.isRequired
 }
 
 export default withStyles(styles)(UserPage)
+
+
+
+// <div> 	<Link className={classes.textField} to={`${match.url}/delete`}>
+// <Button raised={true} color="accent"> 			My Deleted Stories 			<Delete/>
+// </Button> 	</Link> </div>

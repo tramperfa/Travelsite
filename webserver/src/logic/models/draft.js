@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 import uniqueValidator from 'mongoose-unique-validator';
+import errorType from '../../lib/errorType';
 // import Image from './image';
 //
 
@@ -108,9 +109,9 @@ imager.upload(images, function (err, cdnUri, files) {
 			this.save((err, res) => {
 				if (err) {
 					//TODO Log error
-					reject(new Error("Server Inernal Error"))
+					reject(errorType(2))
 				} else if (!res) {
-					reject(new Error("Cannot Crate requested story"))
+					reject(errorType(4))
 				} else {
 					resolve(res)
 				}
@@ -144,9 +145,9 @@ DraftSchema.statics = {
 				.exec((err, res) => {
 				if (err) {
 					//TODO Log error
-					reject(new Error("Server Inernal Error"))
+					reject(errorType(2))
 				} else if (!res) {
-					reject(new Error("Cannot find requested draft"))
+					reject(errorType(4))
 				} else {
 					resolve(res)
 				}
@@ -163,9 +164,9 @@ DraftSchema.statics = {
 				.exec((err, res) => {
 				if (err) {
 					//TODO Log error
-					reject(new Error("Server Inernal Error"))
+					reject(errorType(2))
 				} else if (!res) {
-					reject(new Error("Cannot find requested draft"))
+					reject(errorType(4))
 				} else {
 					resolve(res)
 				}
@@ -192,9 +193,9 @@ DraftSchema.statics = {
 			sort({lastUpdate: -1}).limit(limit).skip(limit * page).exec((err, res) => {
 				if (err) {
 					//TODO Log error
-					reject(new Error("Server Inernal Error"))
+					reject(errorType(2))
 				} else if (!res) {
-					reject(new Error("Cannot find requested draft"))
+					reject(errorType(4))
 				} else {
 					resolve(res)
 				}

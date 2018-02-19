@@ -1,5 +1,6 @@
 const errorType = (type) => {
-	// console.log("TYPE ::::::"); console.log(type);
+
+	//TODO Log Error
 	switch (type) {
 			// Any-login-User-Action
 		case 0:

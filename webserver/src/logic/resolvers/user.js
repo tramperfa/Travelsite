@@ -1,6 +1,7 @@
 import User from '../models/user';
 import passport from 'passport';
-import {checkLogin} from '../../lib/resolverHelpers';
+import {checkLogin, checkLoginBoolean} from '../../lib/resolverHelpers';
+import errorType from '../../lib/errorType';
 
 module.exports = {
 	Query: {
@@ -8,9 +9,12 @@ module.exports = {
 			return User.load(_id)
 		},
 		me: async (parent, args, context) => {
-			checkLogin(context)
-			return User.load(context.sessionUser.user._id)
+			if (checkLoginBoolean(context)) {
+				return User.load(context.sessionUser.user._id)
+			}
+			return null
 		}
+
 	},
 	Mutation: {
 		registerUser: async (parent, args, context) => {
@@ -68,7 +72,9 @@ const willAuthenWithPassport = (strategy, req) => new Promise(
 
 		passport.authenticate(strategy, (err, user, info) => {
 			if (err) {
-				return reject(new Error(err))
+				//TODO LOG
+				console.log(err);
+				return reject(errorType(2))
 			}
 			return user
 				? resolve(user)
@@ -81,9 +87,10 @@ const willAuthenWithPassport = (strategy, req) => new Promise(
 const willDestroySession = (req) => new Promise((resolve, reject) => {
 	req.session.destroy(function (err) {
 		if (err) {
-			return reject(new Error(err))
+			//TODO LOG
+			console.log(err);
+			return reject(errorType(2))
 		}
-
 		return resolve({success: true})
 	})
 })

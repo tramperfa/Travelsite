@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 import uniqueValidator from 'mongoose-unique-validator';
+import errorType from '../../lib/errorType';
 //import {willDeleteObject} from '../../lib/upload'
 
 var ImageSchema = new Schema({
@@ -158,9 +159,9 @@ ImageSchema.methods = {
 			this.save((err, res) => {
 				if (err) {
 					//TODO Log error
-					reject(new Error("Server Inernal Error"))
+					reject(errorType(2))
 				} else if (!res) {
-					reject(new Error("Cannot Create requested image"))
+					reject(errorType(4))
 				} else {
 					resolve(res)
 				}
@@ -173,9 +174,9 @@ ImageSchema.methods = {
 			this.findOne({_id: _id}).exec((err, res) => {
 				if (err) {
 					//TODO Log error
-					reject(new Error("Server Inernal Error"))
+					reject(errorType(2))
 				} else if (!res) {
-					reject(new Error("Cannot find requested image"))
+					reject(errorType(4))
 				} else {
 					resolve(res)
 				}

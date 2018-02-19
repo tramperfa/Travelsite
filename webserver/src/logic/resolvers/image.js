@@ -6,6 +6,7 @@ import sharp from 'sharp';
 import {willCheckDocumentOwnerShip} from '../../lib/resolverHelpers';
 import {willUploadObject, willDeleteObject} from '../../lib/S3';
 
+import errorType from '../../lib/errorType';
 //import Image from '../models/image';
 import User from '../models/user';
 import {imageSize} from '../../lib/upload';
@@ -91,13 +92,17 @@ const willCustomCrop = (inputURL, cropAt) => new Promise((resolve, reject) => {
 			Jimp.AUTO,
 			(err, newImage) => {
 				if (err) {
-					return reject(new Error(err))
+					//TODO LOG
+					console.log(err);
+					return reject(errorType(2))
 				}
 				return resolve(newImage)
 			}
 		)
 	}).catch((err) => {
-		return reject(new Error(err))
+		//TODO LOG
+		console.log(err);
+		return reject(errorType(2))
 	})
 })
 

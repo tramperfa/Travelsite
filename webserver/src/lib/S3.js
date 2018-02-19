@@ -1,5 +1,6 @@
 import AWS from 'aws-sdk';
 let aws = require('../../aws');
+import errorType from './errorType';
 
 // Amazon s3 config
 AWS.config.update(aws.s3);
@@ -12,7 +13,8 @@ export const willUploadObject = (key, body) => new Promise(
 		}, (err) => {
 			if (err) {
 				console.log(err);
-				return reject(new Error(err))
+				//TODO LOG throw errorType(2)
+				return reject(errorType(2))
 			}
 			return resolve("upload successful")
 		})
@@ -26,7 +28,8 @@ export const willDeleteObject = (key) => new Promise((resolve, reject) => {
 	}, (err) => {
 		if (err) {
 			console.log(err);
-			return reject(new Error(err))
+			//TODO LOG throw errorType(2)
+			return reject(errorType(2))
 		}
 		return resolve("delete successful")
 	})

@@ -206,7 +206,7 @@ UserSchema.statics = {
 				.exec((err, res) => {
 				if (err) {
 					//TODO Log error
-					reject(new Error("Server Inernal Error"))
+					reject(errorType(2))
 				} else if (!res) {
 					reject(errorType(4))
 				} else {

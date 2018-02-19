@@ -7,8 +7,9 @@ import passport from 'passport';
 
 import Image from '../logic/models/image';
 import Draft from '../logic/models/draft';
-import {willCheckDocumentOwnerShip, checkLogin} from './resolverHelpers';
+import {willCheckDocumentOwnerShip, checkLoginBoolean} from './resolverHelpers';
 import {willUploadObject, willDeleteObject} from './S3';
+import errorType from './errorType'
 
 // Multer config memory storage keeps file data in a buffer
 const upload = multer({
@@ -65,16 +66,19 @@ module.exports = function (app, db) {
 			width: origWidth,
 			height: origHeight
 		}
+		const context = {
+			sessionUser: req.session.passport
+		}
+
 		try {
 			// protect end point from random requests
-			const context = {
-				sessionUser: req.session.passport
+			if (!checkLoginBoolean(context)) {
+				throw errorType(1)
 			}
-			checkLogin(context)
+
 			var image = new Image(
 				{author: context.sessionUser.user._id, draft: draftID, catergory: catergory}
 			)
-
 			//, );
 			const buffer = await sharp(req.file.buffer).rotate().toBuffer()
 
@@ -130,12 +134,12 @@ module.exports = function (app, db) {
 					res.send(image);
 					break;
 				default:
-					throw new Error("illegal image upload request")
+					throw errorType(3)
 			}
 		} catch (e) {
 			console.log(e);
 			return res.status(400).send(e);
-		} finally {}
+		}
 	})
 }
 

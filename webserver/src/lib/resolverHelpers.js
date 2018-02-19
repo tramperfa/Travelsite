@@ -1,11 +1,12 @@
 import Story from '../logic/models/story'
 import Draft from '../logic/models/draft'
 import Image from '../logic/models/image'
+import errorType from './errorType';
 
 export const checkLogin = (context) => {
 	if (!context.sessionUser || !context.sessionUser.user || !context.sessionUser.user._id) {
 		//TODO Add to Error Log
-		throw new Error('User Not Logged In')
+		throw errorType(0)
 	}
 }
 
@@ -22,10 +23,12 @@ export const willCheckDocumentOwnerShip = async (
 	context,
 	documentType
 ) => {
-	checkLogin(context)
+	if (!checkLoginBoolean(context)) {
+		throw errorType(1)
+	}
 	if (!documentID || !documentType) {
 		//TODO Add to Error Log
-		return new Error("Invalid Request");
+		throw errorType(3)
 	}
 	try {
 		switch (documentType) {
@@ -51,11 +54,11 @@ export const willCheckDocumentOwnerShip = async (
 				break;
 			default:
 				//TODO Add to Error Log
-				return new Error("Request invalid document type");
+				throw errorType(3)
 		}
 		if (!doc || !doc.author.equals(context.sessionUser.user._id)) {
 			//TODO Add to Error Log
-			return new Error('Reqested ' + documentType + 'not authorized')
+			throw errorType(1)
 		}
 		return doc
 	} catch (e) {

@@ -3,6 +3,7 @@ import Draft from '../models/draft'
 import Story from '../models/story'
 import User from '../models/user'
 import {checkLogin, willCheckDocumentOwnerShip} from '../../lib/resolverHelpers';
+//import errorType from '../../lib/errorType';
 
 module.exports = {
 	Query: {
@@ -135,7 +136,7 @@ const willPublishDraft = async (draftID, context) => {
 		return draft
 	} catch (e) {
 		return e
-	} finally {}
+	}
 
 }
 
@@ -146,6 +147,6 @@ const willDeleteDraft = async (draftID, context) => {
 		return null
 	} catch (e) {
 		return e
-	} finally {}
+	}
 
 }
