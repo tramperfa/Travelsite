@@ -7,6 +7,7 @@ import VideoBlock from './VideoBlock'
 import ImageBlock from './ImageBlock'
 import SubTitleBlock from './SubTitleBlock'
 import SubTitleList from './SubTitleList'
+import ScrollTools from '../../StoryEditor/ScrollTools'
 import searchImage from '../../../lib/searchImage'
 import CONSTS from '../../../lib/consts'
 
@@ -68,6 +69,7 @@ const ContentSection = ({content, images}) => {
 			<div className="sidebarWrapper">
 				<SubTitleList subTitleList={subTitleList}/>
 			</div>
+			<ScrollTools/>
 		</div>
 	)
 }

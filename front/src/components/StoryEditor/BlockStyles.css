@@ -245,3 +245,17 @@
 .textItemWrapper:hover .textItemContent {
   visibility: visible;
 }
+
+.scrollTools {
+  position: fixed;
+  right: 15%;
+  bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.publishButton {
+  margin-top: 50px;
+  margin-left: 350px;
+  margin-bottom: 15px;
+}

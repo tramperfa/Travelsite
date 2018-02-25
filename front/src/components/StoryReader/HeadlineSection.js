@@ -6,16 +6,27 @@ import defaultImageHeadline from '../../images/headlineImage.jpg';
 const HeadlineSection = ({title, headlineImage}) => {
 	return (
 		//
-		<div>
-			{"Tiltle(To be moved on top of image): " + title}
-			<span>
+		<div style={{
+				position: 'relative'
+			}}>
+			<div>
 				<img
 					className="headlineImage"
 					src={headlineImage
 						? CONSTS.BUCKET_NAME + headlineImage.browserHeadlineImage.filename
 						: defaultImageHeadline}
 					alt='headline'/>
-			</span>
+			</div>
+			<h1
+				style={{
+					position: 'absolute',
+					marginTop: 0,
+					bottom: 0,
+					left: '25%',
+					right: '25%',
+					paddingLeft: 10,
+					color: '#fff'
+				}}>{title}</h1>
 		</div>
 	)
 };

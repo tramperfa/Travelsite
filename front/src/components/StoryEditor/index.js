@@ -52,9 +52,11 @@ class StoryEditorContainer extends React.Component {
 						startingImages={this.props.draftData.draft.images}
 						match={this.props.match}/>
 				</div>
-				<Button color="primary" onClick={this.handlePublish}>
-					Publish Story
-				</Button>
+				<div className="publishButton">
+					<Button color="primary" onClick={this.handlePublish}>
+						Publish Story
+					</Button>
+				</div>
 			</div>
 		)
 	}

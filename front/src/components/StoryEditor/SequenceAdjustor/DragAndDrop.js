@@ -1,15 +1,7 @@
 import React, {Component} from 'react'
 import {DragDropContext, Droppable} from 'react-beautiful-dnd'
-import {List, Map} from 'immutable'
-import {
-	genKey,
-	EditorState,
-	ContentState,
-	convertToRaw,
-	ContentBlock,
-	Modifier,
-	BlockMapBuilder
-} from "draft-js"
+import {List} from 'immutable'
+import {genKey, ContentState, convertToRaw, ContentBlock} from "draft-js"
 
 import ParagraphGroup from './ParagraphGroup'
 

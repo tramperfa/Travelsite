@@ -31,6 +31,7 @@ import TitleInsert from './sidebar/TitleInsert'
 import SubTitleList from './sidebar/SubTitleList'
 
 import SequenceAdjustor from './SequenceAdjustor/SequenceAdjustor'
+import ScrollTools from './ScrollTools'
 
 import {defaultDecorator} from './decorators/defaultDecorator'
 import Atomic from './atomicblock/Atomic'
@@ -429,6 +430,7 @@ class MyEditor extends Component {
 					onSequenceChanged={this.onSequenceChanged}
 					contentState={this.state.editorState.getCurrentContent()}
 					images={this.props.startingImages}/>
+				<ScrollTools/>
 			</div>
 
 		)
