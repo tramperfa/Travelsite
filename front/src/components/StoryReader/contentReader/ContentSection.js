@@ -74,7 +74,7 @@ const ContentSection = ({content, images}) => {
 
 const getSubTitleList = (content) => {
 	let subTitleBlocks = content.blocks.filter((block) => {
-		return (block.data.type === 'subTitle')
+		return (block.type === 'atomic' && block.data.type === 'subTitle')
 	})
 
 	let subTitleList = subTitleBlocks.map((block) => {

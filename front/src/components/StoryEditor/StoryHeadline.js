@@ -42,12 +42,12 @@ const StoryHeadline = ({
 							imgSize={tempCropImage.originalImage.size}
 							cropBox={cropBox}/>
 						<div className="headlineAction">
-							<div className="headlineActionItem">
+							<div className="dialogActionItem">
 								<Button color="primary" onClick={handleSubmit}>
 									<Done/>
 								</Button>
 							</div>
-							<div className="headlineActionItem">
+							<div className="dialogActionItem">
 								<Button color="primary" onClick={handleCloseCropper}>
 									<Clear/>
 								</Button>

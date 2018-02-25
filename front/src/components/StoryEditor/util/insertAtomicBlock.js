@@ -27,6 +27,9 @@ function insertAtomicBlock(editorState, data) {
 	)
 
 	const fragmentArray = [
+		new ContentBlock(
+			{key: genKey(), type: "unstyled", text: "", characterList: List()}
+		),
 		block,
 		new ContentBlock(
 			{key: genKey(), type: "unstyled", text: "", characterList: List()}

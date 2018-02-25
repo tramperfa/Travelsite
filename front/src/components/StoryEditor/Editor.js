@@ -96,6 +96,13 @@ class MyEditor extends Component {
 		}
 	}
 
+	onSequenceChanged = (contentState) => {
+		const editorState = EditorState.createWithContent(contentState)
+		this.onChange(editorState)
+		//update subTitle Elevator
+		this.setState({subTitleList: getSubTitleList(contentState)})
+	}
+
 	saveContent = debounce((newContent) => {
 		console.log(convertToRaw(newContent))
 		//console.log("WRITING TO THE SERVER")
@@ -418,7 +425,10 @@ class MyEditor extends Component {
 						addSubTitleBlock={this.addSubTitleBlock}/>
 					<SubTitleList subTitleList={this.state.subTitleList}/>
 				</div>
-				<SequenceAdjustor/>
+				<SequenceAdjustor
+					onSequenceChanged={this.onSequenceChanged}
+					contentState={this.state.editorState.getCurrentContent()}
+					images={this.props.startingImages}/>
 			</div>
 
 		)
