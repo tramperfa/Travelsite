@@ -106,9 +106,14 @@ imager.upload(images, function (err, cdnUri, files) {
 	newDraft: function () {
 		return new Promise((resolve, reject) => {
 			this.save((err, res) => {
-				err
-					? reject(err)
-					: resolve(res)
+				if (err) {
+					//TODO Log error
+					reject(new Error("Server Inernal Error"))
+				} else if (!res) {
+					reject(new Error("Cannot Crate requested story"))
+				} else {
+					resolve(res)
+				}
 			});
 		});
 	}
@@ -137,9 +142,14 @@ DraftSchema.statics = {
 				.populate('images').populate('coverImage')
 			//
 				.exec((err, res) => {
-				err
-					? reject(new Error("Cannot find requested draft"))
-					: resolve(res)
+				if (err) {
+					//TODO Log error
+					reject(new Error("Server Inernal Error"))
+				} else if (!res) {
+					reject(new Error("Cannot find requested draft"))
+				} else {
+					resolve(res)
+				}
 			})
 		});
 	},
@@ -151,9 +161,14 @@ DraftSchema.statics = {
 				.populate('coverImage')
 			//
 				.exec((err, res) => {
-				err
-					? reject(new Error("Cannot find requested draft"))
-					: resolve(res)
+				if (err) {
+					//TODO Log error
+					reject(new Error("Server Inernal Error"))
+				} else if (!res) {
+					reject(new Error("Cannot find requested draft"))
+				} else {
+					resolve(res)
+				}
 			})
 		});
 	},
@@ -175,9 +190,14 @@ DraftSchema.statics = {
 				'coverImage'
 			). // User model hasn't been defined in Mongoose
 			sort({lastUpdate: -1}).limit(limit).skip(limit * page).exec((err, res) => {
-				err
-					? reject(err)
-					: resolve(res)
+				if (err) {
+					//TODO Log error
+					reject(new Error("Server Inernal Error"))
+				} else if (!res) {
+					reject(new Error("Cannot find requested draft"))
+				} else {
+					resolve(res)
+				}
 			})
 		});
 	}

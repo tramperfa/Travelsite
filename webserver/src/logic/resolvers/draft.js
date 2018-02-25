@@ -2,7 +2,7 @@ import GraphQLJSON from 'graphql-type-json';
 import Draft from '../models/draft'
 import Story from '../models/story'
 import User from '../models/user'
-import {willCheckDocumentOwnerShip} from '../../lib/resolverHelpers';
+import {checkLogin, willCheckDocumentOwnerShip} from '../../lib/resolverHelpers';
 
 module.exports = {
 	Query: {
@@ -10,24 +10,20 @@ module.exports = {
 			return willCheckDocumentOwnerShip(args.draftID, context, 'draft')
 		},
 		myDrafts: async (parent, args, context) => {
-			if (context.sessionUser) {
-				const options = {
-					criteria: {
-						'author': context.sessionUser.user._id,
-						'status': 1
-					}
+			checkLogin(context)
+			const options = {
+				criteria: {
+					'author': context.sessionUser.user._id,
+					'status': 1
 				}
-				return Draft.list(options)
 			}
-			return new Error('You must login to write a Draft')
+			return Draft.list(options)
 		}
 	},
 
 	Mutation: {
 		createDraft: async (parent, args, context) => {
-			if (!context.sessionUser.user._id) {
-				return new Error('You must login to write a draft')
-			}
+			checkLogin(context)
 			var newDraft = new Draft(
 				{title: "", author: context.sessionUser.user._id, content: {}, images: []}
 			);

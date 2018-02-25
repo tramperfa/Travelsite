@@ -3,8 +3,9 @@ import Draft from '../logic/models/draft'
 import Image from '../logic/models/image'
 
 export const checkLogin = (context) => {
-	if (!context.sessionUser) {
-		return new Error('User Not Logged In')
+	if (!context.sessionUser || !context.sessionUser.user || !context.sessionUser.user._id) {
+		//TODO Add to Error Log
+		throw new Error('User Not Logged In')
 	}
 }
 
@@ -14,7 +15,10 @@ export const willCheckDocumentOwnerShip = async (
 	documentType
 ) => {
 	checkLogin(context)
-
+	if (!documentID || !documentType) {
+		//TODO Add to Error Log
+		return new Error("Invalid Request");
+	}
 	try {
 		switch (documentType) {
 			case 'story':
@@ -41,7 +45,7 @@ export const willCheckDocumentOwnerShip = async (
 				//TODO Add to Error Log
 				return new Error("Request invalid document type");
 		}
-		if (!doc.author.equals(context.sessionUser.user._id)) {
+		if (!doc || !doc.author.equals(context.sessionUser.user._id)) {
 			//TODO Add to Error Log
 			return new Error('Reqested ' + documentType + 'not authorized')
 		}

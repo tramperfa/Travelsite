@@ -7,11 +7,11 @@ import IconButton from 'material-ui/IconButton';
 import Typography from 'material-ui/Typography';
 import Share from "material-ui-icons/Share";
 import Comment from "material-ui-icons/Comment";
-
+import Avatar from 'material-ui/Avatar';
 import CONSTS from '../../lib/consts';
 
-//const defaultbrowserCoverImage = '../../images/browserCoverImage.png';
 import defaultbrowserCoverImage from '../../images/browserCoverImage.png';
+//import   defaultAvatar.jpg
 
 const styles = theme => ({
 	card: {
@@ -57,7 +57,10 @@ const StoryCard = ({classes, story}) => {
 								{story.title}
 							</Typography>
 							<Typography type="subheading" color="secondary">
-								{story.author.fullName}
+								<Avatar
+									alt="Remy Sharp"
+									src="/static/images/remy.jpg"
+									className={classes.avatar}/> {story.author.fullName}
 							</Typography>
 							<div>
 								{story.archiveStoryCount}

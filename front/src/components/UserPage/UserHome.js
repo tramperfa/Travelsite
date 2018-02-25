@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import ComposeQuery from '../../lib/hoc';
 import {withUserDetailQuery} from '../../graphql/user';
 
-const UserHome = ({userData}) => {
+const UserHome = ({userData, match}) => {
 	const user = userData.user
 	return (
 		<div>

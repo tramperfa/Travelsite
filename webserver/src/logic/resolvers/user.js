@@ -1,5 +1,6 @@
 import User from '../models/user';
 import passport from 'passport';
+import {checkLogin} from '../../lib/resolverHelpers';
 
 module.exports = {
 	Query: {
@@ -7,26 +8,16 @@ module.exports = {
 			return User.load(_id)
 		},
 		me: async (parent, args, context) => {
-			if (context.sessionUser) {
-				return User.load(context.sessionUser.user._id)
-			}
-			// return new Error('You must login to continue')
-
-			return null
+			checkLogin(context)
+			return User.load(context.sessionUser.user._id)
 		}
 	},
 	Mutation: {
 		registerUser: async (parent, args, context) => {
-			if (context.sessionUser && context.sessionUser._id) {
-				return new Error("user already has an account and logged in!")
-			}
-			const user = args.input
-			return User.create(user)
+			//const user = args.input
+			return User.create(args.input.user)
 		},
 		localLogin: async (parent, args, context) => {
-			// Prevent Logged in user keeps hiting login GraphQL mutation if
-			// (context.sessionUser != null) {   return new Error("User already logged in")
-			// }
 			const user = await willLogin(
 				context.req,
 				args.input.email,

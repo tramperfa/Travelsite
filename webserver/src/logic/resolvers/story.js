@@ -31,16 +31,14 @@ module.exports = {
 		},
 
 		myDeletedStories: async (parent, args, context) => {
-			if (context.sessionUser) {
-				const options = {
-					criteria: {
-						'author': context.sessionUser.user._id,
-						'status': 3
-					}
+			checkLogin(context)
+			const options = {
+				criteria: {
+					'author': context.sessionUser.user._id,
+					'status': 3
 				}
-				return Story.list(options)
 			}
-			return new Error('You must login')
+			return Story.list(options)
 		}
 	},
 
@@ -64,9 +62,7 @@ module.exports = {
 
 const willInteractStory = async (storyID, field, context) => {
 	try {
-		if (!context.sessionUser) {
-			throw new Error('User Not Logged In')
-		}
+		checkLogin(context)
 		const story = await Story.findById(storyID)
 		if (!story || story.status != 2) {
 			throw new Error('Reqested story does not exist')
@@ -87,7 +83,7 @@ const willInteractStory = async (storyID, field, context) => {
 		return story
 	} catch (e) {
 		return e
-	} finally {}
+	}
 }
 
 const willDeleteStory = async (storyID, context) => {

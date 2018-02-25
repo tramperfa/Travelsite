@@ -51,4 +51,22 @@ export const STORY_IMAGE_FRG = gql `
     ${IMAGE_FILE_FRG}
 `;
 
+export const AVATAR_FRG = gql `
+    fragment avatarImage on Image {
+        _id
+        avatar20px{
+          filename
+        }
+        avatar36px{
+            filename
+        }
+        avatar48px{
+            filename
+        }
+        avatar124px{
+            filename
+        }
+    }
+`;
+
 export default IMAGE_FILE_FRG

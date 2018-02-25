@@ -11,6 +11,10 @@ type Image {
     browserCoverImage: ImageFile
     browserUserHomeCoverImage: ImageFile
     browserHeadlineImage: ImageFile
+    avatar20px: ImageFilename
+    avatar36px: ImageFilename
+    avatar48px: ImageFilename
+    avatar124px: ImageFilename
 }
 
 type ImageFile {
@@ -21,6 +25,10 @@ type ImageFile {
 type Size {
   width: Int
   height: Int
+}
+
+type ImageFilename {
+  filename: String
 }
 
 type Query {
