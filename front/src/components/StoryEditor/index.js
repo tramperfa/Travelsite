@@ -38,24 +38,26 @@ class StoryEditorContainer extends React.Component {
 
 		return (
 
-			<div>
+			<div className="topContainter">
 				<StoryHeadlineContainer
 					draft={this.props.draftData.draft}
 					match={this.props.match}/>
-				<div>
-					{format(new Date(this.props.draftData.draft.lastUpdate), "YYYY-MM-DD HH:mm:ss")}
-				</div>
+				<div className="storyContainer">
+					<div>
+						{format(new Date(this.props.draftData.draft.lastUpdate), "YYYY-MM-DD HH:mm:ss")}
+					</div>
 
-				<div>
-					<Editor
-						startingContent={this.props.draftData.draft.content}
-						startingImages={this.props.draftData.draft.images}
-						match={this.props.match}/>
-				</div>
-				<div className="publishButton">
-					<Button color="primary" onClick={this.handlePublish}>
-						Publish Story
-					</Button>
+					<div>
+						<Editor
+							startingContent={this.props.draftData.draft.content}
+							startingImages={this.props.draftData.draft.images}
+							match={this.props.match}/>
+					</div>
+					<div className="publishButton">
+						<Button color="primary" onClick={this.handlePublish}>
+							Publish Story
+						</Button>
+					</div>
 				</div>
 			</div>
 		)

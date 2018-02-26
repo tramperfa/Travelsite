@@ -17,16 +17,7 @@ const HeadlineSection = ({title, headlineImage}) => {
 						: defaultImageHeadline}
 					alt='headline'/>
 			</div>
-			<h1
-				style={{
-					position: 'absolute',
-					marginTop: 0,
-					bottom: 0,
-					left: '25%',
-					right: '25%',
-					paddingLeft: 10,
-					color: '#fff'
-				}}>{title}</h1>
+			<h1 className="storyReaderTitle">{title}</h1>
 		</div>
 	)
 };

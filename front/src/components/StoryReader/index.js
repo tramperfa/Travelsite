@@ -17,13 +17,15 @@ class StoryReaderContainer extends React.Component {
 		const story = this.props.storyDetailData.story;
 		console.log(story);
 		return (
-			<div>
+			<div className="topContainter">
 				<HeadlineSection title={story.title} headlineImage={story.headlineImage}/>
-				<FunctionSectionContainer
-					match={this.props.match}
-					storyDetailData={this.props.storyDetailData}/>
-				<ContentSection content={story.content} images={story.images}/>
-				<CommentSection/>
+				<div className="storyContainer">
+					<FunctionSectionContainer
+						match={this.props.match}
+						storyDetailData={this.props.storyDetailData}/>
+					<ContentSection content={story.content} images={story.images}/>
+					<CommentSection/>
+				</div>
 			</div>
 		)
 	}

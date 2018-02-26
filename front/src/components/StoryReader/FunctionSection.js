@@ -19,56 +19,69 @@ const FunctionSection = (
 ) => {
 	console.log(story);
 	return (
-		<div>
-			<div>
-				{story.author.fullName + ' '}
-				{format(new Date(story.lastUpdate), "YYYY-MM-DD HH:mm")}
+		<div className="storyInfo">
+			<div className="authorInfo">
+				<div>
+					{story.author.fullName + ' '}
+					{format(new Date(story.lastUpdate), "YYYY-MM-DD HH:mm")}
 
-				{' TBD ViewCount'}
+					{' TBD ViewCount'}
+				</div>
+				<div>
+					{
+						(state.isAuthor) && (
+							<span>
+								<Link to={`/edit/${story.draft}`}>
+									<IconButton aria-label="Edit">
+										<Edit/>
+									</IconButton>
+								</Link>
+								<span>{"Edit Story"}</span>
+								<IconButton aria-label="Delete" onClick={handleDelete}>
+									<Delete/>
+								</IconButton>
+								<span>{"Delete Story"}</span>
+							</span>
+						)
+					}
+				</div>
 			</div>
-			<div>
-				<IconButton aria-label="Like" onClick={handleLike}>
-					{
-						state.liked
-							? <Favorite/>
-							: <FavoriteBorder/>
-					}
-				</IconButton>
-				<span>{story.likeStoryCount + "Likes"}</span>
-				<IconButton aria-label="Archive" onClick={handleArchive}>
-					{
-						state.archived
-							? <Star/>
-							: <StarBorder/>
-					}
-				</IconButton>
-				<span>{story.archiveStoryCount + "Archives"}</span>
-				<IconButton aria-label="Comment">
-					<Comment/>
-				</IconButton>
-				<span>{story.commentCount + "Comments"}</span>
-				<IconButton aria-label="Share">
-					<Share/>
-				</IconButton>
-				<span>{"Share"}</span>
+			<div className="readerActions">
+				<div className="readerActionItem">
+					<IconButton aria-label="Like" onClick={handleLike}>
+						{
+							state.liked
+								? <Favorite/>
+								: <FavoriteBorder/>
+						}
+					</IconButton>
+					<div>{story.likeStoryCount + " Likes"}</div>
+				</div>
+				<div className="readerActionItem">
+					<IconButton aria-label="Archive" onClick={handleArchive}>
+						{
+							state.archived
+								? <Star/>
+								: <StarBorder/>
+						}
+					</IconButton>
+					<div>{story.archiveStoryCount + " Archives"}</div>
+				</div>
+				<div className="readerActionItem">
+					<IconButton aria-label="Comment">
+						<Comment/>
+					</IconButton>
+					<div>{story.commentCount + " Comments"}</div>
+				</div>
+				<div className="readerActionItem">
+					<IconButton aria-label="Share">
+						<Share/>
+					</IconButton>
+					<div>{"Share"}</div>
+				</div>
+
 			</div>
 
-			{
-				(state.isAuthor) && (
-					<span>
-						<Link to={`/edit/${story.draft}`}>
-							<IconButton aria-label="Edit">
-								<Edit/>
-							</IconButton>
-						</Link>
-						<span>{"Edit Story"}</span>
-						<IconButton aria-label="Delete" onClick={handleDelete}>
-							<Delete/>
-						</IconButton>
-						<span>{"Delete Story"}</span>
-					</span>
-				)
-			}
 		</div>
 	)
 }

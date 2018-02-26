@@ -1,11 +1,19 @@
+.topContainter {
+  min-width: 1080px;
+}
+
+.storyContainer {
+  width: 1000px;
+  margin: 0 auto 40px auto;
+}
+
+
 .storyWrapper{
   display: flex;
   flex-direction: row;
 }
 
 .storyReader, .storyEditor{
-  margin-left: 80px;
-  margin-right: 80px;
   padding-top: 16px;
 }
 
@@ -15,6 +23,7 @@
 }
 
 .sidebarWrapper{
+  margin-left: 100px;
   padding: 16px;
   display: flex;
   align-self: flex-start;
@@ -167,7 +176,8 @@
   border-radius: 5px;
   position: absolute;
   bottom: 120px;
-  left: 15%
+  left: 50%;
+  margin-left: -500px;
 }
 
 .headlineContainer {
@@ -180,9 +190,40 @@
   padding: 6px;
   z-index: 10;
   position: absolute;
-  left: 15%;
-  right: 15%;
+  width: 1000px;
+  margin-left: -500px;
+  left: 50%;
   bottom: 25px;
+}
+
+.storyReaderTitle {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 1000px;
+  margin-left: -500px;
+  padding-left: 130px;
+  color: #fff
+}
+
+.storyInfo{
+  display: flex;
+  justify-content: space-between;
+}
+
+.authorInfo{
+
+}
+
+.readerActions{
+  display: flex;
+  flex-direction: row;
+}
+
+.readerActionItem{
+  padding: 0 16px 0 16px;
+  display: flex;
+  flex-direction: column;
 }
 
 .paragraphGroupsWrapper {
@@ -237,7 +278,7 @@
   left: 80px;
   border: 2px solid #bbb;
   background: pink;
-  z-index: 100;
+  z-index: 10;
   overflow: scroll;
   visibility: hidden;
 }
@@ -248,14 +289,15 @@
 
 .scrollTools {
   position: fixed;
-  right: 15%;
+  right: 50%;
+  margin-right: -500px;
   bottom: 20px;
   display: flex;
   flex-direction: column;
+  z-index: 20;
 }
 
 .publishButton {
-  margin-top: 50px;
-  margin-left: 350px;
-  margin-bottom: 15px;
+  width: max-content;
+  margin: 50px auto 15px auto;
 }
