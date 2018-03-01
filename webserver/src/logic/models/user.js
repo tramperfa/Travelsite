@@ -43,6 +43,10 @@ const UserSchema = new Schema({
 		default: '',
 		validate: [validateLocalStrategyPassword, "Password should be longer"]
 	},
+	role: {
+		type: String,
+		"default": 'USER'
+	},
 	provider: {
 		type: String,
 		default: 'local'
@@ -51,7 +55,7 @@ const UserSchema = new Schema({
 		type: ObjectId,
 		ref: "Image"
 	},
-	profile: {
+	publicProfile: {
 		description: {
 			type: String
 		},
@@ -118,10 +122,6 @@ const UserSchema = new Schema({
 		type: String,
 		unique: true,
 		sparse: true
-	},
-	roleNotVisibleAtFrontEnd: {
-		type: String,
-		"default": 'user'
 	},
 	resetPasswordToken: String,
 	resetPasswordExpires: Date,
@@ -205,7 +205,7 @@ UserSchema.statics = {
 			//.populate('user')
 				.exec((err, res) => {
 				if (err) {
-					//TODO Log error
+					//TODO Log error console.log(err);
 					reject(errorType(2))
 				} else if (!res) {
 					reject(errorType(4))

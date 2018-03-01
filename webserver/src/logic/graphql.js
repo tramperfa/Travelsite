@@ -1,13 +1,18 @@
 import {graphqlExpress, graphiqlExpress} from 'graphql-server-express';
 import {makeExecutableSchema, addMockFunctionsToSchema} from 'graphql-tools';
-import errorType from '../lib/errorType';
-
+import {directiveResolvers} from './directives'
+import {attachDirectiveResolvers} from 'graphql-tools';
+import depthLimit from 'graphql-depth-limit'
 const resolvers = require('./resolvers');
-const typeDefs = require('./types');
+import typeDefs from './types';
+
 const schema = makeExecutableSchema({typeDefs, resolvers});
 
-module.exports = function (app, db) {
+//console.log(typeDefs);
 
+attachDirectiveResolvers(schema, directiveResolvers)
+
+module.exports = function (app, db) {
 	app.use("/graphql", graphqlExpress((req) => {
 		console.log("GraphQL Requst is using sessionID :" + req.sessionID);
 		//console.log(req.session)
@@ -15,12 +20,14 @@ module.exports = function (app, db) {
 		if (query && query.length > 2000) {
 			// None of our app's queries are this long Probably indicates someone trying to
 			// send an overly expensive query
-			return errorType(3)
+			throw new Error("Query too large.");
 		}
 		// logger.debug("GraphQL request:", query);
 
 		return {
 			schema: schema,
+			// Limit Maximum Query Depth to 10 to Avoid Vicious Nested Queries
+			validationRules: [depthLimit(10)],
 			context: {
 				sessionUser: req.session.passport,
 				req: req
@@ -29,7 +36,6 @@ module.exports = function (app, db) {
 				return {message: error.message, path: error.path};
 			}
 		};
-
 	}));
 
 	app.use('/graphiql', graphiqlExpress({endpointURL: '/graphql'}));

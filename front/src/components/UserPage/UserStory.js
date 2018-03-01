@@ -5,8 +5,8 @@ import {withStyles} from 'material-ui/styles';
 import {compose} from 'recompose';
 
 //
-import Button from 'material-ui/Button';
-import Delete from 'material-ui-icons/Delete';
+// import Button from 'material-ui/Button'; import Delete from
+// 'material-ui-icons/Delete';
 
 //
 import ComposeQuery from '../../lib/hoc';

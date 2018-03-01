@@ -2,7 +2,8 @@
 import {compose} from 'recompose';
 
 //
-import {renderWhileLoading, graphQLQueryLoading, setErrorMessage, renderForError, GraphQLErrorComponent} from './apollo';
+import {renderWhileLoading, graphQLQueryLoading} from './apollo';
+import {setErrorMessage, renderForError, GraphQLErrorComponent} from './apollo';
 
 export const ComposeQuery = (component, propName = "data") => (compose(
 	renderWhileLoading(graphQLQueryLoading, propName),

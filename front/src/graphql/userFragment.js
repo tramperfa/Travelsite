@@ -10,10 +10,10 @@ export const USER_BASIC_FRG = gql `
       avatar{
         ...avatarImage
       }
+      likeStory
+      archiveStory
     }
     ${AVATAR_FRG}
 `;
-
-// ${AVATAR_IMAGE_FRG}
 
 export default USER_BASIC_FRG;

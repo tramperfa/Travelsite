@@ -32,7 +32,7 @@ export const WithStoryDetialsQuery = graphql(STORY_DETAILS_QUERY, {
 })
 
 export const STORIES_LIST_QUERY = gql `
-  query poularStoryQuery {
+  query popularStoryQuery {
     stories {
       ...storyCard
     }

@@ -1,0 +1,13 @@
+type PublicUser {
+  _id: ID!
+  fullName: String
+  publicProfile: JSON
+  avatar: Image
+  following: [ID]
+  follower: [ID]
+}
+
+
+type Query {
+  PublicUserByID(userID: ID!): PublicUser
+}

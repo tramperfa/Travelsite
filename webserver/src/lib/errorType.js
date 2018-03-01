@@ -16,6 +16,8 @@ const errorType = (type) => {
 			break;
 		case 3:
 			// Illegal Request
+			// TODO LOG for Debug Purpose
+			//
 			return new Error('Illegal Request')
 			break;
 		case 4:

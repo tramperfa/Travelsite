@@ -1,17 +1,23 @@
 import Story from '../logic/models/story'
 import Draft from '../logic/models/draft'
 import Image from '../logic/models/image'
+import User from '../logic/models/user'
 import errorType from './errorType';
 
-export const checkLogin = (context) => {
-	if (!context.sessionUser || !context.sessionUser.user || !context.sessionUser.user._id) {
-		//TODO Add to Error Log
-		throw errorType(0)
-	}
-}
+// export const checkLogin = (context) => { 	if (!context.sessionUser ||
+// !context.sessionUser.user || !context.sessionUser.user._id) {
+// 	 TODO Add to Error Log 		throw errorType(0) 	} }
 
 export const checkLoginBoolean = (context) => {
 	if (context.sessionUser && context.sessionUser.user && context.sessionUser.user._id) {
+		return true
+	} else {
+		return false
+	}
+}
+
+export const requireOwnerCheck = (context) => {
+	if (context.authAdd && context.authAdd.checkOwner) {
 		return true
 	} else {
 		return false
@@ -23,25 +29,15 @@ export const willCheckDocumentOwnerShip = async (
 	context,
 	documentType
 ) => {
-	if (!checkLoginBoolean(context)) {
-		throw errorType(1)
-	}
-	if (!documentID || !documentType) {
+	if (!documentID) {
 		//TODO Add to Error Log
 		throw errorType(3)
 	}
 	try {
+		const check = requireOwnerCheck(context)
 		switch (documentType) {
 			case 'story':
-				var doc = await Story.load({
-					_id: documentID,
-					'status': {
-						$lt: 3
-					}
-				});
-				break;
-			case 'deletedStory':
-				var doc = await Story.load({_id: documentID, 'status': 3});
+				var doc = await Story.load({_id: documentID});
 				break;
 			case 'draft':
 				var doc = await Draft.load(documentID);
@@ -56,9 +52,15 @@ export const willCheckDocumentOwnerShip = async (
 				//TODO Add to Error Log
 				throw errorType(3)
 		}
-		if (!doc || !doc.author.equals(context.sessionUser.user._id)) {
-			//TODO Add to Error Log
-			throw errorType(1)
+		if (!doc) {
+			throw errorType(4)
+		}
+		if (check) {
+			console.log(" Checking Document Ownership");
+			if (!doc.author.equals(context.sessionUser.user._id)) {
+				//TODO Add to Error Log REVIEW False Claim as Document Owner
+				throw errorType(4)
+			}
 		}
 		return doc
 	} catch (e) {

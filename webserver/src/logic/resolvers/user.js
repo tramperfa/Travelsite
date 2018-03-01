@@ -1,20 +1,20 @@
 import User from '../models/user';
 import passport from 'passport';
-import {checkLogin, checkLoginBoolean} from '../../lib/resolverHelpers';
+import {requireOwnerCheck} from '../../lib/resolverHelpers';
 import errorType from '../../lib/errorType';
 
 module.exports = {
 	Query: {
-		user: async (parent, _id, context) => {
-			return User.load(_id)
-		},
-		me: async (parent, args, context) => {
-			if (checkLoginBoolean(context)) {
+		userByID: async (parent, {
+			userID
+		}, context, info) => {
+			if (userID == 'MYSELF' || requireOwnerCheck(context)) {
+				console.log(context.authAdd);
 				return User.load(context.sessionUser.user._id)
+			} else {
+				return User.load(userID)
 			}
-			return null
 		}
-
 	},
 	Mutation: {
 		registerUser: async (parent, args, context) => {

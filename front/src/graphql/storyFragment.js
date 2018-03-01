@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 import {COVER_IMAGE_FRG, STORY_IMAGE_FRG} from './imageFragment';
-import {USER_BASIC_FRG} from './userFragment';
+import {PUBLIC_USER_SNAPSHOT_FRG} from './publicUserFragment';
 
 ////// FRAGMENT
 
@@ -14,13 +14,13 @@ export const STORY_CARD_FRG = gql `
       likeStoryCount
       commentCount
       author{
-        ...userBasic
+        ...publicUserSnapshot
       }
       coverImage{
         ...coverImage
       }
     }
-    ${USER_BASIC_FRG}
+    ${PUBLIC_USER_SNAPSHOT_FRG}
     ${COVER_IMAGE_FRG}
 `;
 

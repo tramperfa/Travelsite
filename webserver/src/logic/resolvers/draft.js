@@ -2,16 +2,18 @@ import GraphQLJSON from 'graphql-type-json';
 import Draft from '../models/draft'
 import Story from '../models/story'
 import User from '../models/user'
-import {checkLogin, willCheckDocumentOwnerShip} from '../../lib/resolverHelpers';
-//import errorType from '../../lib/errorType';
+import {willCheckDocumentOwnerShip} from '../../lib/resolverHelpers';
+import errorType from '../../lib/errorType';
 
 module.exports = {
 	Query: {
-		draft: async (parent, args, context) => {
-			return willCheckDocumentOwnerShip(args.draftID, context, 'draft')
+		draft: async (parent, {
+			draftID
+		}, context) => {
+			return willCheckDocumentOwnerShip(draftID, context, 'draft')
 		},
 		myDrafts: async (parent, args, context) => {
-			checkLogin(context)
+			// USER's Own Draft
 			const options = {
 				criteria: {
 					'author': context.sessionUser.user._id,
@@ -24,12 +26,12 @@ module.exports = {
 
 	Mutation: {
 		createDraft: async (parent, args, context) => {
-			checkLogin(context)
+			// Create a User's Own Draft
 			var newDraft = new Draft(
 				{title: "", author: context.sessionUser.user._id, content: {}, images: []}
 			);
 			await newDraft.save()
-			//return newDraft.newDraft()
+			//DO NOT WIRTE: return newDraft.newDraft()  NOT WORKING
 			return newDraft
 		},
 		updateTitle: async (parent, args, context) => {
@@ -72,7 +74,6 @@ module.exports = {
 		}
 	},
 	JSON: GraphQLJSON
-
 }
 
 const willUpdateDraft = async (draftID, updateField, updateValue, context) => {
@@ -82,22 +83,20 @@ const willUpdateDraft = async (draftID, updateField, updateValue, context) => {
 		draft[updateField] = updateValue
 		await draft.save()
 		return draft
-
 	} catch (e) {
 		return e
-	} finally {}
+	}
 }
 
 const willPublishDraft = async (draftID, context) => {
 	try {
-
 		var draft = await willCheckDocumentOwnerShip(draftID, context, 'draft')
 		// Already applied for publish
 		if (draft.status == 2) {
-			//console.log("ENTER AAAA ");
 			var story = await Story.findById(draft.story)
 			if (!story.draft.equals(draft._id) || !draft.story.equals(story._id)) {
-				throw new Error('Story and Draft Do Not Match')
+				//TODO LOG !! Story and Draft Do Not Match!
+				throw errorType(2)
 			}
 			const fields = [
 				'title',
@@ -108,13 +107,10 @@ const willPublishDraft = async (draftID, context) => {
 				'images'
 			]
 			fields.forEach(field => {
-				//console.log("UPDATING FIELD " + field);
 				story[field] = draft[field]
 			})
-
 			// First time applying for publish
 		} else {
-			//console.log("ENTER BBBB ");
 			var story = new Story({
 				//TESTING WITHOUT ADMIN REVIEW
 				status: 2,
@@ -148,5 +144,4 @@ const willDeleteDraft = async (draftID, context) => {
 	} catch (e) {
 		return e
 	}
-
 }

@@ -2,9 +2,7 @@ const initialState = {
 	loading: true,
 	me: {
 		_id: '',
-		fullName: '',
-		likeStory: [],
-		archiveStory: []
+		role: ''
 	}
 }
 
