@@ -10,7 +10,6 @@ import ComposeQuery from '../../lib/hoc';
 import {WithDraftDetailsQuery, WithPublishDraftMutation} from '../../graphql/draft';
 
 import Editor from './Editor';
-import StoryTitle from './StoryTitle';
 import StoryHeadlineContainer from './StoryHeadlineContainer';
 
 class StoryEditorContainer extends React.Component {
@@ -43,7 +42,6 @@ class StoryEditorContainer extends React.Component {
 				<StoryHeadlineContainer
 					draft={this.props.draftData.draft}
 					match={this.props.match}/>
-				<StoryTitle title={this.props.draftData.draft.title} match={this.props.match}/>
 				<div>
 					{format(new Date(this.props.draftData.draft.lastUpdate), "YYYY-MM-DD HH:mm:ss")}
 				</div>
@@ -72,7 +70,6 @@ const StoryEditorContainerWithComposeQuery = ComposeQuery(
 	StoryEditorContainer,
 	'draftData'
 )
-
 
 export default compose(WithDraftDetailsQuery, WithPublishDraftMutation)(
 	StoryEditorContainerWithComposeQuery

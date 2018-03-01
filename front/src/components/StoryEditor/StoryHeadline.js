@@ -5,6 +5,9 @@ import Slide from 'material-ui/transitions/Slide';
 import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
 import Edit from "material-ui-icons/Edit";
+import Done from 'material-ui-icons/Done'
+import Clear from 'material-ui-icons/Clear'
+
 // import Dialog, {DialogActions, DialogContent} from 'material-ui/Dialog';
 import Dialog from 'material-ui/Dialog'
 //
@@ -39,14 +42,14 @@ const StoryHeadline = ({
 							imgSize={tempCropImage.originalImage.size}
 							cropBox={cropBox}/>
 						<div className="headlineAction">
-							<div className="headlineActionItem">
+							<div className="dialogActionItem">
 								<Button color="primary" onClick={handleSubmit}>
-									Submit
+									<Done/>
 								</Button>
 							</div>
-							<div className="headlineActionItem">
+							<div className="dialogActionItem">
 								<Button color="primary" onClick={handleCloseCropper}>
-									Cancel
+									<Clear/>
 								</Button>
 							</div>
 						</div>
@@ -71,8 +74,7 @@ const HeadlineWithUserImage = (props) => {
 	var headlineImage = props.headlineImage
 	return (
 		<div>
-			<span>
-				<img className="headlineImage" src={imageSource} alt='headline'/>
+			<div className='headlineWithImage'>
 				<ImageInsert uploadFile={props.uploadFile} comment='Upload New Headline Image'/>
 				Edit Current Headline Image
 				<IconButton
@@ -80,7 +82,8 @@ const HeadlineWithUserImage = (props) => {
 					onClick={() => props.handleOpenCropper(headlineImage)}>
 					<Edit/>
 				</IconButton>
-			</span>
+			</div>
+			<img className="headlineImage" src={imageSource} alt='headline'/>
 		</div>
 	)
 }
@@ -88,11 +91,11 @@ const HeadlineWithUserImage = (props) => {
 const HeadlineWithoutUserImage = (props) => {
 	return (
 		<div className="headlineImage">
-			<span>
-				<img className="headlineImage" src={defaultImageHeadline} alt='headline'/>
+			<div className='headlineWithoutImage'>
 				<ImageInsert uploadFile={props.uploadFile} comment='Upload Headline Image'/>
 				Suggest Use Original Image or Image Higher than 1980px
-			</span>
+			</div>
+			<img className="headlineImage" src={defaultImageHeadline} alt='headline'/>
 		</div>
 	)
 }
