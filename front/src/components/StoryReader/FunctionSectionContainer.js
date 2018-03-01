@@ -90,8 +90,3 @@ export default compose(
 	WithArchiveStoryMutation,
 	WithDeleteStoryMutation,
 )(FunctionSectionContainerWithComposeQuery)
-
-// handleOpenLoginDialog: PropTypes.func.isRequired,
-//
-// const mapDispatchToProps = ({handleOpenLoginDialog: openLoginDialog}) export
-// default connect(null, mapDispatchToProps)(temp)
