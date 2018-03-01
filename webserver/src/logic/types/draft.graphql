@@ -1,7 +1,7 @@
 type Draft {
   _id: ID!
   story: ID
-  title: String!
+  title: String
   content: JSON
   coverImage: Image
   headlineImage: Image
@@ -12,20 +12,20 @@ type Draft {
 }
 
 type Query {
-  draft(draftID: ID!): Draft
-  myDrafts: [Draft]
+  draft(draftID: ID!): Draft @auth(role: "OWNER")
+  myDrafts: [Draft] @auth(role: "USER")
   #DraftList(type: $type, offset: $offset, limit: Int = 10) [Draft]
 }
 
 
 type Mutation {
-  createDraft(userID: ID): Draft
-  updateTitle(input: updateTitleInput!): Draft
-  updateContent(input: updateContentInput!): Draft
-  updateCover(input: updateCoverInput!): Draft
-  updateHeadline(input: updateHeadlineInput!): Draft
-  publishDraft(draftID: ID!): Draft
-  deleteDraft(draftID: ID!): Draft
+  createDraft(userID: ID): Draft  @auth(role: "USER")
+  updateTitle(input: updateTitleInput!): Draft  @auth(role: "OWNER")
+  updateContent(input: updateContentInput!): Draft @auth(role: "OWNER")
+  updateCover(input: updateCoverInput!): Draft @auth(role: "OWNER")
+  updateHeadline(input: updateHeadlineInput!): Draft @auth(role: "OWNER")
+  publishDraft(draftID: ID!): Draft @auth(role: "OWNER")
+  deleteDraft(draftID: ID!): Draft @auth(role: "OWNER")
 }
 
 input updateTitleInput {

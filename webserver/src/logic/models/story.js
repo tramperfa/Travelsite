@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 import uniqueValidator from 'mongoose-unique-validator';
+import errorType from '../../lib/errorType';
 
 var StorySchema = new Schema({
 	//_id
@@ -137,10 +138,11 @@ StorySchema.methods = {
 	removeComment: function (commentId) {
 		const index = this.comments.map(comment => comment.id).indexOf(commentId);
 
-		if (~ index) 
+		if (~ index) {
 			this.comments.splice(index, 1);
-		else 
-			throw new Error('Comment not found');
+		} else {
+			throw errorType(4)
+		}
 		return this.save();
 	}
 };
@@ -173,9 +175,9 @@ StorySchema.statics = {
 				.exec((err, res) => {
 				if (err) {
 					//TODO Log error
-					reject(new Error("Server Inernal Error"))
+					reject(errorType(2))
 				} else if (!res) {
-					reject(new Error("Cannot find requested story"))
+					reject(errorType(4))
 				} else {
 					resolve(res)
 				}
@@ -200,9 +202,9 @@ StorySchema.statics = {
 			sort({lastUpdate: -1}).limit(limit).skip(limit * page).exec((err, res) => {
 				if (err) {
 					//TODO Log error
-					reject(new Error("Server Inernal Error"))
+					reject(errorType(2))
 				} else if (!res) {
-					reject(new Error("Cannot find requested story"))
+					reject(errorType(4))
 				} else {
 					resolve(res)
 				}

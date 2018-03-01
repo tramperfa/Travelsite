@@ -1,8 +1,6 @@
 
 scalar JSON
 
-
-
 enum PhotoSize {
   ORIGINAL
   LARGE
@@ -12,6 +10,12 @@ enum PhotoSize {
 }
 
 
+directive @auth(role: String) on QUERY | FIELD
+
+#directive @upper on FIELD_DEFINITION
+# type Query {
+#   hello: String @upper
+# }
 
 # type POI {
 #   _id: ID!

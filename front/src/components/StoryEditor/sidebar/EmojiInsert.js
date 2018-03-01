@@ -5,7 +5,7 @@ import IconButton from 'material-ui/IconButton'
 import Mood from 'material-ui-icons/Mood'
 
 //import EmojiSelect from '../plugins/emoji/EmojiSelect'
-import Loading from '../../Loading';
+import Loading from '../../../lib/LoadingSplitCode';
 
 const LoadableEmojiSelect = Loadable({
 	loader: () => import (/* webpackChunkName: 'Editor_Emoji' */

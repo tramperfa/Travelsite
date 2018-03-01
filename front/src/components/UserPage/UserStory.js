@@ -1,17 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Link} from 'react-router-dom'
+//import {Link} from 'react-router-dom'
 import {withStyles} from 'material-ui/styles';
 import {compose} from 'recompose';
 
 //
-import Button from 'material-ui/Button';
-import Delete from 'material-ui-icons/Delete';
+// import Button from 'material-ui/Button'; import Delete from
+// 'material-ui-icons/Delete';
 
 //
 import ComposeQuery from '../../lib/hoc';
 import {ItemCount} from '../../lib/utils';
-import {WithMyStoryQuery} from '../../graphql/story';
+import {WithUserStoryQuery} from '../../graphql/story';
 
 //
 import UserStoryCard from './UserStoryCard';
@@ -22,8 +22,9 @@ const styles = theme => ({
 	}
 });
 
-const UserStory = ({myStoryData, classes, match}) => {
-	const stories = myStoryData.myStories
+const UserStory = ({userStoryData, match, classes}) => {
+	console.log(userStoryData);
+	const stories = userStoryData.userStories
 	return (
 		<div>
 			{
@@ -34,14 +35,6 @@ const UserStory = ({myStoryData, classes, match}) => {
 				))
 			}
 			<div>
-				<Link className={classes.textField} to={`${match.url}/delete`}>
-					<Button raised={true} color="accent">
-						My Deleted Stories
-						<Delete/>
-					</Button>
-				</Link>
-			</div>
-			<div>
 				<ItemCount number={stories.length} singular={'Story'} plural={'Stories'}/>
 			</div>
 		</div>
@@ -50,11 +43,11 @@ const UserStory = ({myStoryData, classes, match}) => {
 
 UserStory.propTypes = {
 	match: PropTypes.object.isRequired,
-	myStoryData: PropTypes.object.isRequired
+	userStoryData: PropTypes.object.isRequired
 }
 
-const UserStoryWithComposeQuery = ComposeQuery(UserStory, 'myStoryData')
+const UserStoryWithComposeQuery = ComposeQuery(UserStory, 'userStoryData')
 
-export default compose(WithMyStoryQuery, withStyles(styles))(
+export default compose(WithUserStoryQuery, withStyles(styles))(
 	UserStoryWithComposeQuery
 )

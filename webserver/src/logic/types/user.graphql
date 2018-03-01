@@ -2,35 +2,29 @@
 type User {
   _id: ID!
   fullName: String
-  provider: String
-  profile: JSON
+  publicProfile: JSON
   avatar: Image
-  # facebook: String
-  # google: String
-  #avatar(size: PhotoSize): Image
-}
-
-type Me {
-  _id: ID!
-  fullName: String
+  role: String
+  following: [ID]
+  follower: [ID]
   email: String
   provider: String
-  profile: JSON
   facebook: String
   google: String
   likeStory: [ID]
   archiveStory: [ID]
-  avatar: Image
-  # likedStory:[Story]
-  # archivedStory:[Story]
-  #avatar(size: PhotoSize): Image
+  archiveImage: [ID]
+  facebook: String
+  google: String
+  verifyToken: String
+  status: Int
 }
 
 
 type Query {
-  me: Me
-  user(_id: ID!): User
-  #storyList(type: $type, offset: $offset, limit: Int = 10) [Story]
+  # No Auth Requried for userSelf Query as long as request userID matches session userID
+  userSelf(userID: ID!): User
+  userByID(userID: ID!): User @auth(role: "ADMIN")
 }
 
 type Mutation {
@@ -57,5 +51,5 @@ input localLoginInput {
 }
 
 type LocalLoginPayload {
-  me: Me
+  user: User
 }

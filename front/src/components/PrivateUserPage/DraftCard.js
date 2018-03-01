@@ -60,7 +60,7 @@ export const DraftCard = function (props) {
 
 		<div >
 			<Card className={classes.card}>
-				<Link className={classes.textField} to={`/edit/${draft._id}`}>
+				<Link className={classes.textField} to={`/my/edit/${draft._id}`}>
 					<CardMedia
 						className={classes.cover}
 						image={draft.coverImage
@@ -68,7 +68,7 @@ export const DraftCard = function (props) {
 							: defaultbrowserCoverImage}/>
 				</Link>
 				<div className={classes.details}>
-					<Link className={classes.textField} to={`/edit/${draft._id}`}>
+					<Link className={classes.textField} to={`/my/edit/${draft._id}`}>
 						<CardContent className={classes.content}>
 							<Typography type="headline">
 								{draft.title}

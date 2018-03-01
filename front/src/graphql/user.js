@@ -1,40 +1,24 @@
 import gql from 'graphql-tag';
 import {graphql} from 'react-apollo';
+import {USER_BASIC_FRG} from './userFragment';
 
 ////// QUERY
-export const ME_QUERY = gql `
-  query meQuery {
-    me {
-      _id
-      likeStory
-      archiveStory
+export const USER_SELF_QUERY = gql `
+  query UserSelfQuery($userID : ID!) {
+    userSelf(userID: $userID){
+      ...userBasic
     }
   }
+  ${USER_BASIC_FRG}
 `;
 
-export const WithMeQuery = graphql(ME_QUERY, {
-	options: {},
-	name: 'MeData'
-})
-
-export const USER_DETAIL_QUERY = gql `
-   query userDetailsQuery($_id : ID!) {
-     user(_id: $_id) {
-       _id
-       fullName
-       provider
-       profile
-     }
-   }
- `;
-
-export const withUserDetailQuery = graphql(USER_DETAIL_QUERY, {
+export const WithUserSelfQuery = graphql(USER_SELF_QUERY, {
 	options: (props) => ({
 		variables: {
-			_id: props.match.params._id
+			userID: 'MYSELF'
 		}
 	}),
-	name: 'userData'
+	name: 'MeData'
 })
 
 ////// MUTATION

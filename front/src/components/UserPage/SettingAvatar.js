@@ -2,12 +2,10 @@ import React, {Component} from 'react'
 import Cropper from 'react-cropper';
 import 'cropperjs/dist/cropper.css';
 
-import ImageInsert from '../StoryEditor/sidebar/ImageInsert'
 import willUploadImage from '../../lib/ImageUpload'
 import willExtractOrientation from '../../lib/ExtractOrientation'
 import willExtractSize from '../../lib/ExtractSize'
-import CONSTS from '../../lib/consts'
-
+import AvatarCrop from './AvatarCrop'
 import testAvatar from '../../images/testAvatar.jpg'
 
 export default class SettingAvatar extends Component {
@@ -45,42 +43,7 @@ export default class SettingAvatar extends Component {
 		const {tempCropImage} = this.state
 		return (
 			<div>
-				<ImageInsert uploadFile={this.uploadFile}/> {
-					tempCropImage && tempCropImage.originalImage && <div>
-							<Cropper
-								style={{
-									height: 400,
-									width: '100%'
-								}}
-								viewMode={1}
-								aspectRatio={1 / 1}
-								guides={false}
-								movable={false}
-								zoomable={false}
-								scalable={false}
-								zoomOnTouch={false}
-								toggleDragModeOnDblclick={false}
-								minCropBoxWidth={100}
-								preview=".img-preview"
-								src={CONSTS.BUCKET_NAME + tempCropImage.originalImage.filename}
-								ref={(cropper) => {
-									this.cropper = cropper
-								}}/>
-							<div style={{
-									width: 200,
-									height: 200
-								}}>
-								<div
-									className="img-preview"
-									style={{
-										width: '100%',
-										height: 200,
-										overflow: 'hidden'
-									}}/>
-							</div>
-
-						</div>
-				}
+				<ImageInsert uploadFile={this.uploadFile}/> {tempCropImage && tempCropImage.originalImage && <AvatarCrop image={tempCropImage}/>}
 
 			</div>
 		)

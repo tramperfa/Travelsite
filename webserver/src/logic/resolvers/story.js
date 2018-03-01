@@ -1,37 +1,56 @@
 import GraphQLJSON from 'graphql-type-json';
 import Story from '../models/story'
 import User from '../models/user'
-import {willCheckDocumentOwnerShip, checkLogin} from '../../lib/resolverHelpers';
+import {willCheckDocumentOwnerShip, checkLoginBoolean} from '../../lib/resolverHelpers';
+import errorType from '../../lib/errorType';
 
 module.exports = {
 	Query: {
-		story: async (parent, _id, context) => {
+		story: async (parent, {
+			_id
+		}, context) => {
 			return Story.load({_id: _id, status: 2})
 		},
-
-		stories: async (parent, args, context) => {
+		stories: async (parent, args, context, info) => {
+			//console.log("Stories List Query Executed");
 			const options = {
 				criteria: {
 					'status': 2
 				}
+
 			}
 			return Story.list(options)
 		},
 
-		myStories: async (parent, args, context) => {
-			const options = {
-				criteria: {
-					'author': context.sessionUser.user._id,
-					'status': {
-						$lt: 3
+		userStories: async (parent, {
+			userID
+		}, context) => {
+			// Query User's Own Story
+			if (checkLoginBoolean(context) && (context.sessionUser.user._id == userID)) {
+				const options = {
+					criteria: {
+						'author': context.sessionUser.user._id,
+						'status': {
+							$lt: 3
+						}
 					}
 				}
+				return Story.list(options)
+				// Query Someone Else Story
+			} else {
+				const options = {
+					criteria: {
+						'author': args.userID,
+						'status': 2
+					}
+				}
+				return Story.list(options)
 			}
-			return Story.list(options)
+
 		},
 
-		myDeletedStories: async (parent, args, context) => {
-			checkLogin(context)
+		DeletedStories: async (parent, args, context) => {
+			//User's Own Deleted Stories
 			const options = {
 				criteria: {
 					'author': context.sessionUser.user._id,
@@ -43,17 +62,25 @@ module.exports = {
 	},
 
 	Mutation: {
-		likeStory: async (parent, args, context) => {
-			return willInteractStory(args.storyID, 'like', context)
+		likeStory: async (parent, {
+			storyID
+		}, context) => {
+			return willInteractStory(storyID, 'like', context)
 		},
-		archiveStory: async (parent, args, context) => {
-			return willInteractStory(args.storyID, 'archive', context)
+		archiveStory: async (parent, {
+			storyID
+		}, context) => {
+			return willInteractStory(storyID, 'archive', context)
 		},
-		deleteStory: async (parent, args, context) => {
-			return willDeleteStory(args.storyID, context)
+		deleteStory: async (parent, {
+			storyID
+		}, context) => {
+			return willUpdateStoryStatus(storyID, context, 3)
 		},
-		recoverStory: async (parent, args, context) => {
-			return willRecoverStory(args.storyID, context)
+		recoverStory: async (parent, {
+			storyID
+		}, context) => {
+			return willUpdateStoryStatus(storyID, context, 2)
 		}
 
 	},
@@ -62,10 +89,8 @@ module.exports = {
 
 const willInteractStory = async (storyID, field, context) => {
 	try {
-		checkLogin(context)
-		const story = await Story.findById(storyID)
 		if (!story || story.status != 2) {
-			throw new Error('Reqested story does not exist')
+			throw errorType(4)
 		}
 		const interactField = field + 'Story'
 		const user = await User.findById(context.sessionUser.user._id)
@@ -86,24 +111,21 @@ const willInteractStory = async (storyID, field, context) => {
 	}
 }
 
-const willDeleteStory = async (storyID, context) => {
+const willUpdateStoryStatus = async (storyID, context, newStatus) => {
 	try {
 		var story = await willCheckDocumentOwnerShip(storyID, context, 'story')
-		story.status = 3
+		story.status = newStatus
 		await story.save()
 		return story
 	} catch (e) {
 		return e
-	} finally {}
+	}
 }
 
-const willRecoverStory = async (storyID, context) => {
-	try {
-		var story = await willCheckDocumentOwnerShip(storyID, context, 'deletedStory')
-		story.status = 2
-		await story.save()
-		return story
-	} catch (e) {
-		return e
-	} finally {}
-}
+// const willDeleteStory = async (storyID, context) => { 	try { 		var story =
+// await willCheckDocumentOwnerShip(storyID, context, 'story') 		story.status =
+// 3 		await story.save() 		return story 	} catch (e) { 		return e 	} }
+//
+// const willRecoverStory = async (storyID, context) => { 	try { 		var story =
+// await willCheckDocumentOwnerShip(storyID, context, 'story') 		story.status =
+// 2 		await story.save() 		return story 	} catch (e) { 		return e 	} }

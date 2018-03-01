@@ -7,7 +7,7 @@ type Story {
   #poi: POI
   headlineImage: Image
   coverImage: Image
-  author: User
+  author: PublicUser
   images: [Image]
   lastUpdate: String
   viewCount: Int
@@ -16,6 +16,7 @@ type Story {
   commentCount: Int
 }
 
+
 type Commnet {
   text: String
 }
@@ -23,21 +24,22 @@ type Commnet {
 type Query {
   story(_id: ID!): Story
   stories: [Story]
-  myStories: [Story]
-  myDeletedStories: [Story]
+  userStories(userID: ID!): [Story]
+  DeletedStories: [Story] @auth(role: "USER")
   #storyList(type: $type, offset: $offset, limit: Int = 10) [Story]
 }
 
 
+
 type Mutation {
-  likeStory(storyID: ID!): Story
-  archiveStory(storyID: ID!): Story
-  deleteStory(storyID: ID!): Story
-  recoverStory(storyID: ID!): Story
+  likeStory(storyID: ID!): Story @auth(role: "USER")
+  archiveStory(storyID: ID!): Story @auth(role: "USER")
+  deleteStory(storyID: ID!): Story @auth(role: "OWNER")
+  recoverStory(storyID: ID!): Story @auth(role: "OWNER")
 }
 
 
-
+# @auth(role: "USER")
 
 # addComment(input: addCommentInput!): addCommentPayload
 # removeComment(input: removeCommentInput!): removeCommentPayload

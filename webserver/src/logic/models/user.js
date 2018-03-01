@@ -4,6 +4,8 @@ const ObjectId = Schema.ObjectId;
 import uniqueValidator from 'mongoose-unique-validator';
 import bcrypt from 'bcrypt';
 
+import errorType from '../../lib/errorType';
+
 let validateLocalStrategyProperty = function (property) {
 	return (this.provider !== "local" && !this.updated) || property.length;
 };
@@ -41,6 +43,10 @@ const UserSchema = new Schema({
 		default: '',
 		validate: [validateLocalStrategyPassword, "Password should be longer"]
 	},
+	role: {
+		type: String,
+		"default": 'USER'
+	},
 	provider: {
 		type: String,
 		default: 'local'
@@ -49,7 +55,7 @@ const UserSchema = new Schema({
 		type: ObjectId,
 		ref: "Image"
 	},
-	profile: {
+	publicProfile: {
 		description: {
 			type: String
 		},
@@ -116,10 +122,6 @@ const UserSchema = new Schema({
 		type: String,
 		unique: true,
 		sparse: true
-	},
-	roleNotVisibleAtFrontEnd: {
-		type: String,
-		"default": 'user'
 	},
 	resetPasswordToken: String,
 	resetPasswordExpires: Date,
@@ -201,12 +203,12 @@ UserSchema.statics = {
 		return new Promise((resolve, reject) => {
 			this.findOne({_id: _id})
 			//.populate('user')
-				.populate('comments').exec((err, res) => {
+				.exec((err, res) => {
 				if (err) {
-					//TODO Log error
-					reject(new Error("Server Inernal Error"))
+					//TODO Log error console.log(err);
+					reject(errorType(2))
 				} else if (!res) {
-					reject(new Error("Cannot find requested user"))
+					reject(errorType(4))
 				} else {
 					resolve(res)
 				}

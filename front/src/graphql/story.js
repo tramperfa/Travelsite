@@ -13,7 +13,7 @@ export const STORY_DETAILS_QUERY = gql `
       draft
       headlineImage{
         ...headlineImage
-      }    
+      }
       ...storyImageArray
     }
   }
@@ -32,7 +32,7 @@ export const WithStoryDetialsQuery = graphql(STORY_DETAILS_QUERY, {
 })
 
 export const STORIES_LIST_QUERY = gql `
-  query poularStoryQuery {
+  query popularStoryQuery {
     stories {
       ...storyCard
     }
@@ -42,20 +42,24 @@ export const STORIES_LIST_QUERY = gql `
 
 export const WithStoryListQuery = graphql(STORIES_LIST_QUERY)
 
-export const MY_STORY_QUERY = gql `
-  query myStoryQuery {
-    myStories {
+export const USER_STORY_QUERY = gql `
+  query userStoryQuery($userID : ID!) {
+    userStories(userID: $userID) {
       ...storyCard
     }
   }
   ${STORY_CARD_FRG}
 `;
 
-export const WithMyStoryQuery = graphql(MY_STORY_QUERY, {
-	options: {
+export const WithUserStoryQuery = graphql(USER_STORY_QUERY, {
+	options: (props) => ({
+		variables: {
+			userID: props.match.params._id
+		},
 		fetchPolicy: 'network-only'
-	},
-	name: 'myStoryData'
+	}),
+
+	name: 'userStoryData'
 })
 
 export const MY_DELETE_STORY_QUERY = gql `
