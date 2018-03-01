@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 //
 import willUploadImage from '../../lib/ImageUpload';
 import {WithCropImageMutation} from '../../graphql/image';
-import willExtractOrientation from "./util/ExtractOrientation";
-import willExtractSize from './util/ExtractSize';
+import willExtractOrientation from "../../lib/ExtractOrientation";
+import willExtractSize from '../../lib/ExtractSize';
 
 //
 import StoryHeadline from './StoryHeadline';

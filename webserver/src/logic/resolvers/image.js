@@ -72,7 +72,7 @@ const willCustomCropUpload = async (imageID, cropAt, context) => {
 					willCustomCrop(origImapeURL, cropAt),
 					User.findById(context.sessionUser.user._id)
 				]);
-				await willCompressUploadAvatar(image, newImage, user)
+				await willCompressUploadAvatar(image, newImage, user, extension)
 				break;
 			default:
 		}
@@ -101,21 +101,21 @@ const willCustomCrop = (inputURL, cropAt) => new Promise((resolve, reject) => {
 	})
 })
 
-const willCompressUploadAvatar = async (image, newImage, user) => {
+const willCompressUploadAvatar = async (image, newImage, user, extension) => {
 
 	await Promise.all([
-		willCompressUploadSingleAvatar('avatar124px'),
+		willCompressUploadSingleAvatar('avatar124px', extension),
 		//
-		willCompressUploadSingleAvatar('avatar48px'),
-		willCompressUploadSingleAvatar('avatar36px'),
-		willCompressUploadSingleAvatar('avatar20px')
+		willCompressUploadSingleAvatar('avatar48px', extension),
+		willCompressUploadSingleAvatar('avatar36px', extension),
+		willCompressUploadSingleAvatar('avatar20px', extension)
 	]);
 	user.avatar = image._id;
 	await image.save();
 	await user.save();
 }
 
-const willCompressUploadSingleAvatar = async (avatarType) => {
+const willCompressUploadSingleAvatar = async (avatarType, extension) => {
 	let newName = "customV1-" + uuidv4() + '.' + extension
 	let requireSize = imageSize[avatarType]
 	let avatarImage = await sharp(newImage).resize(

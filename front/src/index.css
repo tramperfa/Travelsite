@@ -5,29 +5,37 @@ body {
 }
 
 .active {
-  color:  	#D3D3D3;
+  color: #D3D3D3;
 }
 
-.user-header {
-  display: flex;
-  nav {
-    flex: 1;
-    margin-left: 2em;
-    border-bottom: 2px solid #555;
+.user-header nav a {
+  border-radius: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-size: 20px;
+  display: inline-block;
+}
 
-    a {
-      display: inline-block;
-      padding: 0.3em 1em;
-      color: #555;
+.user-header nav a:hover {
+  background-color: #eee;
+}
 
-      &:hover {
-        background-color: #eee;
-      }
+.userTabsBar {
+  height: 50px;
+  background-color: rgba(255,255,255,0.95);
+  border-bottom: #d6d6d6 1px solid;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.12)
+}
 
-      &.active {
-        background-color: #555;
-        color: #fff;
-      }
-    }
-  }
+.centerContainer {
+  width: 1000px;
+  height: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.userTabs {
+  float: right;
+  line-height: 50px;
+  vertical-align: middle;
 }

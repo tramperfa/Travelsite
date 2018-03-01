@@ -5,14 +5,21 @@ import PropTypes from 'prop-types';
 import ComposeQuery from '../../lib/hoc';
 import {withUserDetailQuery} from '../../graphql/user';
 
+import DefaultAvatar from '../../images/defaultAvatar.jpg'
+import SettingAvatar from './SettingAvatar'
+
 const UserHome = ({userData, match}) => {
+	console.log(userData);
+	console.log(match);
 	const user = userData.user
 	return (
 		<div>
-			<div>
-				<div>{"Name: " + user.fullName}</div>
-				<div>{user._id}</div>
-				<div>{user.provider}</div>
+			<div className="centerContainer">
+				<div>
+					<div>{"Name: " + user.fullName}</div>
+					<div>{user._id}</div>
+					<div>{user.provider}</div>
+				</div>
 			</div>
 		</div>
 	)

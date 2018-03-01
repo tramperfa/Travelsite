@@ -1,7 +1,7 @@
 import React from 'react'
 import redraft from 'redraft'
 
-import '../../StoryEditor/BlockStyles.css'
+import '../../BlockStyles.css'
 
 import VideoBlock from './VideoBlock'
 import ImageBlock from './ImageBlock'

@@ -14,11 +14,11 @@ import equal from 'fast-deep-equal';
 import {compose} from 'recompose';
 
 import 'draft-js/dist/Draft.css'
-import './BlockStyles.css'
+import '../BlockStyles.css'
 
 import willUploadImage from '../../lib/ImageUpload'
-import willExtractOrientation from './util/ExtractOrientation'
-import willExtractSize from './util/ExtractSize'
+import willExtractOrientation from '../../lib/ExtractOrientation'
+import willExtractSize from '../../lib/ExtractSize'
 import insertAtomicBlock from './util/insertAtomicBlock'
 import client from '../../graphql/graphql';
 import {DRAFT_IMAGE_ARRAY_QUERY} from '../../graphql/draft';
