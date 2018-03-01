@@ -1,6 +1,7 @@
 const initialState = {
 	loading: true,
 	me: {
+		//Only Save Field That Never Change
 		_id: '',
 		role: ''
 	}
