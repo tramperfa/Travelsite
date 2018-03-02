@@ -1,10 +1,9 @@
 import React, {Component} from 'react'
-import Cropper from 'react-cropper';
-import 'cropperjs/dist/cropper.css';
 
 import willUploadImage from '../../lib/ImageUpload'
 import willExtractOrientation from '../../lib/ExtractOrientation'
 import willExtractSize from '../../lib/ExtractSize'
+import ImageInsert from '../StoryEditor/sidebar/ImageInsert'
 import AvatarCrop from './AvatarCrop'
 import testAvatar from '../../images/testAvatar.jpg'
 
