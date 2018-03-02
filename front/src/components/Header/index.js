@@ -17,7 +17,8 @@ class HeaderContainer extends Component {
 		if (this.props.userLocalStoreState.loading) {
 			persist.willGetSessionUser().then((value) => {
 				this.props.loadUserInfoDispatch(value)
-				// console.log("AAAAA"); console.log(value); console.log("AAAAA");
+				console.log(value)
+				// console.log("AAAAA"); console.log("AAAAA");
 			})
 		}
 	}

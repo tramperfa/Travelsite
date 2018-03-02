@@ -75,6 +75,8 @@ const App = () => {
 	)
 }
 
+export const state = store.getState()
+
 export default App
 
 //	<Route path='/story/:_id' render={(props) => (<StoryReader {...props}/>)}/>

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 //
 import willUploadImage from '../../lib/ImageUpload';
-import {WithCropImageMutation} from '../../graphql/image';
+import {WithCropHeadlineImageMutation} from '../../graphql/image';
 import willExtractOrientation from "./util/ExtractOrientation";
 import willExtractSize from './util/ExtractSize';
 
@@ -99,4 +99,4 @@ StoryHeadlineContainer.propTypes = {
 	cropImage: PropTypes.func.isRequired
 }
 
-export default WithCropImageMutation(StoryHeadlineContainer)
+export default WithCropHeadlineImageMutation(StoryHeadlineContainer)
