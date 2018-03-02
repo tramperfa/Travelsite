@@ -1,11 +1,11 @@
 import gql from 'graphql-tag';
 import {graphql} from 'react-apollo';
-import {connect} from 'react-redux';
+
 import {USER_BASIC_FRG} from './userFragment';
 
 ////// QUERY
 export const USER_SELF_QUERY = gql `
-  query UserSelfQuery($userID : ID!) {
+  query UserSelfQuery($userID : String) {
     userSelf(userID: $userID){
       ...userBasic
     }
@@ -13,20 +13,14 @@ export const USER_SELF_QUERY = gql `
   ${USER_BASIC_FRG}
 `;
 
-const ReduxWithUserSelfQuery = graphql(USER_SELF_QUERY, {
+export const WithUserSelfQuery = graphql(USER_SELF_QUERY, {
 	options: (props) => ({
 		variables: {
-			userID: 'MYSELF'
+			userID: "MYSELF"
 		}
 	}),
 	name: 'MeData'
 })
-
-const mapStateToProps = (state) => (
-	{userLocalStoreState: state.userLocalStore}
-)
-
-export const WithUserSelfQuery = connect(mapStateToProps, null)
 
 ////// MUTATION
 

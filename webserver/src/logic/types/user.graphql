@@ -23,7 +23,7 @@ type User {
 
 type Query {
   # No Auth Requried for userSelf Query as long as request userID matches session userID
-  userSelf(userID: ID!): User
+  userSelf(userID: String): User
   userByID(userID: ID!): User @auth(role: "ADMIN")
 }
 

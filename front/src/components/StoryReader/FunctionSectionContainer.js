@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {compose} from 'recompose';
 import {Redirect} from 'react-router-dom';
-
 //
 import ComposeQuery from '../../lib/hoc';
 import {WithUserSelfQuery} from '../../graphql/user';

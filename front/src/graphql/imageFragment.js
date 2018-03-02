@@ -51,7 +51,7 @@ export const STORY_IMAGE_FRG = gql `
     ${IMAGE_FILE_FRG}
 `;
 
-export const AVATAR_FRG = gql `
+export const AVATAR_IMAGE_FRG = gql `
     fragment avatarImage on Image {
         _id
         avatar20px{

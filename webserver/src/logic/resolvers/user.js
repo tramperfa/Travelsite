@@ -8,11 +8,17 @@ module.exports = {
 		userByID: async (parent, {
 			userID
 		}, context, info) => {
-			if (userID == 'MYSELF' || requireOwnerCheck(context)) {
-				console.log(context.authAdd);
+			return User.load(userID)
+		},
+		userSelf: async (parent, {
+			userID
+		}, context, info) => {
+			console.log("userID : " + userID);
+			if (context.sessionUser && context.sessionUser.user && context.sessionUser.user._id) {
 				return User.load(context.sessionUser.user._id)
 			} else {
-				return User.load(userID)
+				console.log("User Not Login");
+				return undefined
 			}
 		}
 	},
@@ -76,6 +82,7 @@ const willAuthenWithPassport = (strategy, req) => new Promise(
 				console.log(err);
 				return reject(errorType(2))
 			}
+			console.log(user);
 			return user
 				? resolve(user)
 				: reject(new Error(info.message))

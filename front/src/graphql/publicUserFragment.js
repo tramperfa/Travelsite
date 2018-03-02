@@ -1,5 +1,5 @@
 import gql from 'graphql-tag';
-import {AVATAR_FRG} from './imageFragment';
+import {AVATAR_IMAGE_FRG} from './imageFragment';
 
 ////// FRAGMENT
 
@@ -11,7 +11,7 @@ export const PUBLIC_USER_SNAPSHOT_FRG = gql `
         ...avatarImage
       }
     }
-    ${AVATAR_FRG}
+    ${AVATAR_IMAGE_FRG}
 `;
 
 export const PUBLIC_USER_FRG = gql `

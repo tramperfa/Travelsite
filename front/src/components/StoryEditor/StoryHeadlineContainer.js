@@ -1,13 +1,11 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-//
 import willUploadImage from '../../lib/ImageUpload';
-import {WithCropImageMutation} from '../../graphql/image';
 import willExtractOrientation from "../../lib/ExtractOrientation";
 import willExtractSize from '../../lib/ExtractSize';
+import {WithCropHeadlineImageMutation} from '../../graphql/image';
 
-//
 import StoryHeadline from './StoryHeadline';
 import StoryTitle from './StoryTitle'
 
@@ -99,4 +97,4 @@ StoryHeadlineContainer.propTypes = {
 	cropImage: PropTypes.func.isRequired
 }
 
-export default WithCropImageMutation(StoryHeadlineContainer)
+export default WithCropHeadlineImageMutation(StoryHeadlineContainer)
