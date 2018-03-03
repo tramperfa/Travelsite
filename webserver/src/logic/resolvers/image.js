@@ -9,7 +9,44 @@ import {willUploadObject, willDeleteObject} from '../../lib/S3';
 import errorType from '../../lib/errorType';
 //import Image from '../models/image';
 import User from '../models/user';
-import {imageSize} from '../../lib/upload';
+
+const imageSize = {
+	browserStoryImage: {
+		width: 700
+	},
+	browserCommentImage: {
+		width: 300
+	},
+	browserCoverImage: {
+		width: 220,
+		height: 150
+	},
+	browserUserHomeCoverImage: {
+		width: 680,
+		height: 400
+	},
+	// StoryReader, UserHome
+	avatar124px: {
+		width: 124,
+		height: 124
+	},
+	//Following, Comment, Reply, Review
+	avatar48px: {
+		width: 48,
+		height: 48
+	},
+	//Logged-in User Navigation
+	avatar36px: {
+		width: 36,
+		height: 36
+	},
+
+	//Homepage StoryList
+	avatar20px: {
+		width: 20,
+		height: 20
+	}
+}
 
 module.exports = {
 
@@ -109,26 +146,32 @@ const willCustomCrop = (inputURL, cropAt) => new Promise((resolve, reject) => {
 const willCompressUploadAvatar = async (image, newImage, user, extension) => {
 
 	await Promise.all([
-		willCompressUploadSingleAvatar('avatar124px', extension),
+		willCompressUploadSingleAvatar('avatar124px', image, extension, newImage),
 		//
-		willCompressUploadSingleAvatar('avatar48px', extension),
-		willCompressUploadSingleAvatar('avatar36px', extension),
-		willCompressUploadSingleAvatar('avatar20px', extension)
+		willCompressUploadSingleAvatar('avatar48px', image, extension, newImage),
+		willCompressUploadSingleAvatar('avatar36px', image, extension, newImage),
+		willCompressUploadSingleAvatar('avatar20px', image, extension, newImage)
 	]);
 	user.avatar = image._id;
 	await image.save();
 	await user.save();
 }
 
-const willCompressUploadSingleAvatar = async (avatarType, extension) => {
+const willCompressUploadSingleAvatar = async (
+	avatarType,
+	image,
+	extension,
+	newImage
+) => {
 	let newName = "customV1-" + uuidv4() + '.' + extension
 	let requireSize = imageSize[avatarType]
 	let avatarImage = await sharp(newImage).resize(
 		requireSize.width,
 		requireSize.height
 	).toBuffer()
-	image[avatar] = {
-		filename: newName
+	image[avatarType] = {
+		filename: newName,
+		size: imageSize[avatarType]
 	}
 	await willUploadObject(newName, avatarImage)
 }
