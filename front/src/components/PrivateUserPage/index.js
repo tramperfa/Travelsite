@@ -7,12 +7,20 @@ import Loadable from 'react-loadable';
 
 import LoadingSplitCode from '../../lib/LoadingSplitCode';
 
+import PrivateUserHeader from './PrivateUserHeader';
 import UserDraft from './UserDraft';
 import UserDeleteStory from './UserDeleteStory';
 
 const LoadableStoryEditor = Loadable({
 	loader: () => import (/* webpackChunkName: 'Editor' */
 	'../StoryEditor'),
+	loading: LoadingSplitCode,
+	delay: 1000
+})
+
+const LoadableUserSetting = Loadable({
+	loader: () => import (/* webpackChunkName: 'User Setting' */
+	'./UserSetting'),
 	loading: LoadingSplitCode,
 	delay: 1000
 })
@@ -29,10 +37,11 @@ const styles = theme => ({
 const UserPage = ({match}) => {
 	return (
 		<div>
-
+			<PrivateUserHeader match={match}/>
 			<Switch>
 				<Route path={`${match.path}/draft`} component={UserDraft}/>
 				<Route path={`${match.path}/edit/:_id`} component={LoadableStoryEditor}/>
+				<Route path={`${match.path}/setting`} component={LoadableUserSetting}/>
 				<Route path={`${match.path}/storydelete`} component={UserDeleteStory}/>
 				<Route path={`${match.path}/archive`} component={null}/>
 			</Switch>
@@ -40,16 +49,11 @@ const UserPage = ({match}) => {
 	)
 }
 
-
-
-
 UserPage.propTypes = {
 	match: PropTypes.object.isRequired
 }
 
 export default withStyles(styles)(UserPage)
-
-
 
 // <div> 	<Link className={classes.textField} to={`${match.url}/delete`}>
 // <Button raised={true} color="accent"> 			My Deleted Stories 			<Delete/>

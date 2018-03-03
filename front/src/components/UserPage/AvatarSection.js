@@ -14,13 +14,13 @@ const AvatarSection = ({user, match}) => {
 		<div className="homeAvatar">
 			<div className="avatar">
 				<div className="avatarContainer">
-					<img className="avatarCircle" src={avatarImg} alt=''/>
-					<div className="avatarLinkIcon">
-						<PhotoCamera/>
-					</div>
-					<a className="avatarLink" href={match.url + "/settings/avatar"}></a>
+					<Link to={`/my/setting/avatar`}>
+						<img className="avatarCircle" src={avatarImg} alt=''/>
+						<div className="avatarLinkIcon">
+							<PhotoCamera/>
+						</div>
+					</Link>
 				</div>
-
 			</div>
 			<div className="userName">{user.fullName}</div>
 		</div>

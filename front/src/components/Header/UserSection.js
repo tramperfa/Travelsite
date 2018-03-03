@@ -61,6 +61,11 @@ const UserSection = ({
 										Write a Story
 									</Link>
 								</MenuItem>
+								<MenuItem>
+									<Link className={classes.textField} to="/my/setting">
+										My Settings
+									</Link>
+								</MenuItem>
 								<MenuItem onClick={handleUserLogout}>
 									<Link className={classes.textField} to="/">
 										Logout

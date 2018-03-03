@@ -37,7 +37,7 @@ const store = createStore(
 )
 
 const LoadablePrivateUserPage = Loadable({
-	loader: () => import (/* webpackChunkName: 'Editor' */
+	loader: () => import (/* webpackChunkName: 'Private User Page' */
 	'./components/PrivateUserPage'),
 	loading: LoadingSplitCode,
 	delay: 1000
