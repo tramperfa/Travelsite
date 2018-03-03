@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 
+import {WithCropAvatarImageMutation} from '../../graphql/image'
 import willUploadImage from '../../lib/ImageUpload'
 import willExtractOrientation from '../../lib/ExtractOrientation'
 import willExtractSize from '../../lib/ExtractSize'
@@ -7,10 +8,11 @@ import ImageInsert from '../StoryEditor/sidebar/ImageInsert'
 import AvatarCrop from './AvatarCrop'
 import testAvatar from '../../images/testAvatar.jpg'
 
-export default class SettingAvatar extends Component {
+class SettingAvatar extends Component {
 	state = {
 		cropOpen: false,
-		tempCropImage: null
+		tempCropImage: null,
+		cropBox: null
 	}
 
 	uploadFile = async (file) => {
@@ -37,14 +39,53 @@ export default class SettingAvatar extends Component {
 	handleCloseCropper = () => {
 		this.setState({tempCropImage: null, cropOpen: false});
 	}
+	updateCropBox = (box) => {
+		this.setState({
+			cropBox: {
+				x: box.x,
+				y: box.y,
+				width: box.width,
+				height: box.height
+			}
+		})
+	}
+
+	cropConfirmed = () => {
+		// console.log(this.state.cropBox);
+		try {
+			const {x, y, width, height} = this.state.cropBox
+			this.props.cropImage(
+				this.state.tempCropImage._id,
+				Math.round(x),
+				Math.round(y),
+				Math.round(width),
+				Math.round(height)
+			)
+		} catch (e) {
+			console.log(e);
+		} finally {
+			this.handleCloseCropper()
+		}
+	}
 
 	render() {
 		const {tempCropImage} = this.state
 		return (
 			<div>
-				<ImageInsert uploadFile={this.uploadFile}/> {tempCropImage && tempCropImage.originalImage && <AvatarCrop image={tempCropImage}/>}
+				<div>
+					<img className="avatarCircle" src={this.props.currentAvatar} alt=''/>
+				</div>
+				<ImageInsert uploadFile={this.uploadFile} comment="Upload New Avatar"/> {
+					tempCropImage && tempCropImage.originalImage && <AvatarCrop
+							image={tempCropImage}
+							updateCropBox={this.updateCropBox}
+							confirm={this.cropConfirmed}
+							cancel={this.handleCloseCropper}/>
+				}
 
 			</div>
 		)
 	}
 }
+
+export default WithCropAvatarImageMutation(SettingAvatar)
