@@ -7,7 +7,6 @@ import {withPublicUserByIDQuery} from '../../graphql/publicUser';
 import AvatarSection from './AvatarSection'
 
 const UserHome = ({userData, match}) => {
-	console.log(userData);
 	const user = userData.PublicUserByID
 	return (
 		<div>

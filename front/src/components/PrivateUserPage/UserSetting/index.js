@@ -4,8 +4,9 @@ import {Route, Switch} from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import UserSettingNav from './UserSettingNav';
-import UserSettingHome from './UserSettingHome';
-import Avatar from './Avatar';
+import UserInfo from './UserInfo';
+import UserAvatar from './UserAvatar';
+import UserAccount from './UserAccount';
 
 const styles = theme => ({
 	root: {
@@ -19,8 +20,9 @@ const UserSetting = ({match}) => {
 		<div>
 			<UserSettingNav match={match}/>
 			<Switch>
-				<Route path={`${match.path}`} exact={true} component={UserSettingHome}/>
-				<Route path={`${match.path}/avatar`} exact={true} component={Avatar}/>
+				<Route path={`${match.path}`} exact={true} component={UserInfo}/>
+				<Route path={`${match.path}/avatar`} exact={true} component={UserAvatar}/>
+				<Route path={`${match.path}/account`} exact={true} component={UserAccount}/>
 			</Switch>
 		</div>
 	)

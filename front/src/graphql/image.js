@@ -2,9 +2,7 @@ import gql from 'graphql-tag';
 import {graphql} from 'react-apollo';
 import {HEADLINE_IMAGE_FRG, AVATAR_IMAGE_FRG} from './imageFragment';
 import {DRAFT_DETAILS_QUERY} from './draft';
-import {USER_SELF_QUERY} from './user';
-
-////// QUERY / MUTATION
+//import {USER_SELF_QUERY} from './user'; // QUERY / MUTATION
 
 export const CROP_IMAGE_MUTATION = gql `
 mutation cropImage($input: cropImageInput!) {
@@ -71,23 +69,11 @@ export const WithCropAvatarImageMutation = graphql(CROP_IMAGE_MUTATION, {
 			update: (store, {data: {
 					cropImage
 				}}) => {
-				// Read the data from the cache for this query.
-				const data = store.readQuery({
-					query: USER_SELF_QUERY,
-					variables: {
-						userID: "MYSELF"
-					}
-				});
-				// change avatar image.
-				data.userSelf.avatar = cropImage
-				// Write the data back to the cache.
-				store.writeQuery({
-					query: USER_SELF_QUERY,
-					variables: {
-						userID: "MYSELF"
-					},
-					data
-				});
+				// TODO UPDATE AVATAR FRG ////// Read the data from the cache for this query.
+				// const data = store.readQuery({ 	query: USER_SELF_QUERY, 	variables: { userID:
+				// "MYSELF" 	} });  change avatar image. data.userSelf.avatar = cropImage  Write
+				// the data back to the cache. store.writeQuery({ 	query: USER_SELF_QUERY,
+				// variables: { 		userID: "MYSELF" 	}, 	data });
 
 			}
 		})

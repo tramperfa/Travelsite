@@ -23,7 +23,6 @@ const styles = theme => ({
 });
 
 const UserStory = ({userStoryData, match, classes}) => {
-	console.log(userStoryData);
 	const stories = userStoryData.userStories
 	return (
 		<div>

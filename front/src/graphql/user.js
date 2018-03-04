@@ -1,19 +1,76 @@
 import gql from 'graphql-tag';
 import {graphql} from 'react-apollo';
 
-import {USER_BASIC_FRG} from './userFragment';
+import {USER_SOTRY_READER_FRG, USER_INFO_FRG, USER_ACCOUNT_FRG, USER_AVATAR_FRG} from './userFragment';
 
 ////// QUERY
-export const USER_SELF_QUERY = gql `
+export const USER_SELF_STORY_READER_QUERY = gql `
   query UserSelfQuery($userID : String) {
     userSelf(userID: $userID){
-      ...userBasic
+      ...userStoryReader
     }
   }
-  ${USER_BASIC_FRG}
+  ${USER_SOTRY_READER_FRG}
 `;
 
-export const WithUserSelfQuery = graphql(USER_SELF_QUERY, {
+export const WithUserSelfStoryReaderQuery = graphql(
+	USER_SELF_STORY_READER_QUERY,
+	{
+		options: (props) => ({
+			variables: {
+				userID: "MYSELF"
+			}
+		}),
+		name: 'MeData'
+	}
+)
+
+export const USER_SELF_INFO_QUERY = gql `
+  query UserSelfQuery($userID : String) {
+    userSelf(userID: $userID){
+      ...userInfo
+    }
+  }
+  ${USER_INFO_FRG}
+`;
+
+export const WithUserSelfInfoQuery = graphql(USER_SELF_INFO_QUERY, {
+	options: (props) => ({
+		variables: {
+			userID: "MYSELF"
+		}
+	}),
+	name: 'MeData'
+})
+
+export const USER_SELF_AVATAR_QUERY = gql `
+  query UserSelfQuery($userID : String) {
+    userSelf(userID: $userID){
+      ...userAvatar
+    }
+  }
+  ${USER_AVATAR_FRG}
+`;
+
+export const WithUserSelfAvatarQuery = graphql(USER_SELF_AVATAR_QUERY, {
+	options: (props) => ({
+		variables: {
+			userID: "MYSELF"
+		}
+	}),
+	name: 'MeData'
+})
+
+export const USER_SELF_ACCOUNT_QUERY = gql `
+  query UserSelfQuery($userID : String) {
+    userSelf(userID: $userID){
+      ...userAccount
+    }
+  }
+  ${USER_ACCOUNT_FRG}
+`;
+
+export const WithUserSelfAccoutQuery = graphql(USER_SELF_ACCOUNT_QUERY, {
 	options: (props) => ({
 		variables: {
 			userID: "MYSELF"
@@ -30,9 +87,7 @@ export const LOGIN_MUTATION = gql `
        me {
            fullName
            _id
-           #likeStory
-           #archiveStory
-           #avatar
+           role
        }
      }
    }
