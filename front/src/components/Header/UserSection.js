@@ -27,55 +27,63 @@ const UserSection = ({
 }) => {
 	return (
 
-		<div onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+		<div onMouseLeave={onMouseLeave}>
 			<Manager>
-				<Target>
-					<Link className={classes.textField} to={`/user/${userLocalStoreState.me._id}`}>
-						<Button
-							aria-owns={menuOpen
-								? 'menu-list'
-								: null}
-							aria-haspopup="true"
-							color="contrast">
-							{userLocalStoreState.me.fullName}
-						</Button>
-					</Link>
-				</Target>
-				<Popper placement="bottom-start" eventsEnabled={menuOpen}>
+				<div id="AAA" onMouseEnter={onMouseEnter}>
+					<Target>
+						<Link className={classes.textField} to={`/user/${userLocalStoreState.me._id}`}>
+							<Button
+								aria-owns={menuOpen
+									? 'menu-list'
+									: null}
+								aria-haspopup="true"
+								color="contrast">
+								{userLocalStoreState.me.fullName}
+							</Button>
+						</Link>
+					</Target>
+				</div>
+				<div style={{
+						display: menuOpen
+							? 'block'
+							: 'none'
+					}}>
+					<Popper placement="bottom-start" eventsEnabled={menuOpen}>
 
-					<Grow
-						in={menuOpen}
-						id="menu-list"
-						style={{
-							transformOrigin: '0 0 0'
-						}}>
-						<Paper>
-							<MenuList role="menu">
-								<MenuItem>
-									<Link className={classes.textField} to={`/user/${userLocalStoreState.me._id}`}>
-										My Profile
-									</Link>
-								</MenuItem>
-								<MenuItem>
-									<Link className={classes.textField} to={`/my/draft`} target="_blank">
-										Write a Story
-									</Link>
-								</MenuItem>
-								<MenuItem>
-									<Link className={classes.textField} to="/my/setting">
-										My Settings
-									</Link>
-								</MenuItem>
-								<MenuItem onClick={handleUserLogout}>
-									<Link className={classes.textField} to="/">
-										Logout
-									</Link>
-								</MenuItem>
-							</MenuList>
-						</Paper>
-					</Grow>
+						<Grow
+							in={menuOpen}
+							id="menu-list"
+							style={{
+								transformOrigin: '0 0 0'
+							}}>
+							<Paper>
+								<MenuList role="menu">
+									<MenuItem>
+										<Link className={classes.textField} to={`/user/${userLocalStoreState.me._id}`}>
+											My Profile
+										</Link>
+									</MenuItem>
+									<MenuItem>
+										<Link className={classes.textField} to={`/my/draft`} target="_blank">
+											Write a Story
+										</Link>
+									</MenuItem>
+									<MenuItem>
+										<Link className={classes.textField} to="/my/setting">
+											My Settings
+										</Link>
+									</MenuItem>
+									<MenuItem onClick={handleUserLogout}>
+										<Link className={classes.textField} to="/">
+											Logout
+										</Link>
+									</MenuItem>
+								</MenuList>
+							</Paper>
+						</Grow>
 
-				</Popper>
+					</Popper>
+				</div>
 			</Manager>
 		</div>
 	)

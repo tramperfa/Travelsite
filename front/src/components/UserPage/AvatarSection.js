@@ -2,14 +2,14 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 
 import PhotoCamera from 'material-ui-icons/PhotoCamera'
+import CONSTS from '../../lib/consts'
 
 import DefaultAvatar from '../../images/defaultAvatar.jpg'
-import SettingAvatar from './SettingAvatar'
 
-const AvatarSection = ({user, match}) => {
+const AvatarSection = ({user}) => {
 	const avatarImg = user.avatar === null
 		? DefaultAvatar
-		: DefaultAvatar
+		: CONSTS.BUCKET_NAME + user.avatar.avatar124px.filename
 	return (
 		<div className="homeAvatar">
 			<div className="avatar">

@@ -6,7 +6,6 @@ import willExtractOrientation from '../../lib/ExtractOrientation'
 import willExtractSize from '../../lib/ExtractSize'
 import ImageInsert from '../StoryEditor/sidebar/ImageInsert'
 import AvatarCrop from './AvatarCrop'
-import testAvatar from '../../images/testAvatar.jpg'
 
 class SettingAvatar extends Component {
 	state = {

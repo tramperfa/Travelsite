@@ -201,9 +201,7 @@ UserSchema.statics = {
 
 	load: function (_id) {
 		return new Promise((resolve, reject) => {
-			this.findOne({_id: _id})
-			//.populate('user')
-				.exec((err, res) => {
+			this.findOne({_id: _id}).populate('avatar').exec((err, res) => {
 				if (err) {
 					//TODO Log error console.log(err);
 					reject(errorType(2))
