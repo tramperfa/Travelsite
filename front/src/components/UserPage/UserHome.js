@@ -9,8 +9,7 @@ import SettingAvatar from './SettingAvatar'
 import DefaultAvatar from '../../images/defaultAvatar.jpg'
 
 const UserHome = ({userData, match}) => {
-	console.log(userData);
-	console.log(match);
+	//console.log(userData.PublicUserByID);
 	const user = userData.PublicUserByID
 	return (
 		<div>

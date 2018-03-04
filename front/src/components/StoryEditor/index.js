@@ -6,7 +6,7 @@ import {compose} from 'recompose';
 import format from 'date-fns/format';
 
 //
-import ComposeQuery from '../../lib/hoc';
+import {ComposeQuery} from '../../lib/hoc';
 import {WithDraftDetailsQuery, WithPublishDraftMutation} from '../../graphql/draft';
 
 import Editor from './Editor';

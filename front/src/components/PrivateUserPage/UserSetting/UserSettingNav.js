@@ -10,6 +10,7 @@ const UserSettingNav = ({match}) => (
 					<nav>
 						<NavLink to={`${match.url}`} activeClassName="active">Home</NavLink>
 						<NavLink to={`${match.url}/avatar`} activeClassName="active">Avatar</NavLink>
+						<NavLink to={`${match.url}/account`} activeClassName="active">Account</NavLink>
 					</nav>
 				</header>
 			</div>

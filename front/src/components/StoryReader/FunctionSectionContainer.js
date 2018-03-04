@@ -4,7 +4,7 @@ import {compose} from 'recompose';
 import {Redirect} from 'react-router-dom';
 //
 import ComposeQuery from '../../lib/hoc';
-import {WithUserSelfQuery} from '../../graphql/user';
+import {WithUserSelfStoryReaderQuery} from '../../graphql/user';
 import {WithLikeStoryMutation, WithArchiveStoryMutation, WithDeleteStoryMutation} from '../../graphql/story';
 
 import FunctionSection from './FunctionSection';
@@ -84,7 +84,7 @@ const FunctionSectionContainerWithComposeQuery = ComposeQuery(
 )
 
 export default compose(
-	WithUserSelfQuery,
+	WithUserSelfStoryReaderQuery,
 	WithLikeStoryMutation,
 	WithArchiveStoryMutation,
 	WithDeleteStoryMutation,

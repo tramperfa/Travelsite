@@ -1,9 +1,9 @@
 import gql from 'graphql-tag';
 import {COVER_IMAGE_FRG, STORY_IMAGE_FRG} from './imageFragment';
-import {PUBLIC_USER_SNAPSHOT_FRG} from './publicUserFragment';
-
-////// FRAGMENT
-
+// import {PUBLIC_USER_SNAPSHOT_FRG} from './publicUserFragment';
+// ////////////////////////////////////////////////////////////////////////////////
+// FRAGMENT   ...publicUserSnapshot  TB Add after Schema Stich finishes
+// ${PUBLIC_USER_SNAPSHOT_FRG}
 export const STORY_CARD_FRG = gql `
     fragment storyCard on Story {
       _id
@@ -14,18 +14,18 @@ export const STORY_CARD_FRG = gql `
       likeStoryCount
       commentCount
       author{
-        ...publicUserSnapshot
+        fullName
       }
       coverImage{
         ...coverImage
       }
     }
-    ${PUBLIC_USER_SNAPSHOT_FRG}
     ${COVER_IMAGE_FRG}
 `;
 
 export const STORY_IMAGE_ARRAY = gql `
       fragment storyImageArray on Story {
+        _id
         images{
           ...storyImage
         }

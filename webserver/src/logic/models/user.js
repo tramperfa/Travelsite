@@ -55,6 +55,10 @@ const UserSchema = new Schema({
 		type: ObjectId,
 		ref: "Image"
 	},
+	hasTopStory: {
+		type: Boolean,
+		default: false
+	},
 	publicProfile: {
 		description: {
 			type: String
@@ -62,10 +66,6 @@ const UserSchema = new Schema({
 		gender: {
 			type: Number,
 			default: 0
-		},
-		hasTopStory: {
-			type: Boolean,
-			default: false
 		},
 		location: {
 			type: String
@@ -113,6 +113,9 @@ const UserSchema = new Schema({
 			ref: 'Story'
 		}
 	],
+	shippingAddress: {
+		type: String
+	},
 	facebook: {
 		type: String,
 		unique: true,
@@ -201,9 +204,7 @@ UserSchema.statics = {
 
 	load: function (_id) {
 		return new Promise((resolve, reject) => {
-			this.findOne({_id: _id})
-			//.populate('user')
-				.exec((err, res) => {
+			this.findOne({_id: _id}).populate('avatar').exec((err, res) => {
 				if (err) {
 					//TODO Log error console.log(err);
 					reject(errorType(2))

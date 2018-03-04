@@ -2,9 +2,9 @@
 type User {
   _id: ID!
   fullName: String
+  role: String
   publicProfile: JSON
   avatar: Image
-  role: String
   following: [ID]
   follower: [ID]
   email: String
@@ -16,8 +16,10 @@ type User {
   archiveImage: [ID]
   facebook: String
   google: String
+  shippingAddress: String
   verifyToken: String
   status: Int
+
 }
 
 
@@ -31,7 +33,7 @@ type Mutation {
   registerUser(input: registerUserInput!): User
   localLogin(input: localLoginInput!): LocalLoginPayload
   logout(fullName: String): LogoutPayload
-  #updateAvatar
+  #updateInfo
   #googleLogin(input: googleLoginInput!): User
 }
 
