@@ -198,7 +198,9 @@ StorySchema.statics = {
 		const page = options.page || 0;
 		const limit = options.limit || 30;
 		return new Promise((resolve, reject) => {
-			this.find(criteria).populate('author').populate('coverImage'). // User model hasn't been defined in Mongoose
+			this.find(criteria).populate('author').populate('coverImage').populate(
+				'headlineImage'
+			). // User model hasn't been defined in Mongoose
 			sort({lastUpdate: -1}).limit(limit).skip(limit * page).exec((err, res) => {
 				if (err) {
 					//TODO Log error

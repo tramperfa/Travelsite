@@ -26,10 +26,9 @@ const UserSection = ({
 	handleUserLogout
 }) => {
 	return (
-
 		<div onMouseLeave={onMouseLeave}>
 			<Manager>
-				<div id="AAA" onMouseEnter={onMouseEnter}>
+				<div onMouseEnter={onMouseEnter}>
 					<Target>
 						<Link className={classes.textField} to={`/user/${userLocalStoreState.me._id}`}>
 							<Button
@@ -48,7 +47,12 @@ const UserSection = ({
 							? 'block'
 							: 'none'
 					}}>
-					<Popper placement="bottom-start" eventsEnabled={menuOpen}>
+					<Popper
+						style={{
+							zIndex: 10
+						}}
+						placement="bottom-start"
+						eventsEnabled={menuOpen}>
 
 						<Grow
 							in={menuOpen}
