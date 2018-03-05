@@ -5,18 +5,13 @@ import "slick-carousel/slick/slick-theme.css"
 import {WithStoryListQuery} from '../../graphql/story';
 import ComposeQuery from '../../lib/hoc';
 
-import CoverStory from './CoverSlider/CoverStory'
 import StoryCard from './StoryCard';
 
 const HomePage = ({data}) => {
 	console.log(data.stories);
 	return (
 		<div>
-			<div>
-				<Slider>
-					{data.stories.map(story => (<CoverStory story={story}/>))}
-				</Slider>
-			</div>
+			<div></div>
 			<div>
 				{
 					data.stories.map(story => {

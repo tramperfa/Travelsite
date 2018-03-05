@@ -31,6 +31,7 @@ export const willCheckDocumentOwnerShip = async (
 ) => {
 	if (!documentID) {
 		//TODO Add to Error Log
+		console.log("No Document ID Found");
 		throw errorType(3)
 	}
 	try {
@@ -50,6 +51,7 @@ export const willCheckDocumentOwnerShip = async (
 				break;
 			default:
 				//TODO Add to Error Log
+				console.log("No Document TYPE Found");
 				throw errorType(3)
 		}
 		if (!doc) {
