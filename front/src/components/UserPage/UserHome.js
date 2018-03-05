@@ -5,18 +5,14 @@ import ComposeQuery from '../../lib/hoc';
 import {withPublicUserByIDQuery} from '../../graphql/publicUser';
 
 import AvatarSection from './AvatarSection'
-import SettingAvatar from './SettingAvatar'
-import DefaultAvatar from '../../images/defaultAvatar.jpg'
 
 const UserHome = ({userData, match}) => {
-	//console.log(userData.PublicUserByID);
 	const user = userData.PublicUserByID
 	return (
 		<div>
 			<div className="centerContainer">
-				<AvatarSection user={user} match={match}/>
+				<AvatarSection user={user}/>
 			</div>
-			<SettingAvatar currentAvatar={DefaultAvatar}/>
 		</div>
 	)
 }

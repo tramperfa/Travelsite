@@ -23,7 +23,7 @@ export class UserDraft extends React.Component {
 
 	render() {
 		if (this.state.newDraftID) {
-			return <Redirect push={true} to={`/edit/${this.state.newDraftID}`}/>;
+			return <Redirect push={true} to={`/my/edit/${this.state.newDraftID}`}/>;
 		}
 
 		console.log(this.props.draftList);
