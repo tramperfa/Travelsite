@@ -1,11 +1,8 @@
 import React from 'react'
-import Slider from "react-slick"
-import "slick-carousel/slick/slick.css"
-import "slick-carousel/slick/slick-theme.css"
 import {WithStoryListQuery} from '../../graphql/story';
 import ComposeQuery from '../../lib/hoc';
 
-import CoverStory from './CoverSlider/CoverStory'
+import CoverSlider from './CoverSlider/CoverSlider'
 import StoryCard from './StoryCard';
 
 const HomePage = ({data}) => {
@@ -13,9 +10,7 @@ const HomePage = ({data}) => {
 	return (
 		<div>
 			<div>
-				<Slider>
-					{data.stories.map(story => (<CoverStory story={story}/>))}
-				</Slider>
+				<CoverSlider coverStories={data.stories}/>
 			</div>
 			<div>
 				{
