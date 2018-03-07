@@ -7,7 +7,7 @@ const PrivateRoute = ({
 	userLocalStoreState,
 	...rest
 }) => {
-// console.log("AAAA"); console.log(userLocalStoreState); console.log("BBB");
+	// console.log("AAAA"); console.log(userLocalStoreState); console.log("BBB");
 	return (!userLocalStoreState.loading && (
 		<Route
 			{...rest}
@@ -15,6 +15,7 @@ const PrivateRoute = ({
 				? (<Component {...props}/>)
 				: (
 					<Redirect
+						push={true}
 						to={{
 							pathname: "/login",
 							state: {

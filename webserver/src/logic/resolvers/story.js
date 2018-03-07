@@ -89,6 +89,7 @@ module.exports = {
 
 const willInteractStory = async (storyID, field, context) => {
 	try {
+		var story = await willCheckDocumentOwnerShip(storyID, context, 'story')
 		if (!story || story.status != 2) {
 			throw errorType(4)
 		}

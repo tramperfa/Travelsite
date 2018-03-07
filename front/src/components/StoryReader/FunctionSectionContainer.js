@@ -16,14 +16,14 @@ class FunctionSectionContainer extends React.Component {
 
 		this.state = {
 			deleteRedirect: false,
-			archived: this.props.MeData.me && (
-				this.props.MeData.me.archiveStory.indexOf(this.props.match.params._id) >= 0
+			archived: this.props.MeData.userSelf && (
+				this.props.MeData.userSelf.archiveStory.indexOf(this.props.match.params._id) >= 0
 			),
-			liked: this.props.MeData.me && (
-				this.props.MeData.me.likeStory.indexOf(this.props.match.params._id) >= 0
+			liked: this.props.MeData.userSelf && (
+				this.props.MeData.userSelf.likeStory.indexOf(this.props.match.params._id) >= 0
 			),
-			isAuthor: this.props.MeData.me && (
-				props.MeData.me._id === props.storyDetailData.story.author._id
+			isAuthor: this.props.MeData.userSelf && (
+				props.MeData.userSelf._id === this.props.storyDetailData.story.author._id
 			)
 		}
 		// console.log(this.state.isAuthor); console.log(this.state.liked);
@@ -33,6 +33,9 @@ class FunctionSectionContainer extends React.Component {
 		var storyID = this.props.match.params._id
 		this.props.likeStory(storyID).then(() => {
 			this.setState({liked: true})
+		}).catch((error) => {
+			//console.log(error.graphQLErrors[0].message)
+			throw new Error(error.graphQLErrors[0].message)
 		})
 	}
 
@@ -51,7 +54,8 @@ class FunctionSectionContainer extends React.Component {
 	}
 
 	render() {
-		//console.log(this.props);
+		// console.log(this.props.MeData.userSelf);
+		// console.log(this.props.storyDetailData.story.author._id);
 
 		if (this.state.deleteRedirect) {
 			return <Redirect push={true} to="/"/>;
