@@ -15,7 +15,7 @@ class CoverSlider extends Component {
 					{
 						coverStories.filter(
 							story => story.headlineImage !== undefined && story.headlineImage !== null
-						).map(story => (<CoverStory story={story}/>))
+						).map(story => (<CoverStory key={story._id} story={story}/>))
 					}
 				</Carousel>
 			</div>
