@@ -9,7 +9,7 @@ const link = createHttpLink(
 )
 
 const cache = new InMemoryCache({
-	// dataIdFromObject: () =>  custom idGetter,
+	dataIdFromObject: object => object._id,
 	addTypename: true,
 	// cacheResolvers: {}, fragmentMatcher: new IntrospectionFragmentMatcher({
 	// introspectionQueryResultData: yourData }),

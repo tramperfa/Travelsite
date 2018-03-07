@@ -3,7 +3,6 @@ import React from 'react';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import {MuiThemeProvider, createMuiTheme} from 'material-ui/styles';
 import {ApolloProvider} from 'react-apollo';
-import {createStore} from 'redux';
 import {Provider} from 'react-redux';
 import Loadable from 'react-loadable';
 
@@ -26,15 +25,10 @@ import Login from './components/Login';
 //GraphQL
 import client from './graphql/graphql';
 
-//Redux
-import reducer from './redux/reducers';
+//Redux Store
+import store from './redux';
 
 import PrivateRoute from './lib/PrivateRoute';
-
-const store = createStore(
-	reducer,
-	window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-)
 
 const LoadablePrivateUserPage = Loadable({
 	loader: () => import (/* webpackChunkName: 'Private User Page' */
@@ -74,8 +68,6 @@ const App = () => {
 		</Provider>
 	)
 }
-
-export const state = store.getState()
 
 export default App
 

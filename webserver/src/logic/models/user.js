@@ -113,6 +113,12 @@ const UserSchema = new Schema({
 			ref: 'Story'
 		}
 	],
+	blackList: [
+		{
+			type: ObjectId,
+			ref: 'User'
+		}
+	],
 	shippingAddress: {
 		type: String
 	},

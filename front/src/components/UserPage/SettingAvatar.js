@@ -6,6 +6,7 @@ import willExtractOrientation from '../../lib/ExtractOrientation'
 import willExtractSize from '../../lib/ExtractSize'
 import ImageInsert from '../StoryEditor/sidebar/ImageInsert'
 import AvatarCrop from './AvatarCrop'
+import DefaultAvatar from '../../images/defaultAvatar.jpg'
 
 class SettingAvatar extends Component {
 	state = {
@@ -69,10 +70,13 @@ class SettingAvatar extends Component {
 
 	render() {
 		const {tempCropImage} = this.state
+		const currentAvatar = this.props.currentAvatar
+			? this.props.currentAvatar
+			: DefaultAvatar
 		return (
 			<div>
 				<div>
-					<img className="avatarCircle" src={this.props.currentAvatar} alt=''/>
+					<img className="avatarCircle" src={currentAvatar} alt=''/>
 				</div>
 				<ImageInsert uploadFile={this.uploadFile} comment="Upload New Avatar"/> {
 					tempCropImage && tempCropImage.originalImage && <AvatarCrop

@@ -4,9 +4,20 @@ import PropTypes from 'prop-types';
 import {ComposeQuery} from '../../../lib/hoc';
 import {WithUserSelfAvatarQuery} from '../../../graphql/user';
 
+import SettingAvatar from '../../UserPage/SettingAvatar'
+import CONSTS from '../../../lib/consts'
+
 const UserAvatar = ({MeData}) => {
 	console.log(MeData.userSelf);
-	return (<div>Place Holder for User Setting Home</div>)
+	const currentAvatar = MeData.userSelf.avatar
+		? CONSTS.BUCKET_NAME + MeData.userSelf.avatar.avatar124px.filename
+		: undefined
+	return (
+		<div>
+			<div>Place Holder for User Setting Home</div>
+			<SettingAvatar currentAvatar={currentAvatar}/>
+		</div>
+	)
 }
 
 UserAvatar.propTypes = {
