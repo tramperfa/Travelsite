@@ -13,9 +13,9 @@ class CoverSlider extends Component {
 			<div>
 				<Carousel showThumbs={false} autoPlay={true} infiniteLoop={true}>
 					{
-						coverStories.filter(story => story.headlineImage !== undefined).map(
-							story => (<CoverStory story={story}/>)
-						)
+						coverStories.filter(
+							story => story.headlineImage !== undefined && story.headlineImage !== null
+						).map(story => (<CoverStory story={story}/>))
 					}
 				</Carousel>
 			</div>
