@@ -20,6 +20,7 @@ export const STORY_CARD_FRG = gql `
       likeStoryCount
       commentCount
       author{
+        _id
         fullName
       }
       headlineImage{

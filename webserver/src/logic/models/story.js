@@ -57,6 +57,9 @@ var StorySchema = new Schema({
 			ref: 'Image'
 		}
 	],
+	publishTime: {
+		type: Date
+	},
 	lastUpdate: {
 		type: Date,
 		default: Date.now
@@ -89,18 +92,32 @@ var StorySchema = new Schema({
 		type: Number,
 		default: 0
 	},
+
 	comments: [
 		{
-			body: {
-				type: JSON
-			},
 			author: {
 				type: Schema.ObjectId,
 				ref: 'User'
 			},
-			createdAt: {
+			qouteImage: {
+				type: ObjectId,
+				ref: 'Image'
+			},
+			body: {
+				type: JSON
+			},
+			lastUpdate: {
 				type: Date,
 				default: Date.now
+			},
+			reply: {
+				body: {
+					type: JSON
+				},
+				lastUpdate: {
+					type: Date,
+					default: Date.now
+				}
 			}
 		}
 	]

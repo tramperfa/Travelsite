@@ -17,7 +17,7 @@ import Share from "material-ui-icons/Share";
 const FunctionSection = (
 	{state, story, handleLike, handleDelete, handleArchive}
 ) => {
-	console.log(story);
+	//console.log(story);
 	return (
 		<div className="storyInfo">
 			<div className="authorInfo">

@@ -29,6 +29,7 @@ import client from './graphql/graphql';
 import store from './redux';
 
 import PrivateRoute from './lib/PrivateRoute';
+import ErrorBoundary from './lib/ErrorBoundary';
 
 const LoadablePrivateUserPage = Loadable({
 	loader: () => import (/* webpackChunkName: 'Private User Page' */
@@ -48,19 +49,21 @@ const App = () => {
 				<BrowserRouter>
 					<MuiThemeProvider theme={createMuiTheme(THEME)}>
 						<div>
-							<Header/>
-							<AuthSignupDialog/>
-							<Switch>
-								<Route exact={true} path="/" component={Homepage}/>
-								<Route path='/story/:_id' component={StoryReader}/>
-								<Route path="/user/:_id" component={UserPage}/>
-								<PrivateRoute path="/my" component={LoadablePrivateUserPage}/>
-								<Route path="/signup" component={Signup}/>
-								<Route path="/login" component={Login}/>
-								<Route path="/dest" component={null} key="dest"/>
-								<Route path="/hotel" component={null} key="hotel"/>
-								<Route component={NotFound}/>
-							</Switch>
+							<ErrorBoundary>
+								<Header/>
+								<AuthSignupDialog/>
+								<Switch>
+									<Route exact={true} path="/" component={Homepage}/>
+									<Route path='/story/:_id' component={StoryReader}/>
+									<Route path="/user/:_id" component={UserPage}/>
+									<PrivateRoute path="/my" component={LoadablePrivateUserPage}/>
+									<Route path="/signup" component={Signup}/>
+									<Route path="/login" component={Login}/>
+									<Route path="/dest" component={null} key="dest"/>
+									<Route path="/hotel" component={null} key="hotel"/>
+									<Route component={NotFound}/>
+								</Switch>
+							</ErrorBoundary>
 						</div>
 					</MuiThemeProvider>
 				</BrowserRouter>
