@@ -7,18 +7,24 @@ import {compose} from 'recompose';
 //
 import {WithCreateDraftMutation, WithDraftListQuery} from '../../graphql/draft';
 import ComposeQuery from '../../lib/hoc';
+import ErrorComp from '../../lib/ErrorComp';
+import {error, onError} from '../../lib/utils';
 
 //
 import DraftCard from './DraftCard';
 
 export class UserDraft extends React.Component {
 	state = {
-		newDraftID: null
+		newDraftID: null,
+		error: error
 	}
 
-	handleCreate = async () => {
-		let data = await this.props.createDraft()
-		this.setState({newDraftID: data.data.createDraft._id})
+	handleCreate = () => {
+		this.props.createDraft().then((data) => {
+			this.setState({newDraftID: data.data.createDraft._id})
+		}).catch((err) => {
+			this.setState(onError(err))
+		})
 	}
 
 	render() {
@@ -30,6 +36,7 @@ export class UserDraft extends React.Component {
 
 		return (
 			<div>
+				<ErrorComp error={this.state.error}/>
 				<div>
 					{
 						this.props.draftList.myDrafts.map(draft => (

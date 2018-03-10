@@ -9,7 +9,8 @@ import Typography from 'material-ui/Typography';
 import Undo from "material-ui-icons/Undo";
 
 import {WithRecoverStoryMutation} from '../../graphql/story';
-
+import ErrorComp from '../../lib/ErrorComp';
+import {error, onError} from '../../lib/utils';
 import CONSTS from '../../lib/consts';
 import defaultBrowserUserHomeCoverImage from '../../images/browserUserHomeCoverImage.png';
 
@@ -36,42 +37,57 @@ const styles = theme => ({
 	}
 });
 
-const UserDeleteStoryCard = ({classes, story, recoverStory}) => {
+//const UserDeleteStoryCard = ({classes, story, recoverStory}) => {
 
-	const handleRecover = () => {
-		recoverStory(story._id)
-		console.log("TBD Recover");
+class UserDeleteStoryCard extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			error: error
+		}
 	}
 
-	return (
-		<div>
-			<Card className={classes.card}>
-				<CardMedia
-					className={classes.cover}
-					image={story.coverImage
-						? CONSTS.BUCKET_NAME + story.coverImage.browserUserHomeCoverImage.filename
-						: defaultBrowserUserHomeCoverImage}/>
-				<div className={classes.details}>
-					<CardContent className={classes.content}>
-						<Typography type="headline">
-							{story.title}
-						</Typography>
-						<div>{story.viewCount}
-							Views
-						</div>
-						<div>
-							{story.likeStoryCount}
-							Likes
-						</div>
-						<IconButton aria-label="Undo" onClick={handleRecover}>
-							Recovery Story
-							<Undo/>
-						</IconButton>
-					</CardContent>
-				</div>
-			</Card>
-		</div>
-	)
+	handleRecover = () => {
+		this.props.recoverStory(this.props.story._id).then(() => {
+			///////
+		}).catch((err) => {
+			this.setState(onError(err))
+		})
+	}
+
+	render() {
+		return (
+			<div>
+				<ErrorComp error={this.state.error}/>
+				<Card className={this.props.classes.card}>
+					<CardMedia
+						className={this.props.classes.cover}
+						image={this.props.story.coverImage
+							? CONSTS.BUCKET_NAME + this.props.story.coverImage.browserUserHomeCoverImage.filename
+							: defaultBrowserUserHomeCoverImage}/>
+					<div className={this.props.classes.details}>
+						<CardContent className={this.props.classes.content}>
+							<Typography type="headline">
+								{this.props.story.title}
+							</Typography>
+							<div>{this.props.story.viewCount}
+								Views
+							</div>
+							<div>
+								{this.props.story.likeStoryCount}
+								Likes
+							</div>
+							<IconButton aria-label="Undo" onClick={this.handleRecover}>
+								Recovery Story
+								<Undo/>
+							</IconButton>
+						</CardContent>
+					</div>
+				</Card>
+			</div>
+		)
+
+	}
 }
 
 UserDeleteStoryCard.propTypes = {

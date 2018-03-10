@@ -16,3 +16,19 @@ export const ItemCount = ({number, singular, plural}) => {
 		</div>)
 	}
 }
+
+export const error = {
+	errorMessage: '',
+	flag: true
+}
+
+export function onError(err) {
+	return function handleError(state) {
+		return {
+			error: {
+				errorMessage: err.graphQLErrors[0].message,
+				flag: !state.error.flag
+			}
+		}
+	}
+}

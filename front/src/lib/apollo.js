@@ -1,5 +1,6 @@
 import React from 'react';
 import {branch, renderComponent, withProps} from 'recompose';
+import QueryErrorComp from './QueryErrorComp';
 
 export const renderWhileLoading = (component, propName = 'data') => branch(
 	props => props[propName] && props[propName].loading,
@@ -21,11 +22,12 @@ export const renderForError = (component, propName = "data") => branch(
 	renderComponent(component),
 );
 
-export const GraphQLErrorComponent = props => (
-	<span>
-		Something went wrong
-		<div>
-			{props.errorInfo}
-		</div>
-	</span>
-)
+export const GraphQLErrorComponent = (props) => {
+	return (<QueryErrorComp errorInfo={props.errorInfo}/>)
+}
+
+// export class GraphQLQueryErrorComponent extends React.Component {
+// constructor(props) { 		super(props); 		this.state = { 			error: {
+// errorMessage: props.errorInfo, 				flag: false 			} 		} 	}
+//
+// 	render() { 		return (<QueryErrorComp error={this.state.error}/>) 	} }

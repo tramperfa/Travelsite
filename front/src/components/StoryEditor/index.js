@@ -6,6 +6,8 @@ import {compose} from 'recompose';
 import format from 'date-fns/format';
 
 //
+import ErrorComp from '../../lib/ErrorComp';
+import {error, onError} from '../../lib/utils';
 import {ComposeQuery} from '../../lib/hoc';
 import {WithDraftDetailsQuery, WithPublishDraftMutation} from '../../graphql/draft';
 
@@ -15,19 +17,19 @@ import StoryHeadlineContainer from './StoryHeadlineContainer';
 class StoryEditorContainer extends React.Component {
 	state = {
 		publishRedirect: false,
-		linkedStoryID: undefined
+		linkedStoryID: undefined,
+		error: error
 	}
 
 	handlePublish = async () => {
-		try {
-			var draftID = this.props.match.params._id
-			var data = await this.props.publishDraft(draftID)
+		var draftID = this.props.match.params._id
+		this.props.publishDraft(draftID).then((data) => {
 			this.setState(
 				{publishRedirect: true, linkedStoryID: data.data.publishDraft.story}
 			)
-		} catch (e) {
-			console.log("TBD Error Handler");
-		} finally {}
+		}).catch((err) => {
+			this.setState(onError(err))
+		})
 	}
 
 	render() {
@@ -39,6 +41,7 @@ class StoryEditorContainer extends React.Component {
 		return (
 
 			<div className="topContainter">
+				<ErrorComp error={this.state.error}/>
 				<StoryHeadlineContainer
 					draft={this.props.draftData.draft}
 					match={this.props.match}/>

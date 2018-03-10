@@ -108,7 +108,7 @@ module.exports = function (app, db) {
 					// Save Image Before Draft
 					await image.save();
 					let images = draft.images;
-					console.log(images);
+					//console.log(images);
 					images.push(image._id);
 					await draft.save();
 					let returnImage = {

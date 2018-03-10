@@ -16,6 +16,9 @@ import {compose} from 'recompose';
 import 'draft-js/dist/Draft.css'
 import '../BlockStyles.css'
 
+//
+import ErrorComp from '../../lib/ErrorComp';
+import {error, onError} from '../../lib/utils';
 import willUploadImage from '../../lib/ImageUpload'
 import willExtractOrientation from '../../lib/ExtractOrientation'
 import willExtractSize from '../../lib/ExtractSize'
@@ -68,7 +71,8 @@ class MyEditor extends Component {
 				: undefined,
 			titleOpen: false,
 			titleBlockKeyOnEdit: '',
-			currentTitle: ''
+			currentTitle: '',
+			error: error
 		}
 		// EditorState.createWithContent(convertFromRaw(initialState))
 		// createEditorStateWithText(initialText) EditorState.createEmpty()
@@ -107,7 +111,11 @@ class MyEditor extends Component {
 	saveContent = debounce((newContent) => {
 		console.log(convertToRaw(newContent))
 		//console.log("WRITING TO THE SERVER")
-		this.props.updateContent(this.props.match.params._id, convertToRaw(newContent))
+		this.props.updateContent(this.props.match.params._id, convertToRaw(newContent)).catch(
+			(err) => {
+				this.setState(onError(err))
+			}
+		)
 		// console.log(JSON.stringify(convertToRaw(newContent)))
 	}, 2000)
 
@@ -179,7 +187,9 @@ class MyEditor extends Component {
 	}
 
 	setCoverPhoto = (imageID) => {
-		this.props.updateCover(this.props.match.params._id, imageID);
+		this.props.updateCover(this.props.match.params._id, imageID).catch((err) => {
+			this.setState(onError(err))
+		});
 		console.log(
 			"Set cover photo of draft: " + this.props.match.params._id + " as image: " +
 			imageID
@@ -393,6 +403,7 @@ class MyEditor extends Component {
 	render() {
 		return (
 			<div className="storyWrapper">
+				<ErrorComp error={this.state.error}/>
 				<div
 					className="storyEditor"
 					style={{
