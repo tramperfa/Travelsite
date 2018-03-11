@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
+//
+import ErrorComp from '../../lib/ErrorComp';
+import {error, onError} from '../../lib/utils';
 import willUploadImage from '../../lib/ImageUpload';
 import willExtractOrientation from "../../lib/ExtractOrientation";
 import willExtractSize from '../../lib/ExtractSize';
@@ -14,7 +17,8 @@ class StoryHeadlineContainer extends Component {
 		cropBox: {},
 		cropOpen: false, // Control Headline Image Cropper Open/Close
 		// Temp crop image always starting from null, can only be set by
-		tempCropImage: null
+		tempCropImage: null,
+		error: error
 	}
 
 	// Upload New Crop Image, Set tempCropImage
@@ -50,17 +54,17 @@ class StoryHeadlineContainer extends Component {
 	}
 
 	handleSubmit = async () => {
-		try {
-			let {x, y, width, height} = this.state.cropBox
-			let {cropImage} = this.props
-			//console.log("SUBMIT"); console.log(this.state.tempCropImage);
-			cropImage(this.state.tempCropImage._id, x, y, width, height)
-		} catch (e) {
-			console.log(e);
-		} finally {
-			this.handleCloseCropper()
-		}
+
+		let {x, y, width, height} = this.state.cropBox
+		let {cropImage} = this.props
+		//console.log("SUBMIT"); console.log(this.state.tempCropImage);
+		cropImage(this.state.tempCropImage._id, x, y, width, height).catch((err) => {
+			this.setState(onError(err))
+		});
+
+		this.handleCloseCropper()
 	}
+
 	handleCloseCropper = () => {
 		this.setState({tempCropImage: null, cropOpen: false});
 	}
@@ -77,6 +81,7 @@ class StoryHeadlineContainer extends Component {
 	render() {
 		return (
 			<div className='headlineContainer'>
+				<ErrorComp error={this.state.error}/>
 				<StoryTitle title={this.props.draft.title} match={this.props.match}/>
 				<StoryHeadline
 					state={this.state}

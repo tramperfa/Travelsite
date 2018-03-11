@@ -5,19 +5,13 @@ import PropTypes from 'prop-types';
 import {openLoginDialog} from '../redux/actions';
 import {Redirect} from 'react-router-dom'
 
-class ErrorComp extends React.Component {
-
-	componentWillReceiveProps(nextProps) {
-		if (nextProps.error.errorMessage === 'User Not Logged In') {
-			console.log("CALLED");
-			this.props.openLoginDialogDispatch()
-		}
-	}
+class QueryErrorComp extends React.Component {
 
 	render() {
-		if (this.props.error.errorMessage === 'User Not Authorized') {
+		var errorInfo = this.props.errorInfo
+		if (errorInfo === 'User Not Logged In' || errorInfo === 'User Not Authorized') {
 			return <Redirect replace={true} to={`/login`}/>
-		} else if (this.props.error.errorMessage === 'Cannot Find Requested Information') {
+		} else if (errorInfo === 'Cannot Find Requested Information') {
 			return <Redirect replace={true} to={`/NotFound`}/>
 		} else {
 			return null
@@ -25,11 +19,11 @@ class ErrorComp extends React.Component {
 	}
 }
 
-ErrorComp.propTypes = {
+QueryErrorComp.propTypes = {
 	openLoginDialogDispatch: PropTypes.func.isRequired,
-	error: PropTypes.object.isRequired
+	errorInfo: PropTypes.string.isRequired
 }
 
 const mapDispatchToProps = ({openLoginDialogDispatch: openLoginDialog})
 
-export default connect(null, mapDispatchToProps)(ErrorComp)
+export default connect(null, mapDispatchToProps)(QueryErrorComp)

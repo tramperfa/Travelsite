@@ -13,7 +13,7 @@ module.exports = {
 		userSelf: async (parent, {
 			userID
 		}, context, info) => {
-			console.log("userID : " + userID);
+			//console.log("userID : " + userID);
 			if (context.sessionUser && context.sessionUser.user && context.sessionUser.user._id) {
 				return User.load(context.sessionUser.user._id)
 			} else {
@@ -82,7 +82,7 @@ const willAuthenWithPassport = (strategy, req) => new Promise(
 				console.log(err);
 				return reject(errorType(2))
 			}
-			console.log(user);
+			//console.log(user);
 			return user
 				? resolve(user)
 				: reject(new Error(info.message))

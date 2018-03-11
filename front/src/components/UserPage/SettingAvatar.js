@@ -1,9 +1,15 @@
 import React, {Component} from 'react'
+import PropTypes from 'prop-types';
 
+//
 import {WithCropAvatarImageMutation} from '../../graphql/image'
 import willUploadImage from '../../lib/ImageUpload'
+import ErrorComp from '../../lib/ErrorComp'
+import {error, onError} from '../../lib/utils';
 import willExtractOrientation from '../../lib/ExtractOrientation'
 import willExtractSize from '../../lib/ExtractSize'
+
+//
 import ImageInsert from '../StoryEditor/sidebar/ImageInsert'
 import AvatarCrop from './AvatarCrop'
 import DefaultAvatar from '../../images/defaultAvatar.jpg'
@@ -12,7 +18,8 @@ class SettingAvatar extends Component {
 	state = {
 		cropOpen: false,
 		tempCropImage: null,
-		cropBox: null
+		cropBox: null,
+		error: error
 	}
 
 	uploadFile = async (file) => {
@@ -52,20 +59,17 @@ class SettingAvatar extends Component {
 
 	cropConfirmed = () => {
 		// console.log(this.state.cropBox);
-		try {
-			const {x, y, width, height} = this.state.cropBox
-			this.props.cropImage(
-				this.state.tempCropImage._id,
-				Math.round(x),
-				Math.round(y),
-				Math.round(width),
-				Math.round(height)
-			)
-		} catch (e) {
-			console.log(e);
-		} finally {
-			this.handleCloseCropper()
-		}
+		const {x, y, width, height} = this.state.cropBox
+		this.props.cropImage(
+			this.state.tempCropImage._id,
+			Math.round(x),
+			Math.round(y),
+			Math.round(width),
+			Math.round(height)
+		).catch((err) => {
+			this.setState(onError(err))
+		});
+		this.handleCloseCropper()
 	}
 
 	render() {
@@ -75,6 +79,7 @@ class SettingAvatar extends Component {
 			: DefaultAvatar
 		return (
 			<div>
+				<ErrorComp error={this.state.error}/>
 				<div>
 					<img className="avatarCircle" src={currentAvatar} alt=''/>
 				</div>
@@ -85,10 +90,13 @@ class SettingAvatar extends Component {
 							confirm={this.cropConfirmed}
 							cancel={this.handleCloseCropper}/>
 				}
-
 			</div>
 		)
 	}
+}
+
+SettingAvatar.propTypes = {
+	cropImage: PropTypes.fuction.isRequired
 }
 
 export default WithCropAvatarImageMutation(SettingAvatar)

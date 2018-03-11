@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import {compose} from 'recompose';
 import {Redirect} from 'react-router-dom';
 //
+
+import ErrorComp from '../../lib/ErrorComp';
+import {error, onError} from '../../lib/utils';
 import ComposeQuery from '../../lib/hoc';
 import {WithUserSelfStoryReaderQuery} from '../../graphql/user';
 import {WithLikeStoryMutation, WithArchiveStoryMutation, WithDeleteStoryMutation} from '../../graphql/story';
@@ -24,18 +27,19 @@ class FunctionSectionContainer extends React.Component {
 			),
 			isAuthor: this.props.MeData.userSelf && (
 				props.MeData.userSelf._id === this.props.storyDetailData.story.author._id
-			)
+			),
+			error: error
 		}
 		// console.log(this.state.isAuthor); console.log(this.state.liked);
+		this.onError = onError.bind(this)
 	}
 
 	handleLike = () => {
 		var storyID = this.props.match.params._id
 		this.props.likeStory(storyID).then(() => {
 			this.setState({liked: true})
-		}).catch((error) => {
-			//console.log(error.graphQLErrors[0].message)
-			throw new Error(error.graphQLErrors[0].message)
+		}).catch((err) => {
+			this.setState(onError(err))
 		})
 	}
 
@@ -43,6 +47,8 @@ class FunctionSectionContainer extends React.Component {
 		var storyID = this.props.match.params._id
 		this.props.archiveStory(storyID).then(() => {
 			this.setState({archived: true})
+		}).catch((err) => {
+			this.setState(onError(err))
 		})
 	}
 
@@ -50,6 +56,8 @@ class FunctionSectionContainer extends React.Component {
 		var storyID = this.props.match.params._id
 		this.props.deleteStory(storyID).then(() => {
 			this.setState({deleteRedirect: true})
+		}).catch((err) => {
+			this.setState(onError(err))
 		})
 	}
 
@@ -62,13 +70,17 @@ class FunctionSectionContainer extends React.Component {
 		}
 
 		return (
-			<FunctionSection
-				state={this.state}
-				draft={this.props.storyDetailData.story.draft}
-				story={this.props.storyDetailData.story}
-				handleDelete={this.handleDelete}
-				handleLike={this.handleLike}
-				handleArchive={this.handleArchive}/>
+			<div>
+				<ErrorComp error={this.state.error}/>
+				<FunctionSection
+					state={this.state}
+					draft={this.props.storyDetailData.story.draft}
+					story={this.props.storyDetailData.story}
+					handleDelete={this.handleDelete}
+					handleLike={this.handleLike}
+					handleArchive={this.handleArchive}/>
+			</div>
+
 		)
 	}
 }

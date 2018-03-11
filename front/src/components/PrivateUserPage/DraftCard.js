@@ -14,6 +14,8 @@ import Delete from "material-ui-icons/Delete";
 
 //
 import {WithDeleteDraftMutation} from '../../graphql/draft';
+import ErrorComp from '../../lib/ErrorComp';
+import {error, onError} from '../../lib/utils';
 import CONSTS from '../../lib/consts';
 
 //
@@ -42,60 +44,65 @@ export const styles = theme => ({
 	}
 });
 
-export const DraftCard = function (props) {
-	//console.log(props);
-
-	const handleDelete = () => {
-		try {
-			props.deleteDraft(props.draft._id)
-
-		} catch (e) {
-			console.log(e);
-			//console.log(e.graphQLErrors[0].message);
-		} finally {}
+class DraftCard extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			error: error
+		}
 	}
 
-	const {classes, draft} = props;
-	return (
+	handleDelete = () => {
+		this.props.deleteDraft(this.props.draft._id).then(() => {
+			//this.setState({deleteRedirect: true})
+		}).catch((err) => {
+			this.setState(onError(err))
+		})
+	}
 
-		<div >
-			<Card className={classes.card}>
-				<Link className={classes.textField} to={`/my/edit/${draft._id}`}>
-					<CardMedia
-						className={classes.cover}
-						image={draft.coverImage
-							? CONSTS.BUCKET_NAME + draft.coverImage.browserCoverImage.filename
-							: defaultbrowserCoverImage}/>
-				</Link>
-				<div className={classes.details}>
+	render() {
+		const {classes, draft} = this.props;
+		return (
+			<div>
+				<ErrorComp error={this.state.error}/>
+				<Card className={classes.card}>
 					<Link className={classes.textField} to={`/my/edit/${draft._id}`}>
-						<CardContent className={classes.content}>
-							<Typography type="headline">
-								{draft.title}
-							</Typography>
-							<Typography type="subheading" color="secondary">
-								<div>
-									Last Updated: {format(new Date(draft.lastUpdate), "YYYY-MM-DD HH:mm")}
-								</div>
-							</Typography>
-						</CardContent>
+						<CardMedia
+							className={classes.cover}
+							image={draft.coverImage
+								? CONSTS.BUCKET_NAME + draft.coverImage.browserCoverImage.filename
+								: defaultbrowserCoverImage}/>
 					</Link>
-					<div className={classes.controls}>
-						Continue Writing
-						<IconButton aria-label="Edit">
-							<Edit/>
-						</IconButton>
-						<IconButton aria-label="Delete" onClick={handleDelete}>
-							<Delete/>
-						</IconButton>
+					<div className={classes.details}>
+						<Link className={classes.textField} to={`/my/edit/${draft._id}`}>
+							<CardContent className={classes.content}>
+								<Typography type="headline">
+									{draft.title}
+								</Typography>
+								<Typography type="subheading" color="secondary">
+									<div>
+										Last Updated: {format(new Date(draft.lastUpdate), "YYYY-MM-DD HH:mm")}
+									</div>
+								</Typography>
+							</CardContent>
+						</Link>
+						<div className={classes.controls}>
+							Continue Writing
+							<IconButton aria-label="Edit">
+								<Edit/>
+							</IconButton>
+							<IconButton aria-label="Delete" onClick={this.handleDelete}>
+								<Delete/>
+							</IconButton>
+						</div>
 					</div>
-				</div>
-			</Card>
-		</div>
-	);
-}
+				</Card>
+			</div>
+		);
 
-// {moment(new Date(draft.lastUpdate)).utc().local().format("YYYY-MM-DD HH:mm")}
+	}
+
+}
 
 DraftCard.propTypes = {
 	classes: PropTypes.object.isRequired,
