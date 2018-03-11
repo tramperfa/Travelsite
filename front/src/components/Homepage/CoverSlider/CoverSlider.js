@@ -11,7 +11,7 @@ class CoverSlider extends Component {
 		const {coverStories} = this.props
 		return (
 			<div>
-				<Carousel showThumbs={false} autoPlay={true} infiniteLoop={true}>
+				<Carousel showThumbs={false} autoPlay={false} infiniteLoop={true}>
 					{
 						coverStories.filter(
 							story => story.headlineImage !== undefined && story.headlineImage !== null

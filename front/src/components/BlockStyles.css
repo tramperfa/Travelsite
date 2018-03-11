@@ -2,9 +2,15 @@
   min-width: 1080px;
 }
 
-.storyContainer {
+.storyInfoBar {
+  height: 80px;
+  background-color: rgba(255,255,255,0.95);
+  border-bottom: #d6d6d6 1px solid;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.12);
+}
+.storyContainer, .storyInfoContainer {
   width: 1000px;
-  margin: 0 auto 40px auto;
+  margin: 0 auto 0 auto;
 }
 
 
@@ -200,19 +206,33 @@
   position: absolute;
   bottom: 0;
   left: 50%;
-  width: 1000px;
+  width: 850px;
   margin-left: -500px;
-  padding-left: 130px;
+  padding-left: 150px;
   color: #fff
 }
 
 .storyInfo{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
   display: flex;
   justify-content: space-between;
 }
 
 .authorInfo{
+  padding: 10px 0 0 150px;
+}
 
+.storyAuthorAvatar {
+  width: 124px;
+  height: 124px;
+  border-radius: 124px;
+  position: relative;
+  top: -60px;
+  z-index: 10;
+  cursor: pointer;
 }
 
 .readerActions{
@@ -290,11 +310,16 @@
 .scrollTools {
   position: fixed;
   right: 50%;
-  margin-right: -500px;
+  margin-right: -560px;
   bottom: 20px;
   display: flex;
   flex-direction: column;
   z-index: 20;
+}
+
+.scrollToolButton {
+  border: 1px solid #e5e5e5;
+  background-color: #fff;
 }
 
 .publishButton {

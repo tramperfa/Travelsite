@@ -17,7 +17,9 @@ const HeadlineSection = ({title, headlineImage}) => {
 						: defaultImageHeadline}
 					alt='headline'/>
 			</div>
-			<h1 className="storyReaderTitle">{title}</h1>
+			<div>
+				<h1 className="storyReaderTitle">{title}</h1>
+			</div>
 		</div>
 	)
 };
