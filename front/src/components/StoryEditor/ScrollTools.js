@@ -14,12 +14,16 @@ const scrollBottom = () => {
 const ScrollTools = () => {
 	return (
 		<div className="scrollTools">
-			<IconButton onClick={scrollToTop}>
-				<KeyboardArrowUp/>
-			</IconButton>
-			<IconButton onClick={scrollBottom}>
-				<KeyboardArrowDown/>
-			</IconButton>
+			<div className="scrollToolButton">
+				<IconButton onClick={scrollToTop}>
+					<KeyboardArrowUp/>
+				</IconButton>
+			</div>
+			<div className="scrollToolButton">
+				<IconButton onClick={scrollBottom}>
+					<KeyboardArrowDown/>
+				</IconButton>
+			</div>
 		</div>
 	)
 }

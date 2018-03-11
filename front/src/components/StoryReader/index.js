@@ -19,10 +19,14 @@ class StoryReaderContainer extends React.Component {
 		return (
 			<div className="topContainter">
 				<HeadlineSection title={story.title} headlineImage={story.headlineImage}/>
+				<div className="storyInfoBar">
+					<div className="storyInfoContainer">
+						<FunctionSectionContainer
+							match={this.props.match}
+							storyDetailData={this.props.storyDetailData}/>
+					</div>
+				</div>
 				<div className="storyContainer">
-					<FunctionSectionContainer
-						match={this.props.match}
-						storyDetailData={this.props.storyDetailData}/>
 					<ContentSection content={story.content} images={story.images}/>
 					<CommentSection/>
 				</div>
