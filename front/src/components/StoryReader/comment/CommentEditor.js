@@ -15,19 +15,19 @@ class CommentEditor extends Component {
 	addEmoji = (emojiName) => {
 		const emojiString = '{' + emojiName + '}'
 		// console.log(emojiString);
-		const contantState = this.state.editorState.getCurrentContent()
-		const selectionState = this.state.editorState.getSelection()
+		const contantState = this.props.editorState.getCurrentContent()
+		const selectionState = this.props.editorState.getSelection()
 		const contentStateWithEmoji = Modifier.insertText(
 			contantState,
 			selectionState,
 			emojiString
 		)
 		const editorStateWithEmoji = EditorState.push(
-			this.state.editorState,
+			this.props.editorState,
 			contentStateWithEmoji,
 			'insert-characters'
 		)
-		this.onChange(editorStateWithEmoji)
+		this.props.onChange(editorStateWithEmoji)
 	}
 	render() {
 		return (
