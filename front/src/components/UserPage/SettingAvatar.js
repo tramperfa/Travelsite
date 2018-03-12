@@ -96,7 +96,7 @@ class SettingAvatar extends Component {
 }
 
 SettingAvatar.propTypes = {
-	cropImage: PropTypes.fuction.isRequired
+	cropImage: PropTypes.func.isRequired
 }
 
 export default WithCropAvatarImageMutation(SettingAvatar)

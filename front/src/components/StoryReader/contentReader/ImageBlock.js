@@ -18,7 +18,7 @@ export default class ImageBlock extends Component {
 	}
 
 	comment = () => {
-		console.log("Comment");
+		this.props.onImageComment(this.props._id)
 	}
 
 	render() {

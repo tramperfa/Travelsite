@@ -325,4 +325,37 @@
 .publishButton {
   width: max-content;
   margin: 50px auto 15px auto;
+  background: #BAE8FF;
+  border-radius: 5px;
+}
+
+.commentAvatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 48px;
+}
+
+.commentEditorWrapper {
+  width: 625px;
+  border: 1px solid #e5e5e5;
+}
+
+.commentEditor {
+  padding: 8px;
+  height: 200px;
+  overflow: scroll;
+}
+
+.commentActionBar {
+  padding-left: 12px;
+  background: #f6f6f6;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.commentSubmitButton {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  background: #BAE8FF;
+  border-radius: 5px;
 }
