@@ -20,7 +20,7 @@ import Signup from './components/Signup';
 import UserPage from './components/UserPage'; // TB Split
 
 import NotFound from './components/NotFound';
-import Login from './components/Login';
+import SignIn from './components/SignIn';
 
 //GraphQL
 import client from './graphql/graphql';
@@ -58,7 +58,7 @@ const App = () => {
 									<Route path="/user/:_id" component={UserPage}/>
 									<PrivateRoute path="/my" component={LoadablePrivateUserPage}/>
 									<Route path="/signup" component={Signup}/>
-									<Route path="/login" component={Login}/>
+									<Route path="/login" component={SignIn}/>
 									<Route path="/dest" component={null} key="dest"/>
 									<Route path="/hotel" component={null} key="hotel"/>
 									<Route component={NotFound}/>

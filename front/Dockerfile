@@ -13,14 +13,14 @@ COPY package.json ./
 COPY ./src  ./
 COPY ./public  ./
 
-RUN npm install
+RUN npm install lint
 
 
 CMD if [ ${APP_ENV} = production ]; \
 	then \
  	npm run build; \
 	else \
- 	npm run start; \
+ 	npm run start lint; \
 	fi
 
 

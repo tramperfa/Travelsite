@@ -25,9 +25,3 @@ export const renderForError = (component, propName = "data") => branch(
 export const GraphQLErrorComponent = (props) => {
 	return (<QueryErrorComp errorInfo={props.errorInfo}/>)
 }
-
-// export class GraphQLQueryErrorComponent extends React.Component {
-// constructor(props) { 		super(props); 		this.state = { 			error: {
-// errorMessage: props.errorInfo, 				flag: false 			} 		} 	}
-//
-// 	render() { 		return (<QueryErrorComp error={this.state.error}/>) 	} }

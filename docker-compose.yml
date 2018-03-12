@@ -18,6 +18,7 @@ services:
     volumes:
       - ./webserver/src:/myserver/src
       - ./webserver/package.json:/myserver/package.json
+      - ./webserver/.eslintrc:/myserver/.eslintrc
     ports:
       - "8080:8080"
     links:

@@ -9,6 +9,7 @@ WORKDIR /myserver
 COPY package.json ./
 COPY aws.js ./
 COPY .babelrc ./
+COPY .eslintrc ./
 COPY ./src  ./
 
 RUN npm install
