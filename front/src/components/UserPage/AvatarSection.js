@@ -16,6 +16,7 @@ const AvatarSection = ({user}) => {
 				<div className="avatarContainer">
 					<Link to={`/my/setting/avatar`}>
 						<img className="avatarCircle" src={avatarImg} alt=''/>
+						<div className="avatarLink"/>
 						<div className="avatarLinkIcon">
 							<PhotoCamera/>
 						</div>

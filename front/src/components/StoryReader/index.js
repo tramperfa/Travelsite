@@ -15,7 +15,7 @@ import CommentSection from './CommentSection';
 class StoryReaderContainer extends React.Component {
 	render() {
 		const story = this.props.storyDetailData.story;
-		console.log(story);
+		// console.log(story);
 		return (
 			<div className="topContainter">
 				<HeadlineSection title={story.title} headlineImage={story.headlineImage}/>

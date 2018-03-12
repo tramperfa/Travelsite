@@ -6,7 +6,7 @@ import CoverSlider from './CoverSlider/CoverSlider'
 import StoryCard from './StoryCard';
 
 const HomePage = ({data}) => {
-	console.log(data.stories);
+	// console.log(data.stories);
 	return (
 		<div>
 			<div>
@@ -15,7 +15,7 @@ const HomePage = ({data}) => {
 			<div>
 				{
 					data.stories.map(story => {
-						console.log(story);
+						// console.log(story);
 						return (
 							<div className="storyList" key={story._id}>
 								<StoryCard story={story}/>

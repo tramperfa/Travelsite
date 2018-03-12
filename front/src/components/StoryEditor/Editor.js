@@ -44,8 +44,8 @@ import searchImage from '../../lib/searchImage'
 
 const PLACEHOLDERTEXT = "Your story starts here"
 const BUCKET_NAME = CONSTS.BUCKET_NAME
-const DRAFT_WIDTH = CONSTS.DRAFT_WIDTH
-const VIDEO_WIDTH = CONSTS.DRAFT_WIDTH
+const STORY_WIDTH = CONSTS.STORY_WIDTH
+const VIDEO_WIDTH = CONSTS.STORY_WIDTH
 const VIDEO_HEIGHT = VIDEO_WIDTH * 9 / 16
 const SUBTITLE_HEIGHT = CONSTS.SUBTITLE_HEIGHT
 
@@ -127,11 +127,11 @@ class MyEditor extends Component {
 		// example localImageSize {width: 100, height: 100}
 		let localImageSize = await willExtractSize(localImageData)
 
-		const width = localImageSize.width > DRAFT_WIDTH
-			? DRAFT_WIDTH
+		const width = localImageSize.width > STORY_WIDTH
+			? STORY_WIDTH
 			: localImageSize.width
-		const height = localImageSize.width > DRAFT_WIDTH
-			? localImageSize.height / (localImageSize.width / DRAFT_WIDTH)
+		const height = localImageSize.width > STORY_WIDTH
+			? localImageSize.height / (localImageSize.width / STORY_WIDTH)
 			: localImageSize.height
 
 		// Add imagePlaceHolder
@@ -276,14 +276,14 @@ class MyEditor extends Component {
 		// console.log(emojiString);
 		const contantState = this.state.editorState.getCurrentContent()
 		const selectionState = this.state.editorState.getSelection()
-		const contantStateWithEmoji = Modifier.insertText(
+		const contentStateWithEmoji = Modifier.insertText(
 			contantState,
 			selectionState,
 			emojiString
 		)
 		const editorStateWithEmoji = EditorState.push(
 			this.state.editorState,
-			contantStateWithEmoji,
+			contentStateWithEmoji,
 			'insert-characters'
 		)
 		this.onChange(editorStateWithEmoji)
@@ -351,7 +351,7 @@ class MyEditor extends Component {
 							editorState: this.state.editorState,
 							openSubTitleEditor: this.openSubTitleEditor,
 							deleteSubTitle: this.deleteSubTitle,
-							width: DRAFT_WIDTH,
+							width: STORY_WIDTH,
 							height: SUBTITLE_HEIGHT
 						}
 					}
@@ -407,7 +407,7 @@ class MyEditor extends Component {
 				<div
 					className="storyEditor"
 					style={{
-						width: DRAFT_WIDTH
+						width: STORY_WIDTH
 					}}
 					onClick={this.onClick}>
 					<Editor

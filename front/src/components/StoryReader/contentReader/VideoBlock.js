@@ -2,7 +2,7 @@ import React from 'react'
 
 import CONSTS from '../../../lib/consts'
 
-const VIDEO_WIDTH = CONSTS.DRAFT_WIDTH
+const VIDEO_WIDTH = CONSTS.STORY_WIDTH
 const VIDEO_HEIGHT = VIDEO_WIDTH * 9 / 16
 
 const RE_ID = /(\w+)$/
