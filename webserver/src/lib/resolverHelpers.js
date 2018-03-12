@@ -1,7 +1,7 @@
 import Story from '../logic/models/story'
 import Draft from '../logic/models/draft'
 import Image from '../logic/models/image'
-import User from '../logic/models/user'
+//import User from '../logic/models/user'
 import errorType from './errorType';
 
 // export const checkLogin = (context) => { 	if (!context.sessionUser ||
@@ -35,19 +35,20 @@ export const willCheckDocumentOwnerShip = async (
 		throw errorType(3)
 	}
 	try {
+		var doc = null
 		const check = requireOwnerCheck(context)
 		switch (documentType) {
 			case 'story':
-				var doc = await Story.load({_id: documentID});
+				doc = await Story.load({_id: documentID});
 				break;
 			case 'draft':
-				var doc = await Draft.load(documentID);
+				doc = await Draft.load(documentID);
 				break;
 			case 'leanDraft':
-				var doc = await Draft.leanLoad(documentID);
+				doc = await Draft.leanLoad(documentID);
 				break;
 			case 'image':
-				var doc = await Image.findById(documentID);
+				doc = await Image.findById(documentID);
 				break;
 			default:
 				//TODO Add to Error Log
@@ -70,5 +71,4 @@ export const willCheckDocumentOwnerShip = async (
 		//TODO Add to Error Log
 		return e
 	}
-
 }

@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 import uniqueValidator from 'mongoose-unique-validator';
 import errorType from '../../lib/errorType';
-// import Image from './image';
+import Image from './image';
 //
 
 var DraftSchema = new Schema({
@@ -66,7 +66,8 @@ DraftSchema.pre('remove', function (next) {
 	//console.log("Draft Pre-remove function called !");
 	if (this.images) {
 		this.images.forEach(imageID => {
-			// image = Image.findById(imageID) image.remove()
+			var image = Image.findById(imageID)
+			image.remove()
 		})
 	}
 

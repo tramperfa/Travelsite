@@ -53,7 +53,7 @@ var StorySchema = new Schema({
 	},
 	images: [
 		{
-			type: Schema.ObjectId,
+			type: ObjectId,
 			ref: 'Image'
 		}
 	],
@@ -78,13 +78,13 @@ var StorySchema = new Schema({
 	},
 	archiveStory: [
 		{
-			type: Schema.ObjectId,
+			type: ObjectId,
 			ref: 'User'
 		}
 	],
 	likeStory: [
 		{
-			type: Schema.ObjectId,
+			type: ObjectId,
 			ref: 'User'
 		}
 	],
@@ -96,7 +96,7 @@ var StorySchema = new Schema({
 	comments: [
 		{
 			author: {
-				type: Schema.ObjectId,
+				type: ObjectId,
 				ref: 'User'
 			},
 			qouteImage: {

@@ -6,12 +6,10 @@ import errorType from '../../lib/errorType';
 
 module.exports = {
 	Query: {
-		story: async (parent, {
-			_id
-		}, context) => {
+		story: async (parent, {_id}) => {
 			return Story.load({_id: _id, status: 2})
 		},
-		stories: async (parent, args, context, info) => {
+		stories: async () => {
 			//console.log("Stories List Query Executed");
 			const options = {
 				criteria: {
@@ -40,7 +38,7 @@ module.exports = {
 			} else {
 				const options = {
 					criteria: {
-						'author': args.userID,
+						'author': userID,
 						'status': 2
 					}
 				}

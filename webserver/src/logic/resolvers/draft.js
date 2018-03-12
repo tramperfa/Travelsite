@@ -1,7 +1,7 @@
 import GraphQLJSON from 'graphql-type-json';
 import Draft from '../models/draft'
 import Story from '../models/story'
-import User from '../models/user'
+//import User from '../models/user'
 import {willCheckDocumentOwnerShip} from '../../lib/resolverHelpers';
 import errorType from '../../lib/errorType';
 
@@ -92,8 +92,9 @@ const willPublishDraft = async (draftID, context) => {
 	try {
 		var draft = await willCheckDocumentOwnerShip(draftID, context, 'draft')
 		// Already applied for publish
+		var story;
 		if (draft.status == 2) {
-			var story = await Story.findById(draft.story)
+			story = await Story.findById(draft.story)
 			if (!story.draft.equals(draft._id) || !draft.story.equals(story._id)) {
 				//TODO LOG !! Story and Draft Do Not Match!
 				throw errorType(2)
@@ -111,7 +112,7 @@ const willPublishDraft = async (draftID, context) => {
 			})
 			// First time applying for publish
 		} else {
-			var story = new Story({
+			story = new Story({
 				//TESTING WITHOUT ADMIN REVIEW
 				status: 2,
 				draft: draft._id,

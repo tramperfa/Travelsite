@@ -1,18 +1,17 @@
-import mongoose from 'mongoose';
-const Schema = mongoose.Schema;
-const ObjectId = Schema.ObjectId;
-import uniqueValidator from 'mongoose-unique-validator';
-import bcrypt from 'bcrypt';
+import mongoose from "mongoose"
+const Schema = mongoose.Schema
+const ObjectId = Schema.ObjectId
+import bcrypt from "bcrypt"
 
-import errorType from '../../lib/errorType';
+import errorType from "../../lib/errorType"
 
 let validateLocalStrategyProperty = function (property) {
-	return (this.provider !== "local" && !this.updated) || property.length;
-};
+	return (this.provider !== "local" && !this.updated) || property.length
+}
 
 let validateLocalStrategyPassword = function (password) {
-	return this.provider !== "local" || (password && password.length >= 6);
-};
+	return this.provider !== "local" || (password && password.length >= 6)
+}
 
 const UserSchema = new Schema({
 	// _id
@@ -32,7 +31,7 @@ const UserSchema = new Schema({
 		validate: [
 			validateLocalStrategyProperty, "Please fill in your email"
 		],
-		match: [/.+\@.+\..+/, "Please fill a valid email address"]
+		match: [/.+@.+\..+/, "Please fill a valid email address"]
 	},
 
 	// username: { 	type: String, 	unique: true, 	index: true, 	lowercase: true,
@@ -40,16 +39,16 @@ const UserSchema = new Schema({
 	// [/^[\w][\w\-\._\@]*[\w]$/, "Please fill a valid username"] },
 	password: {
 		type: String,
-		default: '',
+		default: "",
 		validate: [validateLocalStrategyPassword, "Password should be longer"]
 	},
 	role: {
 		type: String,
-		"default": 'USER'
+		"default": "USER"
 	},
 	provider: {
 		type: String,
-		default: 'local'
+		default: "local"
 	},
 	avatar: {
 		type: ObjectId,
@@ -74,49 +73,49 @@ const UserSchema = new Schema({
 	following: [
 		{
 			type: ObjectId,
-			ref: 'User'
+			ref: "User"
 		}
 	],
 	follower: [
 		{
 			type: ObjectId,
-			ref: 'User'
+			ref: "User"
 		}
 	],
 	archiveStory: [
 		{
 			type: ObjectId,
-			ref: 'Story'
+			ref: "Story"
 		}
 	],
 	archivePOI: [
 		{
 			type: ObjectId,
-			ref: 'POI'
+			ref: "POI"
 		}
 	],
 	archiveHotel: [
 		{
 			type: ObjectId,
-			ref: 'Hotel'
+			ref: "Hotel"
 		}
 	],
 	archiveImage: [
 		{
 			type: ObjectId,
-			ref: 'Image'
+			ref: "Image"
 		}
 	],
 	likeStory: [
 		{
 			type: ObjectId,
-			ref: 'Story'
+			ref: "Story"
 		}
 	],
 	blackList: [
 		{
 			type: ObjectId,
-			ref: 'User'
+			ref: "User"
 		}
 	],
 	shippingAddress: {
@@ -146,25 +145,26 @@ const UserSchema = new Schema({
 		type: Number,
 		default: 1
 	}
-}, {usePushEach: true});
+}, {usePushEach: true})
 
 /**
  * Pre-save hook, Password hashing
  */
 
 UserSchema.pre("save", function (next) {
-	let user = this;
-	if (!user.isModified("password")) 
-		return next();
-	
+	let user = this
+	if (!user.isModified("password")) {
+		return next()
+	}
+
 	bcrypt.genSalt(10, function (err, salt) {
 		bcrypt.hash(user.password, salt, function (err, hash) {
-			user.password = hash;
-			next();
+			user.password = hash
+			next()
 			// Store hash in your password DB.
-		});
-	});
-});
+		})
+	})
+})
 
 /**
  * Methods
@@ -177,20 +177,21 @@ UserSchema.methods = {
    */
 	comparePassword: function (password, cb) {
 		bcrypt.compare(password, this.password, function (err, isMatch) {
-			cb(err, isMatch);
-		});
+			cb(err, isMatch)
+		})
 	}
 
-};
+}
 
 UserSchema.virtual("Image").get(function () {
 	// Load picture from profile
-	if (this.avatar) 
-		return this.avatar;
-	
+	if (this.avatar) {
+		return this.avatar
+	}
+
 	// Use default picture
-	return "Default Image ID";
-});
+	return "Default Image ID"
+})
 
 // methods are defined on the document (instance). statics are the methods
 // defined on the Model.
@@ -210,7 +211,7 @@ UserSchema.statics = {
 
 	load: function (_id) {
 		return new Promise((resolve, reject) => {
-			this.findOne({_id: _id}).populate('avatar').exec((err, res) => {
+			this.findOne({_id: _id}).populate("avatar").exec((err, res) => {
 				if (err) {
 					//TODO Log error console.log(err);
 					reject(errorType(2))
@@ -220,9 +221,9 @@ UserSchema.statics = {
 					resolve(res)
 				}
 			})
-		});
+		})
 	}
 }
 
-var User = mongoose.model('User', UserSchema)
+var User = mongoose.model("User", UserSchema)
 module.exports = User

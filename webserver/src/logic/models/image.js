@@ -1,14 +1,13 @@
 import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
-import uniqueValidator from 'mongoose-unique-validator';
 import errorType from '../../lib/errorType';
 //import {willDeleteObject} from '../../lib/upload'
 
 var ImageSchema = new Schema({
 	//_id
 	author: {
-		type: Schema.ObjectId,
+		type: ObjectId,
 		ref: 'User'
 	},
 	// 0-Story; 1-Headline; 2-Avatar;
@@ -17,12 +16,12 @@ var ImageSchema = new Schema({
 		default: 0
 	},
 	draft: {
-		type: Schema.ObjectId,
+		type: ObjectId,
 		ref: 'Draft',
 		index: true
 	},
 	poi: {
-		type: Schema.ObjectId,
+		type: ObjectId,
 		ref: 'POI',
 		index: true
 	},

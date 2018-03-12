@@ -2,10 +2,10 @@
  * Module dependencies.
  */
 
-import local from './strategy/local';
+import local from "./strategy/local"
 // import google from './passport/google'; import facebook from
 // './passport/facebook';
-import passport from 'passport';
+import passport from "passport"
 
 module.exports = function (app) {
 
@@ -20,19 +20,19 @@ module.exports = function (app) {
 			role: user.role
 		}
 		done(null, sessionUser)
-	});
+	})
 
 	passport.deserializeUser(function (sessionUser, done) {
 		console.log("reach deserialize user step")
 		// The sessionUser object is different from the user mongoose collection it's
 		// actually req.session.passport.user and comes from the session collection
-		done(null, sessionUser);
-	});
+		done(null, sessionUser)
+	})
 
 	// use these strategies
-	passport.use(local);
+	passport.use(local)
 	//passport.use(google); passport.use(facebook); use passport session
-	app.use(passport.initialize());
-	app.use(passport.session());
+	app.use(passport.initialize())
+	app.use(passport.session())
 
-};
+}
