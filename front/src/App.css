@@ -3,11 +3,25 @@
 }
 
 .storyList{
-float:right;
-  padding-right: 80px;
+/* float:right;
+  padding-right: 80px; */
 /*width:50%;*/
 /*min-width: 500px;*/
 
+}
+
+.storyListAuthor {
+  text-decoration: none;
+  color: #0a9bf5;
+}
+.storyListAuthor:hover {
+  text-decoration: underline;
+}
+.storyListAuthorAvatar {
+  width: 20px;
+  height: 20px;
+  border-radius: 20px;
+  margin-right: 5px;
 }
 
 .headline{

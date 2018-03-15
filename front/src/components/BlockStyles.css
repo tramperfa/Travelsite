@@ -325,7 +325,7 @@
 .publishButton {
   width: max-content;
   margin: 50px auto 15px auto;
-  background: #BAE8FF;
+  background: #0a9bf5;
   border-radius: 5px;
 }
 
@@ -356,6 +356,6 @@
   position: absolute;
   right: 0;
   bottom: 0;
-  background: #BAE8FF;
+  background: #0a9bf5;
   border-radius: 5px;
 }

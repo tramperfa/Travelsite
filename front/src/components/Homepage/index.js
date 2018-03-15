@@ -3,7 +3,7 @@ import {WithStoryListQuery} from '../../graphql/story';
 import ComposeQuery from '../../lib/hoc';
 
 import CoverSlider from './CoverSlider/CoverSlider'
-import StoryCard from './StoryCard';
+import StoryList from './StoryList'
 
 const HomePage = ({data}) => {
 	// console.log(data.stories);
@@ -12,17 +12,8 @@ const HomePage = ({data}) => {
 			<div>
 				<CoverSlider coverStories={data.stories}/>
 			</div>
-			<div>
-				{
-					data.stories.map(story => {
-						// console.log(story);
-						return (
-							<div className="storyList" key={story._id}>
-								<StoryCard story={story}/>
-							</div>
-						)
-					})
-				}
+			<div className="centerContainer">
+				<StoryList stories={data.stories}/>
 			</div>
 		</div>
 	)
