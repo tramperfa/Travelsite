@@ -1,10 +1,11 @@
 import Jimp from 'jimp';
 import uuidv4 from 'uuid/v4';
 import sharp from 'sharp';
+import Image from '../models/image';
 
 //
 import {willCheckDocumentOwnerShip} from '../../lib/resolverHelpers';
-import {willUploadObject, willDeleteObject} from '../../lib/S3';
+import {willUploadObject} from '../../lib/S3';
 
 import errorType from '../../lib/errorType';
 //import Image from '../models/image';
@@ -51,7 +52,7 @@ const imageSize = {
 module.exports = {
 
 	Query: {
-		image: async (parent, args, context) => {
+		image: async (parent, args) => {
 			return Image.load(args.imageID)
 		}
 	},
@@ -70,7 +71,6 @@ module.exports = {
 }
 
 const willCustomCropUpload = async (imageID, cropAt, context) => {
-
 	try {
 		let image = await willCheckDocumentOwnerShip(imageID, context, 'image')
 		let origImageName = image.originalImage.filename
@@ -79,34 +79,37 @@ const willCustomCropUpload = async (imageID, cropAt, context) => {
 				origImageName
 		// Image catergory is determined by the catergory field in image document when
 		// it is originally created
+		var newImage;
+		var draft;
+		var user;
 		switch (image.catergory) {
 				// Headline Image
 			case 1:
-				var [newImage, draft] = await Promise.all([
-					willCustomCrop(origImapeURL, cropAt),
-					willCheckDocumentOwnerShip(image.draft, context, 'draft')
-				]);
-				draft.headlineImage = image._id;
-				draft.lastUpdate = new Date().toISOString()
-				let newHeadlineImageName = "customV1-" + uuidv4() + '.' + extension
-				image.browserHeadlineImage = {
-					filename: newHeadlineImageName,
-					size: {
-						width: cropAt.width,
-						height: cropAt.height
+				{
+					[newImage, draft] = await Promise.all([
+						willCustomCrop(origImapeURL, cropAt),
+						willCheckDocumentOwnerShip(image.draft, context, 'draft')
+					]);
+					draft.headlineImage = image._id
+					draft.lastUpdate = new Date().toISOString()
+					let newHeadlineImageName = "customV1-" + uuidv4() + '.' + extension
+					image.browserHeadlineImage = {
+						filename: newHeadlineImageName,
+						size: {
+							width: cropAt.width,
+							height: cropAt.height
+						}
 					}
+					// SEQUENTIAL!!! Don't Trade Consistency with A Little Speed!  var finalImage =
+					// await sharp(newImage).toBuffer(); console.log("COMPRESSED AGAIN");
+					await willUploadObject(newHeadlineImageName, newImage);
+					await image.save();
+					await draft.save();
+					break;
+					// Avatar Image TO BE FINISH
 				}
-
-				// SEQUENTIAL!!! Don't Trade Consistency with A Little Speed!  var finalImage =
-				// await sharp(newImage).toBuffer(); console.log("COMPRESSED AGAIN");
-
-				await willUploadObject(newHeadlineImageName, newImage);
-				await image.save();
-				await draft.save();
-				break;
-				// Avatar Image TO BE FINISH
 			case 2:
-				var [newImage, user] = await Promise.all([
+				[newImage, user] = await Promise.all([
 					willCustomCrop(origImapeURL, cropAt),
 					User.findById(context.sessionUser.user._id)
 				]);
@@ -114,11 +117,10 @@ const willCustomCropUpload = async (imageID, cropAt, context) => {
 				break;
 			default:
 		}
-
 		return image;
 	} catch (e) {
 		return e
-	} finally {}
+	}
 
 }
 

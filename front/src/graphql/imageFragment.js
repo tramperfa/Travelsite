@@ -44,8 +44,8 @@ export const STORY_IMAGE_FRG = gql `
           browserStoryImage{
             ...image
           }
-          browserCommentImage{
-            ...image
+          browserCommentImage {
+	           ...image
           }
     }
     ${IMAGE_FILE_FRG}

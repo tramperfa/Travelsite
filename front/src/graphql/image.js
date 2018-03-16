@@ -1,13 +1,12 @@
 import gql from 'graphql-tag';
 import {graphql} from 'react-apollo';
 
-import store from '../redux';
+import reduxStore from '../redux';
 import client from '../graphql/graphql';
 import {HEADLINE_IMAGE_FRG, AVATAR_IMAGE_FRG} from './imageFragment';
 import {USER_AVATAR_FRG} from './userFragment';
 import {DRAFT_DETAILS_QUERY} from './draft';
 
-const reduxStore = store;
 const CROP_IMAGE_MUTATION = gql `
 mutation cropImage($input: cropImageInput!) {
   cropImage(input: $input) {
@@ -80,7 +79,7 @@ export const WithCropAvatarImageMutation = graphql(CROP_IMAGE_MUTATION, {
 					{id: myID, fragment: USER_AVATAR_FRG, fragmentName: "userAvatar"}
 				)
 				// console.log("userAvaFrg ; "); console.log(userAvatarFrg);
-				// /////////////////////////////////////////////////////////////// / var
+				// ///////////////////////////////////////////////////////////// / var
 				// publicUserAvatarFrg = client.readFragment( 	{id: myID, fragment:
 				// PUBLIC_USER_SNAPSHOT_FRG, fragmentName: "publicUserSnapshot"} )
 				// console.log("publicuserAvaFrg ; "); console.log(publicUserAvatarFrg); change

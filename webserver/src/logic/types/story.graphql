@@ -14,12 +14,23 @@ type Story {
   likeStoryCount: Int
   archiveStoryCount: Int
   commentCount: Int
+  commentReply: [Comment]
 }
 
 
-type Commnet {
-  text: String
+type Comment {
+  id: String
+  isReply: Boolean
+  storyID: ID
+  author: ID
+  content: JSON
+  qouteImage: ID
+  publishTime: String
 }
+
+### TODO  ###
+# author: PublicUser
+# qouteImage: Image
 
 type Query {
   story(_id: ID!): Story
@@ -36,6 +47,16 @@ type Mutation {
   archiveStory(storyID: ID!): Story @auth(role: "USER")
   deleteStory(storyID: ID!): Story @auth(role: "OWNER")
   recoverStory(storyID: ID!): Story @auth(role: "OWNER")
+  commentStory(input: commentStoryInput!): Comment @auth(role: "USER")
+  #replyStory(input: replyStoryInput!): Comment @auth(role: "OWNER")
+}
+
+
+input commentStoryInput {
+  content: JSON!
+  storyID: ID!
+  quoteImage: Boolean
+  imageID: ID
 }
 
 

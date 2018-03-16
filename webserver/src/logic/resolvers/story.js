@@ -3,15 +3,14 @@ import Story from '../models/story'
 import User from '../models/user'
 import {willCheckDocumentOwnerShip, checkLoginBoolean} from '../../lib/resolverHelpers';
 import errorType from '../../lib/errorType';
+import uuidv4 from 'uuid/v4';
 
 module.exports = {
 	Query: {
-		story: async (parent, {
-			_id
-		}, context) => {
+		story: async (parent, {_id}) => {
 			return Story.load({_id: _id, status: 2})
 		},
-		stories: async (parent, args, context, info) => {
+		stories: async () => {
 			//console.log("Stories List Query Executed");
 			const options = {
 				criteria: {
@@ -40,7 +39,7 @@ module.exports = {
 			} else {
 				const options = {
 					criteria: {
-						'author': args.userID,
+						'author': userID,
 						'status': 2
 					}
 				}
@@ -81,8 +80,17 @@ module.exports = {
 			storyID
 		}, context) => {
 			return willUpdateStoryStatus(storyID, context, 2)
+		},
+		commentStory: async (parent, args, context) => {
+			return willAddComment(
+				context.sessionUser.user._id,
+				args.input.storyID,
+				args.input.content,
+				args.input.quoteImage,
+				args.input.imageID,
+				context
+			)
 		}
-
 	},
 	JSON: GraphQLJSON
 }
@@ -123,10 +131,30 @@ const willUpdateStoryStatus = async (storyID, context, newStatus) => {
 	}
 }
 
-// const willDeleteStory = async (storyID, context) => { 	try { 		var story =
-// await willCheckDocumentOwnerShip(storyID, context, 'story') 		story.status =
-// 3 		await story.save() 		return story 	} catch (e) { 		return e 	} }
-//
-// const willRecoverStory = async (storyID, context) => { 	try { 		var story =
-// await willCheckDocumentOwnerShip(storyID, context, 'story') 		story.status =
-// 2 		await story.save() 		return story 	} catch (e) { 		return e 	} }
+const willAddComment = async (
+	userID,
+	storyID,
+	content,
+	quoteImage,
+	imageID,
+	context
+) => {
+	try {
+		var story = await willCheckDocumentOwnerShip(storyID, context, 'story')
+		if (!quoteImage) {
+			console.log("NOT Qouting Image")
+		}
+
+		var newComment = {
+			id: uuidv4(),
+			author: userID,
+			storyID: storyID,
+			content: content
+		}
+		story.commentReply.push(newComment)
+		await story.save()
+		return story
+	} catch (e) {
+		return e
+	}
+}

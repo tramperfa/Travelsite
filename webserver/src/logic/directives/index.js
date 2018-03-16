@@ -1,7 +1,5 @@
-const {forEachField} = require('graphql-tools');
-const {getArgumentValues} = require('graphql/execution/values');
-import errorType from '../../lib/errorType';
-import {checkLoginBoolean} from '../../lib/resolverHelpers';
+import errorType from "../../lib/errorType"
+import {checkLoginBoolean} from "../../lib/resolverHelpers"
 
 // const { AuthorizationError } = require('./../errors'); Implement resolvers
 // for out custom Directive
@@ -9,55 +7,50 @@ const directiveResolvers = {
 	auth(next, src, args, context, info) {
 		const userRole = checkLoginBoolean(context)
 			? context.sessionUser.user.role
-			: 'GUEST';
+			: "GUEST"
 		//console.log("userRole: " + userRole);
 		switch (args.role) {
-			case 'USER':
-				console.log("USER AUTH IS CALLED");
-				if (userRole == 'GUEST') {
+			case "USER":
+				console.log("USER AUTH IS CALLED")
+				if (userRole == "GUEST") {
 					throw errorType(0)
 				} else {
-					return next();
+					return next()
 				}
-				break;
-			case 'OWNER':
-				console.log("OWNER AUTH IS CALLED");
-				if (userRole == 'GUEST') {
-					throw errorType(1);
-				} else if (userRole == 'ADMIN') {
-					return next();
+				break
+			case "OWNER":
+				console.log("OWNER AUTH IS CALLED")
+				if (userRole == "GUEST") {
+					throw errorType(1)
+				} else if (userRole == "ADMIN") {
+					return next()
 				} else {
-					console.log("Pass Dow Owner Enforcement");
+					console.log("Pass Dow Owner Enforcement")
 					info.authAdd = {
 						checkOwner: true
-					};
+					}
 					context.authAdd = {
 						checkOwner: true
-					};
-					return next();
+					}
+					return next()
 				}
-				break;
-			case 'ADMIN':
-				console.log("ADMIN AUTH IS CALLED");
-				if (userRole != 'ADMIN') {
+				break
+			case "ADMIN":
+				console.log("ADMIN AUTH IS CALLED")
+				if (userRole != "ADMIN") {
 					// False Claim as Admin
 					// TODO LOG!!!!
-					console.log("SOMEONE HACKED AS ADMIN!");
-					throw errorType(4);
+					console.log("SOMEONE HACKED AS ADMIN!")
+					throw errorType(4)
 				} else {
-					return next();
+					return next()
 				}
-				break;
+				break
 			default:
 		}
 	}
 }
 
-// const decodeAccessLevel = ({role}) => { 	switch (role) { 		case 'GUEST':
-// return 0; 			break; 		case 'USER': 			return 1; 			break; 		case 'OWNER':
-// return 2; 			break; 		case 'ADMIN': 			return 3; 			break; 		default: THROW
-// ERROR 	} }
-
 module.exports = {
 	directiveResolvers
-};
+}

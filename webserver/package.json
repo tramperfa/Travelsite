@@ -5,13 +5,11 @@
   "main": "server.js",
   "private": true,
   "devDependencies": {
-    "babel-cli": "^6.24.0",
-    "babel-preset-es2015": "^6.24.0",
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-0": "^6.22.0",
     "nodemon": "^1.11.0",
-    "eslint": "^4.18.2",
-    "eslint-plugin-import": "^2.9.0",
-    "eslint-config-airbnb-base": "^12.1.0"
+    "eslint": "^4.18.2"
   },
   "dependencies": {
     "express": "^4.15.3",
@@ -44,7 +42,7 @@
     "graphql-depth-limit": "1.1.0"
   },
   "scripts": {
-    "start": "nodemon src/server.js --exec babel-node -e js",
-    "lint": "eslint . --ext .js --ext .jsx"
+    "lint": "eslint src/* --ext .js --ext .jsx --fix",
+    "start": "nodemon src/server.js --exec \"npm run lint && babel-node src/server.js\""
   }
 }

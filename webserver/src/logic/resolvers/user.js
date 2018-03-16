@@ -1,29 +1,26 @@
 import User from '../models/user';
 import passport from 'passport';
-import {requireOwnerCheck} from '../../lib/resolverHelpers';
 import errorType from '../../lib/errorType';
 
 module.exports = {
 	Query: {
-		userByID: async (parent, {
-			userID
-		}, context, info) => {
+		userByID: async (parent, {userID}) => {
 			return User.load(userID)
 		},
 		userSelf: async (parent, {
 			userID
-		}, context, info) => {
-			//console.log("userID : " + userID);
+		}, context) => {
+			console.log("userSelf QUERY WITH ID : " + userID);
 			if (context.sessionUser && context.sessionUser.user && context.sessionUser.user._id) {
 				return User.load(context.sessionUser.user._id)
 			} else {
-				console.log("User Not Login");
+				// DO NOT THROW ERROR, OTHERWISE CAN CAUSE REDIRECT
 				return undefined
 			}
 		}
 	},
 	Mutation: {
-		registerUser: async (parent, args, context) => {
+		registerUser: async (parent, args) => {
 			const user = args.input
 			return User.create(user)
 		},

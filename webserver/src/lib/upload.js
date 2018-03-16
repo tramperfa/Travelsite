@@ -2,13 +2,12 @@ import multer from 'multer';
 import sharp from 'sharp';
 import uuidv4 from 'uuid/v4';
 import parser from 'exif-parser';
-import passport from 'passport';
-//import Jimp from 'jimp';
+//import passport from 'passport'; import Jimp from 'jimp';
 
 import Image from '../logic/models/image';
-import Draft from '../logic/models/draft';
+//import Draft from '../logic/models/draft';
 import {willCheckDocumentOwnerShip, checkLoginBoolean} from './resolverHelpers';
-import {willUploadObject, willDeleteObject} from './S3';
+import {willUploadObject} from './S3';
 import errorType from './errorType'
 
 // Multer config memory storage keeps file data in a buffer
@@ -58,7 +57,7 @@ export const imageSize = {
 	}
 }
 
-module.exports = function (app, db) {
+module.exports = function (app) {
 	app.post("/upload", upload.single('imageupload'), async (req, res) => {
 		const {catergory, extension, draftID, origWidth, origHeight} = req.body
 
@@ -91,41 +90,43 @@ module.exports = function (app, db) {
 			switch (catergory) {
 					// Story Image
 				case '0':
-					var [draft] = await Promise.all([
-						willCheckDocumentOwnerShip(draftID, context, 'leanDraft'),
-						originalSizeUpload(buffer, extension, origSize, image),
-						widthBasedResizeUpload(buffer, extension, origSize, 'browserStoryImage', image),
-						widthBasedResizeUpload(
-							buffer,
-							extension,
-							origSize,
-							'browserCommentImage',
-							image
-						),
-						autoCropUpload(buffer, extension, 'browserCoverImage', image),
-						autoCropUpload(buffer, extension, 'browserUserHomeCoverImage', image)
-					]);
-					// Save Image Before Draft
-					await image.save();
-					let images = draft.images;
-					//console.log(images);
-					images.push(image._id);
-					await draft.save();
-					let returnImage = {
-						_id: image._id,
-						browserStoryImage: {
-							filename: image.browserStoryImage.filename,
-							size: {
-								width: image.browserStoryImage.size.width,
-								height: image.browserStoryImage.size.height,
-								__typename: "Size"
+					{
+						var [draft] = await Promise.all([
+							willCheckDocumentOwnerShip(draftID, context, 'leanDraft'),
+							originalSizeUpload(buffer, extension, origSize, image),
+							widthBasedResizeUpload(buffer, extension, origSize, 'browserStoryImage', image),
+							widthBasedResizeUpload(
+								buffer,
+								extension,
+								origSize,
+								'browserCommentImage',
+								image
+							),
+							autoCropUpload(buffer, extension, 'browserCoverImage', image),
+							autoCropUpload(buffer, extension, 'browserUserHomeCoverImage', image)
+						]);
+						// Save Image Before Draft
+						await image.save();
+						let images = draft.images;
+						//console.log(images);
+						images.push(image._id);
+						await draft.save();
+						let returnImage = {
+							_id: image._id,
+							browserStoryImage: {
+								filename: image.browserStoryImage.filename,
+								size: {
+									width: image.browserStoryImage.size.width,
+									height: image.browserStoryImage.size.height,
+									__typename: "Size"
+								},
+								__typename: "ImageFile"
 							},
-							__typename: "ImageFile"
-						},
-						__typename: "Image"
+							__typename: "Image"
+						}
+						res.send(returnImage);
+						break;
 					}
-					res.send(returnImage);
-					break;
 					// Headline Image, Avatar Image
 				case '1':
 				case '2':
@@ -182,10 +183,11 @@ const widthBasedResizeUpload = async (
 	let newName = generateImageName("storyV1-", extension)
 	var requireSize = imageSize[imageType]
 	var finalSize;
+	var newImage;
 
 	// Resize to match required width
 	if (origSize.width > requireSize.width) {
-		var newImage = await sharp(inputBuffer).resize(requireSize.width, undefined).toBuffer()
+		newImage = await sharp(inputBuffer).resize(requireSize.width, undefined).toBuffer()
 		var newHeight = Math.round(
 			origSize.height / origSize.width * requireSize.width
 		)
@@ -195,7 +197,7 @@ const widthBasedResizeUpload = async (
 		}
 		// Upload image width less than required width, No Resize
 	} else {
-		var newImage = inputBuffer
+		newImage = inputBuffer
 		finalSize = origSize
 	}
 
