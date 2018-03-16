@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 import {graphql} from 'react-apollo';
-import {STORY_CARD_FRG, STORY_IMAGE_ARRAY} from './storyFragment';
+import {STORY_CARD_FRG, STORY_IMAGE_ARRAY_FRG, STORY_COMMENT_FRG} from './storyFragment';
 import {HEADLINE_IMAGE_FRG} from './imageFragment';
 
 ////// QUERY
@@ -19,7 +19,7 @@ export const STORY_DETAILS_QUERY = gql `
   }
   ${STORY_CARD_FRG}
   ${HEADLINE_IMAGE_FRG}
-  ${STORY_IMAGE_ARRAY}
+  ${STORY_IMAGE_ARRAY_FRG}
 `;
 
 export const WithStoryDetialsQuery = graphql(STORY_DETAILS_QUERY, {
@@ -41,6 +41,27 @@ export const STORIES_LIST_QUERY = gql `
 `;
 
 export const WithStoryListQuery = graphql(STORIES_LIST_QUERY)
+
+export const STORY_COMMENT_QUERY = gql `
+query StoryQuery($_id : ID!) {
+  story(_id: $_id) {
+      _id
+      commentReply{
+        ...storyComment
+      }
+    }
+  }
+${STORY_COMMENT_FRG}
+`;
+
+export const WithStoryCommentQuery = graphql(STORY_COMMENT_QUERY, {
+	options: (props) => ({
+		variables: {
+			_id: props.match.params._id
+		}
+	}),
+	name: 'storyCommentData'
+})
 
 export const USER_STORY_QUERY = gql `
   query userStoryQuery($userID : ID!) {
@@ -160,6 +181,53 @@ export const WithRecoverStoryMutation = graphql(RECOVER_STORY_MUTATION, {
 					query: MY_DELETE_STORY_QUERY
 				}
 			]
+		})
+	})
+})
+
+////\\\\\\\\\\\\\\\\\\\\\\\\\\  COMMENTS //\\\\\\\\\\\\\\\\\\\\\\\
+export const COMMENT_STORY_MUTATION = gql `
+mutation commentStory($input: commentStoryInput!) {
+  commentStory(input: $input) {
+      ...storyComment
+    }
+  }
+  ${STORY_COMMENT_FRG}
+`;
+
+export const WithCommentStoryMuation = graphql(COMMENT_STORY_MUTATION, {
+	props: ({mutate}) => ({
+		commentStory: (storyID, content) => mutate({
+			variables: {
+				input: {
+					storyID: storyID,
+					content: content
+				}
+			},
+			update: (store, {data: {
+					commentStory
+				}}) => {
+
+				//storyComment Query is the only query impacted by the mutation
+				const data = store.readQuery({
+					query: STORY_COMMENT_QUERY,
+					variables: {
+						storyID: commentStory.storyID
+					}
+				});
+
+				//Add the new Comment
+				data.commentReply.push(commentStory)
+
+				//Write back
+				store.wirteQuery({
+					query: STORY_COMMENT_QUERY,
+					variables: {
+						storyID: commentStory.storyID
+					},
+					data
+				})
+			}
 		})
 	})
 })

@@ -92,29 +92,47 @@ var StorySchema = new Schema({
 		type: Number,
 		default: 0
 	},
-
-	comments: [
+	commentReply: [
 		{
+			// Generated ID for differentiation
+			id: {
+				type: String
+			},
+			isReply: {
+				type: Boolean,
+				default: false
+			},
 			author: {
 				type: ObjectId,
 				ref: 'User'
+			},
+			storyID: {
+				type: ObjectId,
+				ref: 'Story'
 			},
 			qouteImage: {
 				type: ObjectId,
 				ref: 'Image'
 			},
-			body: {
+			content: {
 				type: JSON
 			},
-			lastUpdate: {
+			publishTime: {
 				type: Date,
 				default: Date.now
 			},
-			reply: {
-				body: {
+			replyToComment: {
+				id: {
+					type: String
+				},
+				content: {
 					type: JSON
 				},
-				lastUpdate: {
+				author: {
+					type: ObjectId,
+					ref: 'User'
+				},
+				publishTime: {
 					type: Date,
 					default: Date.now
 				}
