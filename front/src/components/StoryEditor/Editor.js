@@ -41,6 +41,7 @@ import Atomic from './atomicblock/Atomic'
 import defaultPlugins from './plugins/default'
 import CONSTS from '../../lib/consts'
 import searchImage from '../../lib/searchImage'
+import getStorySnapshot from '../../lib/getStorySnapshot'
 
 const PLACEHOLDERTEXT = "Your story starts here"
 const BUCKET_NAME = CONSTS.BUCKET_NAME
@@ -110,6 +111,7 @@ class MyEditor extends Component {
 
 	saveContent = debounce((newContent) => {
 		console.log(convertToRaw(newContent))
+		console.log(getStorySnapshot(convertToRaw(newContent)));
 		//console.log("WRITING TO THE SERVER")
 		this.props.updateContent(this.props.match.params._id, convertToRaw(newContent)).catch(
 			(err) => {
