@@ -38,6 +38,12 @@ class CommentEditorContainer extends Component {
 			'5aa611d9f874fa00c5250d23'
 		).then(() => {
 			console.log("Added New Comment");
+			this.setState({
+				editorState: EditorState.set(
+					EditorState.createEmpty(defaultDecorator),
+					{allowUndo: false}
+				)
+			})
 		}).catch((err) => {
 			this.setState(onError(err))
 		})
