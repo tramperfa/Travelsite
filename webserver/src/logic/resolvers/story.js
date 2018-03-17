@@ -82,6 +82,7 @@ module.exports = {
 			return willUpdateStoryStatus(storyID, context, 2)
 		},
 		commentStory: async (parent, args, context) => {
+			console.log(args.input.storyID);
 			return willAddComment(
 				context.sessionUser.user._id,
 				args.input.storyID,
@@ -140,20 +141,32 @@ const willAddComment = async (
 	context
 ) => {
 	try {
+		console.log("Story ID : ");
+		console.log(storyID);
 		var story = await willCheckDocumentOwnerShip(storyID, context, 'story')
 		if (!quoteImage) {
 			console.log("NOT Qouting Image")
 		}
-
+		//let commetID = uuidv4() console.log("NEW ID : " + commetID);
 		var newComment = {
-			id: uuidv4(),
+			_id: uuidv4(),
 			author: userID,
 			storyID: storyID,
-			content: content
+			content: content,
+			quoteImage: quoteImage,
+			imageID: imageID
 		}
-		story.commentReply.push(newComment)
+		if (!story.commentReply) {
+			let commentArray = []
+			commentArray.push(newComment)
+			console.log("Entering if");
+			story.commentReply = commentArray
+		} else {
+			console.log("Entering else");
+			story.commentReply.push(newComment)
+		}
 		await story.save()
-		return story
+		return newComment
 	} catch (e) {
 		return e
 	}

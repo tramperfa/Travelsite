@@ -92,10 +92,12 @@ var StorySchema = new Schema({
 		type: Number,
 		default: 0
 	},
+
 	commentReply: [
 		{
-			// Generated ID for differentiation
-			id: {
+			// \\\\\\\\\\\\\\\\\\\\\\ Generated ID for differentiation
+			// \\\\\\\\\\\\\\\\\\\\\\ USE _id for graphQL fragment identification at FE
+			_id: {
 				type: String
 			},
 			isReply: {
@@ -209,6 +211,7 @@ StorySchema.statics = {
 			//
 				.exec((err, res) => {
 				if (err) {
+					console.log(err)
 					//TODO Log error
 					reject(errorType(2))
 				} else if (!res) {

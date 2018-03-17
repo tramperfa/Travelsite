@@ -37,7 +37,7 @@ class CommentEditorContainer extends Component {
 			false,
 			'5aa611d9f874fa00c5250d23'
 		).then(() => {
-			console.log("Added Comment");
+			console.log("Added New Comment");
 		}).catch((err) => {
 			this.setState(onError(err))
 		})
