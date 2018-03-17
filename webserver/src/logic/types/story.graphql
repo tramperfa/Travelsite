@@ -24,13 +24,13 @@ type Comment {
   storyID: ID
   author: ID
   content: JSON
-  qouteImage: ID
+  quoteImage: ID
   publishTime: String
 }
 
 ### TODO  ###
 # author: PublicUser
-# qouteImage: Image
+# quoteImage: Image
 
 type Query {
   story(_id: ID!): Story

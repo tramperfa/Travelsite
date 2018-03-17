@@ -112,7 +112,7 @@ var StorySchema = new Schema({
 				type: ObjectId,
 				ref: 'Story'
 			},
-			qouteImage: {
+			quoteImage: {
 				type: ObjectId,
 				ref: 'Image'
 			},

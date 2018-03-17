@@ -122,6 +122,15 @@ module.exports = function (app) {
 								},
 								__typename: "ImageFile"
 							},
+							browserCommentImage: {
+								filename: image.browserCommentImage.filename,
+								size: {
+									width: image.browserCommentImage.size.width,
+									height: image.browserCommentImage.size.height,
+									__typename: "Size"
+								},
+								__typename: "ImageFile"
+							},
 							__typename: "Image"
 						}
 						res.send(returnImage);

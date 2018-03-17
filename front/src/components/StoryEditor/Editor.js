@@ -155,9 +155,18 @@ class MyEditor extends Component {
 			localImageSize.height
 		)
 
-		let data = this.getCachedDraft()
+		let data = this.getCachedImageArray()
 		data.draft.images.push(uploadedImage)
-		client.writeQuery({query: DRAFT_IMAGE_ARRAY_QUERY, data: data})
+		console.log("before write query");
+		console.log(data);
+
+		client.writeQuery({
+			query: DRAFT_IMAGE_ARRAY_QUERY,
+			variables: {
+				draftID: this.props.match.params._id
+			},
+			data: data
+		})
 
 		// replace imagePlaceHolder with actual image on S3
 		const latestEditorState = this.state.editorState
@@ -198,7 +207,7 @@ class MyEditor extends Component {
 		);
 	}
 
-	getCachedDraft = () => {
+	getCachedImageArray = () => {
 		let data = client.readQuery({
 			query: DRAFT_IMAGE_ARRAY_QUERY,
 			variables: {

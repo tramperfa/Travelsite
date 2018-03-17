@@ -27,7 +27,10 @@ class StoryReaderContainer extends React.Component {
 					</div>
 				</div>
 				<div className="storyContainer">
-					<ContentSection content={story.content} images={story.images}/>
+					<ContentSection
+						match={this.props.match}
+						content={story.content}
+						images={story.images}/>
 					<CommentSection match={this.props.match}/>
 				</div>
 			</div>

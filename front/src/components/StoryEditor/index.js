@@ -47,7 +47,9 @@ class StoryEditorContainer extends React.Component {
 					match={this.props.match}/>
 				<div className="storyContainer">
 					<div>
-						{format(new Date(this.props.draftData.draft.lastUpdate), "YYYY-MM-DD HH:mm:ss")}
+						{
+	format(new Date(this.props.draftData.draft.lastUpdate), "YYYY-MM-DD HH:mm:ss")
+}
 					</div>
 
 					<div>
