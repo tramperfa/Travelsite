@@ -8,7 +8,7 @@ import CommentEditorContainer from './comment/CommentEditorContainer'
 
 const CommentSection = ({storyCommentData, match}) => {
 	console.log("Story Comment Data:")
-	console.log();
+	console.log(storyCommentData.story.commentReply);
 	return (
 		<div style={{
 				margin: '30px 0 50px 0'

@@ -185,7 +185,7 @@ export const WithRecoverStoryMutation = graphql(RECOVER_STORY_MUTATION, {
 	})
 })
 
-////\\\\\\\\\\\\\\\\\\\\\\\\\\  COMMENTS //\\\\\\\\\\\\\\\\\\\\\\\
+////\\\\\\\\\\\\\\  COMMENTS \\\\\\\\\\\\\\
 export const COMMENT_STORY_MUTATION = gql `
 mutation commentStory($input: commentStoryInput!) {
   commentStory(input: $input) {
@@ -197,33 +197,40 @@ mutation commentStory($input: commentStoryInput!) {
 
 export const WithCommentStoryMuation = graphql(COMMENT_STORY_MUTATION, {
 	props: ({mutate}) => ({
-		commentStory: (storyID, content) => mutate({
+		commentStory: (content, storyID, quoteImage, imageID) => mutate({
 			variables: {
 				input: {
+					content: content,
 					storyID: storyID,
-					content: content
+					quoteImage: quoteImage,
+					imageID: imageID
 				}
 			},
 			update: (store, {data: {
 					commentStory
 				}}) => {
+				console.log("CommentSTORY");
+				console.log(commentStory);
 
 				//storyComment Query is the only query impacted by the mutation
 				const data = store.readQuery({
 					query: STORY_COMMENT_QUERY,
 					variables: {
-						storyID: commentStory.storyID
+						_id: commentStory.storyID
 					}
 				});
 
+				console.log("DATA :");
+				console.log(data);
+
 				//Add the new Comment
-				data.commentReply.push(commentStory)
+				data.story.commentReply.push(commentStory)
 
 				//Write back
-				store.wirteQuery({
+				store.writeQuery({
 					query: STORY_COMMENT_QUERY,
 					variables: {
-						storyID: commentStory.storyID
+						_id: commentStory.storyID
 					},
 					data
 				})

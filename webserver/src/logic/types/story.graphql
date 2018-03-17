@@ -19,7 +19,7 @@ type Story {
 
 
 type Comment {
-  id: String
+  _id: ID
   isReply: Boolean
   storyID: ID
   author: ID
