@@ -10,7 +10,7 @@ class CoverSlider extends Component {
 	render() {
 		const {coverStories} = this.props
 		return (
-			<div>
+			<div className="coverSlider">
 				<Carousel showThumbs={false} autoPlay={false} infiniteLoop={true}>
 					{
 						coverStories.filter(

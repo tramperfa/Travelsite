@@ -3,13 +3,15 @@ import {connect} from 'react-redux';
 import {compose} from 'recompose';
 
 //
-import Button from 'material-ui/Button';
+import IconButton from 'material-ui/IconButton';
 import {Link} from 'react-router-dom';
 import {MenuItem, MenuList} from 'material-ui/Menu';
 import Grow from 'material-ui/transitions/Grow';
 import Paper from 'material-ui/Paper';
 import {withStyles} from 'material-ui/styles';
 import {Manager, Target, Popper} from 'react-popper';
+
+import HeaderUserAvatar from './HeaderUserAvatar'
 
 const styles = theme => ({
 	textField: {
@@ -31,14 +33,14 @@ const UserSection = ({
 				<div onMouseEnter={onMouseEnter}>
 					<Target>
 						<Link className={classes.textField} to={`/user/${userLocalStoreState.me._id}`}>
-							<Button
+							<IconButton
 								aria-owns={menuOpen
 									? 'menu-list'
 									: null}
 								aria-haspopup="true"
 								color="contrast">
-								{userLocalStoreState.me.fullName}
-							</Button>
+								<HeaderUserAvatar user={userLocalStoreState.me}/>
+							</IconButton>
 						</Link>
 					</Target>
 				</div>
@@ -51,7 +53,7 @@ const UserSection = ({
 						style={{
 							zIndex: 10
 						}}
-						placement="bottom-start"
+						placement="bottom-end"
 						eventsEnabled={menuOpen}>
 
 						<Grow
