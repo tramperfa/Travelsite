@@ -63,7 +63,9 @@ class ContentSection extends Component {
 			decorators: [
 				{
 					strategy: emojiStrategy,
-					component: ({children, decoratedText}) => <ReaderEmojiSpan key={decoratedText} decoratedText={decoratedText}/>
+					component: ({children, decoratedText}) => <ReaderEmojiSpan
+							key={Math.floor(Math.random() * 1000)}
+							decoratedText={decoratedText}/>
 				}
 			]
 		}

@@ -10,7 +10,7 @@ enum PhotoSize {
 }
 
 
-directive @auth(role: String) on QUERY | FIELD
+directive @auth(role: String) on FIELD_DEFINITION
 
 #directive @upper on FIELD_DEFINITION
 # type Query {

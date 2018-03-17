@@ -62,6 +62,7 @@ require("./lib/upload")(app, db)
 /**
  * Setup GraphQL
  */
+
 require("./logic/graphql")(app, db)
 
 /**
