@@ -6,7 +6,8 @@ import {compose} from 'recompose';
 //
 import {logoutUserInfo} from '../../redux/actions';
 import {resetApolloStore} from '../../graphql/graphql';
-import {WithLogoutMutation} from '../../graphql/user';
+import {WithUserSelfAvatarQuery, WithLogoutMutation} from '../../graphql/user';
+import {ComposeQuery} from '../../lib/hoc';
 import persist from '../../lib/persist';
 
 import UserSection from './UserSection';
@@ -37,17 +38,26 @@ class UserSectionContainer extends Component {
 				onMouseEnter={this.onMouseEnter}
 				onMouseLeave={this.onMouseLeave}
 				menuOpen={this.state.menuOpen}
-				handleUserLogout={this.handleUserLogout}/>
+				handleUserLogout={this.handleUserLogout}
+				MeData={this.props.MeData}/>
 		)
 	}
 }
 
 UserSectionContainer.propTypes = {
-	logout: PropTypes.func.isRequired
+	logout: PropTypes.func.isRequired,
+	MeData: PropTypes.object.isRequired
 }
 
 const mapDispatchToProps = ({logoutUserInfoDispatch: logoutUserInfo})
 
-export default compose(connect(null, mapDispatchToProps), WithLogoutMutation)(
-	UserSectionContainer
+const UserSectionContainerWithComposeQuery = ComposeQuery(
+	UserSectionContainer,
+	'MeData'
 )
+
+export default compose(
+	connect(null, mapDispatchToProps),
+	WithLogoutMutation,
+	WithUserSelfAvatarQuery
+)(UserSectionContainerWithComposeQuery)

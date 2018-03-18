@@ -25,8 +25,10 @@ const UserSection = ({
 	onMouseLeave,
 	classes,
 	userLocalStoreState,
-	handleUserLogout
+	handleUserLogout,
+	MeData
 }) => {
+	console.log(MeData);
 	return (
 		<div onMouseLeave={onMouseLeave}>
 			<Manager>
@@ -39,7 +41,7 @@ const UserSection = ({
 									: null}
 								aria-haspopup="true"
 								color="contrast">
-								<HeaderUserAvatar user={userLocalStoreState.me}/>
+								<HeaderUserAvatar user={MeData.userSelf}/>
 							</IconButton>
 						</Link>
 					</Target>
