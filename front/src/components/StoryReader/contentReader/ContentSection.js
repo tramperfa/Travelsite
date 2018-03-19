@@ -98,7 +98,8 @@ class ContentSection extends Component {
 							open={this.state.commentImageOpen}
 							closeImageComment={this.closeImageComment}
 							commentImageId={this.state.commentImageId}
-							commentImage={commentedImage.browserCommentImage}/>
+							commentImage={commentedImage.browserCommentImage}
+							match={this.props.match}/>
 				}
 			</div>
 		)

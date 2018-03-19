@@ -18,6 +18,7 @@ export const DRAFT_CARD_FRG = gql `
 
 export const DRAFT_IMAGE_ARRAY = gql `
       fragment draftImageArray on Draft {
+        _id
         images{
           ...storyImage
         }

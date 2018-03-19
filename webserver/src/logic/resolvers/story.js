@@ -82,7 +82,6 @@ module.exports = {
 			return willUpdateStoryStatus(storyID, context, 2)
 		},
 		commentStory: async (parent, args, context) => {
-			console.log(args.input.storyID);
 			return willAddComment(
 				context.sessionUser.user._id,
 				args.input.storyID,
@@ -90,6 +89,14 @@ module.exports = {
 				args.input.quoteImage,
 				args.input.imageID,
 				context
+			)
+		},
+		replyStory: async (parent, args, context) => {
+			return willAddReply(
+				args.input.storyID,
+				args.input.content,
+				args.input.replytoID,
+				context,
 			)
 		}
 	},
@@ -141,32 +148,43 @@ const willAddComment = async (
 	context
 ) => {
 	try {
-		console.log("Story ID : ");
-		console.log(storyID);
-		var story = await willCheckDocumentOwnerShip(storyID, context, 'story')
-		if (!quoteImage) {
-			console.log("NOT Qouting Image")
-		}
-		//let commetID = uuidv4() console.log("NEW ID : " + commetID);
-		var newComment = {
+		let story = await willCheckDocumentOwnerShip(storyID, context, 'story')
+		let imageQuote = quoteImage
+			? imageID
+			: undefined
+
+		let newComment = {
 			_id: uuidv4(),
 			author: userID,
 			storyID: storyID,
 			content: content,
-			quoteImage: quoteImage,
-			imageID: imageID
+			quoteImage: imageQuote,
+			isReply: false,
+			publishTime: new Date()
 		}
-		if (!story.commentReply) {
-			let commentArray = []
-			commentArray.push(newComment)
-			console.log("Entering if");
-			story.commentReply = commentArray
-		} else {
-			console.log("Entering else");
-			story.commentReply.push(newComment)
-		}
+		story.commentReply.push(newComment)
 		await story.save()
 		return newComment
+	} catch (e) {
+		return e
+	}
+}
+
+const willAddReply = async (storyID, content, replytoID, context) => {
+	try {
+		let story = await willCheckDocumentOwnerShip(storyID, context, 'story')
+
+		//check if replying comment exist
+		var replytoComment
+		story.commentReply.map(comment => {
+			if (comment._id === replytoID) {
+				replytoComment = comment
+			}
+		})
+		if (!replytoComment) {
+			throw new Error('Reply to non-exist comments')
+		}
+
 	} catch (e) {
 		return e
 	}

@@ -112,7 +112,7 @@ var StorySchema = new Schema({
 				type: ObjectId,
 				ref: 'Story'
 			},
-			qouteImage: {
+			quoteImage: {
 				type: ObjectId,
 				ref: 'Image'
 			},
@@ -123,16 +123,16 @@ var StorySchema = new Schema({
 				type: Date,
 				default: Date.now
 			},
-			replyToComment: {
+			replyTo: {
+				// Save ID for possible furture actions
 				id: {
 					type: String
 				},
 				content: {
 					type: JSON
 				},
-				author: {
-					type: ObjectId,
-					ref: 'User'
+				authorName: {
+					type: String
 				},
 				publishTime: {
 					type: Date,

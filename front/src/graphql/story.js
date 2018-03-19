@@ -209,9 +209,6 @@ export const WithCommentStoryMuation = graphql(COMMENT_STORY_MUTATION, {
 			update: (store, {data: {
 					commentStory
 				}}) => {
-				console.log("CommentSTORY");
-				console.log(commentStory);
-
 				//storyComment Query is the only query impacted by the mutation
 				const data = store.readQuery({
 					query: STORY_COMMENT_QUERY,
@@ -219,9 +216,6 @@ export const WithCommentStoryMuation = graphql(COMMENT_STORY_MUTATION, {
 						_id: commentStory.storyID
 					}
 				});
-
-				console.log("DATA :");
-				console.log(data);
 
 				//Add the new Comment
 				data.story.commentReply.push(commentStory)
