@@ -41,7 +41,7 @@ class ContentSection extends Component {
 			return (<div>Empty Content</div>)
 		}
 
-		const rederers = {
+		const renderers = {
 			blocks: {
 				unstyled: (children) => children.map(child => <p>{child}</p>),
 				atomic: (children, {keys, data}) => children.map((child, i) => {
@@ -64,13 +64,13 @@ class ContentSection extends Component {
 				{
 					strategy: emojiStrategy,
 					component: ({children, decoratedText}) => <ReaderEmojiSpan
-							key={Math.floor(Math.random() * 1000)}
+							key={decoratedText + Math.floor(Math.random() * 1000)}
 							decoratedText={decoratedText}/>
 				}
 			]
 		}
 
-		const converted = redraft(content, rederers)
+		const converted = redraft(content, renderers)
 		if (!converted) {
 			return (<div>Error in content rendering</div>)
 		}

@@ -30,7 +30,10 @@ class CommentEditorContainer extends Component {
 	}
 
 	onSubmit = () => {
-		//console.log(convertToRaw(this.state.editorState.getCurrentContent()));
+		if (this.props.hasCommentToReply) {
+			console.log("Comment is replied");
+			console.log(this.props.commentToReply);
+		}
 		this.props.commentStory(
 			convertToRaw(this.state.editorState.getCurrentContent()),
 			this.props.match.params._id,
@@ -46,13 +49,15 @@ class CommentEditorContainer extends Component {
 			})
 		}).catch((err) => {
 			this.setState(onError(err))
-		})
+		});
+		this.props.commentReplyFinish()
 	}
 
 	render() {
 		if (this.props.MeData.userSelf) {
 			return (
 				<div
+					id="comment_editor"
 					style={{
 						width: CONSTS.STORY_WIDTH,
 						height: 310,
@@ -69,7 +74,9 @@ class CommentEditorContainer extends Component {
 						<CommentEditor
 							editorState={this.state.editorState}
 							onChange={this.onChange}
-							hint="Leave your comment here"/>
+							hint={this.props.hasCommentToReply
+								? "Reply to " + this.props.commentToReply.author + ": "
+								: "Leave your comment here"}/>
 					</div>
 					<div className="commentSubmitButton">
 						<Button onClick={this.onSubmit}>
