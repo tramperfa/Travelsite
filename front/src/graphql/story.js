@@ -233,4 +233,51 @@ export const WithCommentStoryMuation = graphql(COMMENT_STORY_MUTATION, {
 	})
 })
 
+////\\\\\\\\\\\\\\  REPLY \\\\\\\\\\\\\\
+export const REPLY_STORY_MUTATION = gql `
+mutation replyStory($input: replyStoryInput!) {
+  replyStory(input: $input) {
+      ...storyComment
+    }
+  }
+  ${STORY_COMMENT_FRG}
+`;
+
+export const WithReplyStoryMuation = graphql(REPLY_STORY_MUTATION, {
+	props: ({mutate}) => ({
+		replyStory: (content, storyID, replytoID) => mutate({
+			variables: {
+				input: {
+					content: content,
+					storyID: storyID,
+					replytoID: replytoID
+				}
+			},
+			update: (store, {data: {
+					replyStory
+				}}) => {
+				//storyReply Query is the only query impacted by the mutation
+				const data = store.readQuery({
+					query: STORY_COMMENT_QUERY,
+					variables: {
+						_id: replyStory.storyID
+					}
+				});
+
+				//Add the new Reply
+				data.story.commentReply.push(replyStory)
+
+				//Write back
+				store.writeQuery({
+					query: STORY_COMMENT_QUERY,
+					variables: {
+						_id: replyStory.storyID
+					},
+					data
+				})
+			}
+		})
+	})
+})
+
 export default RECOVER_STORY_MUTATION

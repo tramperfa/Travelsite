@@ -21,7 +21,7 @@ class QueryErrorComp extends React.Component {
 
 QueryErrorComp.propTypes = {
 	openLoginDialogDispatch: PropTypes.func.isRequired,
-	errorInfo: PropTypes.string.isRequired
+	errorInfo: PropTypes.string
 }
 
 const mapDispatchToProps = ({openLoginDialogDispatch: openLoginDialog})

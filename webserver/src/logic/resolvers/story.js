@@ -181,10 +181,29 @@ const willAddReply = async (storyID, content, replytoID, context) => {
 				replytoComment = comment
 			}
 		})
+
 		if (!replytoComment) {
 			throw new Error('Reply to non-exist comments')
+		} else {
+			let author = await User.load(context.sessionUser.user._id)
+			let newReply = {
+				_id: uuidv4(),
+				author: author._id,
+				storyID: storyID,
+				content: content,
+				isReply: true,
+				publishTime: new Date(),
+				replyTo: {
+					_id: replytoComment._id,
+					authorName: author.fullName,
+					content: replytoComment.content,
+					publishTime: replytoComment.publishTime
+				}
+			}
+			story.commentReply.push(newReply)
+			await story.save()
+			return newReply
 		}
-
 	} catch (e) {
 		return e
 	}

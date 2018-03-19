@@ -70,4 +70,5 @@ input commentStoryInput {
 input replyStoryInput {
   content: JSON!
   storyID: ID!
+  replytoID: String
 }

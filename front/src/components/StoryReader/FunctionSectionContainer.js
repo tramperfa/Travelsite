@@ -6,8 +6,8 @@ import {Redirect} from 'react-router-dom';
 
 import ErrorComp from '../../lib/ErrorComp';
 import {error, onError} from '../../lib/utils';
-import ComposeQuery from '../../lib/hoc';
-//import {WithUserSelfStoryReaderQuery} from '../../graphql/user';
+// import ComposeQuery from '../../lib/hoc'; import
+// {WithUserSelfStoryReaderQuery} from '../../graphql/user';
 import {WithLikeStoryMutation, WithArchiveStoryMutation, WithDeleteStoryMutation} from '../../graphql/story';
 
 import FunctionSection from './FunctionSection';

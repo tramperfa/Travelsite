@@ -5,7 +5,7 @@ import Button from 'material-ui/Button'
 
 //
 import {WithUserSelfAvatarQuery} from '../../../graphql/user'
-import {WithCommentStoryMuation} from '../../../graphql/story'
+import {WithCommentStoryMuation, WithReplyStoryMuation} from '../../../graphql/story'
 import ErrorComp from '../../../lib/ErrorComp'
 import {error, onError} from '../../../lib/utils'
 import {ComposeQuery} from '../../../lib/hoc'
@@ -31,25 +31,42 @@ class CommentEditorContainer extends Component {
 
 	onSubmit = () => {
 		if (this.props.hasCommentToReply) {
-			console.log("Comment is replied");
+			console.log("Reply Comment Start");
 			console.log(this.props.commentToReply);
-		}
-		this.props.commentStory(
-			convertToRaw(this.state.editorState.getCurrentContent()),
-			this.props.match.params._id,
-			false,
-			'5aa611d9f874fa00c5250d23'
-		).then(() => {
-			console.log("Added New Comment");
-			this.setState({
-				editorState: EditorState.set(
-					EditorState.createEmpty(defaultDecorator),
-					{allowUndo: false}
-				)
+			this.props.replyStory(
+				convertToRaw(this.state.editorState.getCurrentContent()),
+				this.props.match.params._id,
+				this.props.commentToReply._id
+			).then(() => {
+				console.log("Reply Comment Finish");
+				this.setState({
+					editorState: EditorState.set(
+						EditorState.createEmpty(defaultDecorator),
+						{allowUndo: false}
+					)
+				})
+			}).catch((err) => {
+				this.setState(onError(err))
 			})
-		}).catch((err) => {
-			this.setState(onError(err))
-		});
+
+		} else {
+			this.props.commentStory(
+				convertToRaw(this.state.editorState.getCurrentContent()),
+				this.props.match.params._id,
+				false,
+				'5aa611d9f874fa00c5250d23'
+			).then(() => {
+				console.log("Added New Comment");
+				this.setState({
+					editorState: EditorState.set(
+						EditorState.createEmpty(defaultDecorator),
+						{allowUndo: false}
+					)
+				})
+			}).catch((err) => {
+				this.setState(onError(err))
+			})
+		}
 		this.props.commentReplyFinish()
 	}
 
@@ -96,7 +113,8 @@ class CommentEditorContainer extends Component {
 CommentEditorContainer.propTypes = {
 	MeData: PropTypes.object.isRequired,
 	match: PropTypes.object.isRequired,
-	commentStory: PropTypes.func.isRequired
+	commentStory: PropTypes.func.isRequired,
+	replyStory: PropTypes.func.isRequired
 }
 
 const CommentEditorContainerWithComposeQuery = ComposeQuery(
@@ -104,6 +122,8 @@ const CommentEditorContainerWithComposeQuery = ComposeQuery(
 	'MeData'
 )
 
-export default compose(WithUserSelfAvatarQuery, WithCommentStoryMuation)(
-	CommentEditorContainerWithComposeQuery
-)
+export default compose(
+	WithUserSelfAvatarQuery,
+	WithCommentStoryMuation,
+	WithReplyStoryMuation
+)(CommentEditorContainerWithComposeQuery)

@@ -4,21 +4,23 @@ import TextField from 'material-ui/TextField';
 
 //
 import {WithUpdateTitleMuation} from '../../graphql/draft';
+import ErrorComp from '../../lib/ErrorComp'
+import {error, onError} from '../../lib/utils'
 
 class StoryTitle extends React.Component {
 	state = {
 		title: this.props.title
 			? this.props.title
-			: ''
+			: '',
+		error: error
 	}
 
-	handleTitleUpdate = async () => {
-		try {
-			await this.props.updateTitle(this.props.match.params._id, this.state.title)
-		} catch (e) {
-			//this.setState({errorMessage: e.graphQLErrors[0].message})
-			console.log();
-		} finally {}
+	handleTitleUpdate = () => {
+		this.props.updateTitle(this.props.match.params._id, this.state.title).then(
+			() => {}
+		).catch((err) => {
+			this.setState(onError(err))
+		})
 	}
 
 	handleChange = name => event => {
@@ -28,6 +30,7 @@ class StoryTitle extends React.Component {
 	render() {
 		return (
 			<div className='storyTitle'>
+				<ErrorComp error={this.state.error}/>
 				<TextField
 					inputProps={{
 						maxLength: 60
