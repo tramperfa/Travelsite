@@ -90,6 +90,14 @@ module.exports = {
 				args.input.imageID,
 				context
 			)
+		},
+		replyStory: async (parent, args, context) => {
+			return willAddReply(
+				args.input.storyID,
+				args.input.content,
+				args.input.replytoID,
+				context,
+			)
 		}
 	},
 	JSON: GraphQLJSON
@@ -141,21 +149,42 @@ const willAddComment = async (
 ) => {
 	try {
 		let story = await willCheckDocumentOwnerShip(storyID, context, 'story')
-		var imageQuote = quoteImage
+		let imageQuote = quoteImage
 			? imageID
 			: undefined
-		//	console.log(" imageQuote : " + imageQuote)
-		var newComment = {
+
+		let newComment = {
 			_id: uuidv4(),
 			author: userID,
 			storyID: storyID,
 			content: content,
 			quoteImage: imageQuote,
+			isReply: false,
 			publishTime: new Date()
 		}
 		story.commentReply.push(newComment)
 		await story.save()
 		return newComment
+	} catch (e) {
+		return e
+	}
+}
+
+const willAddReply = async (storyID, content, replytoID, context) => {
+	try {
+		let story = await willCheckDocumentOwnerShip(storyID, context, 'story')
+
+		//check if replying comment exist
+		var replytoComment
+		story.commentReply.map(comment => {
+			if (comment._id === replytoID) {
+				replytoComment = comment
+			}
+		})
+		if (!replytoComment) {
+			throw new Error('Reply to non-exist comments')
+		}
+
 	} catch (e) {
 		return e
 	}

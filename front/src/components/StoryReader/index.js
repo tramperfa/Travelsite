@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {compose} from 'recompose';
 //import {connect} from 'react-redux';
 
 //
 import {WithStoryDetialsQuery} from '../../graphql/story'
+import {WithUserSelfStoryReaderQuery} from '../../graphql/user';
 import ComposeQuery from '../../lib/hoc';
 
 //
@@ -22,6 +24,7 @@ class StoryReaderContainer extends React.Component {
 				<div className="storyInfoBar">
 					<div className="storyInfoContainer">
 						<FunctionSectionContainer
+							MeData={this.props.MeData}
 							match={this.props.match}
 							storyDetailData={this.props.storyDetailData}/>
 					</div>
@@ -50,4 +53,11 @@ const StoryReaderContainerWithComposeQuery = ComposeQuery(
 	'storyDetailData'
 )
 
-export default WithStoryDetialsQuery(StoryReaderContainerWithComposeQuery)
+const StoryReaderContainerWithComposeQuery2 = ComposeQuery(
+	StoryReaderContainerWithComposeQuery,
+	'MeData'
+)
+
+export default compose(WithStoryDetialsQuery, WithUserSelfStoryReaderQuery)(
+	StoryReaderContainerWithComposeQuery2
+)

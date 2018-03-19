@@ -26,6 +26,13 @@ type Comment {
   content: JSON
   quoteImage: ID
   publishTime: String
+  replyTo: replyToComment
+}
+
+type replyToComment {
+  authorName: String
+  publishTime: String
+  content: JSON
 }
 
 ### TODO  ###
@@ -48,7 +55,8 @@ type Mutation {
   deleteStory(storyID: ID!): Story @auth(role: "OWNER")
   recoverStory(storyID: ID!): Story @auth(role: "OWNER")
   commentStory(input: commentStoryInput!): Comment @auth(role: "USER")
-  #replyStory(input: replyStoryInput!): Comment @auth(role: "OWNER")
+  replyStory(input: replyStoryInput!): Comment @auth(role: "OWNER")
+  # removeCommentReply(input: removeCommentInput!): Comment  @auth(role: "USER")
 }
 
 
@@ -59,8 +67,7 @@ input commentStoryInput {
   imageID: ID
 }
 
-
-# @auth(role: "USER")
-
-# addComment(input: addCommentInput!): addCommentPayload
-# removeComment(input: removeCommentInput!): removeCommentPayload
+input replyStoryInput {
+  content: JSON!
+  storyID: ID!
+}
