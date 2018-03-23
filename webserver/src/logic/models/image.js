@@ -6,7 +6,7 @@ import errorType from '../../lib/errorType';
 
 var ImageSchema = new Schema({
 	//_id
-	author: {
+	authorID: {
 		type: ObjectId,
 		ref: 'User'
 	},

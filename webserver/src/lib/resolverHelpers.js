@@ -61,7 +61,7 @@ export const willCheckDocumentOwnerShip = async (
 		if (check) {
 			console.log(" Checking Document Ownership");
 			//console.log(context.req.body);
-			if (!doc.author.equals(context.sessionUser.user._id)) {
+			if (!doc.authorID.equals(context.sessionUser.user._id)) {
 				//TODO Add to Error Log REVIEW False Claim as Document Owner
 				throw errorType(4)
 			}

@@ -28,7 +28,7 @@ const UserSection = ({
 	handleUserLogout,
 	MeData
 }) => {
-	console.log(MeData);
+	//console.log(MeData);
 	return (
 		<div onMouseLeave={onMouseLeave}>
 			<Manager>

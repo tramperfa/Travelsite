@@ -28,7 +28,7 @@ var StorySchema = new Schema({
 	content: {
 		type: JSON
 	},
-	author: {
+	authorID: {
 		type: ObjectId,
 		index: true,
 		ref: 'User'
@@ -104,7 +104,7 @@ var StorySchema = new Schema({
 				type: Boolean,
 				default: false
 			},
-			author: {
+			authorID: {
 				type: ObjectId,
 				ref: 'User'
 			},
@@ -135,8 +135,7 @@ var StorySchema = new Schema({
 					type: String
 				},
 				publishTime: {
-					type: Date,
-					default: Date.now
+					type: Date
 				}
 			}
 		}
@@ -203,9 +202,8 @@ StorySchema.statics = {
 	load: async function (criteria) {
 		//{_id: _id, status: status}
 		return new Promise((resolve, reject) => {
-			this.findOne(criteria).populate('author')
-
-			//.populate('comments')
+			this.findOne(criteria)
+			//.populate('author') .populate('comments')
 			//
 				.populate('coverImage').populate('images').populate('headlineImage')
 			//
@@ -236,9 +234,9 @@ StorySchema.statics = {
 		const page = options.page || 0;
 		const limit = options.limit || 30;
 		return new Promise((resolve, reject) => {
-			this.find(criteria).populate('author').populate('coverImage').populate(
-				'headlineImage'
-			). // User model hasn't been defined in Mongoose
+			this.find(criteria).populate('coverImage')
+			//.populate('authorID')
+				.populate('headlineImage'). // User model hasn't been defined in Mongoose
 			sort({lastUpdate: -1}).limit(limit).skip(limit * page).exec((err, res) => {
 				if (err) {
 					//TODO Log error

@@ -7,7 +7,7 @@ type Story {
   #poi: POI
   headlineImage: Image
   coverImage: Image
-  author: PublicUser
+  authorID: ID
   images: [Image]
   lastUpdate: String
   viewCount: Int
@@ -22,7 +22,7 @@ type Comment {
   _id: ID
   isReply: Boolean
   storyID: ID
-  author: ID
+  authorID: ID
   content: JSON
   quoteImage: ID
   publishTime: String
@@ -55,7 +55,7 @@ type Mutation {
   deleteStory(storyID: ID!): Story @auth(role: "OWNER")
   recoverStory(storyID: ID!): Story @auth(role: "OWNER")
   commentStory(input: commentStoryInput!): Comment @auth(role: "USER")
-  replyStory(input: replyStoryInput!): Comment @auth(role: "OWNER")
+  replyStory(input: replyStoryInput!): Comment @auth(role: "USER")
   removeCommentReply(input: removeCommentReplyInput!): removeCommentReplyPayload  @auth(role: "USER")
 }
 

@@ -16,7 +16,7 @@ module.exports = {
 			// USER's Own Draft
 			const options = {
 				criteria: {
-					'author': context.sessionUser.user._id,
+					'authorID': context.sessionUser.user._id,
 					'status': 1
 				}
 			}
@@ -28,7 +28,7 @@ module.exports = {
 		createDraft: async (parent, args, context) => {
 			// Create a User's Own Draft
 			var newDraft = new Draft(
-				{title: "", author: context.sessionUser.user._id, content: {}, images: []}
+				{title: "", authorID: context.sessionUser.user._id, content: {}, images: []}
 			);
 			await newDraft.save()
 			//DO NOT WIRTE: return newDraft.newDraft()  NOT WORKING
@@ -118,7 +118,7 @@ const willPublishDraft = async (draftID, context) => {
 				draft: draft._id,
 				title: draft.title,
 				content: draft.content,
-				author: draft.author,
+				authorID: draft.authorID,
 				poi: draft.poi,
 				coverImage: draft.coverImage,
 				headlineImage: draft.headlineImage,
