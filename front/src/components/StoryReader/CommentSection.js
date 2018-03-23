@@ -6,14 +6,12 @@ import {ComposeQuery} from '../../lib/hoc'
 import {WithStoryCommentQuery} from '../../graphql/story'
 import CommentEditorContainer from './comment/CommentEditorContainer'
 import Comment from './comment/Comment'
+import searchImage from '../../lib/searchImage'
 
 class CommentSection extends Component {
-	constructor(props) {
-		super(props)
-		this.state = {
-			hasCommentToReply: false,
-			commentToReply: null
-		}
+	state = {
+		hasCommentToReply: false,
+		commentToReply: null
 	}
 
 	onCommentReply = (comment) => {
@@ -27,8 +25,12 @@ class CommentSection extends Component {
 		this.setState({hasCommentToReply: false, commentToReply: null})
 	}
 
+	onCommentDelete = (comment) => {
+		console.log("Comment Delete");
+	}
+
 	render() {
-		const {storyCommentData, match} = this.props
+		const {storyCommentData, match, images} = this.props
 		console.log("Story Comment Data:")
 		console.log(storyCommentData.story.commentReply);
 		return (
@@ -41,7 +43,12 @@ class CommentSection extends Component {
 							<Comment
 								key={comment._id}
 								comment={comment}
-								onCommentReply={this.onCommentReply}/>
+								MeData={this.props.MeData}
+								quoteImage={comment.quoteImage
+									? searchImage(comment.quoteImage, images)
+									: undefined}
+								onCommentReply={this.onCommentReply}
+								onCommentDelete={this.onCommentDelete}/>
 						)
 					})
 				}

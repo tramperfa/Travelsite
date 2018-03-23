@@ -1,14 +1,26 @@
 import React from 'react'
 
-const CommentBottomVar = ({publishTime, onReply}) => {
+const timeReg = /[A-Z][a-z]+ \d{1,2} \d{4} \d{1,2}:\d{1,2}/
+
+const CommentBottomVar = (
+	{commentAuthor, publishTime, onReply, onDelete, MeData}
+) => {
+	const pTime = publishTime.match(timeReg)
 	return (
 		<div className="commentOtherInfo">
 			<div className="commentTime">
-				{publishTime}
+				{pTime[0]}
 			</div>
-			<div className="commentReply" onClick={onReply}>
-				Reply
-			</div>
+			{
+				MeData.userSelf && MeData.userSelf._id !== commentAuthor && <div className="commentReply" onClick={onReply}>
+						Reply
+					</div>
+			}
+			{
+				MeData.userSelf && MeData.userSelf._id === commentAuthor && <div className="commentReply" onClick={onDelete}>
+						Delete
+					</div>
+			}
 		</div>
 	)
 }

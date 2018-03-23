@@ -13,7 +13,7 @@ import {WithCommentStoryMuation} from '../../../graphql/story'
 import ErrorComp from '../../../lib/ErrorComp'
 import {error, onError} from '../../../lib/utils'
 import CommentEditor from './CommentEditor'
-import CommentImage from './CommentImage'
+// import CommentImage from './CommentImage'
 
 class CommentImageContainer extends Component {
 	state = {
@@ -65,15 +65,10 @@ class CommentImageContainer extends Component {
 					disableEscapeKeyDown={true}
 					maxWidth={false}>
 					<DialogContent>
-						<CommentImage imageData={this.props.commentImage}/>
-						<div style={{
-								marginTop: 16
-							}}>
-							<CommentEditor
-								editorState={this.state.editorState}
-								onChange={this.onChange}
-								hint="Comment this image here"/>
-						</div>
+						<CommentEditor
+							editorState={this.state.editorState}
+							onChange={this.onChange}
+							hint={"Comment " + this.props.author.fullName + "'s image"}/>
 					</DialogContent>
 					<DialogActions>
 						<div className="dialogActionItem">
