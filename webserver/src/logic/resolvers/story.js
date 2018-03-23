@@ -98,6 +98,13 @@ module.exports = {
 				args.input.replytoID,
 				context,
 			)
+		},
+		removeCommentReply: async (parent, args, context) => {
+			return willRemoveCommentReply(
+				args.input.storyID,
+				args.input.deleteID,
+				context,
+			)
 		}
 	},
 	JSON: GraphQLJSON
@@ -173,14 +180,10 @@ const willAddComment = async (
 const willAddReply = async (storyID, content, replytoID, context) => {
 	try {
 		let story = await willCheckDocumentOwnerShip(storyID, context, 'story')
-
-		//check if replying comment exist
-		var replytoComment
-		story.commentReply.map(comment => {
-			if (comment._id === replytoID) {
-				replytoComment = comment
-			}
-		})
+		var findComment = (comment) => {
+			return comment._id === replytoID
+		}
+		var replytoComment = story.commentReply.find(findComment)
 
 		if (!replytoComment) {
 			throw new Error('Reply to non-exist comments')
@@ -203,6 +206,25 @@ const willAddReply = async (storyID, content, replytoID, context) => {
 			story.commentReply.push(newReply)
 			await story.save()
 			return newReply
+		}
+	} catch (e) {
+		return e
+	}
+}
+
+const willRemoveCommentReply = async (storyID, deleteID, context) => {
+	try {
+		let story = await willCheckDocumentOwnerShip(storyID, context, 'story')
+		var findComment = (comment) => {
+			return comment._id === deleteID
+		}
+		var Index = story.commentReply.findIndex(findComment)
+		if ((Index < 0) || (story.commentReply[Index].author !== context.sessionUser.user._id)) {
+			throw new Error('Delete comment does not exist')
+		} else {
+			story.commentReply.splice(Index, 1)
+			await story.save()
+			return {commentReply: story.commentReply}
 		}
 	} catch (e) {
 		return e
