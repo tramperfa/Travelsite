@@ -8,7 +8,7 @@ const CommentBottomVar = (
 	const pTime = publishTime.match(timeReg)
 	return (
 		<div className="commentOtherInfo">
-			<div className="commentTime">
+			<div className="commentQuote">
 				{pTime[0]}
 			</div>
 			{
