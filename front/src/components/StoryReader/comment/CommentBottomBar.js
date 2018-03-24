@@ -12,12 +12,12 @@ const CommentBottomVar = (
 				{pTime[0]}
 			</div>
 			{
-				MeData.userSelf && MeData.userSelf._id !== commentAuthor && <div className="commentReply" onClick={onReply}>
+				MeData.userSelf && MeData.userSelf._id !== commentAuthor._id && <div className="commentReply" onClick={onReply}>
 						Reply
 					</div>
 			}
 			{
-				MeData.userSelf && MeData.userSelf._id === commentAuthor && <div className="commentReply" onClick={onDelete}>
+				MeData.userSelf && MeData.userSelf._id === commentAuthor._id && <div className="commentReply" onClick={onDelete}>
 						Delete
 					</div>
 			}
