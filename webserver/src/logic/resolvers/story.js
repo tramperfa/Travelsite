@@ -28,7 +28,7 @@ module.exports = {
 			if (checkLoginBoolean(context) && (context.sessionUser.user._id == userID)) {
 				const options = {
 					criteria: {
-						'author': context.sessionUser.user._id,
+						'authorID': context.sessionUser.user._id,
 						'status': {
 							$lt: 3
 						}
@@ -39,7 +39,7 @@ module.exports = {
 			} else {
 				const options = {
 					criteria: {
-						'author': userID,
+						'authorID': userID,
 						'status': 2
 					}
 				}
@@ -52,7 +52,7 @@ module.exports = {
 			//User's Own Deleted Stories
 			const options = {
 				criteria: {
-					'author': context.sessionUser.user._id,
+					'authorID': context.sessionUser.user._id,
 					'status': 3
 				}
 			}
@@ -83,7 +83,6 @@ module.exports = {
 		},
 		commentStory: async (parent, args, context) => {
 			return willAddComment(
-				context.sessionUser.user._id,
 				args.input.storyID,
 				args.input.content,
 				args.input.quoteImage,
@@ -146,14 +145,7 @@ const willUpdateStoryStatus = async (storyID, context, newStatus) => {
 	}
 }
 
-const willAddComment = async (
-	userID,
-	storyID,
-	content,
-	quoteImage,
-	imageID,
-	context
-) => {
+const willAddComment = async (storyID, content, quoteImage, imageID, context) => {
 	try {
 		let story = await willCheckDocumentOwnerShip(storyID, context, 'story')
 		let imageQuote = quoteImage
@@ -162,7 +154,7 @@ const willAddComment = async (
 
 		let newComment = {
 			_id: uuidv4(),
-			author: userID,
+			authorID: context.sessionUser.user._id,
 			storyID: storyID,
 			content: content,
 			quoteImage: imageQuote,
@@ -179,26 +171,30 @@ const willAddComment = async (
 
 const willAddReply = async (storyID, content, replytoID, context) => {
 	try {
+		// var story; var author; [story, author] = await Promise.all(
+		// [willCheckDocumentOwnerShip(storyID, context, 'story'),
+		// User.findById(context.sessionUser.user._id)] )
 		let story = await willCheckDocumentOwnerShip(storyID, context, 'story')
 		var findComment = (comment) => {
 			return comment._id === replytoID
 		}
 		var replytoComment = story.commentReply.find(findComment)
+		var origAuthor = await User.findById(replytoComment.authorID)
 
 		if (!replytoComment) {
 			throw new Error('Reply to non-exist comments')
 		} else {
-			let author = await User.load(context.sessionUser.user._id)
+			//let replyer = await User.load(context.sessionUser.user._id)
 			let newReply = {
 				_id: uuidv4(),
-				author: author._id,
+				authorID: context.sessionUser.user._id,
 				storyID: storyID,
 				content: content,
 				isReply: true,
 				publishTime: new Date(),
 				replyTo: {
 					_id: replytoComment._id,
-					authorName: author.fullName,
+					authorName: origAuthor.fullName,
 					content: replytoComment.content,
 					publishTime: replytoComment.publishTime
 				}
@@ -219,7 +215,7 @@ const willRemoveCommentReply = async (storyID, deleteID, context) => {
 			return comment._id === deleteID
 		}
 		var Index = story.commentReply.findIndex(findComment)
-		if ((Index < 0) || (story.commentReply[Index].author !== context.sessionUser.user._id)) {
+		if ((Index < 0) || (story.commentReply[Index].authorID !== context.sessionUser.user._id)) {
 			throw new Error('Delete comment does not exist')
 		} else {
 			story.commentReply.splice(Index, 1)

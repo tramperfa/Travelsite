@@ -68,7 +68,8 @@ const styles = theme => ({
 });
 
 const StoryCard = ({classes, story}) => {
-	//console.log(story.title); console.log(story.coverImage.browserCoverImage);
+	//console.log(story.title);
+	console.log(story);
 	return (
 		<div>
 			<MuiThemeProvider theme={theme}>

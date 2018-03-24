@@ -76,7 +76,7 @@ module.exports = function (app) {
 			}
 
 			var image = new Image(
-				{author: context.sessionUser.user._id, draft: draftID, catergory: catergory}
+				{authorID: context.sessionUser.user._id, draft: draftID, catergory: catergory}
 			)
 			//, );
 			const buffer = await sharp(req.file.buffer).rotate().toBuffer()

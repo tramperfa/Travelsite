@@ -1,16 +1,24 @@
 import {graphqlExpress, graphiqlExpress} from "graphql-server-express"
-import {makeExecutableSchema} from "graphql-tools"
+import {makeExecutableSchema, mergeSchemas} from "graphql-tools"
 import {directiveResolvers} from "./directives"
 import {attachDirectiveResolvers} from "graphql-tools"
 import depthLimit from "graphql-depth-limit"
-const resolvers = require("./resolvers")
+import resolvers from './resolvers'
 import typeDefs from "./types"
-
-const schema = makeExecutableSchema({typeDefs, resolvers})
+import linkTypeDefs from './linkTypeDefs'
+import delegateResolver from './delegateResolver'
 
 //console.log(typeDefs);
 
+const schema = makeExecutableSchema({typeDefs, resolvers})
 attachDirectiveResolvers(schema, directiveResolvers)
+
+const schemaStitched = mergeSchemas({
+	schemas: [
+		schema, linkTypeDefs
+	],
+	resolvers: delegateResolver
+});
 
 module.exports = function (app) {
 	app.use("/graphql", graphqlExpress((req) => {
@@ -25,7 +33,7 @@ module.exports = function (app) {
 		// logger.debug("GraphQL request:", query);
 
 		return {
-			schema: schema,
+			schema: schemaStitched,
 			// Limit Maximum Query Depth to 10 to Avoid Vicious Nested Queries
 			validationRules: [depthLimit(10)],
 			context: {

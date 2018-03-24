@@ -6,7 +6,7 @@ type Draft {
   coverImage: Image
   headlineImage: Image
   #poi: POI
-  author: User
+  authorID: User
   images: [Image]
   lastUpdate: String
 }
