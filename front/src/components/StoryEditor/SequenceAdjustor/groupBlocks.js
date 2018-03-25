@@ -4,7 +4,7 @@ import CONSTS from '../../../lib/consts'
 
 const BUCKET_NAME = CONSTS.BUCKET_NAME
 
-const groupBlocks = (contentBlockArray, images) => {
+const groupBlocks = (contentBlockArray, imageArray) => {
 	let blockGroups = []
 	let i = 0
 	blockGroups.push({key: 'empty', title: 'empty', blocks: []})
@@ -14,7 +14,7 @@ const groupBlocks = (contentBlockArray, images) => {
 			const blockData = block.data.toObject()
 
 			if (blockData.type === 'image') {
-				const imageData = searchImage(blockData._id, images)
+				const imageData = searchImage(blockData._id, imageArray)
 				const src = BUCKET_NAME + imageData.browserStoryImage.filename
 				blockGroups[i].blocks.push({key: block.key, type: blockData.type, src: src})
 

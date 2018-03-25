@@ -8,6 +8,7 @@ export const DRAFT_CARD_FRG = gql `
       _id
       title
       lastUpdate
+      coverImageID
       coverImage{
         ...coverImage
       }
@@ -19,7 +20,7 @@ export const DRAFT_CARD_FRG = gql `
 export const DRAFT_IMAGE_ARRAY = gql `
       fragment draftImageArray on Draft {
         _id
-        images{
+        imageArray{
           ...storyImage
         }
       }

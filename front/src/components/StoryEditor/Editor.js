@@ -64,7 +64,7 @@ class MyEditor extends Component {
 					EditorState.createEmpty(defaultDecorator),
 					{allowUndo: false}
 				),
-			images: this.props.startingImages
+			imageArray: this.props.startingImages
 				? this.props.startingImages
 				: undefined,
 			subTitleList: this.props.startingContent
@@ -156,7 +156,7 @@ class MyEditor extends Component {
 		)
 
 		let data = this.getCachedImageArray()
-		data.draft.images.push(uploadedImage)
+		data.draft.imageArray.push(uploadedImage)
 		console.log("before write query");
 		console.log(data);
 
@@ -214,7 +214,7 @@ class MyEditor extends Component {
 				draftID: this.props.match.params._id
 			}
 		});
-		// IMAGE ARRAY is data.draft.images
+		// IMAGE ARRAY is data.draft.imageArray
 		return data
 	}
 
@@ -451,7 +451,7 @@ class MyEditor extends Component {
 				<SequenceAdjustor
 					onSequenceChanged={this.onSequenceChanged}
 					contentState={this.state.editorState.getCurrentContent()}
-					images={this.props.startingImages}/>
+					imageArray={this.props.startingImages}/>
 				<ScrollTools/>
 			</div>
 

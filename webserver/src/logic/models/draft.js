@@ -34,11 +34,11 @@ var DraftSchema = new Schema({
 		index: true,
 		ref: 'POI'
 	},
-	coverImage: {
+	coverImageID: {
 		type: ObjectId,
 		ref: 'Image'
 	},
-	headlineImage: {
+	headlineImageID: {
 		type: ObjectId,
 		ref: 'Image'
 	},
@@ -137,13 +137,9 @@ DraftSchema.statics = {
    * @api private
    */
 
-	load: async function (_id) {
+	load: function (_id) {
 		return new Promise((resolve, reject) => {
-			this.findOne({_id: _id}).populate('authorID').populate('headlineImage')
-			//
-				.populate('images').populate('coverImage')
-			//
-				.exec((err, res) => {
+			this.findOne({_id: _id}).exec((err, res) => {
 				if (err) {
 					//TODO Log error
 					reject(errorType(2))
@@ -156,13 +152,9 @@ DraftSchema.statics = {
 		});
 	},
 
-	leanLoad: async function (_id) {
+	loadImage: function (_id) {
 		return new Promise((resolve, reject) => {
-			this.findOne({_id: _id})
-			//
-				.populate('coverImage')
-			//
-				.exec((err, res) => {
+			this.findOne({_id: _id}).populate('images').exec((err, res) => {
 				if (err) {
 					//TODO Log error
 					reject(errorType(2))
@@ -188,18 +180,18 @@ DraftSchema.statics = {
 		const page = options.page || 0;
 		const limit = options.limit || 30;
 		return new Promise((resolve, reject) => {
-			this.find(criteria).populate('authorID').populate('coverImage').sort(
-				{lastUpdate: -1}
-			).limit(limit).skip(limit * page).exec((err, res) => {
-				if (err) {
-					//TODO Log error
-					reject(errorType(2))
-				} else if (!res) {
-					reject(errorType(4))
-				} else {
-					resolve(res)
+			this.find(criteria).sort({lastUpdate: -1}).limit(limit).skip(limit * page).exec(
+				(err, res) => {
+					if (err) {
+						//TODO Log error
+						reject(errorType(2))
+					} else if (!res) {
+						reject(errorType(4))
+					} else {
+						resolve(res)
+					}
 				}
-			})
+			)
 		});
 	}
 }

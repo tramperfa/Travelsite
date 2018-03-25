@@ -32,7 +32,7 @@ type ImageFilename {
 }
 
 type Query {
-  image(imageID: ID!): Image
+  image(imageID: ID): Image
 }
 
 type Mutation {

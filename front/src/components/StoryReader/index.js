@@ -33,7 +33,7 @@ class StoryReaderContainer extends React.Component {
 					<ContentSection
 						match={this.props.match}
 						content={story.content}
-						images={story.images}/>
+						images={story.imageArray}/>
 					<CommentSection match={this.props.match}/>
 				</div>
 			</div>

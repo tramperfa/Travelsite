@@ -35,7 +35,7 @@ class SequenceAdjustor extends Component {
 	render() {
 		const origContentArray = this.props.contentState.getBlockMap().toArray()
 
-		const convertedArray = groupBlocks(origContentArray, this.props.images)
+		const convertedArray = groupBlocks(origContentArray, this.props.imageArray)
 
 		const {classes} = this.props
 

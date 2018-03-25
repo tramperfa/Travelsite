@@ -1,7 +1,7 @@
 import Jimp from 'jimp';
 import uuidv4 from 'uuid/v4';
 import sharp from 'sharp';
-import Image from '../models/image';
+//import Image from '../models/image';
 
 //
 import {willCheckDocumentOwnerShip} from '../../lib/resolverHelpers';
@@ -52,8 +52,13 @@ const imageSize = {
 module.exports = {
 
 	Query: {
-		image: async (parent, args) => {
-			return Image.load(args.imageID)
+		image: async (parent, args, context) => {
+			console.log("IMAGE QUERY CALLED WITH ID : " + args.imageID)
+			if (!args.imageID) {
+				return null
+			}
+			return willCheckDocumentOwnerShip(args.imageID, context, 'image')
+			//Image.load(args.imageID)
 		}
 	},
 
@@ -90,7 +95,7 @@ const willCustomCropUpload = async (imageID, cropAt, context) => {
 						willCustomCrop(origImapeURL, cropAt),
 						willCheckDocumentOwnerShip(image.draft, context, 'draft')
 					]);
-					draft.headlineImage = image._id
+					draft.headlineImageID = image._id
 					draft.lastUpdate = new Date().toISOString()
 					let newHeadlineImageName = "customV1-" + uuidv4() + '.' + extension
 					image.browserHeadlineImage = {

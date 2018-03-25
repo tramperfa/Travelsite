@@ -92,7 +92,7 @@ module.exports = function (app) {
 				case '0':
 					{
 						var [draft] = await Promise.all([
-							willCheckDocumentOwnerShip(draftID, context, 'leanDraft'),
+							willCheckDocumentOwnerShip(draftID, context, 'draft'),
 							originalSizeUpload(buffer, extension, origSize, image),
 							widthBasedResizeUpload(buffer, extension, origSize, 'browserStoryImage', image),
 							widthBasedResizeUpload(
@@ -108,7 +108,7 @@ module.exports = function (app) {
 						// Save Image Before Draft
 						await image.save();
 						let images = draft.images;
-						//console.log(images);
+						// console.log("DRAFTTTTTT"); console.log(draft);
 						images.push(image._id);
 						await draft.save();
 						let returnImage = {

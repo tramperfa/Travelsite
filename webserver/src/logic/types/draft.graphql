@@ -3,17 +3,19 @@ type Draft {
   story: ID
   title: String
   content: JSON
-  coverImage: Image
-  headlineImage: Image
+  headlineImageID: ID
+  coverImageID: ID
   #poi: POI
-  authorID: User
-  images: [Image]
+  authorID: ID
+  #images: [ID]
   lastUpdate: String
 }
 
 type Query {
   draft(draftID: ID!): Draft @auth(role: "OWNER")
+  imageArrayByDraftID(draftID: ID!): [Image] @auth(role: "OWNER")
   myDrafts: [Draft] @auth(role: "USER")
+
   #DraftList(type: $type, offset: $offset, limit: Int = 10) [Draft]
 }
 

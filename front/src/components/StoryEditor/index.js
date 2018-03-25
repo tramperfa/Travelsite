@@ -33,6 +33,7 @@ class StoryEditorContainer extends React.Component {
 	}
 
 	render() {
+		console.log(this.props.draftData.draft);
 
 		if (this.state.publishRedirect) {
 			return <Redirect push={true} to={`/story/${this.state.linkedStoryID}`}/>;
@@ -53,7 +54,7 @@ class StoryEditorContainer extends React.Component {
 					<div>
 						<Editor
 							startingContent={this.props.draftData.draft.content}
-							startingImages={this.props.draftData.draft.images}
+							startingImages={this.props.draftData.draft.imageArray}
 							match={this.props.match}/>
 					</div>
 					<div className="publishButton">

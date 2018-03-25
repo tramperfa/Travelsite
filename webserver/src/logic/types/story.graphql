@@ -5,10 +5,10 @@ type Story {
   snapshotContent: String
   content: JSON
   #poi: POI
-  headlineImage: Image
-  coverImage: Image
+  headlineImageID: ID
+  coverImageID: ID
   authorID: ID
-  images: [Image]
+  #images: [ID]
   lastUpdate: String
   viewCount: Int
   likeStoryCount: Int
@@ -24,7 +24,7 @@ type Comment {
   storyID: ID
   authorID: ID
   content: JSON
-  quoteImage: ID
+  quoteImageID: ID
   publishTime: String
   replyTo: replyToComment
 }
@@ -41,6 +41,7 @@ type replyToComment {
 
 type Query {
   story(_id: ID!): Story
+  imageArrayByStoryID(storyID: ID!): [Image]
   stories: [Story]
   userStories(userID: ID!): [Story]
   DeletedStories: [Story] @auth(role: "USER")

@@ -44,23 +44,24 @@ export const willCheckDocumentOwnerShip = async (
 			case 'draft':
 				doc = await Draft.load(documentID);
 				break;
-			case 'leanDraft':
-				doc = await Draft.leanLoad(documentID);
+			case 'draftImageArray':
+				doc = await Draft.loadImage(documentID);
 				break;
 			case 'image':
+				//doc = await Image.load(documentID);
 				doc = await Image.findById(documentID);
 				break;
 			default:
 				//TODO Add to Error Log
 				console.log("No Document TYPE Found");
+				console.log(documentType);
 				throw errorType(3)
 		}
 		if (!doc) {
 			throw errorType(4)
 		}
 		if (check) {
-			console.log(" Checking Document Ownership");
-			//console.log(context.req.body);
+			console.log(" Checking Document Ownership")
 			if (!doc.authorID.equals(context.sessionUser.user._id)) {
 				//TODO Add to Error Log REVIEW False Claim as Document Owner
 				throw errorType(4)

@@ -43,11 +43,11 @@ var StorySchema = new Schema({
 		index: true,
 		ref: 'POI'
 	},
-	coverImage: {
+	coverImageID: {
 		type: ObjectId,
 		ref: 'Image'
 	},
-	headlineImage: {
+	headlineImageID: {
 		type: ObjectId,
 		ref: 'Image'
 	},
@@ -112,7 +112,7 @@ var StorySchema = new Schema({
 				type: ObjectId,
 				ref: 'Story'
 			},
-			quoteImage: {
+			quoteImageID: {
 				type: ObjectId,
 				ref: 'Image'
 			},
@@ -202,12 +202,7 @@ StorySchema.statics = {
 	load: async function (criteria) {
 		//{_id: _id, status: status}
 		return new Promise((resolve, reject) => {
-			this.findOne(criteria)
-			//.populate('author') .populate('comments')
-			//
-				.populate('coverImage').populate('images').populate('headlineImage')
-			//
-				.exec((err, res) => {
+			this.findOne(criteria).exec((err, res) => {
 				if (err) {
 					console.log(err)
 					//TODO Log error
@@ -234,11 +229,27 @@ StorySchema.statics = {
 		const page = options.page || 0;
 		const limit = options.limit || 30;
 		return new Promise((resolve, reject) => {
-			this.find(criteria).populate('coverImage')
-			//.populate('authorID')
-				.populate('headlineImage'). // User model hasn't been defined in Mongoose
-			sort({lastUpdate: -1}).limit(limit).skip(limit * page).exec((err, res) => {
+			this.find(criteria).sort({lastUpdate: -1}).limit(limit).skip(limit * page).exec(
+				(err, res) => {
+					if (err) {
+						//TODO Log error
+						reject(errorType(2))
+					} else if (!res) {
+						reject(errorType(4))
+					} else {
+						resolve(res)
+					}
+				}
+			)
+		});
+	},
+
+	loadImageArray: async function (criteria) {
+		//{_id: _id, status: status}
+		return new Promise((resolve, reject) => {
+			this.findOne(criteria).populate('images').exec((err, res) => {
 				if (err) {
+					console.log(err)
 					//TODO Log error
 					reject(errorType(2))
 				} else if (!res) {
@@ -249,6 +260,7 @@ StorySchema.statics = {
 			})
 		});
 	}
+
 }
 
 var Story = mongoose.model('Story', StorySchema)

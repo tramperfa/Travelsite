@@ -10,6 +10,10 @@ module.exports = {
 		story: async (parent, {_id}) => {
 			return Story.load({_id: _id, status: 2})
 		},
+		imageArrayByStoryID: async (parent, {storyID}) => {
+			const story = await Story.loadImageArray({_id: storyID, status: 2})
+			return story.images
+		},
 		stories: async () => {
 			//console.log("Stories List Query Executed");
 			const options = {
@@ -20,7 +24,6 @@ module.exports = {
 			}
 			return Story.list(options)
 		},
-
 		userStories: async (parent, {
 			userID
 		}, context) => {

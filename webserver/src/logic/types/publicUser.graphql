@@ -2,7 +2,7 @@ type PublicUser {
   _id: ID!
   fullName: String
   publicProfile: JSON
-  avatar: Image
+  avatarID: ID
   following: [ID]
   follower: [ID]
 }

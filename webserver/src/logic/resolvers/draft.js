@@ -12,6 +12,16 @@ module.exports = {
 		}, context) => {
 			return willCheckDocumentOwnerShip(draftID, context, 'draft')
 		},
+		imageArrayByDraftID: async (parent, {
+			draftID
+		}, context) => {
+			let draft = await willCheckDocumentOwnerShip(
+				draftID,
+				context,
+				'draftImageArray'
+			)
+			return draft.images
+		},
 		myDrafts: async (parent, args, context) => {
 			// USER's Own Draft
 			const options = {
@@ -53,7 +63,7 @@ module.exports = {
 		updateCover: async (parent, args, context) => {
 			return willUpdateDraft(
 				args.input.draftID,
-				'coverImage',
+				'coverImageID',
 				args.input.newCover,
 				context
 			)
@@ -61,7 +71,7 @@ module.exports = {
 		updateHeadline: async (parent, args, context) => {
 			return willUpdateDraft(
 				args.input.draftID,
-				'headlineImage',
+				'headlineImageID',
 				args.input.newHeadline,
 				context
 			)
@@ -99,12 +109,13 @@ const willPublishDraft = async (draftID, context) => {
 				//TODO LOG !! Story and Draft Do Not Match!
 				throw errorType(2)
 			}
+
 			const fields = [
 				'title',
 				'content',
 				'poi',
-				'coverImage',
-				'headlineImage',
+				'coverImageID',
+				'headlineImageID',
 				'images'
 			]
 			fields.forEach(field => {
@@ -120,8 +131,8 @@ const willPublishDraft = async (draftID, context) => {
 				content: draft.content,
 				authorID: draft.authorID,
 				poi: draft.poi,
-				coverImage: draft.coverImage,
-				headlineImage: draft.headlineImage,
+				coverImageID: draft.coverImageID,
+				headlineImageID: draft.headlineImageID,
 				images: draft.images
 			})
 			draft.story = story._id

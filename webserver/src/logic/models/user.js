@@ -33,10 +33,6 @@ const UserSchema = new Schema({
 		],
 		match: [/.+@.+\..+/, "Please fill a valid email address"]
 	},
-
-	// username: { 	type: String, 	unique: true, 	index: true, 	lowercase: true,
-	// required: "Please fill in a username", 	trim: true, 	match:
-	// [/^[\w][\w\-\._\@]*[\w]$/, "Please fill a valid username"] },
 	password: {
 		type: String,
 		default: "",
@@ -50,7 +46,7 @@ const UserSchema = new Schema({
 		type: String,
 		default: "local"
 	},
-	avatar: {
+	avatarID: {
 		type: ObjectId,
 		ref: "Image"
 	},
