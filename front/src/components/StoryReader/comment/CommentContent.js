@@ -12,7 +12,6 @@ const BUCKET_NAME = CONSTS.BUCKET_NAME
 
 const CommentContent = ({comment, quoteImage}) => {
 	const {content, isReply, replyTo} = comment
-	const quoteImageId = comment.quoteImage
 	const converted = redraft(content, renderers)
 	if (!converted) {
 		return (<div>Error in content rendering</div>)
@@ -20,7 +19,7 @@ const CommentContent = ({comment, quoteImage}) => {
 	return (
 		<div className="commentContentReader">
 			{
-				quoteImageId && <div>
+				quoteImage && <div>
 						<p className="commentQuote">
 							Quote image:
 						</p>

@@ -30,7 +30,7 @@ class CommentSection extends Component {
 	}
 
 	render() {
-		const {storyCommentData, match, images} = this.props
+		const {storyCommentData, match} = this.props
 		console.log("Story Comment Data:")
 		console.log(storyCommentData.story.commentReply);
 		return (
@@ -44,9 +44,7 @@ class CommentSection extends Component {
 								key={comment._id}
 								comment={comment}
 								MeData={this.props.MeData}
-								quoteImage={comment.quoteImage
-									? searchImage(comment.quoteImage, images)
-									: undefined}
+								quoteImage={comment.quoteImage}
 								onCommentReply={this.onCommentReply}
 								onCommentDelete={this.onCommentDelete}/>
 						)
