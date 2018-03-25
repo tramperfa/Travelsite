@@ -2,11 +2,10 @@ import gql from 'graphql-tag';
 import {COVER_IMAGE_FRG, STORY_IMAGE_FRG, HEADLINE_IMAGE_FRG} from './imageFragment';
 import {PUBLIC_USER_SNAPSHOT_FRG} from './publicUserFragment';
 // import {PUBLIC_USER_SNAPSHOT_FRG} from './publicUserFragment';
-// ////////////////////////////////////// FRAGMENT ...publicUserSnapshot TB Add
+// ////////////////////////////////// FRAGMENT ...publicUserSnapshot TB Add
 // after Schema Stich finishes ${PUBLIC_USER_SNAPSHOT_FRG}
-// ////////////////////////////////////////
-// ////////////////////////////////////////
-// ////////////////////////////////////// FIXME Remove headlineImage from
+// //////////////////////////////////// ////////////////////////////////////
+// ////////////////////////////////// FIXME Remove headlineImage from
 // STORY_CARD_FRG, Temporaryly Added for CoverFlow development
 
 export const STORY_CARD_FRG = gql `

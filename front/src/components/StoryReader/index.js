@@ -34,7 +34,7 @@ class StoryReaderContainer extends React.Component {
 						match={this.props.match}
 						author={story.author}
 						content={story.content}
-						images={story.images}/>
+						images={story.imageArray}/>
 					<CommentSection
 						MeData={this.props.MeData}
 						images={story.images}

@@ -48,7 +48,7 @@ export const willCheckDocumentOwnerShip = async (
 				doc = await Draft.loadImage(documentID);
 				break;
 			case 'image':
-				//doc = await Image.load(documentID);
+				// load NOT WORKING.  WHY ? doc = await Image.load(documentID);
 				doc = await Image.findById(documentID);
 				break;
 			default:

@@ -151,6 +151,8 @@ const willUpdateStoryStatus = async (storyID, context, newStatus) => {
 const willAddComment = async (storyID, content, quoteImage, imageID, context) => {
 	try {
 		let story = await willCheckDocumentOwnerShip(storyID, context, 'story')
+
+		//Temp workaround for GraphQL
 		let imageQuote = quoteImage
 			? imageID
 			: undefined
@@ -160,7 +162,7 @@ const willAddComment = async (storyID, content, quoteImage, imageID, context) =>
 			authorID: context.sessionUser.user._id,
 			storyID: storyID,
 			content: content,
-			quoteImage: imageQuote,
+			quoteImageID: imageQuote,
 			isReply: false,
 			publishTime: new Date()
 		}
