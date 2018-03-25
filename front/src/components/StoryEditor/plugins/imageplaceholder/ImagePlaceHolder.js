@@ -16,7 +16,7 @@ export default class extends Component {
 				style={{
 					width: width,
 					height: height,
-					backgroundColor: "#C0C0C0"
+					backgroundColor: "#E8E8E8"
 				}}>
 				{/* <img
           className="imageplaceholder"
@@ -27,7 +27,8 @@ export default class extends Component {
 				}
 				<CircularProgress
 					style={{
-						transform: "translate(" + centerX + "px, " + centerY + "px)"
+						transform: "translate(" + centerX + "px, " + centerY + "px)",
+						color: '#0a9bf5'
 					}}/>
 			</div>
 		)

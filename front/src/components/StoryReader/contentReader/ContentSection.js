@@ -75,7 +75,7 @@ class ContentSection extends Component {
 			return (<div>Error in content rendering</div>)
 		}
 		const subTitleList = getSubTitleList(content)
-		const commentedImage = searchImage(this.state.commentImageId, images)
+		// const commentedImage = searchImage(this.state.commentImageId, images)
 
 		return (
 			<div className="storyWrapper">
@@ -94,11 +94,11 @@ class ContentSection extends Component {
 					<SubTitleList subTitleList={subTitleList}/>
 				</div>
 				<ScrollTools/> {
-					commentedImage && <CommentImageContainer
+					this.state.commentImageId && <CommentImageContainer
 							open={this.state.commentImageOpen}
 							closeImageComment={this.closeImageComment}
+							author={this.props.author}
 							commentImageId={this.state.commentImageId}
-							commentImage={commentedImage.browserCommentImage}
 							match={this.props.match}/>
 				}
 			</div>

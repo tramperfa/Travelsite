@@ -92,7 +92,7 @@ class CommentEditorContainer extends Component {
 							editorState={this.state.editorState}
 							onChange={this.onChange}
 							hint={this.props.hasCommentToReply
-								? "Reply to " + this.props.commentToReply.author + ": "
+								? "Reply to " + this.props.commentToReply.author.fullName + ": "
 								: "Leave your comment here"}/>
 					</div>
 					<div className="commentSubmitButton">

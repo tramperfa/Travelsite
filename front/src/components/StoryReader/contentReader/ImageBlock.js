@@ -32,7 +32,6 @@ export default class ImageBlock extends Component {
 				<CommonBlock actions={this.actions} style={style}>
 					<BlockContent>
 						<LazyLoad
-							throttle={2000}
 							height={height}
 							placeholder={<ImagePlaceHolder data = {
 								style

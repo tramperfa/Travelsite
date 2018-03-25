@@ -32,9 +32,13 @@ class StoryReaderContainer extends React.Component {
 				<div className="storyContainer">
 					<ContentSection
 						match={this.props.match}
+						author={story.author}
 						content={story.content}
-						images={story.imageArray}/>
-					<CommentSection match={this.props.match}/>
+						images={story.images}/>
+					<CommentSection
+						MeData={this.props.MeData}
+						images={story.images}
+						match={this.props.match}/>
 				</div>
 			</div>
 		)

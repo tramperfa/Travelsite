@@ -24,8 +24,8 @@ export default class extends Component {
 		this.setState({active: active})
 	}
 
-	onBlur = () => {
-		console.log("Blur");
+	onEmojiClick = (emoji) => {
+		this.props.onEmojiClick(emoji)
 		this.setState({active: false})
 	}
 
@@ -35,7 +35,7 @@ export default class extends Component {
 				<IconButton onClick={this.onClick}>
 					<Mood/>
 				</IconButton>
-				{this.state.active && <LoadableEmojiSelect onEmojiClick={this.props.onEmojiClick}/>}
+				{this.state.active && <LoadableEmojiSelect onEmojiClick={this.onEmojiClick}/>}
 			</div>
 		)
 	}

@@ -14,8 +14,12 @@ export default class Comment extends Component {
 		this.props.onCommentReply(this.props.comment)
 	}
 
+	onDelete = () => {
+		this.props.onCommentDelete(this.props.comment)
+	}
+
 	render() {
-		const {comment} = this.props
+		const {comment, quoteImage} = this.props
 		return (
 			<div
 				style={{
@@ -26,8 +30,13 @@ export default class Comment extends Component {
 					marginBottom: 24
 				}}>
 				<CommentAuthorInfo author={comment.author}/>
-				<CommentContent commentContent={comment.content}/>
-				<CommentBottomBar publishTime={comment.publishTime} onReply={this.onReply}/>
+				<CommentContent comment={comment} quoteImage={quoteImage}/>
+				<CommentBottomBar
+					commentAuthor={comment.author}
+					publishTime={comment.publishTime}
+					onReply={this.onReply}
+					onDelete={this.onDelete}
+					MeData={this.props.MeData}/>
 			</div>
 		)
 	}

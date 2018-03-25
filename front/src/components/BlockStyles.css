@@ -355,8 +355,9 @@
   justify-content: space-between;
   align-items: center;
 }
-.commentTime{
+.commentQuote{
   color: #999;
+  font-size: 14px;
 }
 .commentReply{
   cursor: pointer;
