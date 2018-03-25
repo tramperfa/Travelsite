@@ -159,7 +159,7 @@ const willCompressUploadAvatar = async (image, newImage, user, extension) => {
 		willCompressUploadSingleAvatar('avatar36px', image, extension, newImage),
 		willCompressUploadSingleAvatar('avatar20px', image, extension, newImage)
 	]);
-	user.avatar = image._id;
+	user.avatarID = image._id;
 	await image.save();
 	await user.save();
 }
