@@ -26,15 +26,19 @@ class SettingAvatar extends Component {
 		try {
 			let localImageData = await willExtractOrientation(file)
 			let imageSize = await willExtractSize(localImageData)
-			// Catergory: 2 Avatar
-			let image = await willUploadImage(
-				file,
-				2,
-				'5a92039ef3b1a10028f35c4c',
-				imageSize.width,
-				imageSize.height
-			)
-			this.handleOpenCropper(image)
+			if (imageSize.width < 200 || imageSize.height < 124) {
+				window.alert("Please use image larger than 200 x 124.")
+			} else {
+				// Catergory: 2 Avatar
+				let image = await willUploadImage(
+					file,
+					2,
+					'5a92039ef3b1a10028f35c4c',
+					imageSize.width,
+					imageSize.height
+				)
+				this.handleOpenCropper(image)
+			}
 		} catch (e) {
 			console.log("Avatar Image Upload Error: " + e);
 		} finally {}

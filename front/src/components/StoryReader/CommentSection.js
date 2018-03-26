@@ -6,7 +6,6 @@ import {ComposeQuery} from '../../lib/hoc'
 import {WithStoryCommentQuery} from '../../graphql/story'
 import CommentEditorContainer from './comment/CommentEditorContainer'
 import Comment from './comment/Comment'
-import searchImage from '../../lib/searchImage'
 
 class CommentSection extends Component {
 	state = {

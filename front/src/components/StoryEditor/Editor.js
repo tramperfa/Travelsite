@@ -177,6 +177,11 @@ class MyEditor extends Component {
 			)
 		})
 		const placeholderKey = placeholderBlock.first().getKey()
+		let nextBlock = latestContentState.getBlockAfter(placeholderKey)
+		if (!nextBlock) {
+			nextBlock = latestContentState.getFirstBlock()
+		}
+		const nextBlockKey = nextBlock.getKey()
 		const selectionState = latestEditorState.getSelection()
 		const selectImagePlaceHolder = selectionState.merge(
 			{anchorKey: placeholderKey, anchorOffset: 0, focusKey: placeholderKey, focusOffset: 0}
@@ -194,7 +199,14 @@ class MyEditor extends Component {
 			contentStateWithReplacedImage,
 			'change-block-data'
 		)
-		this.onChange(newEditorState)
+		const selectNextBlock = selectImagePlaceHolder.merge(
+			{anchorKey: nextBlockKey, anchorOffset: 0, focusKey: nextBlockKey, focusOffset: 0}
+		)
+		const editerStateSelectNextBlock = EditorState.forceSelection(
+			newEditorState,
+			selectNextBlock
+		)
+		this.onChange(editerStateSelectNextBlock)
 	}
 
 	setCoverPhoto = (imageID) => {
